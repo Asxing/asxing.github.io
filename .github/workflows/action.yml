@@ -57,6 +57,7 @@ jobs:
         rm -rf .deploy_git
         hexo clean
         hexo g
+        cp config .deploy_git/.git
         hexo deploy
         rm ~/.ssh/id_rsa
     
