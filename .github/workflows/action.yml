@@ -15,17 +15,14 @@ jobs:
     steps:
 
     - name: 1. git checkout...
-
       uses: actions/checkout@v1
 
     - name: 2. setup nodejs...
-
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }} # 版本
 
     - name: 3. install hexo...
-
       run: |
         npm i hexo-cli --save -g
         npm i hexo-wordcount --save -g
@@ -57,8 +54,10 @@ jobs:
 
     - name: 5. hexo generate public files...
       run: |
+        rm -rf .deploy_git
         hexo clean
         hexo g
         hexo deploy
+        rm ~/.ssh/id_rsa
     
     # 提交到我们的存放静态资源的仓库
