@@ -44,19 +44,21 @@ jobs:
         npm i hexo-filter-github-emojis --save -g
         npm install
 
-    - name: 4. hexo generate public files...
+    - name: 4. 配置 Git 环境
+      env:
+        ACTION_DEPLOY_KEY: ${{secrets.ACTION_DEPLOY_KEY}}
+      run: |
+        mkdir -p ~/.ssh/
+        echo "$ACTION_DEPLOY_KEY" > ~/.ssh/id_rsa
+        chmod 600 ~/.ssh/id_rsa
+        ssh-keyscan github.com >> ~/.ssh/known_hosts
+        git config --global user.name "holddie"
+        git config --global user.email "holddie@163.com"
 
+    - name: 5. hexo generate public files...
       run: |
         hexo clean
         hexo g
+        hexo deploy
     
     # 提交到我们的存放静态资源的仓库
-
-    - name: Build and Deploy
-
-      uses: renzhaosy/hexo-deploy-action@master
-      env:
-        PERSONAL_TOKEN: ${{ secrets.ACCESS_TOKEN }}
-        PUBLISH_REPOSITORY: HoldDie/HoldDie.github.io # The repository the action should deploy to.
-        BRANCH: master  # The branch the action should deploy to.
-        PUBLISH_DIR: ./public # The folder the action should deploy.
