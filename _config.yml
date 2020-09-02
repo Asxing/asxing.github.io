@@ -101,7 +101,7 @@ theme: hexo-theme-matery
 ## Docs: https://hexo.io/docs/deployment.html
 deploy:
   type: git
-  repository: https://holddie@github.com/HoldDie/HoldDie.github.io.git
+  repository: https://github.com/HoldDie/HoldDie.github.io.git
   branch: master
 
 search:
