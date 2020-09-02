@@ -41,12 +41,22 @@ jobs:
         npm i hexo-filter-github-emojis --save -g
         npm install
 
-    # Deploy hexo blog website.
-    - name: 5. Deploy
-      id: deploy
-      uses: sma11black/hexo-action@v1.0.2
-      with:
-        deploy_key: ${{ secrets.DEPLOY_KEY }}
-        user_name: holddie  # (or delete this input setting to use bot account)
-        user_email: holddie#163.com  # (or delete this input setting to use bot account)
-        commit_msg: ${{ github.event.head_commit.message }}  # (or delete this input setting to use hexo default settings)
+    - name: 4. 配置 Git 环境
+      env:
+        ACTION_DEPLOY_KEY: ${{secrets.ACTION_DEPLOY_KEY}}
+      run: |
+        mkdir -p ~/.ssh/
+        echo "$ACTION_DEPLOY_KEY" > ~/.ssh/id_rsa
+        chmod 600 ~/.ssh/id_rsa
+        ssh-keyscan github.com >> ~/.ssh/known_hosts
+        git config --global user.name "holddie"
+        git config --global user.email "holddie@163.com"
+
+    - name: 5. hexo generate public files...
+      run: |
+        rm -rf .deploy_git
+        hexo clean
+        hexo g
+        cp config .deploy_git/.git
+        hexo deploy
+        rm ~/.ssh/id_rsa
