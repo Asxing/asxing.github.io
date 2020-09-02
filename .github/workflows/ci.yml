@@ -1,0 +1,55 @@
+name: GitHub Actions Build and Deploy Blog
+on:
+  push:
+    branches:
+      - blog
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+
+    - name: 1. git checkout...
+
+      uses: actions/checkout@v1
+
+    - name: 2. setup nodejs...
+
+      uses: actions/setup-node@v1
+
+    - name: 3. install hexo...
+
+      run: |
+        npm i hexo-cli --save -g
+        npm i hexo-wordcount --save -g
+        npm i hexo-deployer-git --save -g
+        npm i hexo-generator-archive --save -g
+        npm i hexo-generator-category --save -g
+        npm i hexo-generator-index --save -g
+        npm i hexo-generator-feed --save -g
+        npm i hexo-generator-search --save -g
+        npm i hexo-generator-tag --save -g
+        npm i hexo-permalink-pinyin --save -g
+        npm i hexo-prism-plugin --save -g
+        npm i hexo-renderer-ejs --save -g
+        npm i hexo-renderer-marked --save -g
+        npm i hexo-renderer-stylus --save -g
+        npm i hexo-filter-github-emojis --save -g
+        npm install
+
+    - name: 4. hexo generate public files...
+
+      run: |
+        hexo clean
+        hexo g
+    
+    # 提交到我们的存放静态资源的仓库
+
+    - name: Build and Deploy
+
+      uses: HoldDie/HoldDie.github.io@blog
+      env:
+        PERSONAL_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+        PUBLISH_REPOSITORY: HoldDie/HoldDie.github.io # The repository the action should deploy to.
+        BRANCH: master  # The branch the action should deploy to.
+        PUBLISH_DIR: ./public # The folder the action should deploy.
