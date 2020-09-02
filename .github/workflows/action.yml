@@ -7,6 +7,11 @@ on:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
+    
+    strategy:
+      matrix:
+        node-version: [10.x] 
+
     steps:
 
     - name: 1. git checkout...
@@ -16,6 +21,8 @@ jobs:
     - name: 2. setup nodejs...
 
       uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }} # 版本
 
     - name: 3. install hexo...
 
