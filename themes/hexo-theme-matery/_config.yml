@@ -504,7 +504,7 @@ navMenu:
 
 # 网页预加载.
 instantpage: 
-  enable: true
+  enable: false
 
 # banner 是否每日切换.
 # 若为 false, 则 banner 默认为 /medias/banner/0.jpg
