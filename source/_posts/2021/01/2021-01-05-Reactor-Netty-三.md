@@ -1,62 +1,52 @@
 ---
 title: Reactor Netty(三)
 author: HoldDie
-img: images/xxx.jpg
+img: s
 top: false
 cover: false
-coverImg: images/1.jpg
+coverImg: 
 toc: true
 mathjax: true
 tags:
-  - 1
-  - 1
+  - Netty
+  - Reactor
 date: 2021-01-05 10:13:16
 password:
 summary:
-categories:
+categories: Spring
 ---
 
 # Reactor Netty Reference Guide
 
 ##  1. About the Documentation
 
-This section provides a brief overview of `Reactor Netty` reference documentation. You do not need to read this guide in a linear fashion. Each piece stands on its own, though they often refer to other pieces.
+本节简要概述了Reactor Netty参考文档。您无需线性阅读本指南。尽管每个零件经常引用其他零件，但它们各自独立。
 
 ### 1.1. Latest Version and Copyright Notice
 
-The `Reactor Netty` reference guide is available as `HTML` documents. The latest copy is available at https://projectreactor.io/docs/netty/release/reference/index.html
+Reactor Netty参考指南可作为HTML文档获得。最新的副本位于https://projectreactor.io/docs/netty/release/reference/index.html
 
-Copies of this document may be made for your own use and for distribution to others, provided that you do not charge any fee for such copies and further provided that each copy contains this `Copyright Notice`, whether distributed in print or electronically.
+本文档的副本可以供您自己使用，也可以分发给他人，但前提是您不对此类副本收取任何费用，并且还应确保每份副本均包含本版权声明（无论是印刷版本还是电子版本）。
 
 ### 1.2. Contributing to the Documentation
 
-The reference guide is written in [Asciidoc](https://asciidoctor.org/docs/asciidoc-writers-guide/), and you can find its sources at https://github.com/reactor/reactor-netty/tree/master/docs/asciidoc.
+参考指南是用Asciidoc编写的，您可以在以下位置找到其参考资料 https://github.com/reactor/reactor-netty/tree/master/docs/asciidoc.
 
-If you have an improvement, we will be happy to get a pull request from you!
+如果您有改进，我们将很高兴收到您的拉动请求！
 
-We recommend that you check out a local copy of the repository so that you can generate the documentation by using the `asciidoctor` Gradle task and checking the rendering. Some of the sections rely on included files, so `GitHub` rendering is not always complete.
-
-|      | To facilitate documentation edits, most sections have a link at the end that opens an edit `UI` directly on `GitHub` for the main source file for that section. These links are only present in the `HTML5` version of this reference guide. They look like the following link: [Suggest Edit](https://github.com/reactor/reactor-netty/edit/master/docs/asciidoc/about-doc.adoc) to [About the Documentation](https://projectreactor.io/docs/netty/release/reference/index.html#about-doc). |
-| ---- | ------------------------------------------------------------ |
-|      |                                                              |
+我们建议您签出存储库的本地副本，以便可以通过使用asciidoctor Gradle任务并检查渲染来生成文档。有些部分依赖于包含的文件，因此GitHub渲染并不总是完整的。
 
 ### 1.3. Getting Help
 
-There are several ways to reach out for help with `Reactor Netty`. You can:
+有几种方法可以联系Reactor Netty寻求帮助。您可以：
 
-- Get in touch with the community on [Gitter](https://gitter.im/reactor/reactor-netty).
-- Ask a question on stackoverflow.com at [`reactor-netty`](https://stackoverflow.com/tags/reactor-netty).
-- Report bugs in `Github` issues. The repository is the following: [reactor-netty](https://github.com/reactor/reactor-netty/issues).
-
-|      | All of `Reactor Netty` is open source, [including this documentation](https://github.com/reactor/reactor-netty/tree/master/docs/asciidoc). |
-| ---- | ------------------------------------------------------------ |
-|      |                                                              |
-
-[Suggest Edit](https://github.com/reactor/reactor-netty/edit/master/docs/asciidoc/about-doc.adoc) to "[About the Documentation](https://projectreactor.io/docs/netty/release/reference/index.html#about-doc)"
+- 与社区保持联系 [Gitter](https://gitter.im/reactor/reactor-netty).
+- 在react-netty上的stackoverflow.com上提问。
+- 报告Github问题中的错误。存储库如下：[reactor-netty](https://github.com/reactor/reactor-netty/issues)。
 
 ## 2. Getting Started
 
-This section contains information that should help you get going with `Reactor Netty`. It includes the following information:
+本节包含的信息应有助于您使用Reactor Netty。它包含以下信息：
 
 - [Introducing Reactor Netty](https://projectreactor.io/docs/netty/release/reference/index.html#getting-started-introducing-reactor-netty)
 - [Prerequisites](https://projectreactor.io/docs/netty/release/reference/index.html#prerequisites)
@@ -65,62 +55,50 @@ This section contains information that should help you get going with `Reactor N
 
 ### 2.1. Introducing Reactor Netty
 
-Suited for Microservices Architecture, `Reactor Netty` offers backpressure-ready network engines for `HTTP` (including Websockets), `TCP`, and `UDP`.
+适用于微服务架构，Reactor Netty为HTTP（包括Websockets），TCP和UDP提供了支持背压的网络引擎。
 
 ### 2.2. Prerequisites
 
-`Reactor Netty` runs on `Java 8` and above.
+Reactor Netty在Java 8及更高版本上运行。
 
-It has transitive dependencies on:
+它具有以下传递依赖项：
 
 - Reactive Streams v1.0.3
 - Reactor Core v3.x
 - Netty v4.1.x
 
-### 2.3. Understanding the BOM and versioning scheme
+### 2.3. 了解BOM和版本控制方案
 
-`Reactor Netty` is part of the `Project Reactor BOM` (since the `Aluminium` release train). This curated list groups artifacts that are meant to work well together, providing the relevant versions despite potentially divergent versioning schemes in these artifacts.
+Reactor Netty是Project Reactor BOM的一部分（因为铝释放链）。尽管这些工件中可能存在不同的版本控制方案，但该精选列表将旨在良好协作的工件分组，提供了相关版本。
 
-|      | The versioning scheme has changed between 0.9.x and 1.0.x (Dysprosium and Europium). |
-| ---- | ------------------------------------------------------------ |
-|      |                                                              |
+工件遵循MAJOR.MINOR.PATCH-QUALIFIER的版本控制方案，而BOM使用受CalVer启发的YYYY.MINOR.PATCH-QUALIFIER的方案进行版本控制，其中：
 
-Artifacts follow a versioning scheme of `MAJOR.MINOR.PATCH-QUALIFIER` while the BOM is versioned using a CalVer inspired scheme of `YYYY.MINOR.PATCH-QUALIFIER`, where:
+- MAJOR是当前的Reactor一代，每个新一代的Reactor都可以对项目结构带来根本性的改变（这可能意味着需要进行更大的移植工作）
+- YYYY是给定发行周期中首次发布GA的年份（如1.0.x的1.0.0）
+- .MINOR是从0开始的数字，每个新发行周期递增
+  - 就项目而言，它通常反映了更广泛的变化，并且可以表明进行了适度的迁移工作
+  - 在BOM表的情况下，如果两个在同一年首次发布，则可以区分发布周期
+- .PATCH是基于0的数字，随每个服务版本递增
+- -QUALIFIER是文本限定符，在GA版本中会省略（请参见下文）
 
-- `MAJOR` is the current generation of Reactor, where each new generation can bring fundamental changes to the structure of the project (which might imply a more significant migration effort)
-- `YYYY` is the year of the first GA release in a given release cycle (like 1.0.0 for 1.0.x)
-- `.MINOR` is a 0-based number incrementing with each new release cycle
-  - in the case of projects, it generally reflects wider changes and can indicate a moderate migration effort
-  - in the case of the BOM it allows discerning between release cycles in case two get first released the same year
-- `.PATCH` is a 0-based number incrementing with each service release
-- `-QUALIFIER` is a textual qualifier, which is omitted in the case of GA releases (see below)
+因此，遵循该约定的第一个发行周期是2020.0.x，代号Europium。该方案按顺序使用以下限定符（注意使用破折号）：
 
-The first release cycle to follow that convention is thus `2020.0.x`, codename `Europium`. The scheme uses the following qualifiers (note the use of dash separator), in order:
+- `-M1`..`-M9`: 里程碑（我们预计每个服务版本不会超过9个）
+- `-RC1`..`-RC9`: 候选版本（我们预计每个服务版本不会超过9个）
+- `-SNAPSHOT`: 快照
+- *对于GA版本没有限定符*
 
-- `-M1`..`-M9`: milestones (we don’t expect more than 9 per service release)
-- `-RC1`..`-RC9`: release candidates (we don’t expect more than 9 per service release)
-- `-SNAPSHOT`: snapshots
-- *no qualifier* for GA releases
-
-|      | Snapshots appear higher in the order above because, conceptually, they’re always "the freshest pre-release" of any given PATCH. Even though the first deployed artifact of a PATCH cycle will always be a -SNAPSHOT, a similarly named but more up-to-date snapshot would also get released after eg. a milestone or between release candidates. |
-| ---- | ------------------------------------------------------------ |
-|      |                                                              |
-
-Each release cycle is also given a codename, in continuity with the previous codename-based scheme, which can be used to reference it more informally (like in discussions, blog posts, etc…). The codenames represent what would traditionally be the MAJOR.MINOR number. They (mostly) come from the [Periodic Table of Elements](https://en.wikipedia.org/wiki/Periodic_table#Overview), in increasing alphabetical order.
-
-|      | Up until Dysprosium, the BOM was versioned using a release train scheme with a codename followed by a qualifier, and the qualifiers were slightly different. For example: Aluminium-RELEASE (first GA release, would now be something like YYYY.0.0), Bismuth-M1, Californium-SR1 (service release would now be something like YYYY.0.1), Dysprosium-RC1, Dysprosium-BUILD-SNAPSHOT (after each patch, we’d go back to the same snapshot version. would now be something like YYYY.0.X-SNAPSHOT so we get 1 snapshot per PATCH) |
-| ---- | ------------------------------------------------------------ |
-|      |                                                              |
+每个发布周期都被赋予一个代号，与以前的基于代号的方案相一致，可用于更非正式地引用它（例如在讨论，博客文章等中）。代号代表传统上的MAJOR.MINOR号。它们（大多数）来自元素周期表，按字母顺序递增。
 
 ### 2.4. Getting Reactor Netty
 
-As [mentioned earlier](https://projectreactor.io/docs/netty/release/reference/index.html#getting-started-understanding-bom), the easiest way to use `Reactor Netty` in your core is to use the `BOM` and add the relevant dependencies to your project. Note that, when adding such a dependency, you must omit the version so that the version gets picked up from the `BOM`.
+如前所述，在核心中使用Reactor Netty的最简单方法是使用BOM，并将相关的依赖项添加到项目中。请注意，添加此类依赖项时，必须省略版本，以便从BOM表中提取该版本。
 
-However, if you want to force the use of a specific artifact’s version, you can specify it when adding your dependency as you usually would. You can also forego the `BOM` entirely and specify dependencies by their artifact versions.
+但是，如果您要强制使用特定工件的版本，则可以像通常那样在添加依赖项时指定它。您也可以完全放弃BOM表，并通过工件版本指定依赖关系。
 
 #### 2.4.1. Maven Installation
 
-The `BOM` concept is natively supported by `Maven`. First, you need to import the `BOM` by adding the following snippet to your `pom.xml`. If the top section (`dependencyManagement`) already exists in your pom, add only the contents.
+BOM概念由Maven原生支持。首先，您需要通过将以下代码段添加到pom.xml来导入BOM。如果您的pom中已经存在顶部（dependencyManagement），则仅添加内容。
 
 ```xml
 <dependencyManagement> 
@@ -136,18 +114,13 @@ The `BOM` concept is natively supported by `Maven`. First, you need to import th
 </dependencyManagement>
 ```
 
-|      | Notice the `dependencyManagement` tag. This is in addition to the regular `dependencies` section. |
-| ---- | ------------------------------------------------------------ |
-|      | As of this writing, `Dysprosium-SR10` is the latest version of the `BOM`. Check for updates at https://github.com/reactor/reactor/releases. |
-
-Next, add your dependencies to the relevant reactor projects, as usual (except without a `<version>`). The following listing shows how to do so:
+接下来，照常将依赖项添加到相关的reactor项目中（不用使用`<version>`）。以下清单显示了如何执行此操作：
 
 ```xml
 <dependencies>
     <dependency>
         <groupId>io.projectreactor.netty</groupId>
         <artifactId>reactor-netty-core</artifactId> 
-        
     </dependency>
 </dependencies>
 <dependencies>
@@ -158,13 +131,9 @@ Next, add your dependencies to the relevant reactor projects, as usual (except w
 </dependencies>
 ```
 
-|      | Dependency on `Reactor Netty` |
-| ---- | ----------------------------- |
-|      | No version tag here           |
-
 #### 2.4.2. Gradle Installation
 
-The `BOM` concept is supported in Gradle since version 5. The following listing shows how to import the `BOM` and add a dependency to `Reactor Netty`:
+从版本5开始，Gradle支持BOM表概念。以下清单显示了如何导入BOM表并向Reactor Netty添加依赖项：
 
 ```groovy
 dependencies {
@@ -177,15 +146,9 @@ dependencies {
 }
 ```
 
-|      | As of this writing, `Dysprosium-SR10` is the latest version of the `BOM`. Check for updates at https://github.com/reactor/reactor/releases. |
-| ---- | ------------------------------------------------------------ |
-|      | There is no third `:` separated section for the version. It is taken from the `BOM`. |
-
 #### 2.4.3. Milestones and Snapshots
 
-Milestones and developer previews are distributed through the `Spring Milestones` repository rather than `Maven Central`. To add it to your build configuration file, use the following snippet:
-
-Milestones in Maven
+里程碑和开发人员预览是通过Spring Milestones存储库而不是Maven Central分发的。要将其添加到您的构建配置文件中，请使用以下代码段：
 
 ```xml
 <repositories>
@@ -197,9 +160,7 @@ Milestones in Maven
 </repositories>
 ```
 
-For Gradle, use the following snippet:
-
-Milestones in Gradle
+对于Gradle，请使用以下代码段：
 
 ```groovy
 repositories {
@@ -208,7 +169,7 @@ repositories {
 }
 ```
 
-Similarly, snapshots are also available in a separate dedicated repository (for both Maven and Gradle):
+同样，快照也可在单独的专用存储库中使用（适用于Maven和Gradle）：
 
 -SNAPSHOTs in Maven
 
@@ -231,15 +192,13 @@ repositories {
 }
 ```
 
-[Suggest Edit](https://github.com/reactor/reactor-netty/edit/master/docs/asciidoc/getting-started.adoc) to "[Getting Started](https://projectreactor.io/docs/netty/release/reference/index.html#getting-started)"
-
 ## 3. TCP Server
 
-`Reactor Netty` provides an easy to use and configure [`TcpServer`](https://projectreactor.io/docs/netty/release/api/reactor/netty/tcp/TcpServer.html). It hides most of the `Netty` functionality that is needed to create a `TCP` server and adds `Reactive Streams` backpressure.
+Reactor Netty提供了易于使用和配置的TcpServer。它隐藏了创建TCP服务器所需的大多数Netty功能，并增加了Reactive Streams背压。
 
 ### 3.1. Starting and Stopping
 
-To start a `TCP` server, you must create and configure a [`TcpServer`](https://projectreactor.io/docs/netty/release/api/reactor/netty/tcp/TcpServer.html) instance. By default, the `host` is configured for any local address, and the system picks up an ephemeral port when the `bind` operation is invoked. The following example shows how to create and configure a `TcpServer` instance:
+要启动TCP服务器，必须创建并配置TcpServer实例。默认情况下，主机配置为使用任何本地地址，并且在调用绑定操作时，系统会选择一个临时端口。以下示例显示如何创建和配置TcpServer实例：
 
 ./../../reactor-netty-examples/src/main/java/reactor/netty/examples/documentation/tcp/server/create/Application.java
 
@@ -260,15 +219,11 @@ public class Application {
 }
 ```
 
-|      | Creates a [`TcpServer`](https://projectreactor.io/docs/netty/release/api/reactor/netty/tcp/TcpServer.html) instance that is ready for configuring. |
-| ---- | ------------------------------------------------------------ |
-|      | Starts the server in a blocking fashion and waits for it to finish initializing. |
-
-The returned [`DisposableServer`](https://projectreactor.io/docs/netty/release/api/reactor/netty/DisposableServer.html) offers a simple server API, including [`disposeNow()`](https://projectreactor.io/docs/netty/release/api/reactor/netty/DisposableChannel.html#disposeNow-java.time.Duration-), which shuts the server down in a blocking fashion.
+返回的DisposableServer提供了一个简单的服务器API，包括disposeNow（），它以阻塞方式关闭服务器。
 
 #### 3.1.1. Host and Port
 
-To serve on a specific `host` and `port`, you can apply the following configuration to the `TCP` server:
+要在特定的主机和端口上提供服务，可以将以下配置应用于TCP服务器：
 
 ./../../reactor-netty-examples/src/main/java/reactor/netty/examples/documentation/tcp/server/address/Application.java
 
@@ -291,13 +246,9 @@ public class Application {
 }
 ```
 
-|      | Configures the `TCP` server host |
-| ---- | -------------------------------- |
-|      | Configures the `TCP` server port |
-
 ### 3.2. Writing Data
 
-In order to send data to a connected client, you must attach an I/O handler. The I/O handler has access to [`NettyOutbound`](https://projectreactor.io/docs/netty/release/api/reactor/netty/NettyOutbound.html) to be able to write data. The following example shows how to attach an I/O handler:
+为了将数据发送到连接的客户端，必须附加一个I / O处理程序。 I / O处理程序有权访问NettyOutbound以便写入数据。以下示例显示了如何附加I / O处理程序：
 
 ./../../reactor-netty-examples/src/main/java/reactor/netty/examples/documentation/tcp/server/send/Application.java
 
@@ -320,13 +271,9 @@ public class Application {
 }
 ```
 
-|      | Sends `hello` string to the connected clients |
-| ---- | --------------------------------------------- |
-|      |                                               |
-
 ### 3.3. Consuming Data
 
-In order to receive data from a connected client, you must attach an I/O handler. The I/O handler has access to [`NettyInbound`](https://projectreactor.io/docs/netty/release/api/reactor/netty/NettyInbound.html) to be able to read data. The following example shows how to use it:
+为了从连接的客户端接收数据，必须附加I / O处理程序。 I / O处理程序可以访问NettyInbound以便读取数据。以下示例显示了如何使用它：
 
 ./../../reactor-netty-examples/src/main/java/reactor/netty/examples/documentation/tcp/server/read/Application.java
 
@@ -348,20 +295,16 @@ public class Application {
 }
 ```
 
-|      | Receives data from the connected clients |
-| ---- | ---------------------------------------- |
-|      |                                          |
-
 ### 3.4. Lifecycle Callbacks
 
-The following lifecycle callbacks are provided to let you extend the `TCP` server:
+提供以下生命周期回调，以便您扩展TCP服务器：
 
-- `doOnBind`: Invoked when the server channel is about to bind.
-- `doOnBound`: Invoked when the server channel is bound.
-- `doOnConnection`: Invoked when a remote client is connected
-- `doOnUnbound`: Invoked when the server channel is unbound.
+- `doOnBind`:当服务器通道即将绑定时调用。
+- `doOnBound`: 绑定服务器通道时调用。
+- `doOnConnection`: 连接远程客户端时调用
+- `doOnUnbound`: 服务器通道未绑定时调用。
 
-The following example uses the `doOnConnection` callback:
+以下示例使用doOnConnection回调：
 
 ./../../reactor-netty-examples/src/main/java/reactor/netty/examples/documentation/tcp/server/lifecycle/Application.java
 
@@ -386,13 +329,9 @@ public class Application {
 }
 ```
 
-|      | `Netty` pipeline is extended with `ReadTimeoutHandler` when a remote client is connected. |
-| ---- | ------------------------------------------------------------ |
-|      |                                                              |
-
 ### 3.5. TCP-level Configurations
 
-This section describes three kinds of configuration that you can use at the TCP level:
+本节描述了可以在TCP级别上使用的三种配置：
 
 - [Setting Channel Options](https://projectreactor.io/docs/netty/release/reference/index.html#server-tcp-level-configurations-channel-options)
 - [Using a Wire Logger](https://projectreactor.io/docs/netty/release/reference/index.html#server-tcp-level-configurations-event-wire-logger)
@@ -400,7 +339,7 @@ This section describes three kinds of configuration that you can use at the TCP 
 
 #### 3.5.1. Setting Channel Options
 
-By default, the `TCP` server is configured with the following options:
+默认情况下，TCP服务器配置有以下选项：
 
 ./../../reactor-netty-core/src/main/java/reactor/netty/tcp/TcpServerBind.java
 
@@ -416,7 +355,7 @@ TcpServerBind() {
 }
 ```
 
-If additional options are necessary or changes to the current options are needed, you can apply the following configuration:
+如果需要其他选项，或者需要更改当前选项，则可以应用以下配置：
 
 ./../../reactor-netty-examples/src/main/java/reactor/netty/examples/documentation/tcp/server/channeloptions/Application.java
 
@@ -439,14 +378,14 @@ public class Application {
 }
 ```
 
-You can find more about `Netty` channel options at the following links:
+您可以在以下链接中找到有关Netty频道选项的更多信息：
 
 - [`ChannelOption`](https://netty.io/4.1/api/io/netty/channel/ChannelOption.html)
 - [Socket Options](https://docs.oracle.com/javase/8/docs/technotes/guides/net/socketOpt.html)
 
 #### 3.5.2. Using a Wire Logger
 
-Reactor Netty provides wire logging for when the traffic between the peers has to be inspected. By default, wire logging is disabled. To enable it, you must set the logger `reactor.netty.tcp.TcpServer` level to `DEBUG` and apply the following configuration;
+当需要检查对等点之间的流量时，Reactor Netty提供有线记录。默认情况下，禁用有线日志记录。要启用它，必须将logger的react.netty.tcp.TcpServer级别设置为DEBUG并应用以下配置；
 
 ./../../reactor-netty-examples/src/main/java/reactor/netty/examples/documentation/tcp/server/wiretap/Application.java
 
@@ -465,18 +404,13 @@ public class Application {
 		server.onDispose()
 		      .block();
 	}
-}
 ```
-
-|      | Enables the wire logging |
-| ---- | ------------------------ |
-|      |                          |
 
 #### 3.5.3. Using an Event Loop Group
 
-By default, the `TCP` server uses an “Event Loop Group,” where the number of the worker threads equals the number of processors available to the runtime on initialization (but with a minimum value of 4). When you need a different configuration, you can use one of the [LoopResource](https://projectreactor.io/docs/netty/release/api/reactor/netty/resources/LoopResources.html)`#create` methods.
+默认情况下，TCP服务器使用“事件循环组”，其中工作线程数等于初始化时可用于运行时的处理器数（但最小值为4）。需要其他配置时，可以使用LoopResource＃create方法之一。
 
-The default configuration for the `Event Loop Group` is the following:
+事件循环组的默认配置如下：
 
 ./../../reactor-netty-core/src/main/java/reactor/netty/ReactorNetty.java
 
@@ -512,7 +446,7 @@ public static final String SHUTDOWN_TIMEOUT = "reactor.netty.ioShutdownTimeout";
  */
 ```
 
-If changes to the these settings are needed, you can apply the following configuration:
+如果需要更改这些设置，则可以应用以下配置：
 
 ./../../reactor-netty-examples/src/main/java/reactor/netty/examples/documentation/tcp/server/eventloop/Application.java
 
@@ -539,9 +473,9 @@ public class Application {
 
 ### 3.6. SSL and TLS
 
-When you need SSL or TLS, you can apply the configuration shown in the next listing. By default, if `OpenSSL` is available, [`SslProvider.OPENSSL`](https://netty.io/4.1/api/io/netty/handler/ssl/SslProvider.html#OPENSSL) provider is used as a provider. Otherwise [`SslProvider.JDK`](https://netty.io/4.1/api/io/netty/handler/ssl/SslProvider.html#JDK) is used. Switching the provider can be done through [`SslContextBuilder`](https://netty.io/4.1/api/io/netty/handler/ssl/SslContextBuilder.html#sslProvider-io.netty.handler.ssl.SslProvider-) or by setting `-Dio.netty.handler.ssl.noOpenSsl=true`.
+当需要SSL或TLS时，可以应用下清单中显示的配置。默认情况下，如果OpenSSL可用，则将SslProvider.OPENSSL提供程序用作提供程序。否则，将使用SslProvider.JDK。可以通过SslContextBuilder或通过设置-Dio.netty.handler.ssl.noOpenSsl = true来切换提供程序。
 
-The following example uses `SslContextBuilder`:
+以下示例使用SslContextBuilder：
 
 ./../../reactor-netty-examples/src/main/java/reactor/netty/examples/documentation/tcp/server/security/Application.java
 
@@ -572,9 +506,9 @@ public class Application {
 
 #### 3.6.1. Server Name Indication
 
-You can configure the `TCP` server with multiple `SslContext` mapped to a specific domain. An exact domain name or a domain name containing a wildcard can be used when configuring the `SNI` mapping.
+您可以配置具有映射到特定域的多个SslContext的TCP服务器。配置SNI映射时，可以使用确切的域名或包含通配符的域名。
 
-The following example uses a domain name containing a wildcard:
+以下示例使用包含通配符的域名：
 
 ./../../reactor-netty-examples/src/main/java/reactor/netty/examples/documentation/tcp/server/sni/Application.java
 
@@ -613,25 +547,25 @@ public class Application {
 
 ### 3.7. Metrics
 
-The TCP server supports built-in integration with [`Micrometer`](https://micrometer.io/). It exposes all metrics with a prefix of `reactor.netty.tcp.server`.
+TCP服务器支持与Micrometer的内置集成。它使用前缀Reactor.netty.tcp.server公开所有度量。
 
-The following table provides information for the TCP server metrics:
+下表提供了有关TCP服务器指标的信息：
 
-| metric name                                 | type                | description                           |
-| :------------------------------------------ | :------------------ | :------------------------------------ |
-| reactor.netty.tcp.server.data.received      | DistributionSummary | Amount of the data received, in bytes |
-| reactor.netty.tcp.server.data.sent          | DistributionSummary | Amount of the data sent, in bytes     |
-| reactor.netty.tcp.server.errors             | Counter             | Number of errors that occurred        |
-| reactor.netty.tcp.server.tls.handshake.time | Timer               | Time spent for TLS handshake          |
+| metric name                                 | type                | description                  |
+| :------------------------------------------ | :------------------ | :--------------------------- |
+| reactor.netty.tcp.server.data.received      | DistributionSummary | 接收到的数据量，以字节为单位 |
+| reactor.netty.tcp.server.data.sent          | DistributionSummary | 发送的数据量（以字节为单位） |
+| reactor.netty.tcp.server.errors             | Counter             | 发生的错误数                 |
+| reactor.netty.tcp.server.tls.handshake.time | Timer               | TLS握手花费的时间            |
 
-These additional metrics are also available:
+这些其他指标也可用：
 
 `ByteBufAllocator` metrics
 
 | metric name                                             | type  | description                                                  |
 | :------------------------------------------------------ | :---- | :----------------------------------------------------------- |
-| reactor.netty.bytebuf.allocator.used.heap.memory        | Gauge | The number of the bytes of the heap memory                   |
-| reactor.netty.bytebuf.allocator.used.direct.memory      | Gauge | The number of the bytes of the direct memory                 |
+| reactor.netty.bytebuf.allocator.used.heap.memory        | Gauge | 堆内存的字节数                                               |
+| reactor.netty.bytebuf.allocator.used.direct.memory      | Gauge | 直接存储器的字节数                                           |
 | reactor.netty.bytebuf.allocator.used.heap.arenas        | Gauge | The number of heap arenas (when `PooledByteBufAllocator`)    |
 | reactor.netty.bytebuf.allocator.used.direct.arenas      | Gauge | The number of direct arenas (when `PooledByteBufAllocator`)  |
 | reactor.netty.bytebuf.allocator.used.threadlocal.caches | Gauge | The number of thread local caches (when `PooledByteBufAllocator`) |
@@ -640,7 +574,7 @@ These additional metrics are also available:
 | reactor.netty.bytebuf.allocator.used.normal.cache.size  | Gauge | The size of the normal cache (when `PooledByteBufAllocator`) |
 | reactor.netty.bytebuf.allocator.used.chunk.size         | Gauge | The chunk size for an arena (when `PooledByteBufAllocator`)  |
 
-The following example enables that integration:
+以下示例启用了该集成：
 
 ./../../reactor-netty-examples/src/main/java/reactor/netty/examples/documentation/tcp/server/metrics/Application.java
 
@@ -662,11 +596,7 @@ public class Application {
 }
 ```
 
-|      | Enables the built-in integration with Micrometer |
-| ---- | ------------------------------------------------ |
-|      |                                                  |
-
-When TCP server metrics are needed for an integration with a system other than `Micrometer` or you want to provide your own integration with `Micrometer`, you can provide your own metrics recorder, as follows:
+当与非Micrometer的系统集成时需要TCP服务器度量标准，或者要与Micrometer集成时，可以提供自己的度量记录器，如下所示：
 
 ./../../reactor-netty-examples/src/main/java/reactor/netty/examples/documentation/tcp/server/metrics/custom/Application.java
 
@@ -691,15 +621,11 @@ public class Application {
 	}
 ```
 
-|      | Enables TCP server metrics and provides [`ChannelMetricsRecorder`](https://projectreactor.io/docs/netty/release/api/reactor/netty/channel/ChannelMetricsRecorder.html) implementation. |
-| ---- | ------------------------------------------------------------ |
-|      |                                                              |
-
 ### 3.8. Unix Domain Sockets
 
-The `TCP` server supports Unix Domain Sockets (UDS) when native transport is in use.
+使用本地传输时，TCP服务器支持Unix域套接字（UDS）。
 
-The following example shows how to use UDS support:
+以下示例显示了如何使用UDS支持：
 
 ./../../reactor-netty-examples/src/main/java/reactor/netty/examples/documentation/tcp/server/uds/Application.java
 
@@ -722,19 +648,13 @@ public class Application {
 }
 ```
 
-|      | Specifies `DomainSocketAddress` that will be used |
-| ---- | ------------------------------------------------- |
-|      |                                                   |
-
-[Suggest Edit](https://github.com/reactor/reactor-netty/edit/master/docs/asciidoc/tcp-server.adoc) to "[TCP Server](https://projectreactor.io/docs/netty/release/reference/index.html#tcp-server)"
-
 ## 4. TCP Client
 
-Reactor Netty provides the easy-to-use and easy-to-configure [`TcpClient`](https://projectreactor.io/docs/netty/release/api/reactor/netty/tcp/TcpClient.html). It hides most of the Netty functionality that is needed in order to create a `TCP` client and adds Reactive Streams backpressure.
+Reactor Netty提供了易于使用和易于配置的TcpClient。它隐藏了创建TCP客户端所需的大多数Netty功能，并增加了Reactive Streams背压。
 
 ### 4.1. Connect and Disconnect
 
-To connect the `TCP` client to a given endpoint, you must create and configure a [`TcpClient`](https://projectreactor.io/docs/netty/release/api/reactor/netty/tcp/TcpClient.html) instance. By default, the `host` is `localhost` and the `port` is `12012`. The following example shows how to create a `TcpClient`:
+要将TCP客户端连接到给定的端点，必须创建并配置TcpClient实例。默认情况下，主机是localhost，端口是12012。以下示例显示如何创建TcpClient：
 
 ./../../reactor-netty-examples/src/main/java/reactor/netty/examples/documentation/tcp/client/create/Application.java
 
@@ -755,15 +675,11 @@ public class Application {
 }
 ```
 
-|      | Creates a [`TcpClient`](https://projectreactor.io/docs/netty/release/api/reactor/netty/tcp/TcpClient.html) instance that is ready for configuring. |
-| ---- | ------------------------------------------------------------ |
-|      | Connects the client in a blocking fashion and waits for it to finish initializing. |
-
-The returned [`Connection`](https://projectreactor.io/docs/netty/release/api/reactor/netty/Connection.html) offers a simple connection API, including [`disposeNow()`](https://projectreactor.io/docs/netty/release/api/reactor/netty/DisposableChannel.html#disposeNow-java.time.Duration-), which shuts the client down in a blocking fashion.
+返回的Connection提供了一个简单的连接API，包括disposeNow（），该API以阻塞的方式关闭了客户端。
 
 #### 4.1.1. Host and Port
 
-To connect to a specific `host` and `port`, you can apply the following configuration to the `TCP` client. The following example shows how to do so:
+要连接到特定的主机和端口，可以将以下配置应用于TCP客户端。以下示例显示了如何执行此操作：
 
 ./../../reactor-netty-examples/src/main/java/reactor/netty/examples/documentation/tcp/client/address/Application.java
 
@@ -786,13 +702,9 @@ public class Application {
 }
 ```
 
-|      | Configures the `TCP` host |
-| ---- | ------------------------- |
-|      | Configures the `TCP` port |
-
 ### 4.2. Writing Data
 
-To send data to a given endpoint, you must attach an I/O handler. The I/O handler has access to [`NettyOutbound`](https://projectreactor.io/docs/netty/release/api/reactor/netty/NettyOutbound.html) to be able to write data.
+要将数据发送到给定的端点，必须附加一个I / O处理程序。 I / O处理程序有权访问NettyOutbound以便写入数据。
 
 ./../../reactor-netty-examples/src/main/java/reactor/netty/examples/documentation/tcp/client/send/Application.java
 
@@ -817,13 +729,9 @@ public class Application {
 }
 ```
 
-|      | Sends `hello` string to the endpoint. |
-| ---- | ------------------------------------- |
-|      |                                       |
-
 ### 4.3. Consuming Data
 
-To receive data from a given endpoint, you must attach an I/O handler. The I/O handler has access to [`NettyInbound`](https://projectreactor.io/docs/netty/release/api/reactor/netty/NettyInbound.html) to be able to read data. The following example shows how to do so:
+要从给定的端点接收数据，必须附加一个I / O处理程序。 I / O处理程序可以访问NettyInbound以便读取数据。以下示例显示了如何执行此操作：
 
 ./../../reactor-netty-examples/src/main/java/reactor/netty/examples/documentation/tcp/client/read/Application.java
 
@@ -847,19 +755,15 @@ public class Application {
 }
 ```
 
-|      | Receives data from a given endpoint |
-| ---- | ----------------------------------- |
-|      |                                     |
-
 ### 4.4. Lifecycle Callbacks
 
-The following lifecycle callbacks are provided to let you extend the `TCP` client.
+提供以下生命周期回调，以便您扩展TCP客户端。
 
-- `doOnConnect`: Invoked when the channel is about to connect.
-- `doOnConnected`: Invoked after the channel has been connected.
-- `doOnDisconnected`: Invoked after the channel has been disconnected.
+- `doOnConnect`: 在通道即将连接时调用。
+- `doOnConnected`: 连接通道后调用。
+- `doOnDisconnected`: 断开通道后，调用此按钮。
 
-The following example uses the `doOnConnected` callback:
+以下示例使用doOnConnected回调：
 
 ./../../reactor-netty-examples/src/main/java/reactor/netty/examples/documentation/tcp/client/lifecycle/Application.java
 
@@ -886,13 +790,9 @@ public class Application {
 }
 ```
 
-|      | `Netty` pipeline is extended with `ReadTimeoutHandler` when the channel has been connected. |
-| ---- | ------------------------------------------------------------ |
-|      |                                                              |
-
 ### 4.5. TCP-level Configurations
 
-This section describes three kinds of configuration that you can use at the TCP level:
+本节描述了可以在TCP级别上使用的三种配置：
 
 - [Channel Options](https://projectreactor.io/docs/netty/release/reference/index.html#client-tcp-level-configurations-channel-options)
 - [Wire Logger](https://projectreactor.io/docs/netty/release/reference/index.html#client-tcp-level-configurations-event-wire-logger)
@@ -900,7 +800,7 @@ This section describes three kinds of configuration that you can use at the TCP 
 
 #### 4.5.1. Channel Options
 
-By default, the `TCP` client is configured with the following options:
+默认情况下，TCP客户端配置有以下选项：
 
 ./../../reactor-netty-core/src/main/java/reactor/netty/tcp/TcpClientConnect.java
 
@@ -913,7 +813,7 @@ TcpClientConnect(ConnectionProvider provider) {
 }
 ```
 
-If additional options are necessary or changes to the current options are needed, you can apply the following configuration:
+如果需要其他选项，或者需要更改当前选项，则可以应用以下配置：
 
 ./../../reactor-netty-examples/src/main/java/reactor/netty/examples/documentation/tcp/client/channeloptions/Application.java
 
@@ -938,14 +838,14 @@ public class Application {
 }
 ```
 
-You can find more about `Netty` channel options at the following links:
+您可以在以下链接中找到有关Netty频道选项的更多信息：
 
 - [`ChannelOption`](https://netty.io/4.1/api/io/netty/channel/ChannelOption.html)
 - [Socket Options](https://docs.oracle.com/javase/8/docs/technotes/guides/net/socketOpt.html)
 
 #### 4.5.2. Wire Logger
 
-Reactor Netty provides wire logging for when the traffic between the peers has to be inspected. By default, wire logging is disabled. To enable it, you must set the logger `reactor.netty.tcp.TcpClient` level to `DEBUG` and apply the following configuration:
+当需要检查对等点之间的流量时，Reactor Netty提供有线记录。默认情况下，禁用有线日志记录。要启用它，必须将记录器react.netty.tcp.TcpClient级别设置为DEBUG并应用以下配置：
 
 ./../../reactor-netty-examples/src/main/java/reactor/netty/examples/documentation/tcp/client/wiretap/Application.java
 
@@ -969,15 +869,11 @@ public class Application {
 }
 ```
 
-|      | Enables the wire logging |
-| ---- | ------------------------ |
-|      |                          |
-
 #### 4.5.3. Event Loop Group
 
-By default the `TCP` client uses an “Event Loop Group”, where the number of the worker threads equals the number of processors available to the runtime on initialization (but with a minimum value of 4). When you need a different configuration, you can use one of the [LoopResource](https://projectreactor.io/docs/netty/release/api/reactor/netty/resources/LoopResources.html)`#create` methods.
+默认情况下，TCP客户端使用“事件循环组”，其中工作线程数等于初始化时可用于运行时的处理器数（但最小值为4）。需要其他配置时，可以使用LoopResource＃create方法之一。
 
-The following listing shows the default configuration for the Event Loop Group:
+以下清单显示了事件循环组的默认配置：
 
 ./../../reactor-netty-core/src/main/java/reactor/netty/ReactorNetty.java
 
@@ -1013,7 +909,7 @@ public static final String SHUTDOWN_TIMEOUT = "reactor.netty.ioShutdownTimeout";
  */
 ```
 
-If you need changes to the these settings, you can apply the following configuration:
+如果需要更改这些设置，则可以应用以下配置：
 
 ./../../reactor-netty-examples/src/main/java/reactor/netty/examples/documentation/tcp/client/eventloop/Application.java
 
@@ -1042,7 +938,7 @@ public class Application {
 
 ### 4.6. Connection Pool
 
-By default, the `TCP` client uses a “fixed” connection pool with `500` as the maximum number of channels and `1000` as the maximum number of the registered requests for acquire to keep in the pending queue (for the rest of the configurations check the system properties below). This means that the implementation creates a new channel if someone tries to acquire a channel but none is in the pool. When the maximum number of the channels in the pool is reached, new tries to acquire a channel are delayed until a channel is returned to the pool again.
+默认情况下，TCP客户端使用“固定”连接池，其中最大通道数为500，最大注册请求数为1000，以保留在挂起队列中（对于其余配置，请检查系统属性下面）。这意味着如果有人尝试获取频道但池中没有频道，则实现会创建一个新频道。当达到池中通道的最大数目时，新的获取通道的尝试将延迟，直到再次将通道返回到池中为止。
 
 ./../../reactor-netty-core/src/main/java/reactor/netty/ReactorNetty.java
 
@@ -1075,7 +971,7 @@ public static final String POOL_MAX_LIFE_TIME = "reactor.netty.pool.maxLifeTime"
  */
 ```
 
-If you need to disable the connection pool, you can apply the following configuration:
+如果需要禁用连接池，则可以应用以下配置：
 
 ./../../reactor-netty-examples/src/main/java/reactor/netty/examples/documentation/tcp/client/pool/Application.java
 
@@ -1098,7 +994,7 @@ public class Application {
 }
 ```
 
-If you need to specify an idle time for the channels in the connection pool, you can apply the following configuration:
+如果需要为连接池中的通道指定空闲时间，则可以应用以下配置
 
 ./../../reactor-netty-examples/src/main/java/reactor/netty/examples/documentation/tcp/client/pool/config/Application.java
 
@@ -1130,13 +1026,9 @@ public class Application {
 }
 ```
 
-|      | When you expect a high load, be cautious with a connection pool with a very high value for maximum connections. You might experience `reactor.netty.http.client.PrematureCloseException` exception with a root cause "Connect Timeout" due to too many concurrent connections opened/acquired. |
-| ---- | ------------------------------------------------------------ |
-|      |                                                              |
-
 #### 4.6.1. Metrics
 
-The pooled `ConnectionProvider` supports built-in integration with [`Micrometer`](https://micrometer.io/). It exposes all metrics with a prefix of `reactor.netty.connection.provider`.
+池中的ConnectionProvider支持与Micrometer的内置集成。它使用前缀react.netty.connection.provider公开所有度量。
 
 Pooled `ConnectionProvider` metrics
 
@@ -1147,7 +1039,7 @@ Pooled `ConnectionProvider` metrics
 | reactor.netty.connection.provider.idle.connections    | Gauge | The number of the idle connections                           |
 | reactor.netty.connection.provider.pending.connections | Gauge | The number of requests that are waiting for a connection     |
 
-The following example enables that integration:
+以下示例启用了该集成：
 
 ./../../reactor-netty-examples/src/main/java/reactor/netty/examples/documentation/tcp/client/pool/metrics/Application.java
 
@@ -1177,15 +1069,11 @@ public class Application {
 }
 ```
 
-|      | Enables the built-in integration with Micrometer |
-| ---- | ------------------------------------------------ |
-|      |                                                  |
-
 ### 4.7. SSL and TLS
 
-When you need SSL or TLS, you can apply the following configuration. By default, if `OpenSSL` is available, the [`SslProvider.OPENSSL`](https://netty.io/4.1/api/io/netty/handler/ssl/SslProvider.html#OPENSSL) provider is used as a provider. Otherwise, the provider is [`SslProvider.JDK`](https://netty.io/4.1/api/io/netty/handler/ssl/SslProvider.html#JDK). You can switch the provider by using [`SslContextBuilder`](https://netty.io/4.1/api/io/netty/handler/ssl/SslContextBuilder.html#sslProvider-io.netty.handler.ssl.SslProvider-) or by setting `-Dio.netty.handler.ssl.noOpenSsl=true`.
+当需要SSL或TLS时，可以应用以下配置。默认情况下，如果OpenSSL可用，则将SslProvider.OPENSSL提供程序用作提供程序。否则，提供程序为SslProvider.JDK。您可以通过使用SslContextBuilder或通过设置-Dio.netty.handler.ssl.noOpenSsl = true来切换提供程序。
 
-The following example uses `SslContextBuilder`:
+以下示例使用SslContextBuilder：
 
 ./../../reactor-netty-examples/src/main/java/reactor/netty/examples/documentation/tcp/client/security/Application.java
 
@@ -1214,7 +1102,7 @@ public class Application {
 
 #### 4.7.1. Server Name Indication
 
-By default, the `TCP` client sends the remote host name as `SNI` server name. When you need to change this default setting, you can configure the `TCP` client as follows:
+默认情况下，TCP客户端将远程主机名作为SNI服务器名发送。当需要更改此默认设置时，可以按以下方式配置TCP客户端：
 
 ./../../reactor-netty-examples/src/main/java/reactor/netty/examples/documentation/tcp/client/sni/Application.java
 
@@ -1247,7 +1135,7 @@ public class Application {
 
 ### 4.8. Proxy Support
 
-The TCP client supports the proxy functionality provided by Netty and provides a way to specify “non proxy hosts” through the [`ProxyProvider`](https://projectreactor.io/docs/netty/release/api/reactor/netty/tcp/ProxyProvider.html) builder. The following example uses `ProxyProvider`:
+TCP客户端支持Netty提供的代理功能，并提供了一种通过ProxyProvider构建器指定“非代理主机”的方法。以下示例使用ProxyProvider：
 
 ./../../reactor-netty-examples/src/main/java/reactor/netty/examples/documentation/tcp/client/proxy/Application.java
 
@@ -1277,9 +1165,9 @@ public class Application {
 
 ### 4.9. Metrics
 
-The TCP client supports built-in integration with [`Micrometer`](https://micrometer.io/). It exposes all metrics with a prefix of `reactor.netty.tcp.client`.
+TCP客户端支持与Micrometer的内置集成。它使用前缀react.netty.tcp.client公开所有度量。
 
-The following table provides information for the TCP client metrics:
+下表提供了有关TCP客户端指标的信息：
 
 | metric name                                 | type                | description                                     |
 | :------------------------------------------ | :------------------ | :---------------------------------------------- |
@@ -1290,7 +1178,7 @@ The following table provides information for the TCP client metrics:
 | reactor.netty.tcp.client.connect.time       | Timer               | Time spent for connecting to the remote address |
 | reactor.netty.tcp.client.address.resolver   | Timer               | Time spent for resolving the address            |
 
-These additional metrics are also available:
+这些其他指标也可用：
 
 Pooled `ConnectionProvider` metrics
 
@@ -1315,7 +1203,7 @@ Pooled `ConnectionProvider` metrics
 | reactor.netty.bytebuf.allocator.used.normal.cache.size  | Gauge | The size of the normal cache (when `PooledByteBufAllocator`) |
 | reactor.netty.bytebuf.allocator.used.chunk.size         | Gauge | The chunk size for an arena (when `PooledByteBufAllocator`)  |
 
-The following example enables that integration:
+以下示例启用了该集成：
 
 ./../../reactor-netty-examples/src/main/java/reactor/netty/examples/documentation/tcp/client/metrics/Application.java
 
@@ -1339,11 +1227,7 @@ public class Application {
 }
 ```
 
-|      | Enables the built-in integration with Micrometer |
-| ---- | ------------------------------------------------ |
-|      |                                                  |
-
-When TCP client metrics are needed for an integration with a system other than `Micrometer` or you want to provide your own integration with `Micrometer`, you can provide your own metrics recorder, as follows:
+当需要TCP客户端度量标准来与Micrometer以外的系统集成时，或者您想要提供自己与Micrometer的集成时，可以提供自己的度量记录器，如下所示：
 
 ./../../reactor-netty-examples/src/main/java/reactor/netty/examples/documentation/tcp/client/metrics/custom/Application.java
 
@@ -1376,9 +1260,9 @@ public class Application {
 
 ### 4.10. Unix Domain Sockets
 
-The `TCP` client supports Unix Domain Sockets (UDS) when native transport is in use.
+使用本地传输时，TCP客户端支持Unix域套接字（UDS）。
 
-The following example shows how to use UDS support:
+以下示例显示了如何使用UDS支持：
 
 ./../../reactor-netty-examples/src/main/java/reactor/netty/examples/documentation/tcp/client/uds/Application.java
 
@@ -1401,19 +1285,13 @@ public class Application {
 }
 ```
 
-|      | Specifies `DomainSocketAddress` that will be used |
-| ---- | ------------------------------------------------- |
-|      |                                                   |
-
-[Suggest Edit](https://github.com/reactor/reactor-netty/edit/master/docs/asciidoc/tcp-client.adoc) to "[TCP Client](https://projectreactor.io/docs/netty/release/reference/index.html#tcp-client)"
-
 ## 5. HTTP Server
 
-`Reactor Netty` provides the easy-to-use and easy-to-configure [`HttpServer`](https://projectreactor.io/docs/netty/release/api/reactor/netty/http/server/HttpServer.html) class. It hides most of the `Netty` functionality that is needed in order to create a `HTTP` server and adds `Reactive Streams` backpressure.
+Reactor Netty提供了易于使用和易于配置的HttpServer类。它隐藏了创建HTTP服务器所需的大多数Netty功能，并增加了Reactive Streams背压。
 
 ### 5.1. Starting and Stopping
 
-To start an HTTP server, you must create and configure a [HttpServer](https://projectreactor.io/docs/netty/release/api/reactor/netty/http/server/HttpServer.html) instance. By default, the `host` is configured for any local address, and the system picks up an ephemeral port when the `bind` operation is invoked. The following example shows how to create an `HttpServer` instance:
+要启动HTTP服务器，您必须创建并配置HttpServer实例。默认情况下，主机配置为使用任何本地地址，并且在调用绑定操作时，系统会选择一个临时端口。以下示例显示如何创建HttpServer实例：
 
 ./../../reactor-netty-examples/src/main/java/reactor/netty/examples/documentation/http/server/create/Application.java
 
@@ -1434,15 +1312,11 @@ public class Application {
 }
 ```
 
-|      | Creates an [HttpServer](https://projectreactor.io/docs/netty/release/api/reactor/netty/http/server/HttpServer.html) instance ready for configuring. |
-| ---- | ------------------------------------------------------------ |
-|      | Starts the server in a blocking fashion and waits for it to finish initializing. |
-
-The returned [`DisposableServer`](https://projectreactor.io/docs/netty/release/api/reactor/netty/DisposableServer.html) offers a simple server API, including [`disposeNow()`](https://projectreactor.io/docs/netty/release/api/reactor/netty/DisposableChannel.html#disposeNow-java.time.Duration-), which shuts the server down in a blocking fashion.
+返回的DisposableServer提供了一个简单的服务器API，包括disposeNow（），它以阻塞方式关闭服务器。
 
 #### 5.1.1. Host and Port
 
-To serve on a specific `host` and `port`, you can apply the following configuration to the `HTTP` server:
+要在特定的主机和端口上提供服务，可以将以下配置应用于HTTP服务器：
 
 ./../../reactor-netty-examples/src/main/java/reactor/netty/examples/documentation/http/server/address/Application.java
 
@@ -1465,13 +1339,9 @@ public class Application {
 }
 ```
 
-|      | Configures the `HTTP` server host |
-| ---- | --------------------------------- |
-|      | Configures the `HTTP` server port |
-
 ### 5.2. Routing HTTP
 
-Defining routes for the `HTTP` server requires configuring the provided [`HttpServerRoutes`](https://projectreactor.io/docs/netty/release/api/reactor/netty/http/server/HttpServerRoutes.html) builder. The following example shows how to do so:
+定义HTTP服务器的路由需要配置提供的HttpServerRoutes构建器。以下示例显示了如何执行此操作：
 
 ./../../reactor-netty-examples/src/main/java/reactor/netty/examples/documentation/http/server/routing/Application.java
 
@@ -1502,19 +1372,9 @@ public class Application {
 }
 ```
 
-|      | Serves a `GET` request to `/hello` and returns `Hello World!` |
-| ---- | ------------------------------------------------------------ |
-|      | Serves a `POST` request to `/echo` and returns the received request body as a response. |
-|      | Serves a `GET` request to `/path/{param}` and returns the value of the path parameter. |
-|      | Serves websocket to `/ws` and returns the received incoming data as outgoing data. |
-
-|      | The server routes are unique and only the first matching in order of declaration is invoked. |
-| ---- | ------------------------------------------------------------ |
-|      |                                                              |
-
 #### 5.2.1. SSE
 
-The following code shows how you can configure the `HTTP` server to serve `Server-Sent Events`:
+以下代码显示了如何配置HTTP服务器以服务于服务器发送的事件：
 
 ./../../reactor-netty-examples/src/main/java/reactor/netty/examples/documentation/http/server/sse/Application.java
 
@@ -1582,7 +1442,7 @@ public class Application {
 
 #### 5.2.2. Static Resources
 
-The following code shows how you can configure the `HTTP` server to serve static resources:
+以下代码显示了如何配置HTTP服务器以提供静态资源：
 
 ./../../reactor-netty-examples/src/main/java/reactor/netty/examples/documentation/http/server/staticresources/Application.java
 
@@ -1611,7 +1471,7 @@ public class Application {
 
 ### 5.3. Writing Data
 
-To send data to a connected client, you must attach an I/O handler by using either [`handle(…)`](https://projectreactor.io/docs/netty/release/api/reactor/netty/http/server/HttpServer.html#handle-java.util.function.BiFunction-) or [`route(…)`](https://projectreactor.io/docs/netty/release/api/reactor/netty/http/server/HttpServer.html#route-java.util.function.Consumer-). The I/O handler has access to [`HttpServerResponse`](https://projectreactor.io/docs/netty/release/api/reactor/netty/http/server/HttpServerResponse.html), to be able to write data. The following example uses the `handle(…)` method:
+要将数据发送到已连接的客户端，必须使用handle（...）或route（...）附加I / O处理程序。 I / O处理程序有权访问HttpServerResponse，以便能够写入数据。以下示例使用handle（…）方法：
 
 ./../../reactor-netty-examples/src/main/java/reactor/netty/examples/documentation/http/server/send/Application.java
 
@@ -1634,13 +1494,9 @@ public class Application {
 }
 ```
 
-|      | Sends `hello` string to the connected clients |
-| ---- | --------------------------------------------- |
-|      |                                               |
-
 #### 5.3.1. Adding Headers and Other Metadata
 
-When you send data to the connected clients, you may need to send additional headers, cookies, status code, and other metadata. You can provide this additional metadata by using [`HttpServerResponse`](https://projectreactor.io/docs/netty/release/api/reactor/netty/http/server/HttpServerResponse.html). The following example shows how to do so:
+将数据发送到连接的客户端时，可能需要发送其他标头，cookie，状态代码和其他元数据。您可以使用HttpServerResponse提供此附加元数据。以下示例显示了如何执行此操作：
 
 ./../../reactor-netty-examples/src/main/java/reactor/netty/examples/documentation/http/server/send/headers/Application.java
 
@@ -1672,15 +1528,15 @@ public class Application {
 
 #### 5.3.2. Compression
 
-You can configure the `HTTP` server to send a compressed response, depending on the request header `Accept-Encoding`.
+您可以配置HTTP服务器以发送压缩的响应，具体取决于请求标头Accept-Encoding。
 
-`Reactor Netty` provides three different strategies for compressing the outgoing data:
+Reactor Netty提供了三种用于压缩传出数据的策略：
 
-- `compress(boolean)`: Depending on the boolean that is provided, the compression is enabled (`true`) or disabled (`false`).
-- `compress(int)`: The compression is performed once the response size exceeds the given value (in bytes).
-- `compress(BiPredicate<HttpServerRequest, HttpServerResponse>)`: The compression is performed if the predicate returns `true`.
+- compress（boolean）：根据提供的布尔值，启用压缩（true）还是禁用压缩（false）。
+- compress（int）：一旦响应大小超过给定值（以字节为单位），就执行压缩。
+- compress（BiPredicate ）：如果谓词返回true，则执行压缩。
 
-The following example uses the `compress` method (set to `true`) to enable compression:
+以下示例使用compress方法（设置为true）启用压缩：
 
 ./../../reactor-netty-examples/src/main/java/reactor/netty/examples/documentation/http/server/compression/Application.java
 
@@ -1710,9 +1566,9 @@ public class Application {
 
 ### 5.4. Consuming Data
 
-To receive data from a connected client, you must attach an I/O handler by using either [`handle(…)`](https://projectreactor.io/docs/netty/release/api/reactor/netty/http/server/HttpServer.html#handle-java.util.function.BiFunction-) or [`route(…)`](https://projectreactor.io/docs/netty/release/api/reactor/netty/http/server/HttpServer.html#route-java.util.function.Consumer-). The I/O handler has access to [`HttpServerRequest`](https://projectreactor.io/docs/netty/release/api/reactor/netty/http/server/HttpServerRequest.html), to be able to read data.
+要从已连接的客户端接收数据，必须使用handle（...）或route（...）附加I / O处理程序。 I / O处理程序有权访问HttpServerRequest，以便能够读取数据。
 
-The following example uses the `handle(…)` method:
+以下示例使用handle（…）方法：
 
 ./../../reactor-netty-examples/src/main/java/reactor/netty/examples/documentation/http/server/read/Application.java
 
@@ -1734,13 +1590,9 @@ public class Application {
 }
 ```
 
-|      | Receives data from the connected clients |
-| ---- | ---------------------------------------- |
-|      |                                          |
-
 #### 5.4.1. Reading Headers, URI Params, and other Metadata
 
-When you receive data from the connected clients, you might need to check request headers, parameters, and other metadata. You can obtain this additional metadata by using [`HttpServerRequest`](https://projectreactor.io/docs/netty/release/api/reactor/netty/http/server/HttpServerRequest.html). The following example shows how to do so:
+从连接的客户端接收数据时，可能需要检查请求标头，参数和其他元数据。您可以使用HttpServerRequest获得此其他元数据。以下示例显示了如何执行此操作：
 
 ./../../reactor-netty-examples/src/main/java/reactor/netty/examples/documentation/http/server/read/headers/Application.java
 
@@ -1772,7 +1624,7 @@ public class Application {
 
 ##### Obtaining the Remote (Client) Address
 
-In addition to the metadata that you can obtain from the request, you can also receive the `host (server)` address, the `remote (client)` address and the `scheme`. Depending on the chosen factory method, you can retrieve the information directly from the channel or by using the `Forwarded` or `X-Forwarded-*` `HTTP` request headers. The following example shows how to do so:
+除了可以从请求中获取的元数据之外，您还可以接收主机（服务器）地址，远程（客户端）地址和方案。根据选择的工厂方法，您可以直接从通道或使用Forwarded或X-Forwarded- * HTTP请求标头检索信息。以下示例显示了如何执行此操作：
 
 ./../../reactor-netty-examples/src/main/java/reactor/netty/examples/documentation/http/server/clientaddress/Application.java
 
@@ -1800,11 +1652,7 @@ public class Application {
 }
 ```
 
-|      | Specifies that the information about the connection is to be obtained from the `Forwarded` and `X-Forwarded-*` `HTTP` request headers, if possible. |
-| ---- | ------------------------------------------------------------ |
-|      | Returns the address of the remote (client) peer.             |
-
-It is also possible to customize the behavior of the `Forwarded` or `X-Forwarded-*` header handler. The following example shows how to do so:
+还可以自定义Forwarded或X-Forwarded- *标头处理程序的行为。以下示例显示了如何执行此操作：
 
 ./../../reactor-netty-examples/src/main/java/reactor/netty/examples/documentation/http/server/clientaddress/CustomForwardedHeaderHandlerApplication.java
 
@@ -1845,21 +1693,17 @@ public class CustomForwardedHeaderHandlerApplication {
 }
 ```
 
-|      | Add a custom header handler.                     |
-| ---- | ------------------------------------------------ |
-|      | Returns the address of the remote (client) peer. |
-
 #### 5.4.2. HTTP Request Decoder
 
-By default, `Netty` configures some restrictions for the incoming requests, such as:
+默认情况下，Netty为传入请求配置一些限制，例如：
 
-- The maximum length of the initial line.
-- The maximum length of all headers.
-- The maximum length of the content or each chunk.
+- 初始行的最大长度。
+- 请求头的最大长度。
+- 内容或每个块的最大长度。
 
-For more information, see [`HttpRequestDecoder`](https://netty.io/4.1/api/io/netty/handler/codec/http/HttpRequestDecoder.html) and [`HttpServerUpgradeHandler`](https://netty.io/4.1/api/io/netty/handler/codec/http/HttpServerUpgradeHandler.html)
+有关更多信息，请参见HttpRequestDecoder和HttpServerUpgradeHandler。
 
-By default, the `HTTP` server is configured with the following settings:
+默认情况下，HTTP服务器配置有以下设置：
 
 ./../../reactor-netty-http/src/main/java/reactor/netty/http/HttpDecoderSpec.java
 
@@ -1882,7 +1726,7 @@ public static final int DEFAULT_INITIAL_BUFFER_SIZE     = 128;
 public static final int DEFAULT_H2C_MAX_CONTENT_LENGTH = 0;
 ```
 
-When you need to change these default settings, you can configure the `HTTP` server as follows:
+当需要更改这些默认设置时，可以按以下方式配置HTTP服务器：
 
 ./../../reactor-netty-examples/src/main/java/reactor/netty/examples/documentation/http/server/requestdecoder/Application.java
 
@@ -1906,13 +1750,9 @@ public class Application {
 }
 ```
 
-|      | The maximum length of all headers will be `16384`. When this value is exceeded, a [TooLongFrameException](https://netty.io/4.1/api/io/netty/handler/codec/TooLongFrameException.html) is raised. |
-| ---- | ------------------------------------------------------------ |
-|      |                                                              |
-
 ### 5.5. TCP-level Configuration
 
-When you need to change configuration on the TCP level, you can use the following snippet to extend the default `TCP` server configuration:
+当需要在TCP级别上更改配置时，可以使用以下代码段扩展默认的TCP服务器配置：
 
 ./../../reactor-netty-examples/src/main/java/reactor/netty/examples/documentation/http/server/channeloptions/Application.java
 
@@ -1935,11 +1775,11 @@ public class Application {
 }
 ```
 
-See [TCP Server](https://projectreactor.io/docs/netty/release/reference/index.html#tcp-server) for more detail about TCP-level configuration.
+有关TCP级别配置的更多详细信息，请参见TCP Server。
 
 #### 5.5.1. Wire Logger
 
-`Reactor Netty` provides wire logging for when you need to inspect the traffic between the peers. By default, wire logging is disabled. To enable it, you must set the logger `reactor.netty.http.server.HttpServer` level to `DEBUG` and apply the following configuration:
+当您需要检查对等方之间的流量时，Reactor Netty提供了线路日志记录。默认情况下，禁用有线日志记录。要启用它，必须将记录器react.netty.http.server.HttpServer级别设置为DEBUG并应用以下配置：
 
 ./../../reactor-netty-examples/src/main/java/reactor/netty/examples/documentation/http/server/wiretap/Application.java
 
@@ -1961,15 +1801,11 @@ public class Application {
 }
 ```
 
-|      | Enables the wire logging |
-| ---- | ------------------------ |
-|      |                          |
-
 ### 5.6. SSL and TLS
 
-When you need SSL or TLS, you can apply the configuration shown in the next example. By default, if `OpenSSL` is available, [`SslProvider.OPENSSL`](https://netty.io/4.1/api/io/netty/handler/ssl/SslProvider.html#OPENSSL) provider is used as a provider. Otherwise [`SslProvider.JDK`](https://netty.io/4.1/api/io/netty/handler/ssl/SslProvider.html#JDK) is used. You can switch the provider by using [`SslContextBuilder`](https://netty.io/4.1/api/io/netty/handler/ssl/SslContextBuilder.html#sslProvider-io.netty.handler.ssl.SslProvider-) or by setting `-Dio.netty.handler.ssl.noOpenSsl=true`.
+当需要SSL或TLS时，可以应用下一个示例中显示的配置。默认情况下，如果OpenSSL可用，则将SslProvider.OPENSSL提供程序用作提供程序。否则，将使用SslProvider.JDK。您可以通过使用SslContextBuilder或通过设置-Dio.netty.handler.ssl.noOpenSsl = true来切换提供程序。
 
-The following example uses `SslContextBuilder`:
+以下示例使用SslContextBuilder：
 
 ./../../reactor-netty-examples/src/main/java/reactor/netty/examples/documentation/http/server/security/Application.java
 
@@ -2000,9 +1836,9 @@ public class Application {
 
 #### 5.6.1. Server Name Indication
 
-You can configure the `HTTP` server with multiple `SslContext` mapped to a specific domain. An exact domain name or a domain name containing a wildcard can be used when configuring the `SNI` mapping.
+您可以为HTTP服务器配置多个映射到特定域的SslContext。配置SNI映射时，可以使用确切的域名或包含通配符的域名。
 
-The following example uses a domain name containing a wildcard:
+以下示例使用包含通配符的域名：
 
 ./../../reactor-netty-examples/src/main/java/reactor/netty/examples/documentation/http/server/sni/Application.java
 
@@ -2041,11 +1877,11 @@ public class Application {
 
 ### 5.7. HTTP Access Log
 
-The current logging support provides only the [Common Log Format](https://en.wikipedia.org/wiki/Common_Log_Format).
+当前的日志支持仅提供“通用日志格式”。
 
-You can use `-Dreactor.netty.http.server.accessLogEnabled=true` to enable the `HTTP` access log. By default, it is disabled.
+您可以使用-Dreactor.netty.http.server.accessLogEnabled = true启用HTTP访问日志。默认情况下，它是禁用的。
 
-You can use the following configuration (for Logback or similar logging frameworks) to have a separate `HTTP` access log file:
+您可以使用以下配置（用于Logback或类似的日志记录框架）来拥有单独的HTTP访问日志文件：
 
 ```xml
 <appender name="accessLog" class="ch.qos.logback.core.FileAppender">
@@ -2065,13 +1901,9 @@ You can use the following configuration (for Logback or similar logging framewor
 
 ### 5.8. HTTP/2
 
-By default, the `HTTP` server supports `HTTP/1.1`. If you need `HTTP/2`, you can get it through configuration. In addition to the protocol configuration, if you need `H2` but not `H2C (cleartext)`, you must also configure SSL.
+默认情况下，HTTP服务器支持HTTP / 1.1。如果需要HTTP / 2，则可以通过配置获取它。除了协议配置之外，如果您需要H2而不是H2C（明文），则还必须配置SSL。
 
-|      | As Application-Layer Protocol Negotiation (ALPN) is not supported “out-of-the-box” by JDK8 (although some vendors backported ALPN to JDK8), you need an additional dependency to a native library that supports it — for example, [`netty-tcnative-boringssl-static`](https://netty.io/wiki/forked-tomcat-native.html). |
-| ---- | ------------------------------------------------------------ |
-|      |                                                              |
-
-The following listing presents a simple `H2` example:
+以下清单提供了一个简单的H2示例：
 
 ./../../reactor-netty-examples/src/main/java/reactor/netty/examples/documentation/http/server/http2/H2Application.java
 
@@ -2105,11 +1937,7 @@ public class H2Application {
 }
 ```
 
-|      | Configures the server to support only `HTTP/2` |
-| ---- | ---------------------------------------------- |
-|      | Configures `SSL`                               |
-
-The application should now behave as follows:
+现在，应用程序的行为应如下所示：
 
 ```bash
 $ curl --http2 https://localhost:8080 -i
@@ -2118,7 +1946,7 @@ HTTP/2 200
 hello
 ```
 
-The following listing presents a simple `H2C` example:
+以下清单提供了一个简单的H2C示例：
 
 ./../../reactor-netty-examples/src/main/java/reactor/netty/examples/documentation/http/server/http2/H2CApplication.java
 
@@ -2144,7 +1972,7 @@ public class H2CApplication {
 }
 ```
 
-The application should now behave as follows:
+现在，应用程序的行为应如下所示：
 
 ```bash
 $ curl --http2-prior-knowledge http://localhost:8080 -i
@@ -2191,9 +2019,7 @@ public enum HttpProtocol {
 
 ### 5.9. Metrics
 
-The HTTP server supports built-in integration with [`Micrometer`](https://micrometer.io/). It exposes all metrics with a prefix of `reactor.netty.http.server`.
-
-The following table provides information for the HTTP server metrics:
+HTTP服务器支持与Micrometer的内置集成。它使用前缀react..netty.http.server公开所有度量。
 
 | metric name                                  | type                | description                           |
 | :------------------------------------------- | :------------------ | :------------------------------------ |
@@ -2220,7 +2046,7 @@ These additional metrics are also available:
 | reactor.netty.bytebuf.allocator.used.normal.cache.size  | Gauge | The size of the normal cache (when `PooledByteBufAllocator`) |
 | reactor.netty.bytebuf.allocator.used.chunk.size         | Gauge | The chunk size for an arena (when `PooledByteBufAllocator`)  |
 
-The following example enables that integration:
+以下示例启用了该集成：
 
 ./../../reactor-netty-examples/src/main/java/reactor/netty/examples/documentation/http/server/metrics/Application.java
 
@@ -2262,20 +2088,7 @@ public class Application {
 }
 ```
 
-|      | Applies upper limit for the meters with `URI` tag            |
-| ---- | ------------------------------------------------------------ |
-|      | Templated URIs will be used as an URI tag value when possible |
-|      | Enables the built-in integration with Micrometer             |
-
-|      | In order to avoid a memory and CPU overhead of the enabled metrics, it is important to convert the real URIs to templated URIs when possible. Without a conversion to a template-like form, each distinct URI leads to the creation of a distinct tag, which takes a lot of memory for the metrics. |
-| ---- | ------------------------------------------------------------ |
-|      |                                                              |
-
-|      | Always apply an upper limit for the meters with URI tags. Configuring an upper limit on the number of meters can help in cases when the real URIs cannot be templated. You can find more information at [`maximumAllowableTags`](https://micrometer.io/docs/concepts#_denyaccept_meters). |
-| ---- | ------------------------------------------------------------ |
-|      |                                                              |
-
-When HTTP server metrics are needed for an integration with a system other than `Micrometer` or you want to provide your own integration with `Micrometer`, you can provide your own metrics recorder, as follows:
+当需要与Micrometer以外的系统集成时需要HTTP服务器指标，或者您想与Micrometer提供自己的集成时，可以提供自己的指标记录器，如下所示：
 
 ./../../reactor-netty-examples/src/main/java/reactor/netty/examples/documentation/http/server/metrics/custom/Application.java
 
@@ -2306,15 +2119,11 @@ public class Application {
 	}
 ```
 
-|      | Enables HTTP server metrics and provides [`HttpServerMetricsRecorder`](https://projectreactor.io/docs/netty/release/api/reactor/netty/http/server/HttpServerMetricsRecorder.html) implementation. |
-| ---- | ------------------------------------------------------------ |
-|      |                                                              |
-
 ### 5.10. Unix Domain Sockets
 
-The `HTTP` server supports Unix Domain Sockets (UDS) when native transport is in use.
+使用本机传输时，HTTP服务器支持Unix域套接字（UDS）。
 
-The following example shows how to use UDS support:
+以下示例显示了如何使用UDS支持：
 
 ./../../reactor-netty-examples/src/main/java/reactor/netty/examples/documentation/http/server/uds/Application.java
 
@@ -2337,19 +2146,13 @@ public class Application {
 }
 ```
 
-|      | Specifies `DomainSocketAddress` that will be used |
-| ---- | ------------------------------------------------- |
-|      |                                                   |
-
-[Suggest Edit](https://github.com/reactor/reactor-netty/edit/master/docs/asciidoc/http-server.adoc) to "[HTTP Server](https://projectreactor.io/docs/netty/release/reference/index.html#http-server)"
-
 ## 6. HTTP Client
 
-Reactor Netty provides the easy-to-use and easy-to-configure [`HttpClient`](https://projectreactor.io/docs/netty/release/api/reactor/netty/http/client/HttpClient.html). It hides most of the Netty functionality that is required to create a `HTTP` client and adds Reactive Streams backpressure.
+Reactor Netty提供了易于使用和易于配置的HttpClient。它隐藏了创建HTTP客户端所需的大多数Netty功能，并增加了Reactive Streams背压。
 
 ### 6.1. Connect
 
-To connect the `HTTP` client to a given `HTTP` endpoint, you must create and configure a [`HttpClient`](https://projectreactor.io/docs/netty/release/api/reactor/netty/http/client/HttpClient.html) instance. The following example shows how to do so:
+要将HTTP客户端连接到给定的HTTP端点，必须创建并配置HttpClient实例。以下示例显示了如何执行此操作：
 
 ./../../reactor-netty-examples/src/main/java/reactor/netty/examples/documentation/http/client/connect/Application.java
 
@@ -2369,13 +2172,7 @@ public class Application {
 }
 ```
 
-|      | Creates a [HttpClient](https://projectreactor.io/docs/netty/release/api/reactor/netty/http/client/HttpClient.html) instance ready for configuring. |
-| ---- | ------------------------------------------------------------ |
-|      | Specifies that `GET` method will be used.                    |
-|      | Specifies the path.                                          |
-|      | Obtains the response [HttpClientResponse](https://projectreactor.io/docs/netty/release/api/reactor/netty/http/client/HttpClientResponse.html) |
-
-The following example uses `WebSocket`:
+以下示例使用WebSocket：
 
 ./../../reactor-netty-examples/src/main/java/reactor/netty/examples/documentation/http/client/websocket/Application.java
 
@@ -2409,7 +2206,7 @@ public class Application {
 
 #### 6.1.1. Host and Port
 
-In order to connect to a specific host and port, you can apply the following configuration to the `HTTP` client:
+为了连接到特定的主机和端口，可以将以下配置应用于HTTP客户端：
 
 ./../../reactor-netty-examples/src/main/java/reactor/netty/examples/documentation/http/client/address/Application.java
 
@@ -2432,13 +2229,9 @@ public class Application {
 }
 ```
 
-|      | Configures the `HTTP` host |
-| ---- | -------------------------- |
-|      | Configures the `HTTP` port |
-
 ### 6.2. Writing Data
 
-To send data to a given `HTTP` endpoint, you can provide a `Publisher` by using the [`send(Publisher)`](https://projectreactor.io/docs/netty/release/api/reactor/netty/http/client/HttpClient.RequestSender.html#send-org.reactivestreams.Publisher-) method. By default, `Transfer-Encoding: chunked` is applied for those `HTTP` methods for which a request body is expected. `Content-Length` provided through request headers disables `Transfer-Encoding: chunked`, if necessary. The following example sends `hello`:
+要将数据发送到给定的HTTP端点，可以使用send（Publisher）方法提供一个Publisher。默认情况下，Transfer-Encoding：chunked适用于预期请求正文的那些HTTP方法。通过请求标头提供的Content-Length会禁用Transfer-Encoding：分块（如有必要）。以下示例发送hello：
 
 ./../../reactor-netty-examples/src/main/java/reactor/netty/examples/documentation/http/client/send/Application.java
 
@@ -2461,13 +2254,9 @@ public class Application {
 }
 ```
 
-|      | Sends a `hello` string to the given `HTTP` endpoint |
-| ---- | --------------------------------------------------- |
-|      |                                                     |
-
 #### 6.2.1. Adding Headers and Other Metadata
 
-When sending data to a given `HTTP` endpoint, you may need to send additional headers, cookies and other metadata. You can use the following configuration to do so:
+将数据发送到给定的HTTP端点时，您可能需要发送其他标头，cookie和其他元数据。您可以使用以下配置来这样做：
 
 ./../../reactor-netty-examples/src/main/java/reactor/netty/examples/documentation/http/client/send/headers/Application.java
 
@@ -2493,13 +2282,9 @@ public class Application {
 }
 ```
 
-|      | Disables `Transfer-Encoding: chunked` and provides `Content-Length` header. |
-| ---- | ------------------------------------------------------------ |
-|      |                                                              |
-
 ##### Compression
 
-You can enable compression on the `HTTP` client, which means the request header `Accept-Encoding` is added to the request headers. The following example shows how to do so:
+您可以在HTTP客户端上启用压缩，这意味着将请求标头Accept-Encoding添加到了请求标头中。以下示例显示了如何执行此操作：
 
 ./../../reactor-netty-examples/src/main/java/reactor/netty/examples/documentation/http/client/compression/Application.java
 
@@ -2523,14 +2308,14 @@ public class Application {
 
 ##### Auto-Redirect Support
 
-You can configure the `HTTP` client to enable auto-redirect support.
+您可以配置HTTP客户端以启用自动重定向支持。
 
-Reactor Netty provides two different strategies for auto-redirect support:
+Reactor Netty提供了两种不同的自动重定向支持策略：
 
-- `followRedirect(boolean)`: Specifies whether HTTP auto-redirect support is enabled for statuses `301|302|307|308`.
-- `followRedirect(BiPredicate<HttpClientRequest, HttpClientResponse>)`: Enables auto-redirect support if the supplied predicate matches.
+- followRedirect（boolean）：指定是否为状态301 | 302 | 307 | 308启用HTTP自动重定向支持。
+- followRedirect（BiPredicate ）：如果提供的谓词匹配，则启用自动重定向支持。
 
-The following example uses `followRedirect(true)`:
+以下示例使用followRedirect（true）：
 
 ./../../reactor-netty-examples/src/main/java/reactor/netty/examples/documentation/http/client/redirect/Application.java
 
@@ -2554,7 +2339,7 @@ public class Application {
 
 ### 6.3. Consuming Data
 
-To receive data from a given `HTTP` endpoint, you can use one of the methods from [`HttpClient.ResponseReceiver`](https://projectreactor.io/docs/netty/release/api/reactor/netty/http/client/HttpClient.ResponseReceiver.html). The following example uses the `responseContent` method:
+要从给定的HTTP端点接收数据，可以使用HttpClient.ResponseReceiver中的一种方法。以下示例使用responseContent方法：
 
 ./../../reactor-netty-examples/src/main/java/reactor/netty/examples/documentation/http/client/read/Application.java
 
@@ -2576,14 +2361,9 @@ public class Application {
 }
 ```
 
-|      | Receives data from a given `HTTP` endpoint |
-| ---- | ------------------------------------------ |
-|      | Aggregates the data                        |
-|      | Transforms the data as string              |
-
 #### 6.3.1. Reading Headers and Other Metadata
 
-When receiving data from a given `HTTP` endpoint, you can check response headers, status code, and other metadata. You can obtain this additional metadata by using [`HttpClientResponse`](https://projectreactor.io/docs/netty/release/api/reactor/netty/http/client/HttpClientResponse.html). The following example shows how to do so.
+从给定的HTTP端点接收数据时，您可以检查响应标头，状态代码和其他元数据。您可以使用HttpClientResponse获得此其他元数据。以下示例显示了如何执行此操作。
 
 ./../../reactor-netty-examples/src/main/java/reactor/netty/examples/documentation/http/client/read/status/Application.java
 
@@ -2606,21 +2386,17 @@ public class Application {
 }
 ```
 
-|      | Obtains the status code. |
-| ---- | ------------------------ |
-|      |                          |
-
 #### 6.3.2. HTTP Response Decoder
 
-By default, `Netty` configures some restrictions for the incoming responses, such as:
+默认情况下，Netty为传入的响应配置一些限制，例如：
 
-- The maximum length of the initial line.
-- The maximum length of all headers.
-- The maximum length of the content or each chunk.
+- 初始行的最大长度。
+- 请求头的最大长度。
+- 内容或每个块的最大长度。
 
-For more information, see [`HttpResponseDecoder`](https://netty.io/4.1/api/io/netty/handler/codec/http/HttpResponseDecoder.html)
+有关更多信息，请参见HttpResponseDecoder。
 
-By default, the `HTTP` client is configured with the following settings:
+默认情况下，HTTP客户端配置有以下设置：
 
 ./../../reactor-netty-http/src/main/java/reactor/netty/http/HttpDecoderSpec.java
 
@@ -2646,7 +2422,7 @@ public static final boolean DEFAULT_PARSE_HTTP_AFTER_CONNECT_REQUEST = false;
 public static final int DEFAULT_H2C_MAX_CONTENT_LENGTH = 65536;
 ```
 
-When you need to change these default settings, you can configure the `HTTP` client as follows:
+当需要更改这些默认设置时，可以按以下方式配置HTTP客户端：
 
 ./../../reactor-netty-examples/src/main/java/reactor/netty/examples/documentation/http/client/responsedecoder/Application.java
 
@@ -2670,13 +2446,9 @@ public class Application {
 }
 ```
 
-|      | The maximum length of all headers will be `16384`. When this value is exceeded, a [TooLongFrameException](https://netty.io/4.1/api/io/netty/handler/codec/TooLongFrameException.html) is raised. |
-| ---- | ------------------------------------------------------------ |
-|      |                                                              |
-
 ### 6.4. TCP-level Configuration
 
-When you need configurations on a TCP level, you can use the following snippet to extend the default `TCP` client configuration (add an option, bind address etc.):
+
 
 ./../../reactor-netty-examples/src/main/java/reactor/netty/examples/documentation/http/client/channeloptions/Application.java
 
@@ -2706,11 +2478,9 @@ public class Application {
 }
 ```
 
-See [TCP Client](https://projectreactor.io/docs/netty/release/reference/index.html#tcp-client) for more about `TCP` level configurations.
-
 #### 6.4.1. Wire Logger
 
-Reactor Netty provides wire logging for when the traffic between the peers needs to be inspected. By default, wire logging is disabled. To enable it, you must set the logger `reactor.netty.http.client.HttpClient` level to `DEBUG` and apply the following configuration:
+当需要检查对等点之间的流量时，Reactor Netty提供有线记录。默认情况下，禁用有线日志记录。要启用它，必须将记录器react.netty.http.client.HttpClient级别设置为DEBUG并应用以下配置：
 
 ./../../reactor-netty-examples/src/main/java/reactor/netty/examples/documentation/http/client/wiretap/Application.java
 
@@ -2732,13 +2502,9 @@ public class Application {
 }
 ```
 
-|      | Enables the wire logging |
-| ---- | ------------------------ |
-|      |                          |
-
 ### 6.5. SSL and TLS
 
-When you need SSL or TLS, you can apply the configuration shown in the next example. By default, if `OpenSSL` is available, a [`SslProvider.OPENSSL`](https://netty.io/4.1/api/io/netty/handler/ssl/SslProvider.html#OPENSSL) provider is used as a provider. Otherwise a [SslProvider.JDK](https://netty.io/4.1/api/io/netty/handler/ssl/SslProvider.html#JDK) provider is used You can switch the provider by using [`SslContextBuilder`](https://netty.io/4.1/api/io/netty/handler/ssl/SslContextBuilder.html#sslProvider-io.netty.handler.ssl.SslProvider-) or by setting `-Dio.netty.handler.ssl.noOpenSsl=true`. The following example uses `SslContextBuilder`:
+当需要SSL或TLS时，可以应用下一个示例中显示的配置。默认情况下，如果OpenSSL可用，则将SslProvider.OPENSSL提供程序用作提供程序。否则，将使用SslProvider.JDK提供程序。您可以通过使用SslContextBuilder或通过设置-Dio.netty.handler.ssl.noOpenSsl = true来切换提供程序。以下示例使用SslContextBuilder：
 
 ./../../reactor-netty-examples/src/main/java/reactor/netty/examples/documentation/http/client/security/Application.java
 
@@ -2765,7 +2531,7 @@ public class Application {
 
 #### 6.5.1. Server Name Indication
 
-By default, the `HTTP` client sends the remote host name as `SNI` server name. When you need to change this default setting, you can configure the `HTTP` client as follows:
+默认情况下，HTTP客户端将远程主机名作为SNI服务器名发送。当需要更改此默认设置时，可以按以下方式配置HTTP客户端：
 
 ./../../reactor-netty-examples/src/main/java/reactor/netty/examples/documentation/http/client/sni/Application.java
 
@@ -2796,17 +2562,13 @@ public class Application {
 
 ### 6.6. Retry Strategies
 
-By default, the `HTTP` client retries the request once if it was aborted on the `TCP` level.
+默认情况下，如果HTTP客户端在TCP级别中止，则HTTP客户端将重试该请求一次。
 
 ### 6.7. HTTP/2
 
-By default, the `HTTP` client supports `HTTP/1.1`. If you need `HTTP/2`, you can get it through configuration. In addition to the protocol configuration, if you need `H2` but not `H2C (cleartext)`, you must also configure SSL.
+默认情况下，HTTP客户端支持HTTP / 1.1。如果需要HTTP / 2，则可以通过配置获取它。除了协议配置之外，如果您需要H2而不是H2C（明文），则还必须配置SSL。
 
-|      | As Application-Layer Protocol Negotiation (ALPN) is not supported “out-of-the-box” by JDK8 (although some vendors backported ALPN to JDK8), you need an additional dependency to a native library that supports it — for example, [`netty-tcnative-boringssl-static`](https://netty.io/wiki/forked-tomcat-native.html). |
-| ---- | ------------------------------------------------------------ |
-|      |                                                              |
-
-The following listing presents a simple `H2` example:
+以下清单提供了一个简单的“ H2”示例：
 
 ./../../reactor-netty-examples/src/main/java/reactor/netty/examples/documentation/http/client/http2/H2Application.java
 
@@ -2838,11 +2600,7 @@ public class H2Application {
 }
 ```
 
-|      | Configures the client to support only `HTTP/2` |
-| ---- | ---------------------------------------------- |
-|      | Configures `SSL`                               |
-
-The following listing presents a simple `H2C` example:
+以下清单展示了一个简单的“ H2C”示例：
 
 ./../../reactor-netty-examples/src/main/java/reactor/netty/examples/documentation/http/client/http2/H2CApplication.java
 
@@ -2911,9 +2669,7 @@ public enum HttpProtocol {
 
 ### 6.8. Metrics
 
-The HTTP client supports built-in integration with [`Micrometer`](https://micrometer.io/). It exposes all metrics with a prefix of `reactor.netty.http.client`.
-
-The following table provides information for the HTTP client metrics:
+HTTP客户端支持与Micrometer的内置集成。它使用前缀react.netty.http.client公开所有度量。
 
 | metric name                                  | type                | description                                     |
 | :------------------------------------------- | :------------------ | :---------------------------------------------- |
@@ -2952,7 +2708,7 @@ Pooled `ConnectionProvider` metrics
 | reactor.netty.bytebuf.allocator.used.normal.cache.size  | Gauge | The size of the normal cache (when `PooledByteBufAllocator`) |
 | reactor.netty.bytebuf.allocator.used.chunk.size         | Gauge | The chunk size for an arena (when `PooledByteBufAllocator`)  |
 
-The following example enables that integration:
+以下示例启用了该集成：
 
 ./../../reactor-netty-examples/src/main/java/reactor/netty/examples/documentation/http/client/metrics/Application.java
 
@@ -2993,20 +2749,7 @@ public class Application {
 }
 ```
 
-|      | Applies upper limit for the meters with `URI` tag            |
-| ---- | ------------------------------------------------------------ |
-|      | Templated URIs will be used as an URI tag value when possible |
-|      | Enables the built-in integration with Micrometer             |
-
-|      | In order to avoid a memory and CPU overhead of the enabled metrics, it is important to convert the real URIs to templated URIs when possible. Without a conversion to a template-like form, each distinct URI leads to the creation of a distinct tag, which takes a lot of memory for the metrics. |
-| ---- | ------------------------------------------------------------ |
-|      |                                                              |
-
-|      | Always apply an upper limit for the meters with URI tags. Configuring an upper limit on the number of meters can help in cases when the real URIs cannot be templated. You can find more information at [`maximumAllowableTags`](https://micrometer.io/docs/concepts#_denyaccept_meters). |
-| ---- | ------------------------------------------------------------ |
-|      |                                                              |
-
-When HTTP client metrics are needed for an integration with a system other than `Micrometer` or you want to provide your own integration with `Micrometer`, you can provide your own metrics recorder, as follows:
+如果要与Micrometer以外的系统进行集成时需要HTTP客户端指标，或者您想与自己的Micrometer提供集成，则可以提供自己的指标记录器，如下所示：
 
 ./../../reactor-netty-examples/src/main/java/reactor/netty/examples/documentation/http/client/metrics/custom/Application.java
 
@@ -3031,15 +2774,11 @@ public class Application {
 	}
 ```
 
-|      | Enables HTTP client metrics and provides [`HttpClientMetricsRecorder`](https://projectreactor.io/docs/netty/release/api/reactor/netty/http/client/HttpClientMetricsRecorder.html) implementation. |
-| ---- | ------------------------------------------------------------ |
-|      |                                                              |
-
 ### 6.9. Unix Domain Sockets
 
-The `HTTP` client supports Unix Domain Sockets (UDS) when native transport is in use.
+使用本地传输时，HTTP客户端支持Unix域套接字（UDS）。
 
-The following example shows how to use UDS support:
+以下示例显示了如何使用UDS支持：
 
 ./../../reactor-netty-examples/src/main/java/reactor/netty/examples/documentation/http/client/uds/Application.java
 
@@ -3062,19 +2801,13 @@ public class Application {
 }
 ```
 
-|      | Specifies `DomainSocketAddress` that will be used |
-| ---- | ------------------------------------------------- |
-|      |                                                   |
-
-[Suggest Edit](https://github.com/reactor/reactor-netty/edit/master/docs/asciidoc/http-client.adoc) to "[HTTP Client](https://projectreactor.io/docs/netty/release/reference/index.html#http-client)"
-
 ## 7. UDP Server
 
-Reactor Netty provides the easy-to-use and easy-to-configure [`UdpServer`](https://projectreactor.io/docs/netty/release/api/reactor/netty/udp/UdpServer.html). It hides most of the Netty functionality that is required to create a `UDP` server and adds `Reactive Streams` backpressure.
+Reactor Netty提供了易于使用和易于配置的UdpServer。它隐藏了创建UDP服务器所需的大多数Netty功能，并增加了Reactive Streams背压。
 
 ### 7.1. Starting and Stopping
 
-To start a UDP server, a [UdpServer](https://projectreactor.io/docs/netty/release/api/reactor/netty/udp/UdpServer.html) instance has to be created and configured. By default, the host is configured to be `localhost` and the port is `12012`. The following example shows how to create and start a UDP server:
+要启动UDP服务器，必须创建和配置UdpServer实例。默认情况下，主机配置为localhost，端口配置为12012。以下示例显示如何创建和启动UDP服务器：
 
 ./../../reactor-netty-examples/src/main/java/reactor/netty/examples/documentation/udp/server/create/Application.java
 
@@ -3096,15 +2829,11 @@ public class Application {
 }
 ```
 
-|      | Creates a [`UdpServer`](https://projectreactor.io/docs/netty/release/api/reactor/netty/udp/UdpServer.html) instance that is ready for configuring. |
-| ---- | ------------------------------------------------------------ |
-|      | Starts the server in a blocking fashion and waits for it to finish initializing. |
-
-The returned [`Connection`](https://projectreactor.io/docs/netty/release/api/reactor/netty/Connection.html) offers a simple server API, including [`disposeNow()`](https://projectreactor.io/docs/netty/release/api/reactor/netty/DisposableChannel.html#disposeNow-java.time.Duration-), which shuts the server down in a blocking fashion.
+返回的Connection提供了一个简单的服务器API，包括disposeNow（），该API以阻塞的方式关闭了服务器。
 
 #### 7.1.1. Host and Port
 
-In order to serve on a specific host and port, you can apply the following configuration to the `UDP` server:
+为了在特定主机和端口上提供服务，可以将以下配置应用于UDP服务器：
 
 ./../../reactor-netty-examples/src/main/java/reactor/netty/examples/documentation/udp/server/address/Application.java
 
@@ -3128,13 +2857,9 @@ public class Application {
 }
 ```
 
-|      | Configures the `UDP` server host |
-| ---- | -------------------------------- |
-|      | Configures the `UDP` server port |
-
 ### 7.2. Writing Data
 
-To send data to the remote peer, you must attach an I/O handler. The I/O handler has access to [`UdpOutbound`](https://projectreactor.io/docs/netty/release/api/reactor/netty/udp/UdpOutbound.html), to be able to write data. The following example shows how to send `hello`:
+要将数据发送到远程对等方，必须附加I / O处理程序。 I / O处理程序有权访问UdpOutbound，以便能够写入数据。以下示例显示如何发送hello：
 
 ./../../reactor-netty-examples/src/main/java/reactor/netty/examples/documentation/udp/server/send/Application.java
 
@@ -3175,13 +2900,9 @@ public class Application {
 }
 ```
 
-|      | Sends a `hello` string to the remote peer |
-| ---- | ----------------------------------------- |
-|      |                                           |
-
 ### 7.3. Consuming Data
 
-To receive data from a remote peer, you must attach an I/O handler. The I/O handler has access to [`UdpInbound`](https://projectreactor.io/docs/netty/release/api/reactor/netty/udp/UdpInbound.html), to be able to read data. The following example shows how to consume data:
+要从远程对等方接收数据，必须附加一个I / O处理程序。 I / O处理程序有权访问UdpInbound，以便能够读取数据。以下示例显示了如何使用数据：
 
 ./../../reactor-netty-examples/src/main/java/reactor/netty/examples/documentation/udp/server/read/Application.java
 
@@ -3218,19 +2939,15 @@ public class Application {
 }
 ```
 
-|      | Receives data from the remote peer |
-| ---- | ---------------------------------- |
-|      |                                    |
-
 ### 7.4. Lifecycle Callbacks
 
-The following lifecycle callbacks are provided to let you extend the `UDP` server:
+提供以下生命周期回调，以便您扩展UDP服务器：
 
-- `doOnBind`: Invoked when the server channel is about to bind.
-- `doOnBound`: Invoked when the server channel is bound.
-- `doOnUnbound`: Invoked when the server channel is unbound.
+- `doOnBind`:当服务器通道即将绑定时调用。
+- doOnBound：绑定服务器通道时调用。
+- doOnUnbound：当服务器通道未绑定时调用。
 
-The following example uses the `doOnBound` method:
+以下示例使用doOnBound方法：
 
 ./../../reactor-netty-examples/src/main/java/reactor/netty/examples/documentation/udp/server/lifecycle/Application.java
 
@@ -3254,13 +2971,9 @@ public class Application {
 }
 ```
 
-|      | `Netty` pipeline is extended with `LineBasedFrameDecoder` when the server channel is bound. |
-| ---- | ------------------------------------------------------------ |
-|      |                                                              |
-
 ### 7.5. Connection Configuration
 
-This section describes three kinds of configuration that you can use at the UDP level:
+本节描述了可以在UDP级别上使用的三种配置：
 
 - [Channel Options](https://projectreactor.io/docs/netty/release/reference/index.html#server-udp-connection-configurations-channel-options)
 - [Wire Logger](https://projectreactor.io/docs/netty/release/reference/index.html#server-udp-connection-configurations-wire-logger)
@@ -3268,19 +2981,19 @@ This section describes three kinds of configuration that you can use at the UDP 
 
 #### 7.5.1. Channel Options
 
-By default, the `UDP` server is configured with the following options:
+默认情况下，UDP服务器配置有以下选项：
 
 ./../../reactor-netty-core/src/main/java/reactor/netty/udp/UdpServerBind.java
 
 ```java
 UdpServerBind() {
-	this.config = new UdpServerConfig(
-			Collections.singletonMap(ChannelOption.AUTO_READ, false),
-			() -> new InetSocketAddress(NetUtil.LOCALHOST, DEFAULT_PORT));
+  this.config = new UdpServerConfig(
+    Collections.singletonMap(ChannelOption.AUTO_READ, false),
+    () -> new InetSocketAddress(NetUtil.LOCALHOST, DEFAULT_PORT));
 }
 ```
 
-If you need additional options or need to change the current options, you can apply the following configuration:
+如果需要其他选项或需要更改当前选项，则可以应用以下配置：
 
 ./../../reactor-netty-examples/src/main/java/reactor/netty/examples/documentation/udp/server/channeloptions/Application.java
 
@@ -3304,14 +3017,14 @@ public class Application {
 }
 ```
 
-For more information about Netty channel options, see the following links:
+有关Netty频道选项的更多信息，请参见以下链接：
 
 - [`ChannelOption`](https://netty.io/4.1/api/io/netty/channel/ChannelOption.html)
 - [Socket Options](https://docs.oracle.com/javase/8/docs/technotes/guides/net/socketOpt.html)
 
 #### 7.5.2. Wire Logger
 
-Reactor Netty provides wire logging for when the traffic between the peers has to be inspected. By default, wire logging is disabled. To enable it, you must set the logger `reactor.netty.udp.UdpServer` level to `DEBUG` and apply the following configuration:
+当需要检查对等点之间的流量时，Reactor Netty提供有线记录。默认情况下，禁用有线日志记录。要启用它，您必须将记录器react.netty.udp.UdpServer级别设置为DEBUG并应用以下配置：
 
 ./../../reactor-netty-examples/src/main/java/reactor/netty/examples/documentation/udp/server/wiretap/Application.java
 
@@ -3334,15 +3047,11 @@ public class Application {
 }
 ```
 
-|      | Enables the wire logging |
-| ---- | ------------------------ |
-|      |                          |
-
 #### 7.5.3. Event Loop Group
 
-By default, the UDP server uses “Event Loop Group,” where the number of the worker threads equals the number of processors available to the runtime on initialization (but with a minimum value of 4). When you need a different configuration, you can use one of the [LoopResource](https://projectreactor.io/docs/netty/release/api/reactor/netty/resources/LoopResources.html)`#create` methods.
+默认情况下，UDP服务器使用“事件循环组”，其中工作线程数等于初始化时可用于运行时的处理器数（但最小值为4）。需要其他配置时，可以使用LoopResource＃create方法之一。
 
-The default configuration for the “Event Loop Group” is the following:
+“事件循环组”的默认配置如下：
 
 ./../../reactor-netty-core/src/main/java/reactor/netty/ReactorNetty.java
 
@@ -3378,7 +3087,7 @@ public static final String SHUTDOWN_TIMEOUT = "reactor.netty.ioShutdownTimeout";
  */
 ```
 
-If you need changes to these settings, you can apply the following configuration:
+如果需要更改这些设置，则可以应用以下配置：
 
 ./../../reactor-netty-examples/src/main/java/reactor/netty/examples/documentation/udp/server/eventloop/Application.java
 
@@ -3406,9 +3115,9 @@ public class Application {
 
 ### 7.6. Metrics
 
-The UDP server supports built-in integration with [`Micrometer`](https://micrometer.io/). It exposes all metrics with a prefix of `reactor.netty.udp.server`.
+UDP服务器支持与Micrometer的内置集成。它使用前缀react.netty.udp.server公开所有度量。
 
-The following table provides information for the UDP server metrics:
+下表提供了有关UDP服务器指标的信息：
 
 | metric name                            | type                | description                           |
 | :------------------------------------- | :------------------ | :------------------------------------ |
@@ -3460,7 +3169,7 @@ public class Application {
 | ---- | ------------------------------------------------ |
 |      |                                                  |
 
-When UDP server metrics are needed for an integration with a system other than `Micrometer` or you want to provide your own integration with `Micrometer`, you can provide your own metrics recorder, as follows:
+如果要与Micrometer以外的系统集成需要UDP服务器度量标准，或者要与Micrometer提供自己的集成，则可以提供自己的度量记录器，如下所示：
 
 ./../../reactor-netty-examples/src/main/java/reactor/netty/examples/documentation/udp/server/metrics/custom/Application.java
 
@@ -3493,11 +3202,11 @@ public class Application {
 
 ## 8. UDP Client
 
-Reactor Netty provides the easy-to-use and easy-to-configure [`UdpClient`](https://projectreactor.io/docs/netty/release/api/reactor/netty/udp/UdpClient.html). It hides most of the Netty functionality that is required to create a `UDP` client and adds Reactive Streams backpressure.
+Reactor Netty提供了易于使用和易于配置的UdpClient。它隐藏了创建UDP客户端所需的大多数Netty功能，并增加了Reactive Streams背压。
 
 ### 8.1. Connecting and Disconnecting
 
-To connect the UDP client to a given endpoint, you must create and configure a [UdpClient](https://projectreactor.io/docs/netty/release/api/reactor/netty/udp/UdpClient.html) instance. By default, the host is configured for `localhost` and the port is `12012`. The following example shows how to create and connect a UDP client:
+要将UDP客户端连接到给定的端点，必须创建并配置UdpClient实例。默认情况下，主机配置为localhost，端口为12012。以下示例显示如何创建和连接UDP客户端：
 
 ./../../reactor-netty-examples/src/main/java/reactor/netty/examples/documentation/udp/client/create/Application.java
 
@@ -3519,15 +3228,11 @@ public class Application {
 }
 ```
 
-|      | Creates a [`UdpClient`](https://projectreactor.io/docs/netty/release/api/reactor/netty/udp/UdpClient.html) instance that is ready for configuring. |
-| ---- | ------------------------------------------------------------ |
-|      | Connects the client in a blocking fashion and waits for it to finish initializing. |
-
-The returned [`Connection`](https://projectreactor.io/docs/netty/release/api/reactor/netty/Connection.html) offers a simple connection API, including [`disposeNow()`](https://projectreactor.io/docs/netty/release/api/reactor/netty/DisposableChannel.html#disposeNow-java.time.Duration-), which shuts the client down in a blocking fashion.
+返回的Connection提供了一个简单的连接API，包括disposeNow（），该API以阻塞的方式关闭了客户端。
 
 #### 8.1.1. Host and Port
 
-To connect to a specific `host` and `port`, you can apply the following configuration to the `UDP` client:
+要连接到特定的主机和端口，可以将以下配置应用于UDP客户端：
 
 ./../../reactor-netty-examples/src/main/java/reactor/netty/examples/documentation/udp/client/address/Application.java
 
@@ -3551,15 +3256,11 @@ public class Application {
 }
 ```
 
-|      | Configures the `host` to which this client should connect |
-| ---- | --------------------------------------------------------- |
-|      | Configures the `port` to which this client should connect |
-
 ### 8.2. Writing Data
 
-To send data to a given peer, you must attach an I/O handler. The I/O handler has access to [`UdpOutbound`](https://projectreactor.io/docs/netty/release/api/reactor/netty/udp/UdpOutbound.html), to be able to write data.
+要将数据发送到给定的对等方，必须附加I / O处理程序。 I / O处理程序有权访问UdpOutbound，以便能够写入数据。
 
-The following example shows how to send `hello`:
+以下示例显示如何发送hello：
 
 ./../../reactor-netty-examples/src/main/java/reactor/netty/examples/documentation/udp/client/send/Application.java
 
@@ -3592,7 +3293,7 @@ public class Application {
 
 ### 8.3. Consuming Data
 
-To receive data from a given peer, you must attach an I/O handler. The I/O handler has access to [`UdpInbound`](https://projectreactor.io/docs/netty/release/api/reactor/netty/udp/UdpInbound.html), to be able to read data. The following example shows how to consume data:
+要从给定的对等方接收数据，必须附加I / O处理程序。 I / O处理程序有权访问UdpInbound，以便能够读取数据。以下示例显示了如何使用数据：
 
 ./../../reactor-netty-examples/src/main/java/reactor/netty/examples/documentation/udp/client/read/Application.java
 
@@ -3617,19 +3318,15 @@ public class Application {
 }
 ```
 
-|      | Receives data from a given peer |
-| ---- | ------------------------------- |
-|      |                                 |
-
 ### 8.4. Lifecycle Callbacks
 
-The following lifecycle callbacks are provided to let you extend the `UDP` client:
+提供以下生命周期回调，以便您扩展UDP客户端：
 
-- `doOnConnect`: Invoked when the channel is about to connect.
-- `doOnConnected`: Invoked after the channel has been connected.
-- `doOnDisconnected`: Invoked after the channel has been disconnected.
+- doOnConnect：通道即将连接时调用。
+- doOnConnected：连接通道后调用。
+- doOnDisconnected：断开通道后调用。
 
-The following example uses the `doOnConnected` method:
+以下示例使用doOnConnected方法：
 
 ./../../reactor-netty-examples/src/main/java/reactor/netty/examples/documentation/udp/client/lifecycle/Application.java
 
@@ -3655,13 +3352,9 @@ public class Application {
 }
 ```
 
-|      | The Netty pipeline is extended with `LineBasedFrameDecoder` when the channel has been connected. |
-| ---- | ------------------------------------------------------------ |
-|      |                                                              |
-
 ### 8.5. Connection Configuration
 
-This section describes three kinds of configuration that you can use at the UDP level:
+本节描述了可以在UDP级别上使用的三种配置：
 
 - [Channel Options](https://projectreactor.io/docs/netty/release/reference/index.html#client-udp-connection-configurations-channel-options)
 - [Wire Logger](https://projectreactor.io/docs/netty/release/reference/index.html#client-udp-connection-configurations-wire-logger)
@@ -3669,7 +3362,7 @@ This section describes three kinds of configuration that you can use at the UDP 
 
 #### 8.5.1. Channel Options
 
-By default, the `UDP` client is configured with the following options:
+默认情况下，UDP客户端配置有以下选项：
 
 ./../../reactor-netty-core/src/main/java/reactor/netty/udp/UdpClientConnect.java
 
@@ -3682,7 +3375,7 @@ UdpClientConnect() {
 }
 ```
 
-If you need additional options or need to change the current options, you can apply the following configuration:
+如果需要其他选项或需要更改当前选项，则可以应用以下配置：
 
 ./../../reactor-netty-examples/src/main/java/reactor/netty/examples/documentation/udp/client/channeloptions/Application.java
 
@@ -3708,14 +3401,14 @@ public class Application {
 }
 ```
 
-You can find more about Netty channel options at the following links:
+您可以在以下链接中找到有关Netty频道选项的更多信息：
 
 - [`ChannelOption`](https://netty.io/4.1/api/io/netty/channel/ChannelOption.html)
 - [Socket Options](https://docs.oracle.com/javase/8/docs/technotes/guides/net/socketOpt.html)
 
 #### 8.5.2. Wire Logger
 
-Reactor Netty provides wire logging for when the traffic between the peers has to be inspected. By default, wire logging is disabled. To enable it, you must set the logger `reactor.netty.udp.UdpClient` level to `DEBUG` and apply the following configuration:
+当需要检查对等点之间的流量时，Reactor Netty提供有线记录。默认情况下，禁用有线日志记录。要启用它，必须将logger的反应堆.netty.udp.UdpClient级别设置为DEBUG并应用以下配置：
 
 ./../../reactor-netty-examples/src/main/java/reactor/netty/examples/documentation/udp/client/wiretap/Application.java
 
@@ -3740,15 +3433,11 @@ public class Application {
 }
 ```
 
-|      | Enables the wire logging |
-| ---- | ------------------------ |
-|      |                          |
-
 #### 8.5.3. Event Loop Group
 
-By default, the UDP client uses “Event Loop Group,” where the number of the worker threads equals the number of processors available to the runtime on initialization (but with a minimum value of 4). When you need a different configuration, you can use one of the [`LoopResources`](https://projectreactor.io/docs/netty/release/api/reactor/netty/resources/LoopResources.html)`#create` methods.
+缺省情况下，UDP客户端使用“事件循环组”，其中工作线程数等于初始化时可用于运行时的处理器数（但最小值为4）。当需要其他配置时，可以使用LoopResources＃create方法之一。
 
-The following listing shows the default configuration for the “Event Loop Group”:
+以下清单显示了“事件循环组”的默认配置：
 
 ./../../reactor-netty-core/src/main/java/reactor/netty/ReactorNetty.java
 
@@ -3784,7 +3473,7 @@ public static final String SHUTDOWN_TIMEOUT = "reactor.netty.ioShutdownTimeout";
  */
 ```
 
-If you need changes to the these settings, you can apply the following configuration:
+如果需要更改这些设置，则可以应用以下配置：
 
 ./../../reactor-netty-examples/src/main/java/reactor/netty/examples/documentation/udp/client/eventloop/Application.java
 
@@ -3814,7 +3503,7 @@ public class Application {
 
 ### 8.6. Metrics
 
-The UDP client supports built-in integration with [`Micrometer`](https://micrometer.io/). It exposes all metrics with a prefix of `reactor.netty.udp.client`.
+UDP客户端支持与Micrometer的内置集成。它使用前缀react.netty.udp.client公开所有度量。
 
 The following table provides information for the UDP client metrics:
 
@@ -3868,11 +3557,7 @@ public class Application {
 }
 ```
 
-|      | Enables the built-in integration with Micrometer |
-| ---- | ------------------------------------------------ |
-|      |                                                  |
-
-When UDP client metrics are needed for an integration with a system other than `Micrometer` or you want to provide your own integration with `Micrometer`, you can provide your own metrics recorder, as follows:
+如果要与Micrometer以外的系统进行集成时需要UDP客户端指标，或者您想与Micrometer提供自己的集成，则可以提供自己的指标记录器，如下所示：
 
 ./../../reactor-netty-examples/src/main/java/reactor/netty/examples/documentation/udp/client/metrics/custom/Application.java
 
@@ -3898,7 +3583,3 @@ public class Application {
 		          .block();
 	}
 ```
-
-|      | Enables UDP client metrics and provides [`ChannelMetricsRecorder`](https://projectreactor.io/docs/netty/release/api/reactor/netty/channel/ChannelMetricsRecorder.html) implementation. |
-| ---- | ------------------------------------------------------------ |
-|      |                                                              |

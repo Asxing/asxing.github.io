@@ -8,11 +8,12 @@ coverImg:
 toc: true
 mathjax: true
 tags:
-  - 1
-  - 1
+  - Reactive
+  - WebFlux
+  - WebClient
 date: 2021-01-05 00:44:50
 password:
-summary:
+summary: Web on Reactive Stack
 categories: Spring
 ---
 
@@ -2951,9 +2952,9 @@ Reactor Netty，Tomcat，Jetty和Undertow支持HTTP / 2。但是，有一些与�
 
 ## 2. WebClient
 
-Spring WebFlux includes a client to perform HTTP requests with. `WebClient` has a functional, fluent API based on Reactor, see [Reactive Libraries](https://docs.spring.io/spring-framework/docs/current/reference/html/web-reactive.html#webflux-reactive-libraries), which enables declarative composition of asynchronous logic without the need to deal with threads or concurrency. It is fully non-blocking, it supports streaming, and relies on the same [codecs](https://docs.spring.io/spring-framework/docs/current/reference/html/web-reactive.html#webflux-codecs) that are also used to encode and decode request and response content on the server side.
+Spring WebFlux包括一个用于执行HTTP请求的客户端。 WebClient具有一个基于Reactor的功能性，流畅的API，请参阅Reactive Libraries，它可以以声明方式构成异步逻辑，而无需处理线程或并发。它是完全非阻塞的，它支持流传输，并且依赖于相同的编解码器，该编解码器还用于在服务器端对请求和响应内容进行编码和解码。
 
-`WebClient` needs an HTTP client library to perform requests with. There is built-in support for the following:
+WebClient需要一个HTTP客户端库来执行请求。内置支持以下内容：
 
 - [Reactor Netty](https://github.com/reactor/reactor-netty)
 - [Jetty Reactive HttpClient](https://github.com/jetty-project/jetty-reactive-httpclient)
@@ -2962,27 +2963,21 @@ Spring WebFlux includes a client to perform HTTP requests with. `WebClient` has 
 
 ### 2.1. Configuration
 
-The simplest way to create a `WebClient` is through one of the static factory methods:
+创建WebClient的最简单方法是通过静态工厂方法之一：
 
 - `WebClient.create()`
 - `WebClient.create(String baseUrl)`
 
-You can also use `WebClient.builder()` with further options:
+您还可以将`WebClient.builder()` 与其他选项一起使用：s
 
-- `uriBuilderFactory`: Customized `UriBuilderFactory` to use as a base URL.
-- `defaultUriVariables`: default values to use when expanding URI templates.
-- `defaultHeader`: Headers for every request.
-- `defaultCookie`: Cookies for every request.
-- `defaultRequest`: `Consumer` to customize every request.
-- `filter`: Client filter for every request.
-- `exchangeStrategies`: HTTP message reader/writer customizations.
-- `clientConnector`: HTTP client library settings.
-
-For example:
-
-Java
-
-Kotlin
+- `uriBuilderFactory`:自定义的UriBuilderFactory用作基本URL。
+- `defaultUriVariables`: 扩展URI模板时使用的默认值。
+- `defaultHeader`:默认请求头
+- `defaultCookie`: 默认 cookie
+- `defaultRequest`: 默认请求
+- `filter`: 默认客户端拦截器
+- `exchangeStrategies`: 定制HTTP消息读取、写入。
+- `clientConnector`: HTTP客户端库设置.
 
 ```java
 WebClient client = WebClient.builder()
@@ -2990,11 +2985,7 @@ WebClient client = WebClient.builder()
         .build();
 ```
 
-Once built, a `WebClient` is immutable. However, you can clone it and build a modified copy as follows:
-
-Java
-
-Kotlin
+建立之后，`WebClient`是不可变的。但是，您可以克隆它并按如下所示构建修改后的副本：
 
 ```java
 WebClient client1 = WebClient.builder()
@@ -3010,17 +3001,13 @@ WebClient client2 = client1.mutate()
 
 #### 2.1.1. MaxInMemorySize
 
-Codecs have [limits](https://docs.spring.io/spring-framework/docs/current/reference/html/web-reactive.html#webflux-codecs-limits) for buffering data in memory to avoid application memory issues. By the default those are set to 256KB. If that’s not enough you’ll get the following error:
+编解码器具有在内存中缓冲数据的限制，以避免出现应用程序内存问题。默认情况下，这些设置为256KB。如果这还不够，则会出现以下错误：
 
 ```
 org.springframework.core.io.buffer.DataBufferLimitException: Exceeded limit on max bytes to buffer
 ```
 
-To change the limit for default codecs, use the following:
-
-Java
-
-Kotlin
+要更改默认编解码器的限制，请使用以下命令：
 
 ```java
 WebClient webClient = WebClient.builder()
@@ -3030,11 +3017,7 @@ WebClient webClient = WebClient.builder()
 
 #### 2.1.2. Reactor Netty
 
-To customize Reactor Netty settings, provide a pre-configured `HttpClient`:
-
-Java
-
-Kotlin
+要自定义Reactor Netty设置，请提供一个预配置的HttpClient：
 
 ```java
 HttpClient httpClient = HttpClient.create().secure(sslSpec -> ...);
@@ -3046,13 +3029,9 @@ WebClient webClient = WebClient.builder()
 
 ##### Resources
 
-By default, `HttpClient` participates in the global Reactor Netty resources held in `reactor.netty.http.HttpResources`, including event loop threads and a connection pool. This is the recommended mode, since fixed, shared resources are preferred for event loop concurrency. In this mode global resources remain active until the process exits.
+默认情况下，HttpClient会参与Reactor.netty.http.HttpResources中包含的全局Reactor Netty资源，包括事件循环线程和连接池。这是推荐的模式，因为固定的共享资源是事件循环并发的首选。在这种模式下，全局资源将保持活动状态，直到进程退出。
 
-If the server is timed with the process, there is typically no need for an explicit shutdown. However, if the server can start or stop in-process (for example, a Spring MVC application deployed as a WAR), you can declare a Spring-managed bean of type `ReactorResourceFactory` with `globalResources=true` (the default) to ensure that the Reactor Netty global resources are shut down when the Spring `ApplicationContext` is closed, as the following example shows:
-
-Java
-
-Kotlin
+如果服务器与进程同步，通常不需要显式关闭。但是，如果服务器可以启动或停止进程内（例如，部署为WAR的Spring MVC应用程序），则可以声明类型为ReactorResourceFactory的Spring托管Bean，其具有globalResources = true（默认值）以确保Reactor关闭Spring ApplicationContext时，将关闭Netty全局资源，如以下示例所示：
 
 ```java
 @Bean
@@ -3061,11 +3040,7 @@ public ReactorResourceFactory reactorResourceFactory() {
 }
 ```
 
-You can also choose not to participate in the global Reactor Netty resources. However, in this mode, the burden is on you to ensure that all Reactor Netty client and server instances use shared resources, as the following example shows:
-
-Java
-
-Kotlin
+您也可以选择不参与全局Reactor Netty资源。但是，在这种模式下，确保所有Reactor Netty客户端和服务器实例使用共享资源是您的重担，如以下示例所示：
 
 ```java
 @Bean
@@ -3089,18 +3064,9 @@ public WebClient webClient() {
 }
 ```
 
-|      | Create resources independent of global ones.                 |
-| ---- | ------------------------------------------------------------ |
-|      | Use the `ReactorClientHttpConnector` constructor with resource factory. |
-|      | Plug the connector into the `WebClient.Builder`.             |
-
 ##### Timeouts
 
-To configure a connection timeout:
-
-Java
-
-Kotlin
+要配置连接超时：
 
 ```java
 import io.netty.channel.ChannelOption;
@@ -3113,11 +3079,7 @@ WebClient webClient = WebClient.builder()
         .build();
 ```
 
-To configure a read or write timeout:
-
-Java
-
-Kotlin
+要配置读取或写入超时：
 
 ```java
 import io.netty.handler.timeout.ReadTimeoutHandler;
@@ -3131,11 +3093,7 @@ HttpClient httpClient = HttpClient.create()
 // Create WebClient...
 ```
 
-To configure a response timeout for all requests:
-
-Java
-
-Kotlin
+要为所有请求配置响应超时：
 
 ```java
 HttpClient httpClient = HttpClient.create()
@@ -3144,11 +3102,7 @@ HttpClient httpClient = HttpClient.create()
 // Create WebClient...
 ```
 
-To configure a response timeout for a specific request:
-
-Java
-
-Kotlin
+要为特定请求配置响应超时：
 
 ```java
 WebClient.create().get()
@@ -3163,11 +3117,7 @@ WebClient.create().get()
 
 #### 2.1.3. Jetty
 
-The following example shows how to customize Jetty `HttpClient` settings:
-
-Java
-
-Kotlin
+以下示例显示如何自定义Jetty HttpClient设置：
 
 ```java
 HttpClient httpClient = new HttpClient();
@@ -3178,13 +3128,9 @@ WebClient webClient = WebClient.builder()
         .build();
 ```
 
-By default, `HttpClient` creates its own resources (`Executor`, `ByteBufferPool`, `Scheduler`), which remain active until the process exits or `stop()` is called.
+默认情况下，HttpClient创建自己的资源（执行程序，ByteBufferPool，调度程序），这些资源将保持活动状态，直到进程退出或调用stop（）为止。
 
-You can share resources between multiple instances of the Jetty client (and server) and ensure that the resources are shut down when the Spring `ApplicationContext` is closed by declaring a Spring-managed bean of type `JettyResourceFactory`, as the following example shows:
-
-Java
-
-Kotlin
+您可以在Jetty客户端（和服务器）的多个实例之间共享资源，并通过声明类型为JettyResourceFactory的Spring托管Bean来确保在关闭Spring ApplicationContext时关闭资源，如以下示例所示：
 
 ```java
 @Bean
@@ -3205,17 +3151,9 @@ public WebClient webClient() {
 }
 ```
 
-|      | Use the `JettyClientHttpConnector` constructor with resource factory. |
-| ---- | ------------------------------------------------------------ |
-|      | Plug the connector into the `WebClient.Builder`.             |
-
 #### 2.1.4. HttpComponents
 
-The following example shows how to customize Apache HttpComponents `HttpClient` settings:
-
-Java
-
-Kotlin
+以下示例显示了如何自定义Apache HttpComponents HttpClient设置：
 
 ```java
 HttpAsyncClientBuilder clientBuilder = HttpAsyncClients.custom();
@@ -3228,11 +3166,7 @@ WebClient webClient = WebClient.builder().clientConnector(connector).build();
 
 ### 2.2. `retrieve()`
 
-The `retrieve()` method can be used to declare how to extract the response. For example:
-
-Java
-
-Kotlin
+Retrieve（）方法可用于声明如何提取响应。例如：
 
 ```java
 WebClient client = WebClient.create("https://example.org");
@@ -3243,11 +3177,7 @@ Mono<ResponseEntity<Person>> result = client.get()
         .toEntity(Person.class);
 ```
 
-Or to get only the body:
-
-Java
-
-Kotlin
+或者获取 JSON body
 
 ```java
 WebClient client = WebClient.create("https://example.org");
@@ -3258,11 +3188,7 @@ Mono<Person> result = client.get()
         .bodyToMono(Person.class);
 ```
 
-To get a stream of decoded objects:
-
-Java
-
-Kotlin
+或者获取解码对象流
 
 ```java
 Flux<Quote> result = client.get()
@@ -3271,11 +3197,7 @@ Flux<Quote> result = client.get()
         .bodyToFlux(Quote.class);
 ```
 
-By default, 4xx or 5xx responses result in an `WebClientResponseException`, including sub-classes for specific HTTP status codes. To customize the handling of error responses, use `onStatus` handlers as follows:
-
-Java
-
-Kotlin
+默认情况下，4xx或5xx响应会导致WebClientResponseException，包括特定HTTP状态代码的子类。要自定义错误响应的处理，请使用onStatus处理程序，如下所示：
 
 ```java
 Mono<Person> result = client.get()
@@ -3288,11 +3210,7 @@ Mono<Person> result = client.get()
 
 ### 2.3. Exchange
 
-The `exchangeToMono()` and `exchangeToFlux()` methods (or `awaitExchange { }` and `exchangeToFlow { }` in Kotlin) are useful for more advanced cases that require more control, such as to decode the response differently depending on the response status:
-
-Java
-
-Kotlin
+exchangeToMono（）和exchangeToFlux（）方法（或Kotlin中的awaitExchange {}和exchangeToFlow {}）对于需要更多控制的更高级情况很有用，例如根据响应状态不同地解码响应：
 
 ```java
 Mono<Object> entityMono = client.get()
@@ -3313,15 +3231,11 @@ Mono<Object> entityMono = client.get()
         });
 ```
 
-When using the above, after the returned `Mono` or `Flux` completes, the response body is checked and if not consumed it is released to prevent memory and connection leaks. Therefore the response cannot be decoded further downstream. It is up to the provided function to declare how to decode the response if needed.
+使用上述方法时，在返回的Mono或Flux完成后，将检查响应主体，如果未消耗响应主体，则将其释放以防止内存和连接泄漏。因此，无法在下游进一步解码响应。如果需要，由提供的函数声明如何解码响应。
 
 ### 2.4. Request Body
 
-The request body can be encoded from any asynchronous type handled by `ReactiveAdapterRegistry`, like `Mono` or Kotlin Coroutines `Deferred` as the following example shows:
-
-Java
-
-Kotlin
+可以使用ReactiveAdapterRegistry处理的任何异步类型对请求主体进行编码，例如Mono或Deferred的Kotlin Coroutines，如以下示例所示：
 
 ```java
 Mono<Person> personMono = ... ;
@@ -3334,11 +3248,7 @@ Mono<Void> result = client.post()
         .bodyToMono(Void.class);
 ```
 
-You can also have a stream of objects be encoded, as the following example shows:
-
-Java
-
-Kotlin
+您还可以对对象流进行编码，如以下示例所示：
 
 ```java
 Flux<Person> personFlux = ... ;
@@ -3351,11 +3261,7 @@ Mono<Void> result = client.post()
         .bodyToMono(Void.class);
 ```
 
-Alternatively, if you have the actual value, you can use the `bodyValue` shortcut method, as the following example shows:
-
-Java
-
-Kotlin
+或者，如果您具有实际值，则可以使用bodyValue快捷方式，如以下示例所示：
 
 ```java
 Person person = ... ;
@@ -3370,11 +3276,7 @@ Mono<Void> result = client.post()
 
 #### 2.4.1. Form Data
 
-To send form data, you can provide a `MultiValueMap<String, String>` as the body. Note that the content is automatically set to `application/x-www-form-urlencoded` by the `FormHttpMessageWriter`. The following example shows how to use `MultiValueMap<String, String>`:
-
-Java
-
-Kotlin
+要发送表单数据，可以提供MultiValueMap 作为正文。请注意，内容由FormHttpMessageWriter自动设置为application / x-www-form-urlencoded。下面的示例演示如何使用MultiValueMap ：
 
 ```java
 MultiValueMap<String, String> formData = ... ;
@@ -3386,11 +3288,7 @@ Mono<Void> result = client.post()
         .bodyToMono(Void.class);
 ```
 
-You can also supply form data in-line by using `BodyInserters`, as the following example shows:
-
-Java
-
-Kotlin
+您还可以使用BodyInserters在线提供表单数据，如以下示例所示：
 
 ```java
 import static org.springframework.web.reactive.function.BodyInserters.*;
@@ -3404,11 +3302,7 @@ Mono<Void> result = client.post()
 
 #### 2.4.2. Multipart Data
 
-To send multipart data, you need to provide a `MultiValueMap<String, ?>` whose values are either `Object` instances that represent part content or `HttpEntity` instances that represent the content and headers for a part. `MultipartBodyBuilder` provides a convenient API to prepare a multipart request. The following example shows how to create a `MultiValueMap<String, ?>`:
-
-Java
-
-Kotlin
+要发送多部分数据，您需要提供一个MultiValueMap ，其值可以是代表零件内容的Object实例或代表零件内容和标题的HttpEntity实例。MultipartBodyBuilder提供了一个方便的API来准备多部分请求。下面的示例演示如何创建MultiValueMap ：
 
 ```java
 MultipartBodyBuilder builder = new MultipartBodyBuilder();
@@ -3420,13 +3314,9 @@ builder.part("myPart", part); // Part from a server request
 MultiValueMap<String, HttpEntity<?>> parts = builder.build();
 ```
 
-In most cases, you do not have to specify the `Content-Type` for each part. The content type is determined automatically based on the `HttpMessageWriter` chosen to serialize it or, in the case of a `Resource`, based on the file extension. If necessary, you can explicitly provide the `MediaType` to use for each part through one of the overloaded builder `part` methods.
+在大多数情况下，您不必为每个部分指定Content-Type。内容类型是根据选择用于对其进行序列化的HttpMessageWriter自动确定的，对于资源来说，取决于文件扩展名。如有必要，您可以通过重载的构建器part方法之一显式提供MediaType以供每个零件使用。
 
-Once a `MultiValueMap` is prepared, the easiest way to pass it to the `WebClient` is through the `body` method, as the following example shows:
-
-Java
-
-Kotlin
+准备好MultiValueMap之后，将其传递给WebClient的最简单方法是通过body方法，如以下示例所示：
 
 ```java
 MultipartBodyBuilder builder = ...;
@@ -3438,13 +3328,9 @@ Mono<Void> result = client.post()
         .bodyToMono(Void.class);
 ```
 
-If the `MultiValueMap` contains at least one non-`String` value, which could also represent regular form data (that is, `application/x-www-form-urlencoded`), you need not set the `Content-Type` to `multipart/form-data`. This is always the case when using `MultipartBodyBuilder`, which ensures an `HttpEntity` wrapper.
+如果MultiValueMap包含至少一个非String值，它也可以表示常规表单数据（即application / x-www-form-urlencoded），则无需将Content-Type设置为multipart / form-data。使用MultipartBodyBuilder时，总是这样，以确保HttpEntity包装器。
 
-As an alternative to `MultipartBodyBuilder`, you can also provide multipart content, inline-style, through the built-in `BodyInserters`, as the following example shows:
-
-Java
-
-Kotlin
+作为MultipartBodyBuilder的替代方案，您还可以通过内置的BodyInserters以内联样式提供多部分内容，如以下示例所示：
 
 ```java
 import static org.springframework.web.reactive.function.BodyInserters.*;
@@ -3458,11 +3344,7 @@ Mono<Void> result = client.post()
 
 ### 2.5. Filters
 
-You can register a client filter (`ExchangeFilterFunction`) through the `WebClient.Builder` in order to intercept and modify requests, as the following example shows:
-
-Java
-
-Kotlin
+您可以通过WebClient.Builder注册客户端过滤器（ExchangeFilterFunction），以拦截和修改请求，如以下示例所示：
 
 ```java
 WebClient client = WebClient.builder()
@@ -3477,11 +3359,7 @@ WebClient client = WebClient.builder()
         .build();
 ```
 
-This can be used for cross-cutting concerns, such as authentication. The following example uses a filter for basic authentication through a static factory method:
-
-Java
-
-Kotlin
+这可以用于跨领域的关注，例如身份验证。以下示例使用过滤器通过静态工厂方法进行基本身份验证：
 
 ```java
 import static org.springframework.web.reactive.function.client.ExchangeFilterFunctions.basicAuthentication;
@@ -3491,11 +3369,7 @@ WebClient client = WebClient.builder()
         .build();
 ```
 
-You can create a new `WebClient` instance by using another as a starting point. This allows insert or removing filters without affecting the original `WebClient`. Below is an example that inserts a basic authentication filter at index 0:
-
-Java
-
-Kotlin
+您可以通过使用另一个实例作为起点来创建新的WebClient实例。这允许在不影响原始WebClient的情况下插入或删除过滤器。以下是在索引0处插入基本身份验证过滤器的示例：
 
 ```java
 import static org.springframework.web.reactive.function.client.ExchangeFilterFunctions.basicAuthentication;
@@ -3509,11 +3383,7 @@ WebClient client = webClient.mutate()
 
 ### 2.6. Attributes
 
-You can add attributes to a request. This is convenient if you want to pass information through the filter chain and influence the behavior of filters for a given request. For example:
-
-Java
-
-Kotlin
+您可以向请求添加属性。如果要通过筛选器链传递信息并影响给定请求的筛选器行为，这将很方便。例如：
 
 ```java
 WebClient client = WebClient.builder()
@@ -3531,15 +3401,13 @@ client.get().uri("https://example.org/")
     }
 ```
 
-Note that you can configure a `defaultRequest` callback globally at the `WebClient.Builder` level which lets you insert attributes into all requests, which could be used for example in a Spring MVC application to populate request attributes based on `ThreadLocal` data.
+请注意，可以在WebClient.Builder级别上全局配置defaultRequest回调，该回调使您可以将属性插入所有请求，例如，可以在Spring MVC应用程序中使用该属性来基于ThreadLocal数据填充请求属性。
 
 ### 2.7. Context
 
-[Attributes](https://docs.spring.io/spring-framework/docs/current/reference/html/web-reactive.html#webflux-client-attributes) provide a convenient way to pass information to the filter chain but they only influence the current request. If you want to pass information that propagates to additional requests that are nested, e.g. via `flatMap`, or executed after, e.g. via `concatMap`, then you’ll need to use the Reactor `Context`.
+属性提供了一种将信息传递到筛选器链的便捷方法，但是它们仅影响当前请求。如果您想传递传播到嵌套的其他请求的信息，例如通过flatMap或在之后执行通过concatMap，则需要使用Reactor Context。
 
-The Reactor `Context` needs to be populated at the end of a reactive chain in order to apply to all operations. For example:
-
-Java
+为了应用于所有操作，需要在反应链的末尾填充Reactor上下文。例如：
 
 ```java
 WebClient client = WebClient.builder()
@@ -3561,11 +3429,7 @@ client.get().uri("https://example.org/")
 
 ### 2.8. Synchronous Use
 
-`WebClient` can be used in synchronous style by blocking at the end for the result:
-
-Java
-
-Kotlin
+通过在结果末尾进行阻塞，可以以同步方式使用WebClient：
 
 ```java
 Person person = client.get().uri("/person/{id}", i).retrieve()
@@ -3578,11 +3442,7 @@ List<Person> persons = client.get().uri("/persons").retrieve()
     .block();
 ```
 
-However if multiple calls need to be made, it’s more efficient to avoid blocking on each response individually, and instead wait for the combined result:
-
-Java
-
-Kotlin
+但是，如果需要进行多次通话，则可以避免单独阻塞每个响应，而不必等待合并结果，这样会更有效：
 
 ```java
 Mono<Person> personMono = client.get().uri("/person/{id}", personId)
@@ -3600,838 +3460,10 @@ Map<String, Object> data = Mono.zip(personMono, hobbiesMono, (person, hobbies) -
         .block();
 ```
 
-The above is merely one example. There are lots of other patterns and operators for putting together a reactive pipeline that makes many remote calls, potentially some nested, inter-dependent, without ever blocking until the end.
+以上仅是一个示例。还有许多其他模式和运算符可用于构建响应式管道，该响应式管道可进行许多远程调用（可能是嵌套的，相互依赖的），而不会阻塞到最后。
 
-|      | With `Flux` or `Mono`, you should never have to block in a Spring MVC or Spring WebFlux controller. Simply return the resulting reactive type from the controller method. The same principle apply to Kotlin Coroutines and Spring WebFlux, just use suspending function or return `Flow` in your controller method . |
-| ---- | ------------------------------------------------------------ |
-|      |                                                              |
+使用Flux或Mono，您永远不必阻塞Spring MVC或Spring WebFlux控制器。只需从controller方法返回结果类型即可。相同的原则适用于Kotlin Coroutines和Spring WebFlux，只需在控制器方法中使用暂停功能或返回Flow即可。
 
 ### 2.9. Testing
 
-To test code that uses the `WebClient`, you can use a mock web server, such as the [OkHttp MockWebServer](https://github.com/square/okhttp#mockwebserver). To see an example of its use, check out [`WebClientIntegrationTests`](https://github.com/spring-projects/spring-framework/blob/master/spring-webflux/src/test/java/org/springframework/web/reactive/function/client/WebClientIntegrationTests.java) in the Spring Framework test suite or the [`static-server`](https://github.com/square/okhttp/tree/master/samples/static-server) sample in the OkHttp repository.
-
-## 3. WebSockets
-
-[Same as in the Servlet stack](https://docs.spring.io/spring-framework/docs/current/reference/html/web.html#websocket)
-
-This part of the reference documentation covers support for reactive-stack WebSocket messaging.
-
-### 3.1. Introduction to WebSocket
-
-The WebSocket protocol, [RFC 6455](https://tools.ietf.org/html/rfc6455), provides a standardized way to establish a full-duplex, two-way communication channel between client and server over a single TCP connection. It is a different TCP protocol from HTTP but is designed to work over HTTP, using ports 80 and 443 and allowing re-use of existing firewall rules.
-
-A WebSocket interaction begins with an HTTP request that uses the HTTP `Upgrade` header to upgrade or, in this case, to switch to the WebSocket protocol. The following example shows such an interaction:
-
-```yaml
-GET /spring-websocket-portfolio/portfolio HTTP/1.1
-Host: localhost:8080
-Upgrade: websocket 
-Connection: Upgrade 
-Sec-WebSocket-Key: Uc9l9TMkWGbHFD2qnFHltg==
-Sec-WebSocket-Protocol: v10.stomp, v11.stomp
-Sec-WebSocket-Version: 13
-Origin: http://localhost:8080
-```
-
-|      | The `Upgrade` header.           |
-| ---- | ------------------------------- |
-|      | Using the `Upgrade` connection. |
-
-Instead of the usual 200 status code, a server with WebSocket support returns output similar to the following:
-
-```yaml
-HTTP/1.1 101 Switching Protocols 
-Upgrade: websocket
-Connection: Upgrade
-Sec-WebSocket-Accept: 1qVdfYHU9hPOl4JYYNXF623Gzn0=
-Sec-WebSocket-Protocol: v10.stomp
-```
-
-|      | Protocol switch |
-| ---- | --------------- |
-|      |                 |
-
-After a successful handshake, the TCP socket underlying the HTTP upgrade request remains open for both the client and the server to continue to send and receive messages.
-
-A complete introduction of how WebSockets work is beyond the scope of this document. See RFC 6455, the WebSocket chapter of HTML5, or any of the many introductions and tutorials on the Web.
-
-Note that, if a WebSocket server is running behind a web server (e.g. nginx), you likely need to configure it to pass WebSocket upgrade requests on to the WebSocket server. Likewise, if the application runs in a cloud environment, check the instructions of the cloud provider related to WebSocket support.
-
-#### 3.1.1. HTTP Versus WebSocket
-
-Even though WebSocket is designed to be HTTP-compatible and starts with an HTTP request, it is important to understand that the two protocols lead to very different architectures and application programming models.
-
-In HTTP and REST, an application is modeled as many URLs. To interact with the application, clients access those URLs, request-response style. Servers route requests to the appropriate handler based on the HTTP URL, method, and headers.
-
-By contrast, in WebSockets, there is usually only one URL for the initial connect. Subsequently, all application messages flow on that same TCP connection. This points to an entirely different asynchronous, event-driven, messaging architecture.
-
-WebSocket is also a low-level transport protocol, which, unlike HTTP, does not prescribe any semantics to the content of messages. That means that there is no way to route or process a message unless the client and the server agree on message semantics.
-
-WebSocket clients and servers can negotiate the use of a higher-level, messaging protocol (for example, STOMP), through the `Sec-WebSocket-Protocol` header on the HTTP handshake request. In the absence of that, they need to come up with their own conventions.
-
-#### 3.1.2. When to Use WebSockets
-
-WebSockets can make a web page be dynamic and interactive. However, in many cases, a combination of Ajax and HTTP streaming or long polling can provide a simple and effective solution.
-
-For example, news, mail, and social feeds need to update dynamically, but it may be perfectly okay to do so every few minutes. Collaboration, games, and financial apps, on the other hand, need to be much closer to real-time.
-
-Latency alone is not a deciding factor. If the volume of messages is relatively low (for example, monitoring network failures) HTTP streaming or polling can provide an effective solution. It is the combination of low latency, high frequency, and high volume that make the best case for the use of WebSocket.
-
-Keep in mind also that over the Internet, restrictive proxies that are outside of your control may preclude WebSocket interactions, either because they are not configured to pass on the `Upgrade` header or because they close long-lived connections that appear idle. This means that the use of WebSocket for internal applications within the firewall is a more straightforward decision than it is for public facing applications.
-
-### 3.2. WebSocket API
-
-[Same as in the Servlet stack](https://docs.spring.io/spring-framework/docs/current/reference/html/web.html#websocket-server)
-
-The Spring Framework provides a WebSocket API that you can use to write client- and server-side applications that handle WebSocket messages.
-
-#### 3.2.1. Server
-
-[Same as in the Servlet stack](https://docs.spring.io/spring-framework/docs/current/reference/html/web.html#websocket-server-handler)
-
-To create a WebSocket server, you can first create a `WebSocketHandler`. The following example shows how to do so:
-
-Java
-
-Kotlin
-
-```java
-import org.springframework.web.reactive.socket.WebSocketHandler;
-import org.springframework.web.reactive.socket.WebSocketSession;
-
-public class MyWebSocketHandler implements WebSocketHandler {
-
-    @Override
-    public Mono<Void> handle(WebSocketSession session) {
-        // ...
-    }
-}
-```
-
-Then you can map it to a URL:
-
-Java
-
-Kotlin
-
-```java
-@Configuration
-class WebConfig {
-
-    @Bean
-    public HandlerMapping handlerMapping() {
-        Map<String, WebSocketHandler> map = new HashMap<>();
-        map.put("/path", new MyWebSocketHandler());
-        int order = -1; // before annotated controllers
-
-        return new SimpleUrlHandlerMapping(map, order);
-    }
-}
-```
-
-If using the [WebFlux Config](https://docs.spring.io/spring-framework/docs/current/reference/html/web-reactive.html#webflux-config) there is nothing further to do, or otherwise if not using the WebFlux config you’ll need to declare a `WebSocketHandlerAdapter` as shown below:
-
-Java
-
-Kotlin
-
-```java
-@Configuration
-class WebConfig {
-
-    // ...
-
-    @Bean
-    public WebSocketHandlerAdapter handlerAdapter() {
-        return new WebSocketHandlerAdapter();
-    }
-}
-```
-
-#### 3.2.2. `WebSocketHandler`
-
-The `handle` method of `WebSocketHandler` takes `WebSocketSession` and returns `Mono<Void>` to indicate when application handling of the session is complete. The session is handled through two streams, one for inbound and one for outbound messages. The following table describes the two methods that handle the streams:
-
-| `WebSocketSession` method                      | Description                                                  |
-| :--------------------------------------------- | :----------------------------------------------------------- |
-| `Flux<WebSocketMessage> receive()`             | Provides access to the inbound message stream and completes when the connection is closed. |
-| `Mono<Void> send(Publisher<WebSocketMessage>)` | Takes a source for outgoing messages, writes the messages, and returns a `Mono<Void>` that completes when the source completes and writing is done. |
-
-A `WebSocketHandler` must compose the inbound and outbound streams into a unified flow and return a `Mono<Void>` that reflects the completion of that flow. Depending on application requirements, the unified flow completes when:
-
-- Either the inbound or the outbound message stream completes.
-- The inbound stream completes (that is, the connection closed), while the outbound stream is infinite.
-- At a chosen point, through the `close` method of `WebSocketSession`.
-
-When inbound and outbound message streams are composed together, there is no need to check if the connection is open, since Reactive Streams signals end activity. The inbound stream receives a completion or error signal, and the outbound stream receives a cancellation signal.
-
-The most basic implementation of a handler is one that handles the inbound stream. The following example shows such an implementation:
-
-Java
-
-Kotlin
-
-```java
-class ExampleHandler implements WebSocketHandler {
-
-    @Override
-    public Mono<Void> handle(WebSocketSession session) {
-        return session.receive()            
-                .doOnNext(message -> {
-                    // ...                  
-                })
-                .concatMap(message -> {
-                    // ...                  
-                })
-                .then();                    
-    }
-}
-```
-
-|      | Access the stream of inbound messages.                       |
-| ---- | ------------------------------------------------------------ |
-|      | Do something with each message.                              |
-|      | Perform nested asynchronous operations that use the message content. |
-|      | Return a `Mono<Void>` that completes when receiving completes. |
-
-|      | For nested, asynchronous operations, you may need to call `message.retain()` on underlying servers that use pooled data buffers (for example, Netty). Otherwise, the data buffer may be released before you have had a chance to read the data. For more background, see [Data Buffers and Codecs](https://docs.spring.io/spring-framework/docs/current/reference/html/core.html#databuffers). |
-| ---- | ------------------------------------------------------------ |
-|      |                                                              |
-
-The following implementation combines the inbound and outbound streams:
-
-Java
-
-Kotlin
-
-```java
-class ExampleHandler implements WebSocketHandler {
-
-    @Override
-    public Mono<Void> handle(WebSocketSession session) {
-
-        Flux<WebSocketMessage> output = session.receive()               
-                .doOnNext(message -> {
-                    // ...
-                })
-                .concatMap(message -> {
-                    // ...
-                })
-                .map(value -> session.textMessage("Echo " + value));    
-
-        return session.send(output);                                    
-    }
-}
-```
-
-|      | Handle the inbound message stream.                           |
-| ---- | ------------------------------------------------------------ |
-|      | Create the outbound message, producing a combined flow.      |
-|      | Return a `Mono<Void>` that does not complete while we continue to receive. |
-
-Inbound and outbound streams can be independent and be joined only for completion, as the following example shows:
-
-Java
-
-Kotlin
-
-```java
-class ExampleHandler implements WebSocketHandler {
-
-    @Override
-    public Mono<Void> handle(WebSocketSession session) {
-
-        Mono<Void> input = session.receive()                                
-                .doOnNext(message -> {
-                    // ...
-                })
-                .concatMap(message -> {
-                    // ...
-                })
-                .then();
-
-        Flux<String> source = ... ;
-        Mono<Void> output = session.send(source.map(session::textMessage)); 
-
-        return Mono.zip(input, output).then();                              
-    }
-}
-```
-
-|      | Handle inbound message stream.                               |
-| ---- | ------------------------------------------------------------ |
-|      | Send outgoing messages.                                      |
-|      | Join the streams and return a `Mono<Void>` that completes when either stream ends. |
-
-#### 3.2.3. `DataBuffer`
-
-`DataBuffer` is the representation for a byte buffer in WebFlux. The Spring Core part of the reference has more on that in the section on [Data Buffers and Codecs](https://docs.spring.io/spring-framework/docs/current/reference/html/core.html#databuffers). The key point to understand is that on some servers like Netty, byte buffers are pooled and reference counted, and must be released when consumed to avoid memory leaks.
-
-When running on Netty, applications must use `DataBufferUtils.retain(dataBuffer)` if they wish to hold on input data buffers in order to ensure they are not released, and subsequently use `DataBufferUtils.release(dataBuffer)` when the buffers are consumed.
-
-#### 3.2.4. Handshake
-
-[Same as in the Servlet stack](https://docs.spring.io/spring-framework/docs/current/reference/html/web.html#websocket-server-handshake)
-
-`WebSocketHandlerAdapter` delegates to a `WebSocketService`. By default, that is an instance of `HandshakeWebSocketService`, which performs basic checks on the WebSocket request and then uses `RequestUpgradeStrategy` for the server in use. Currently, there is built-in support for Reactor Netty, Tomcat, Jetty, and Undertow.
-
-`HandshakeWebSocketService` exposes a `sessionAttributePredicate` property that allows setting a `Predicate<String>` to extract attributes from the `WebSession` and insert them into the attributes of the `WebSocketSession`.
-
-#### 3.2.5. Server Configation
-
-[Same as in the Servlet stack](https://docs.spring.io/spring-framework/docs/current/reference/html/web.html#websocket-server-runtime-configuration)
-
-The `RequestUpgradeStrategy` for each server exposes configuration specific to the underlying WebSocket server engine. When using the WebFlux Java config you can customize such properties as shown in the corresponding section of the [WebFlux Config](https://docs.spring.io/spring-framework/docs/current/reference/html/web-reactive.html#webflux-config-websocket-service), or otherwise if not using the WebFlux config, use the below:
-
-Java
-
-Kotlin
-
-```java
-@Configuration
-class WebConfig {
-
-    @Bean
-    public WebSocketHandlerAdapter handlerAdapter() {
-        return new WebSocketHandlerAdapter(webSocketService());
-    }
-
-    @Bean
-    public WebSocketService webSocketService() {
-        TomcatRequestUpgradeStrategy strategy = new TomcatRequestUpgradeStrategy();
-        strategy.setMaxSessionIdleTimeout(0L);
-        return new HandshakeWebSocketService(strategy);
-    }
-}
-```
-
-Check the upgrade strategy for your server to see what options are available. Currently, only Tomcat and Jetty expose such options.
-
-#### 3.2.6. CORS
-
-[Same as in the Servlet stack](https://docs.spring.io/spring-framework/docs/current/reference/html/web.html#websocket-server-allowed-origins)
-
-The easiest way to configure CORS and restrict access to a WebSocket endpoint is to have your `WebSocketHandler` implement `CorsConfigurationSource` and return a `CorsConfiguration` with allowed origins, headers, and other details. If you cannot do that, you can also set the `corsConfigurations` property on the `SimpleUrlHandler` to specify CORS settings by URL pattern. If both are specified, they are combined by using the `combine` method on `CorsConfiguration`.
-
-#### 3.2.7. Client
-
-Spring WebFlux provides a `WebSocketClient` abstraction with implementations for Reactor Netty, Tomcat, Jetty, Undertow, and standard Java (that is, JSR-356).
-
-|      | The Tomcat client is effectively an extension of the standard Java one with some extra functionality in the `WebSocketSession` handling to take advantage of the Tomcat-specific API to suspend receiving messages for back pressure. |
-| ---- | ------------------------------------------------------------ |
-|      |                                                              |
-
-To start a WebSocket session, you can create an instance of the client and use its `execute` methods:
-
-Java
-
-Kotlin
-
-```java
-WebSocketClient client = new ReactorNettyWebSocketClient();
-
-URI url = new URI("ws://localhost:8080/path");
-client.execute(url, session ->
-        session.receive()
-                .doOnNext(System.out::println)
-                .then());
-```
-
-Some clients, such as Jetty, implement `Lifecycle` and need to be stopped and started before you can use them. All clients have constructor options related to configuration of the underlying WebSocket client.
-
-## 4. Testing
-
-[Same in Spring MVC](https://docs.spring.io/spring-framework/docs/current/reference/html/web.html#testing)
-
-The `spring-test` module provides mock implementations of `ServerHttpRequest`, `ServerHttpResponse`, and `ServerWebExchange`. See [Spring Web Reactive](https://docs.spring.io/spring-framework/docs/current/reference/html/testing.html#mock-objects-web-reactive) for a discussion of mock objects.
-
-[`WebTestClient`](https://docs.spring.io/spring-framework/docs/current/reference/html/testing.html#webtestclient) builds on these mock request and response objects to provide support for testing WebFlux applications without an HTTP server. You can use the `WebTestClient` for end-to-end integration tests, too.
-
-## 5. RSocket
-
-This section describes Spring Framework’s support for the RSocket protocol.
-
-### 5.1. Overview
-
-RSocket is an application protocol for multiplexed, duplex communication over TCP, WebSocket, and other byte stream transports, using one of the following interaction models:
-
-- `Request-Response` — send one message and receive one back.
-- `Request-Stream` — send one message and receive a stream of messages back.
-- `Channel` — send streams of messages in both directions.
-- `Fire-and-Forget` — send a one-way message.
-
-Once the initial connection is made, the "client" vs "server" distinction is lost as both sides become symmetrical and each side can initiate one of the above interactions. This is why in the protocol calls the participating sides "requester" and "responder" while the above interactions are called "request streams" or simply "requests".
-
-These are the key features and benefits of the RSocket protocol:
-
-- [Reactive Streams](https://www.reactive-streams.org/) semantics across network boundary — for streaming requests such as `Request-Stream` and `Channel`, back pressure signals travel between requester and responder, allowing a requester to slow down a responder at the source, hence reducing reliance on network layer congestion control, and the need for buffering at the network level or at any level.
-- Request throttling — this feature is named "Leasing" after the `LEASE` frame that can be sent from each end to limit the total number of requests allowed by other end for a given time. Leases are renewed periodically.
-- Session resumption — this is designed for loss of connectivity and requires some state to be maintained. The state management is transparent for applications, and works well in combination with back pressure which can stop a producer when possible and reduce the amount of state required.
-- Fragmentation and re-assembly of large messages.
-- Keepalive (heartbeats).
-
-RSocket has [implementations](https://github.com/rsocket) in multiple languages. The [Java library](https://github.com/rsocket/rsocket-java) is built on [Project Reactor](https://projectreactor.io/), and [Reactor Netty](https://github.com/reactor/reactor-netty) for the transport. That means signals from Reactive Streams Publishers in your application propagate transparently through RSocket across the network.
-
-#### 5.1.1. The Protocol
-
-One of the benefits of RSocket is that it has well defined behavior on the wire and an easy to read [specification](https://rsocket.io/docs/Protocol) along with some protocol [extensions](https://github.com/rsocket/rsocket/tree/master/Extensions). Therefore it is a good idea to read the spec, independent of language implementations and higher level framework APIs. This section provides a succinct overview to establish some context.
-
-**Connecting**
-
-Initially a client connects to a server via some low level streaming transport such as TCP or WebSocket and sends a `SETUP` frame to the server to set parameters for the connection.
-
-The server may reject the `SETUP` frame, but generally after it is sent (for the client) and received (for the server), both sides can begin to make requests, unless `SETUP` indicates use of leasing semantics to limit the number of requests, in which case both sides must wait for a `LEASE` frame from the other end to permit making requests.
-
-**Making Requests**
-
-Once a connection is established, both sides may initiate a request through one of the frames `REQUEST_RESPONSE`, `REQUEST_STREAM`, `REQUEST_CHANNEL`, or `REQUEST_FNF`. Each of those frames carries one message from the requester to the responder.
-
-The responder may then return `PAYLOAD` frames with response messages, and in the case of `REQUEST_CHANNEL` the requester may also send `PAYLOAD` frames with more request messages.
-
-When a request involves a stream of messages such as `Request-Stream` and `Channel`, the responder must respect demand signals from the requester. Demand is expressed as a number of messages. Initial demand is specified in `REQUEST_STREAM` and `REQUEST_CHANNEL` frames. Subsequent demand is signaled via `REQUEST_N` frames.
-
-Each side may also send metadata notifications, via the `METADATA_PUSH` frame, that do not pertain to any individual request but rather to the connection as a whole.
-
-**Message Format**
-
-RSocket messages contain data and metadata. Metadata can be used to send a route, a security token, etc. Data and metadata can be formatted differently. Mime types for each are declared in the `SETUP` frame and apply to all requests on a given connection.
-
-While all messages can have metadata, typically metadata such as a route are per-request and therefore only included in the first message on a request, i.e. with one of the frames `REQUEST_RESPONSE`, `REQUEST_STREAM`, `REQUEST_CHANNEL`, or `REQUEST_FNF`.
-
-Protocol extensions define common metadata formats for use in applications:
-
-- [Composite Metadata](https://github.com/rsocket/rsocket/blob/master/Extensions/CompositeMetadata.md)-- multiple, independently formatted metadata entries.
-- [Routing](https://github.com/rsocket/rsocket/blob/master/Extensions/Routing.md) — the route for a request.
-
-#### 5.1.2. Java Implementation
-
-The [Java implementation](https://github.com/rsocket/rsocket-java) for RSocket is built on [Project Reactor](https://projectreactor.io/). The transports for TCP and WebSocket are built on [Reactor Netty](https://github.com/reactor/reactor-netty). As a Reactive Streams library, Reactor simplifies the job of implementing the protocol. For applications it is a natural fit to use `Flux` and `Mono` with declarative operators and transparent back pressure support.
-
-The API in RSocket Java is intentionally minimal and basic. It focuses on protocol features and leaves the application programming model (e.g. RPC codegen vs other) as a higher level, independent concern.
-
-The main contract [io.rsocket.RSocket](https://github.com/rsocket/rsocket-java/blob/master/rsocket-core/src/main/java/io/rsocket/RSocket.java) models the four request interaction types with `Mono` representing a promise for a single message, `Flux` a stream of messages, and `io.rsocket.Payload` the actual message with access to data and metadata as byte buffers. The `RSocket` contract is used symmetrically. For requesting, the application is given an `RSocket` to perform requests with. For responding, the application implements `RSocket` to handle requests.
-
-This is not meant to be a thorough introduction. For the most part, Spring applications will not have to use its API directly. However it may be important to see or experiment with RSocket independent of Spring. The RSocket Java repository contains a number of [sample apps](https://github.com/rsocket/rsocket-java/tree/master/rsocket-examples) that demonstrate its API and protocol features.
-
-#### 5.1.3. Spring Support
-
-The `spring-messaging` module contains the following:
-
-- [RSocketRequester](https://docs.spring.io/spring-framework/docs/current/reference/html/web-reactive.html#rsocket-requester) — fluent API to make requests through an `io.rsocket.RSocket` with data and metadata encoding/decoding.
-- [Annotated Responders](https://docs.spring.io/spring-framework/docs/current/reference/html/web-reactive.html#rsocket-annot-responders) — `@MessageMapping` annotated handler methods for responding.
-
-The `spring-web` module contains `Encoder` and `Decoder` implementations such as Jackson CBOR/JSON, and Protobuf that RSocket applications will likely need. It also contains the `PathPatternParser` that can be plugged in for efficient route matching.
-
-Spring Boot 2.2 supports standing up an RSocket server over TCP or WebSocket, including the option to expose RSocket over WebSocket in a WebFlux server. There is also client support and auto-configuration for an `RSocketRequester.Builder` and `RSocketStrategies`. See the [RSocket section](https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#boot-features-rsocket) in the Spring Boot reference for more details.
-
-Spring Security 5.2 provides RSocket support.
-
-Spring Integration 5.2 provides inbound and outbound gateways to interact with RSocket clients and servers. See the Spring Integration Reference Manual for more details.
-
-Spring Cloud Gateway supports RSocket connections.
-
-### 5.2. RSocketRequester
-
-`RSocketRequester` provides a fluent API to perform RSocket requests, accepting and returning objects for data and metadata instead of low level data buffers. It can be used symmetrically, to make requests from clients and to make requests from servers.
-
-#### 5.2.1. Client Requester
-
-To obtain an `RSocketRequester` on the client side is to connect to a server which involves sending an RSocket `SETUP` frame with connection settings. `RSocketRequester` provides a builder that helps to prepare an `io.rsocket.core.RSocketConnector` including connection settings for the `SETUP` frame.
-
-This is the most basic way to connect with default settings:
-
-Java
-
-Kotlin
-
-```java
-RSocketRequester requester = RSocketRequester.builder().tcp("localhost", 7000);
-
-URI url = URI.create("https://example.org:8080/rsocket");
-RSocketRequester requester = RSocketRequester.builder().webSocket(url);
-```
-
-The above does not connect immediately. When requests are made, a shared connection is established transparently and used.
-
-##### Connection Setup
-
-`RSocketRequester.Builder` provides the following to customize the initial `SETUP` frame:
-
-- `dataMimeType(MimeType)` — set the mime type for data on the connection.
-- `metadataMimeType(MimeType)` — set the mime type for metadata on the connection.
-- `setupData(Object)` — data to include in the `SETUP`.
-- `setupRoute(String, Object…)` — route in the metadata to include in the `SETUP`.
-- `setupMetadata(Object, MimeType)` — other metadata to include in the `SETUP`.
-
-For data, the default mime type is derived from the first configured `Decoder`. For metadata, the default mime type is [composite metadata](https://github.com/rsocket/rsocket/blob/master/Extensions/CompositeMetadata.md) which allows multiple metadata value and mime type pairs per request. Typically both don’t need to be changed.
-
-Data and metadata in the `SETUP` frame is optional. On the server side, [@ConnectMapping](https://docs.spring.io/spring-framework/docs/current/reference/html/web-reactive.html#rsocket-annot-connectmapping) methods can be used to handle the start of a connection and the content of the `SETUP` frame. Metadata may be used for connection level security.
-
-##### Strategies
-
-`RSocketRequester.Builder` accepts `RSocketStrategies` to configure the requester. You’ll need to use this to provide encoders and decoders for (de)-serialization of data and metadata values. By default only the basic codecs from `spring-core` for `String`, `byte[]`, and `ByteBuffer` are registered. Adding `spring-web` provides access to more that can be registered as follows:
-
-Java
-
-Kotlin
-
-```java
-RSocketStrategies strategies = RSocketStrategies.builder()
-    .encoders(encoders -> encoders.add(new Jackson2CborEncoder()))
-    .decoders(decoders -> decoders.add(new Jackson2CborDecoder()))
-    .build();
-
-RSocketRequester requester = RSocketRequester.builder()
-    .rsocketStrategies(strategies)
-    .tcp("localhost", 7000);
-```
-
-`RSocketStrategies` is designed for re-use. In some scenarios, e.g. client and server in the same application, it may be preferable to declare it in Spring configuration.
-
-##### Client Responders
-
-`RSocketRequester.Builder` can be used to configure responders to requests from the server.
-
-You can use annotated handlers for client-side responding based on the same infrastructure that’s used on a server, but registered programmatically as follows:
-
-Java
-
-Kotlin
-
-```java
-RSocketStrategies strategies = RSocketStrategies.builder()
-    .routeMatcher(new PathPatternRouteMatcher())  
-    .build();
-
-SocketAcceptor responder =
-    RSocketMessageHandler.responder(strategies, new ClientHandler()); 
-
-RSocketRequester requester = RSocketRequester.builder()
-    .rsocketConnector(connector -> connector.acceptor(responder)) 
-    .tcp("localhost", 7000);
-```
-
-|      | Use `PathPatternRouteMatcher`, if `spring-web` is present, for efficient route matching. |
-| ---- | ------------------------------------------------------------ |
-|      | Create a responder from a class with `@MessageMaping` and/or `@ConnectMapping` methods. |
-|      | Register the responder.                                      |
-
-Note the above is only a shortcut designed for programmatic registration of client responders. For alternative scenarios, where client responders are in Spring configuration, you can still declare `RSocketMessageHandler` as a Spring bean and then apply as follows:
-
-Java
-
-Kotlin
-
-```java
-ApplicationContext context = ... ;
-RSocketMessageHandler handler = context.getBean(RSocketMessageHandler.class);
-
-RSocketRequester requester = RSocketRequester.builder()
-    .rsocketConnector(connector -> connector.acceptor(handler.responder()))
-    .tcp("localhost", 7000);
-```
-
-For the above you may also need to use `setHandlerPredicate` in `RSocketMessageHandler` to switch to a different strategy for detecting client responders, e.g. based on a custom annotation such as `@RSocketClientResponder` vs the default `@Controller`. This is necessary in scenarios with client and server, or multiple clients in the same application.
-
-See also [Annotated Responders](https://docs.spring.io/spring-framework/docs/current/reference/html/web-reactive.html#rsocket-annot-responders), for more on the programming model.
-
-##### Advanced
-
-`RSocketRequesterBuilder` provides a callback to expose the underlying `io.rsocket.core.RSocketConnector` for further configuration options for keepalive intervals, session resumption, interceptors, and more. You can configure options at that level as follows:
-
-Java
-
-Kotlin
-
-```java
-RSocketRequester requester = RSocketRequester.builder()
-    .rsocketConnector(connector -> {
-        // ...
-    })
-    .tcp("localhost", 7000);
-```
-
-#### 5.2.2. Server Requester
-
-To make requests from a server to connected clients is a matter of obtaining the requester for the connected client from the server.
-
-In [Annotated Responders](https://docs.spring.io/spring-framework/docs/current/reference/html/web-reactive.html#rsocket-annot-responders), `@ConnectMapping` and `@MessageMapping` methods support an `RSocketRequester` argument. Use it to access the requester for the connection. Keep in mind that `@ConnectMapping` methods are essentially handlers of the `SETUP` frame which must be handled before requests can begin. Therefore, requests at the very start must be decoupled from handling. For example:
-
-Java
-
-Kotlin
-
-```java
-@ConnectMapping
-Mono<Void> handle(RSocketRequester requester) {
-    requester.route("status").data("5")
-        .retrieveFlux(StatusReport.class)
-        .subscribe(bar -> { 
-            // ...
-        });
-    return ... 
-}
-```
-
-|      | Start the request asynchronously, independent from handling. |
-| ---- | ------------------------------------------------------------ |
-|      | Perform handling and return completion `Mono<Void>`.         |
-
-#### 5.2.3. Requests
-
-Once you have a [client](https://docs.spring.io/spring-framework/docs/current/reference/html/web-reactive.html#rsocket-requester-client) or [server](https://docs.spring.io/spring-framework/docs/current/reference/html/web-reactive.html#rsocket-requester-server) requester, you can make requests as follows:
-
-Java
-
-Kotlin
-
-```java
-ViewBox viewBox = ... ;
-
-Flux<AirportLocation> locations = requester.route("locate.radars.within") 
-        .data(viewBox) 
-        .retrieveFlux(AirportLocation.class); 
-```
-
-|      | Specify a route to include in the metadata of the request message. |
-| ---- | ------------------------------------------------------------ |
-|      | Provide data for the request message.                        |
-|      | Declare the expected response.                               |
-
-The interaction type is determined implicitly from the cardinality of the input and output. The above example is a `Request-Stream` because one value is sent and a stream of values is received. For the most part you don’t need to think about this as long as the choice of input and output matches an RSocket interaction type and the types of input and output expected by the responder. The only example of an invalid combination is many-to-one.
-
-The `data(Object)` method also accepts any Reactive Streams `Publisher`, including `Flux` and `Mono`, as well as any other producer of value(s) that is registered in the `ReactiveAdapterRegistry`. For a multi-value `Publisher` such as `Flux` which produces the same types of values, consider using one of the overloaded `data` methods to avoid having type checks and `Encoder` lookup on every element:
-
-```java
-data(Object producer, Class<?> elementClass);
-data(Object producer, ParameterizedTypeReference<?> elementTypeRef);
-```
-
-The `data(Object)` step is optional. Skip it for requests that don’t send data:
-
-Java
-
-Kotlin
-
-```java
-Mono<AirportLocation> location = requester.route("find.radar.EWR"))
-    .retrieveMono(AirportLocation.class);
-```
-
-Extra metadata values can be added if using [composite metadata](https://github.com/rsocket/rsocket/blob/master/Extensions/CompositeMetadata.md) (the default) and if the values are supported by a registered `Encoder`. For example:
-
-Java
-
-Kotlin
-
-```java
-String securityToken = ... ;
-ViewBox viewBox = ... ;
-MimeType mimeType = MimeType.valueOf("message/x.rsocket.authentication.bearer.v0");
-
-Flux<AirportLocation> locations = requester.route("locate.radars.within")
-        .metadata(securityToken, mimeType)
-        .data(viewBox)
-        .retrieveFlux(AirportLocation.class);
-```
-
-For `Fire-and-Forget` use the `send()` method that returns `Mono<Void>`. Note that the `Mono` indicates only that the message was successfully sent, and not that it was handled.
-
-For `Metadata-Push` use the `sendMetadata()` method with a `Mono<Void>` return value.
-
-### 5.3. Annotated Responders
-
-RSocket responders can be implemented as `@MessageMapping` and `@ConnectMapping` methods. `@MessageMapping` methods handle individual requests while `@ConnectMapping` methods handle connection-level events (setup and metadata push). Annotated responders are supported symmetrically, for responding from the server side and for responding from the client side.
-
-#### 5.3.1. Server Responders
-
-To use annotated responders on the server side, add `RSocketMessageHandler` to your Spring configuration to detect `@Controller` beans with `@MessageMapping` and `@ConnectMapping` methods:
-
-Java
-
-Kotlin
-
-```java
-@Configuration
-static class ServerConfig {
-
-    @Bean
-    public RSocketMessageHandler rsocketMessageHandler() {
-        RSocketMessageHandler handler = new RSocketMessageHandler();
-        handler.routeMatcher(new PathPatternRouteMatcher());
-        return handler;
-    }
-}
-```
-
-Then start an RSocket server through the Java RSocket API and plug the `RSocketMessageHandler` for the responder as follows:
-
-Java
-
-Kotlin
-
-```java
-ApplicationContext context = ... ;
-RSocketMessageHandler handler = context.getBean(RSocketMessageHandler.class);
-
-CloseableChannel server =
-    RSocketServer.create(handler.responder())
-        .bind(TcpServerTransport.create("localhost", 7000))
-        .block();
-```
-
-`RSocketMessageHandler` supports [composite](https://github.com/rsocket/rsocket/blob/master/Extensions/CompositeMetadata.md) and [routing](https://github.com/rsocket/rsocket/blob/master/Extensions/Routing.md) metadata by default. You can set its [MetadataExtractor](https://docs.spring.io/spring-framework/docs/current/reference/html/web-reactive.html#rsocket-metadata-extractor) if you need to switch to a different mime type or register additional metadata mime types.
-
-You’ll need to set the `Encoder` and `Decoder` instances required for metadata and data formats to support. You’ll likely need the `spring-web` module for codec implementations.
-
-By default `SimpleRouteMatcher` is used for matching routes via `AntPathMatcher`. We recommend plugging in the `PathPatternRouteMatcher` from `spring-web` for efficient route matching. RSocket routes can be hierarchical but are not URL paths. Both route matchers are configured to use "." as separator by default and there is no URL decoding as with HTTP URLs.
-
-`RSocketMessageHandler` can be configured via `RSocketStrategies` which may be useful if you need to share configuration between a client and a server in the same process:
-
-Java
-
-Kotlin
-
-```java
-@Configuration
-static class ServerConfig {
-
-    @Bean
-    public RSocketMessageHandler rsocketMessageHandler() {
-        RSocketMessageHandler handler = new RSocketMessageHandler();
-        handler.setRSocketStrategies(rsocketStrategies());
-        return handler;
-    }
-
-    @Bean
-    public RSocketStrategies rsocketStrategies() {
-        return RSocketStrategies.builder()
-            .encoders(encoders -> encoders.add(new Jackson2CborEncoder()))
-            .decoders(decoders -> decoders.add(new Jackson2CborDecoder()))
-            .routeMatcher(new PathPatternRouteMatcher())
-            .build();
-    }
-}
-```
-
-#### 5.3.2. Client Responders
-
-Annotated responders on the client side need to be configured in the `RSocketRequester.Builder`. For details, see [Client Responders](https://docs.spring.io/spring-framework/docs/current/reference/html/web-reactive.html#rsocket-requester-client-responder).
-
-#### 5.3.3. @MessageMapping
-
-Once [server](https://docs.spring.io/spring-framework/docs/current/reference/html/web-reactive.html#rsocket-annot-responders-server) or [client](https://docs.spring.io/spring-framework/docs/current/reference/html/web-reactive.html#rsocket-annot-responders-client) responder configuration is in place, `@MessageMapping` methods can be used as follows:
-
-Java
-
-Kotlin
-
-```java
-@Controller
-public class RadarsController {
-
-    @MessageMapping("locate.radars.within")
-    public Flux<AirportLocation> radars(MapRequest request) {
-        // ...
-    }
-}
-```
-
-The above `@MessageMapping` method responds to a Request-Stream interaction having the route "locate.radars.within". It supports a flexible method signature with the option to use the following method arguments:
-
-| Method Argument                | Description                                                  |
-| :----------------------------- | :----------------------------------------------------------- |
-| `@Payload`                     | The payload of the request. This can be a concrete value of asynchronous types like `Mono` or `Flux`.**Note:** Use of the annotation is optional. A method argument that is not a simple type and is not any of the other supported arguments, is assumed to be the expected payload. |
-| `RSocketRequester`             | Requester for making requests to the remote end.             |
-| `@DestinationVariable`         | Value extracted from the route based on variables in the mapping pattern, e.g. `@MessageMapping("find.radar.{id}")`. |
-| `@Header`                      | Metadata value registered for extraction as described in [MetadataExtractor](https://docs.spring.io/spring-framework/docs/current/reference/html/web-reactive.html#rsocket-metadata-extractor). |
-| `@Headers Map<String, Object>` | All metadata values registered for extraction as described in [MetadataExtractor](https://docs.spring.io/spring-framework/docs/current/reference/html/web-reactive.html#rsocket-metadata-extractor). |
-
-The return value is expected to be one or more Objects to be serialized as response payloads. That can be asynchronous types like `Mono` or `Flux`, a concrete value, or either `void` or a no-value asynchronous type such as `Mono<Void>`.
-
-The RSocket interaction type that an `@MessageMapping` method supports is determined from the cardinality of the input (i.e. `@Payload` argument) and of the output, where cardinality means the following:
-
-| Cardinality | Description                                                  |
-| :---------- | :----------------------------------------------------------- |
-| 1           | Either an explicit value, or a single-value asynchronous type such as `Mono<T>`. |
-| Many        | A multi-value asynchronous type such as `Flux<T>`.           |
-| 0           | For input this means the method does not have an `@Payload` argument.For output this is `void` or a no-value asynchronous type such as `Mono<Void>`. |
-
-The table below shows all input and output cardinality combinations and the corresponding interaction type(s):
-
-| Input Cardinality | Output Cardinality | Interaction Types                 |
-| :---------------- | :----------------- | :-------------------------------- |
-| 0, 1              | 0                  | Fire-and-Forget, Request-Response |
-| 0, 1              | 1                  | Request-Response                  |
-| 0, 1              | Many               | Request-Stream                    |
-| Many              | 0, 1, Many         | Request-Channel                   |
-
-#### 5.3.4. @ConnectMapping
-
-`@ConnectMapping` handles the `SETUP` frame at the start of an RSocket connection, and any subsequent metadata push notifications through the `METADATA_PUSH` frame, i.e. `metadataPush(Payload)` in `io.rsocket.RSocket`.
-
-`@ConnectMapping` methods support the same arguments as [@MessageMapping](https://docs.spring.io/spring-framework/docs/current/reference/html/web-reactive.html#rsocket-annot-messagemapping) but based on metadata and data from the `SETUP` and `METADATA_PUSH` frames. `@ConnectMapping` can have a pattern to narrow handling to specific connections that have a route in the metadata, or if no patterns are declared then all connections match.
-
-`@ConnectMapping` methods cannot return data and must be declared with `void` or `Mono<Void>` as the return value. If handling returns an error for a new connection then the connection is rejected. Handling must not be held up to make requests to the `RSocketRequester` for the connection. See [Server Requester](https://docs.spring.io/spring-framework/docs/current/reference/html/web-reactive.html#rsocket-requester-server) for details.
-
-### 5.4. MetadataExtractor
-
-Responders must interpret metadata. [Composite metadata](https://github.com/rsocket/rsocket/blob/master/Extensions/CompositeMetadata.md) allows independently formatted metadata values (e.g. for routing, security, tracing) each with its own mime type. Applications need a way to configure metadata mime types to support, and a way to access extracted values.
-
-`MetadataExtractor` is a contract to take serialized metadata and return decoded name-value pairs that can then be accessed like headers by name, for example via `@Header` in annotated handler methods.
-
-`DefaultMetadataExtractor` can be given `Decoder` instances to decode metadata. Out of the box it has built-in support for ["message/x.rsocket.routing.v0"](https://github.com/rsocket/rsocket/blob/master/Extensions/Routing.md) which it decodes to `String` and saves under the "route" key. For any other mime type you’ll need to provide a `Decoder` and register the mime type as follows:
-
-Java
-
-Kotlin
-
-```java
-DefaultMetadataExtractor extractor = new DefaultMetadataExtractor(metadataDecoders);
-extractor.metadataToExtract(fooMimeType, Foo.class, "foo");
-```
-
-Composite metadata works well to combine independent metadata values. However the requester might not support composite metadata, or may choose not to use it. For this, `DefaultMetadataExtractor` may needs custom logic to map the decoded value to the output map. Here is an example where JSON is used for metadata:
-
-Java
-
-Kotlin
-
-```java
-DefaultMetadataExtractor extractor = new DefaultMetadataExtractor(metadataDecoders);
-extractor.metadataToExtract(
-    MimeType.valueOf("application/vnd.myapp.metadata+json"),
-    new ParameterizedTypeReference<Map<String,String>>() {},
-    (jsonMap, outputMap) -> {
-        outputMap.putAll(jsonMap);
-    });
-```
-
-When configuring `MetadataExtractor` through `RSocketStrategies`, you can let `RSocketStrategies.Builder` create the extractor with the configured decoders, and simply use a callback to customize registrations as follows:
-
-Java
-
-Kotlin
-
-```java
-RSocketStrategies strategies = RSocketStrategies.builder()
-    .metadataExtractorRegistry(registry -> {
-        registry.metadataToExtract(fooMimeType, Foo.class, "foo");
-        // ...
-    })
-    .build();
-```
-
-## 6. Reactive Libraries
-
-`spring-webflux` depends on `reactor-core` and uses it internally to compose asynchronous logic and to provide Reactive Streams support. Generally, WebFlux APIs return `Flux` or `Mono` (since those are used internally) and leniently accept any Reactive Streams `Publisher` implementation as input. The use of `Flux` versus `Mono` is important, because it helps to express cardinality — for example, whether a single or multiple asynchronous values are expected, and that can be essential for making decisions (for example, when encoding or decoding HTTP messages).
-
-For annotated controllers, WebFlux transparently adapts to the reactive library chosen by the application. This is done with the help of the [`ReactiveAdapterRegistry`](https://docs.spring.io/spring-framework/docs/5.3.2/javadoc-api/org/springframework/core/ReactiveAdapterRegistry.html), which provides pluggable support for reactive library and other asynchronous types. The registry has built-in support for RxJava 2/3, RxJava 1 (via RxJava Reactive Streams bridge), and `CompletableFuture`, but you can register others, too.
-
-|      | As of Spring Framework 5.3, support for RxJava 1 is deprecated. |
-| ---- | ------------------------------------------------------------ |
-|      |                                                              |
-
-For functional APIs (such as [Functional Endpoints](https://docs.spring.io/spring-framework/docs/current/reference/html/web-reactive.html#webflux-fn), the `WebClient`, and others), the general rules for WebFlux APIs apply — `Flux` and `Mono` as return values and a Reactive Streams `Publisher` as input. When a `Publisher`, whether custom or from another reactive library, is provided, it can be treated only as a stream with unknown semantics (0..N). If, however, the semantics are known, you can wrap it with `Flux` or `Mono.from(Publisher)` instead of passing the raw `Publisher`.
-
-For example, given a `Publisher` that is not a `Mono`, the Jackson JSON message writer expects multiple values. If the media type implies an infinite stream (for example, `application/json+stream`), values are written and flushed individually. Otherwise, values are buffered into a list and rendered as a JSON array.
+若要测试使用WebClient的代码，可以使用模拟Web服务器，例如OkHttp MockWebServer。要查看其用法示例，请查看Spring Framework测试套件中的WebClientIntegrationTests或OkHttp存储库中的静态服务器示例。
