@@ -9,3 +9,4 @@ public/
 .idea/
 package.json
 package-lock.json
+*.MWebMetaData/
