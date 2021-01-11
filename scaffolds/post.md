@@ -2,16 +2,16 @@
 title: {{ title }}
 date: {{ date }}
 author: HoldDie
-img: images/xxx.jpg
+img: 
 top: false
 cover: false
-coverImg: images/1.jpg
+coverImg: 
 password: 
 toc: true
 mathjax: true
 summary: 
 categories: 
 tags:
-  - 1
-  - 1
+  - 
+  - 
 ---
