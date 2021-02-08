@@ -10,3 +10,4 @@ public/
 package.json
 package-lock.json
 *.MWebMetaData/
+yarn.lock
