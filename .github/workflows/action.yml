@@ -7,21 +7,18 @@ on:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
-    
     strategy:
       matrix:
         node-version: [10.x] 
-
     steps:
-
     - name: 1. git checkout...
       uses: actions/checkout@v1
-
+    
     - name: 2. setup nodejs...
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }} # 版本
-
+    
     - name: 3. install hexo...
       run: |
         npm i hexo-cli --save -g
@@ -41,21 +38,18 @@ jobs:
         npm i hexo-filter-github-emojis --save -g
         npm install
 
-    - name: 4. 配置 Git 环境
-      env:
-        ACTION_DEPLOY_KEY: ${{secrets.ACTION_DEPLOY_KEY}}
+    - name: 4. hexo generate public files...
       run: |
-        mkdir -p ~/.ssh/
-        echo "$ACTION_DEPLOY_KEY" > ~/.ssh/id_rsa
-        chmod 600 ~/.ssh/id_rsa
-        ssh-keyscan github.com >> ~/.ssh/known_hosts
-        git config --global user.name "holddie"
-        git config --global user.email "holddie@163.com"
-
-    - name: 5. hexo generate public files...
-      run: |
-        rm -rf .deploy_git
         hexo clean
         hexo g
-        hexo deploy
-        rm ~/.ssh/id_rsa
+
+    - name: 5. Deploy hexo blog
+      env: 
+        GITHUB_REPO: github.com/holddie/holddie.github.io
+      run: |
+        cd ./public && git init && git add .
+        git config user.name "holddie"
+        git config user.email "holddie@163.com"
+        git add .
+        git commit -m "GitHub Actions Auto Builder at $(date +'%Y-%m-%d %H:%M:%S')"
+        git push --force --quiet "https://${{ secrets.ACCESS_TOKEN }}@$GITHUB_REPO" master:master
