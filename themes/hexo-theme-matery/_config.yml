@@ -121,14 +121,14 @@ indexbtn:
   enable: true
   name: Github
   icon: fab fa-github-alt
-  url: https://github.com/holddie
+  url: https://github.com/asxing
 
 # The configurations of the second line of home banner
 # icon/button will not show up if you leave the corresponding socialLink empty
 # 首页 banner 中的第二行个人信息配置，留空即不启用
 socialLink:
-  github: https://github.com/holddie # https://github.com/holddie
-  email: holddie@163.com # xxx@xxx.com
+  github: https://github.com/asxing # https://github.com/holddie
+  email: asxingking@gmail.com # xxx@xxx.com
   facebook: # https://www.facebook.com/xxx
   twitter: # https://twitter.com/xxx
   qq: # 123456789
@@ -272,12 +272,12 @@ postCalendar: true
 # Gitalk 评论模块的配置，默认为不激活
 gitalk:
   enable: true
-  owner: HoldDie
-  repo: HoldDie.github.io
+  owner: Asxing
+  repo: asxing.github.io
   oauth:
     clientId: c4e18e113d94091c8828
     clientSecret: 891f04d80de6a77fd6eb60d1cbe792e916cde3ff
-  admin: HoldDie
+  admin: asxing
 
 # the Gitment config，default disabled
 # Gitment 评论模块的配置，默认为不激活
@@ -320,7 +320,7 @@ valine:
 # 配置是否在 header 中显示 fork me on github 的图标，默认为true，你可以修改为你的仓库地址.
 githubLink:
   enable: true
-  url: https://github.com/holddie
+  url: https://github.com/asxing
   title: Fork Me
 
 # The password verification feature of read post. To use this feature,

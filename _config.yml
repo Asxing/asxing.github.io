@@ -3,17 +3,17 @@
 ## Source: https://github.com/hexojs/hexo/
 
 # Site
-title: HoldDie - 吼呆
+title: Asxing-阿行
 subtitle: 执行 敬畏 感恩
 description: 
 keywords: 编程 读书 生活
-author: HoldDie
+author: Asxing
 language: zh-CN
 timezone:
 
 # URL
 ## If your site is put in a subdirectory, set url as 'http://yoursite.com/child' and root as '/child/'
-url: https://www.holddie.com
+url: https://www.asxing.com
 root: /
 permalink: :year/:month/:day/:title/
 permalink_defaults:
