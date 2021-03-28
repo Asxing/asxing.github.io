@@ -1,0 +1,1625 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="keywords" content="Java爬虫-ChromeDriver连接池（九）, 编程 读书 生活">
+    <meta name="description" content="汹涌浪潮先消磨你的心智，水下暗礁在摇摆间把你的航船击沉。 ——你的名字
+ChromeDriver 连接池
+基本的抓取功能完善以后，接下来就是优化的过程，本节使用Apache commons-pool实现连接池。
+
+1、Pool 设计思想
+ ">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>Java爬虫-ChromeDriver连接池（九） | Asxing-阿行</title>
+    <link rel="icon" type="image/png" href="/favicon.png">
+
+    <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
+    <link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
+    <link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/matery.css">
+    <link rel="stylesheet" type="text/css" href="/css/my.css">
+    
+    <script src="/libs/jquery/jquery.min.js"></script>
+    
+<meta name="generator" content="Hexo 4.2.1"><link rel="alternate" href="/atom.xml" title="Asxing-阿行" type="application/atom+xml">
+<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+
+
+<body>
+    <header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper head-container">
+            <div class="brand-logo">
+                <a href="/" class="waves-effect waves-light">
+                    
+                    <img src="/medias/logo.png" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">Asxing-阿行</span>
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
+<ul class="right nav-menu">
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/" class="waves-effect waves-light">
+      
+      <i class="fas fa-home" style="zoom: 0.6;"></i>
+      
+      <span>首页</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/tags" class="waves-effect waves-light">
+      
+      <i class="fas fa-tags" style="zoom: 0.6;"></i>
+      
+      <span>标签</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/categories" class="waves-effect waves-light">
+      
+      <i class="fas fa-bookmark" style="zoom: 0.6;"></i>
+      
+      <span>分类</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/archives" class="waves-effect waves-light">
+      
+      <i class="fas fa-archive" style="zoom: 0.6;"></i>
+      
+      <span>归档</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/about" class="waves-effect waves-light">
+      
+      <i class="fas fa-user-circle" style="zoom: 0.6;"></i>
+      
+      <span>关于</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/contact" class="waves-effect waves-light">
+      
+      <i class="fas fa-comments" style="zoom: 0.6;"></i>
+      
+      <span>留言板</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/friends" class="waves-effect waves-light">
+      
+      <i class="fas fa-address-book" style="zoom: 0.6;"></i>
+      
+      <span>友情链接</span>
+    </a>
+    
+  </li>
+  
+  <li>
+    <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+      <i id="searchIcon" class="fas fa-search" title="搜索" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+</ul>
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="/medias/logo.png" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">Asxing-阿行</div>
+        <div class="logo-desc">
+            
+            Never really desperate, only the lost of the soul.
+            
+        </div>
+    </div>
+
+    
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li class="m-nav-item">
+	  
+		<a href="/" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-home"></i>
+			
+			首页
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/tags" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-tags"></i>
+			
+			标签
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/categories" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-bookmark"></i>
+			
+			分类
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/archives" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-archive"></i>
+			
+			归档
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/about" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-user-circle"></i>
+			
+			关于
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/contact" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-comments"></i>
+			
+			Contact
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/friends" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-address-book"></i>
+			
+			友情链接
+		</a>
+          
+        </li>
+        
+        
+        <li><div class="divider"></div></li>
+        <li>
+            <a href="https://github.com/asxing" class="waves-effect waves-light" target="_blank">
+                <i class="fab fa-github-square fa-fw"></i>Fork Me
+            </a>
+        </li>
+        
+    </ul>
+</div>
+
+        </div>
+
+        
+            <style>
+    .nav-transparent .github-corner {
+        display: none !important;
+    }
+
+    .github-corner {
+        position: absolute;
+        z-index: 10;
+        top: 0;
+        right: 0;
+        border: 0;
+        transform: scale(1.1);
+    }
+
+    .github-corner svg {
+        color: #0f9d58;
+        fill: #fff;
+        height: 64px;
+        width: 64px;
+    }
+
+    .github-corner:hover .octo-arm {
+        animation: a 0.56s ease-in-out;
+    }
+
+    .github-corner .octo-arm {
+        animation: none;
+    }
+
+    @keyframes a {
+        0%,
+        to {
+            transform: rotate(0);
+        }
+        20%,
+        60% {
+            transform: rotate(-25deg);
+        }
+        40%,
+        80% {
+            transform: rotate(10deg);
+        }
+    }
+</style>
+
+<a href="https://github.com/asxing" class="github-corner tooltipped hide-on-med-and-down" target="_blank"
+   data-tooltip="Fork Me" data-position="left" data-delay="50">
+    <svg viewBox="0 0 250 250" aria-hidden="true">
+        <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
+        <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2"
+              fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path>
+        <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z"
+              fill="currentColor" class="octo-body"></path>
+    </svg>
+</a>
+        
+    </nav>
+
+</header>
+
+    
+<script src="/libs/cryptojs/crypto-js.min.js"></script>
+<script>
+    (function() {
+        let pwd = '';
+        if (pwd && pwd.length > 0) {
+            if (pwd !== CryptoJS.SHA256(prompt('请输入访问本文章的密码')).toString(CryptoJS.enc.Hex)) {
+                alert('密码错误，将返回主页！');
+                location.href = '/';
+            }
+        }
+    })();
+</script>
+
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/9.jpg')">
+    <div class="container" style="right: 0px;left: 0px;">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <div class="description center-align post-title">
+                        Java爬虫-ChromeDriver连接池（九）
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<main class="post-container content">
+
+    
+    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
+<style>
+    #articleContent h1::before,
+    #articleContent h2::before,
+    #articleContent h3::before,
+    #articleContent h4::before,
+    #articleContent h5::before,
+    #articleContent h6::before {
+        display: block;
+        content: " ";
+        height: 100px;
+        margin-top: -100px;
+        visibility: hidden;
+    }
+
+    #articleContent :focus {
+        outline: none;
+    }
+
+    .toc-fixed {
+        position: fixed;
+        top: 64px;
+    }
+
+    .toc-widget {
+        padding-left: 20px;
+    }
+
+    .toc-widget .toc-title {
+        margin: 35px 0 15px 0;
+        padding-left: 17px;
+        font-size: 1.5rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    .toc-widget ol {
+        padding: 0;
+        list-style: none;
+    }
+
+    #toc-content ol {
+        padding-left: 10px;
+    }
+
+    #toc-content ol li {
+        padding-left: 10px;
+    }
+
+    #toc-content .toc-link:hover {
+        color: #42b983;
+        font-weight: 700;
+        text-decoration: underline;
+    }
+
+    #toc-content .toc-link::before {
+        background-color: transparent;
+        max-height: 25px;
+    }
+
+    #toc-content .is-active-link {
+        color: #42b983;
+    }
+
+    #toc-content .is-active-link::before {
+        background-color: #42b983;
+    }
+
+    #floating-toc-btn {
+        position: fixed;
+        right: 15px;
+        bottom: 76px;
+        padding-top: 15px;
+        margin-bottom: 0;
+        z-index: 998;
+    }
+
+    #floating-toc-btn .btn-floating {
+        width: 48px;
+        height: 48px;
+    }
+
+    #floating-toc-btn .btn-floating i {
+        line-height: 48px;
+        font-size: 1.4rem;
+    }
+</style>
+<div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                            <a href="/tags/Java/">
+                                <span class="chip bg-color">Java</span>
+                            </a>
+                        
+                            <a href="/tags/%E7%88%AC%E8%99%AB/">
+                                <span class="chip bg-color">爬虫</span>
+                            </a>
+                        
+                            <a href="/tags/%E8%BF%9E%E6%8E%A5%E6%B1%A0/">
+                                <span class="chip bg-color">连接池</span>
+                            </a>
+                        
+                            <a href="/tags/ChromeDriver/">
+                                <span class="chip bg-color">ChromeDriver</span>
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fas fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/categories/%E7%88%AC%E8%99%AB/" class="post-category">
+                                爬虫
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
+                    2018-12-04
+                </div>
+                
+
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
+                    3k
+                </div>
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
+                    12 分
+                </div>
+                
+				
+                
+            </div>
+            
+        </div>
+        <hr class="clearfix">
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <p><strong>汹涌浪潮先消磨你的心智，水下暗礁在摇摆间把你的航船击沉。 ——你的名字</strong></p>
+<h2 id="ChromeDriver-连接池"><a href="#ChromeDriver-连接池" class="headerlink" title="ChromeDriver 连接池"></a>ChromeDriver 连接池</h2><blockquote>
+<p>基本的抓取功能完善以后，接下来就是优化的过程，本节使用<strong><code>Apache commons-pool</code></strong>实现连接池。</p>
+</blockquote>
+<h3 id="1、Pool-设计思想"><a href="#1、Pool-设计思想" class="headerlink" title="1、Pool 设计思想"></a>1、Pool 设计思想</h3><blockquote>
+<p> commons-pool实现思想非常简单,它主要的作用就是将”对象集合”池化,任何通过pool进行对象存取的操作,都会严格按照”pool配置”(比如池的大小)实时的创建对象/阻塞控制/销毁对象等。它在一定程度上,实现了对象集合的管理以及对象的分发。</p>
+</blockquote>
+<h4 id="1-1、主要步骤："><a href="#1-1、主要步骤：" class="headerlink" title="1.1、主要步骤："></a>1.1、主要步骤：</h4><ul>
+<li>将创建对象的方式,使用工厂模式;</li>
+<li>通过”pool配置”来约束对象存取的时机</li>
+<li>将对象列表保存在队列中(LinkedList)</li>
+</ul>
+<h4 id="1-2、生命周期"><a href="#1-2、生命周期" class="headerlink" title="1.2、生命周期"></a>1.2、生命周期</h4><p><img src="../../../../../../../../images/2018/12/image-20181204172859102.png" alt="image-20181204172859102"></p>
+<h4 id="1-3、连接池配置参数"><a href="#1-3、连接池配置参数" class="headerlink" title="1.3、连接池配置参数"></a>1.3、连接池配置参数</h4><blockquote>
+<p>这些属性均可以在org.apache.commons.pool.impl.GenericObjectPool.Config中进行设定。</p>
+</blockquote>
+<ol>
+<li>maxActive: 链接池中最大连接数,默认为8.</li>
+<li>maxIdle: 链接池中最大空闲的连接数,默认为8.</li>
+<li>minIdle: 连接池中最少空闲的连接数,默认为0.</li>
+<li>maxWait: 当连接池资源耗尽时，调用者最大阻塞的时间，超时将跑出异常。单位，毫秒数;默认为-1.表示永不超时.</li>
+<li>minEvictableIdleTimeMillis: 连接空闲的最小时间，达到此值后空闲连接将可能会被移除。负值(-1)表示不移除。</li>
+<li>softMinEvictableIdleTimeMillis: 连接空闲的最小时间，达到此值后空闲链接将会被移除，且保留“minIdle”个空闲连接数。默认为-1.</li>
+<li>numTestsPerEvictionRun: 对于“空闲链接”检测线程而言，每次检测的链接资源的个数。默认为3.</li>
+<li>testOnBorrow: 向调用者输出“链接”资源时，是否检测是有有效，如果无效则从连接池中移除，并尝试获取继续获取。默认为false。建议保持默认值.</li>
+<li>testOnReturn: 向连接池“归还”链接时，是否检测“链接”对象的有效性。默认为false。建议保持默认值.</li>
+<li>testWhileIdle: 向调用者输出“链接”对象时，是否检测它的空闲超时；默认为false。如果“链接”空闲超时，将会被移除。建议保持默认值.</li>
+<li>timeBetweenEvictionRunsMillis: “空闲链接”检测线程，检测的周期，毫秒数。如果为负值，表示不运行“检测线程”。默认为-1.</li>
+<li>whenExhaustedAction: 当“连接池”中active数量达到阀值时，即“链接”资源耗尽时，连接池需要采取的手段, 默认为1：<br>-&gt; 0 : 抛出异常，<br>-&gt; 1 : 阻塞，直到有可用链接资源<br>-&gt; 2 : 强制创建新的链接资源</li>
+</ol>
+<h3 id="2、实现原理"><a href="#2、实现原理" class="headerlink" title="2、实现原理"></a>2、实现原理</h3><h4 id="2-1、对象创建"><a href="#2-1、对象创建" class="headerlink" title="2.1、对象创建"></a>2.1、对象创建</h4><blockquote>
+<p>public GenericObjectPool(PoolableObjectFactory factory, GenericObjectPool.Config config) :</p>
+</blockquote>
+<ul>
+<li>此方法创建一个GenericObjectPool实例,GenericObjectPool类已经实现了和对象池有关的所有核心操作,开发者可以通过继承或者封装的方式来使用它.通过此构造函数。</li>
+<li>一个Pool中需要指定PoolableObjectFactory 实例,以及此对象池的Config信息。</li>
+<li>PoolableObjectFactory主要用来”创建新对象”，比如当对象池中的对象不足时,可以使用 PoolableObjectFactory.makeObject()方法来创建对象,并交付给Pool管理。</li>
+<li>此构造函数实例化了一个LinkedList作为”对象池”容器,用来存取”对象”。</li>
+<li>此外还会根据timeBetweenEvictionRunsMillis的值来决定是否启动一个后台线程,此线程用来周期性扫描pool中的对象列表,已检测”对象池中的对象”空闲(idle)的时间是否达到了阀值,如果是,则移除此对象.</li>
+</ul>
+<h4 id="2-2、对象工厂接口"><a href="#2-2、对象工厂接口" class="headerlink" title="2.2、对象工厂接口"></a>2.2、对象工厂接口</h4><blockquote>
+<p> commons-pool通过使用ObjectFactory(工厂模式)的方式将”对象池中的对象”的创建/检测/销毁等特性解耦出来,这是一个非常良好的设计思想.此接口有一个抽象类BasePoolableObjectFactory,可供开发者继承和实现。</p>
+</blockquote>
+<ul>
+<li>Object makeObject() : 创建一个新对象;当对象池中的对象个数不足时,将会使用此方法来”输出”一个新的”对象”,并交付给对象池管理.</li>
+<li>void destroyObject(Object obj) : 销毁对象,如果对象池中检测到某个”对象”idle的时间超时,或者操作者向对象池”归还对象”时检测到”对象”已经无效,那么此时将会导致”对象销毁”;”销毁对象”的操作设计相差甚远,但是必须明确:当调用此方法时,”对象”的生命周期必须结束.如果object是线程,那么此时线程必须退出;如果object是socket操作,那么此时socket必须关闭;如果object是文件流操作,那么此时”数据flush”且正常关闭.</li>
+<li>boolean validateObject(Object obj) : 检测对象是否”有效”;Pool中不能保存无效的”对象”,因此”后台检测线程”会周期性的检测Pool中”对象”的有效性,如果对象无效则会导致此对象从Pool中移除,并destroy;此外在调用者从Pool获取一个”对象”时,也会检测”对象”的有效性,确保不能讲”无效”的对象输出给调用者;当调用者使用完毕将”对象归还”到Pool时,仍然会检测对象的有效性.所谓有效性,就是此”对象”的状态是否符合预期,是否可以对调用者直接使用;如果对象是Socket,那么它的有效性就是socket的通道是否畅通/阻塞是否超时等.</li>
+<li>void activateObject(Object obj) : “激活”对象,当Pool中决定移除一个对象交付给调用者时额外的”激活”操作,比如可以在activateObject方法中”重置”参数列表让调用者使用时感觉像一个”新创建”的对象一样;如果object是一个线程,可以在”激活”操作中重置”线程中断标记”,或者让线程从阻塞中唤醒等;如果 object是一个socket,那么可以在”激活操作”中刷新通道,或者对socket进行链接重建(假如socket意外关闭)等.</li>
+<li>void void passivateObject(Object obj) : “钝化”对象,当调用者”归还对象”时,Pool将会”钝化对象”;钝化的言外之意,就是此”对象”暂且需要”休息”一下.如果object是一个 socket,那么可以passivateObject中清除buffer,将socket阻塞;如果object是一个线程,可以在”钝化”操作中将线程sleep或者将线程中的某个对象wait.需要注意的时,activateObject和passivateObject两个方法需要对应,避免死锁或者”对象”状态的混乱.</li>
+</ul>
+<h4 id="2-3、ObjectPool-接口"><a href="#2-3、ObjectPool-接口" class="headerlink" title="2.3、ObjectPool 接口"></a>2.3、ObjectPool 接口</h4><blockquote>
+<p> 对象池是commons-pool的核心接口,用来维护”对象列表”的存取;其中GenericObjectPool是其实现类,它已经实现了相关的功能。</p>
+</blockquote>
+<ul>
+<li>Object borrowObject() : 从Pool获取一个对象,此操作将导致一个”对象”从Pool移除(脱离Pool管理),调用者可以在获得”对象”引用后即可使用,且需要在使用结束后”归还”。</li>
+<li>void returnObject(Object obj) : “归还”对象,当”对象”使用结束后,需要归还到Pool中,才能维持Pool中对象的数量可控,如果不归还到Pool,那么将意味着在Pool之外,将有大量的”对象”存在,那么就使用了”对象池”的意义。</li>
+<li>void invalidateObject(Object obj) : 销毁对象,直接调用ObjectFactory.destroyObject(obj)。</li>
+<li>void addObject() : 开发者可以直接调用addObject方法用于直接创建一个”对象”并添加到Pool中。</li>
+</ul>
+<h3 id="3、代码实现："><a href="#3、代码实现：" class="headerlink" title="3、代码实现："></a>3、代码实现：</h3><h4 id="3-1、WebDriverFactory"><a href="#3-1、WebDriverFactory" class="headerlink" title="3.1、WebDriverFactory"></a>3.1、WebDriverFactory</h4><pre class=" language-java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">WebDriverFactory</span> <span class="token punctuation">{</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">static</span> WebDriver <span class="token function">getWebDriver</span><span class="token punctuation">(</span>String path<span class="token punctuation">,</span> Browser browser<span class="token punctuation">,</span> Proxy proxy<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+
+        <span class="token keyword">switch</span> <span class="token punctuation">(</span>browser<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+
+            <span class="token keyword">case</span> CHROME<span class="token operator">:</span>
+
+                <span class="token keyword">return</span> Browser<span class="token punctuation">.</span>CHROME<span class="token punctuation">.</span><span class="token function">init</span><span class="token punctuation">(</span>path<span class="token punctuation">,</span> proxy<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+            <span class="token keyword">case</span> FIREFOX<span class="token operator">:</span>
+
+                <span class="token keyword">return</span> Browser<span class="token punctuation">.</span>FIREFOX<span class="token punctuation">.</span><span class="token function">init</span><span class="token punctuation">(</span>path<span class="token punctuation">,</span> proxy<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+            <span class="token keyword">case</span> IE<span class="token operator">:</span>
+
+                <span class="token keyword">return</span> Browser<span class="token punctuation">.</span>IE<span class="token punctuation">.</span><span class="token function">init</span><span class="token punctuation">(</span>path<span class="token punctuation">,</span> proxy<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+            <span class="token keyword">case</span> PHANTOMJS<span class="token operator">:</span>
+
+                <span class="token keyword">return</span> Browser<span class="token punctuation">.</span>PHANTOMJS<span class="token punctuation">.</span><span class="token function">init</span><span class="token punctuation">(</span>path<span class="token punctuation">,</span> proxy<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+
+        <span class="token keyword">return</span> null<span class="token punctuation">;</span>
+
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<h4 id="3-2、WebDriverPool"><a href="#3-2、WebDriverPool" class="headerlink" title="3.2、WebDriverPool"></a>3.2、WebDriverPool</h4><pre class=" language-java"><code class="language-java"><span class="token comment" spellcheck="true">/**
+ * WebDriver 连接池
+ * @author HoldDie
+ * @version v1.0.0
+ * @email HoldDie@163.com
+ * @date 2018/12/3 6:08 PM
+ */</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">WebDriverPool</span> <span class="token punctuation">{</span>
+
+    <span class="token keyword">private</span> <span class="token keyword">static</span> GenericObjectPool<span class="token operator">&lt;</span>WebDriver<span class="token operator">></span> webDriverPool <span class="token operator">=</span> null<span class="token punctuation">;</span>
+
+    <span class="token comment" spellcheck="true">/**
+     * 如果需要使用WebDriverPool，则必须先调用这个init()方法
+     * @param config
+     */</span>
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">init</span><span class="token punctuation">(</span>WebDriverPoolConfig config<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+
+        webDriverPool <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">GenericObjectPool</span><span class="token operator">&lt;</span><span class="token operator">></span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">WebDriverPooledFactory</span><span class="token punctuation">(</span>config<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        webDriverPool<span class="token punctuation">.</span><span class="token function">setMaxTotal</span><span class="token punctuation">(</span>Integer<span class="token punctuation">.</span><span class="token function">parseInt</span><span class="token punctuation">(</span>System<span class="token punctuation">.</span><span class="token function">getProperty</span><span class="token punctuation">(</span>
+            <span class="token string">"webdriver.pool.max.total"</span><span class="token punctuation">,</span> <span class="token string">"5"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 最多能放多少个对象</span>
+        webDriverPool<span class="token punctuation">.</span><span class="token function">setMinIdle</span><span class="token punctuation">(</span>Integer<span class="token punctuation">.</span><span class="token function">parseInt</span><span class="token punctuation">(</span>System<span class="token punctuation">.</span><span class="token function">getProperty</span><span class="token punctuation">(</span>
+            <span class="token string">"webdriver.pool.min.idle"</span><span class="token punctuation">,</span> <span class="token string">"5"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>   <span class="token comment" spellcheck="true">// 最少有几个闲置对象</span>
+        webDriverPool<span class="token punctuation">.</span><span class="token function">setMaxIdle</span><span class="token punctuation">(</span>Integer<span class="token punctuation">.</span><span class="token function">parseInt</span><span class="token punctuation">(</span>System<span class="token punctuation">.</span><span class="token function">getProperty</span><span class="token punctuation">(</span>
+            <span class="token string">"webdriver.pool.max.idle"</span><span class="token punctuation">,</span> <span class="token string">"5"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 最多允许多少个闲置对象</span>
+
+        <span class="token keyword">try</span> <span class="token punctuation">{</span>
+            webDriverPool<span class="token punctuation">.</span><span class="token function">preparePool</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">Exception</span> e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name">RuntimeException</span><span class="token punctuation">(</span>e<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">static</span> WebDriver <span class="token function">borrowOne</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>webDriverPool <span class="token operator">!=</span> null<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">try</span> <span class="token punctuation">{</span>
+                <span class="token keyword">return</span> webDriverPool<span class="token punctuation">.</span><span class="token function">borrowObject</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">Exception</span> e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name">RuntimeException</span><span class="token punctuation">(</span>e<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+
+        <span class="token keyword">return</span> null<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">returnOne</span><span class="token punctuation">(</span>WebDriver driver<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>webDriverPool <span class="token operator">!=</span> null<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            driver<span class="token punctuation">.</span><span class="token function">quit</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            webDriverPool<span class="token punctuation">.</span><span class="token function">returnObject</span><span class="token punctuation">(</span>driver<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">destory</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>webDriverPool <span class="token operator">!=</span> null<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+
+            webDriverPool<span class="token punctuation">.</span><span class="token function">clear</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            webDriverPool<span class="token punctuation">.</span><span class="token function">close</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">boolean</span> <span class="token function">hasWebDriverPool</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+
+        <span class="token keyword">return</span> webDriverPool <span class="token operator">!=</span> null<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<h4 id="3-2、WebDriverPoolConfig"><a href="#3-2、WebDriverPoolConfig" class="headerlink" title="3.2、WebDriverPoolConfig"></a>3.2、WebDriverPoolConfig</h4><pre class=" language-java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">WebDriverPoolConfig</span> <span class="token punctuation">{</span>
+
+    <span class="token keyword">private</span> String path<span class="token punctuation">;</span>
+
+    <span class="token keyword">private</span> Browser browser<span class="token punctuation">;</span>
+
+    <span class="token keyword">private</span> List<span class="token operator">&lt;</span>Proxy<span class="token operator">></span> proxies<span class="token punctuation">;</span>
+
+    <span class="token keyword">public</span> <span class="token function">WebDriverPoolConfig</span><span class="token punctuation">(</span>String path<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+
+        <span class="token keyword">this</span><span class="token punctuation">.</span>path <span class="token operator">=</span> path<span class="token punctuation">;</span>
+
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>path<span class="token punctuation">.</span><span class="token function">contains</span><span class="token punctuation">(</span><span class="token string">"chrome"</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+
+            <span class="token keyword">this</span><span class="token punctuation">.</span>browser <span class="token operator">=</span> Browser<span class="token punctuation">.</span>CHROME<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>path<span class="token punctuation">.</span><span class="token function">contains</span><span class="token punctuation">(</span><span class="token string">"firefox"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+
+            <span class="token keyword">this</span><span class="token punctuation">.</span>browser <span class="token operator">=</span> Browser<span class="token punctuation">.</span>FIREFOX<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>path<span class="token punctuation">.</span><span class="token function">contains</span><span class="token punctuation">(</span><span class="token string">"ie"</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+
+            <span class="token keyword">this</span><span class="token punctuation">.</span>browser <span class="token operator">=</span> Browser<span class="token punctuation">.</span>IE<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>path<span class="token punctuation">.</span><span class="token function">contains</span><span class="token punctuation">(</span><span class="token string">"phatomjs"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+
+            <span class="token keyword">this</span><span class="token punctuation">.</span>browser <span class="token operator">=</span> Browser<span class="token punctuation">.</span>PHANTOMJS<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">public</span> <span class="token function">WebDriverPoolConfig</span><span class="token punctuation">(</span>String path<span class="token punctuation">,</span> Browser browser<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+
+        <span class="token keyword">this</span><span class="token punctuation">.</span>path <span class="token operator">=</span> path<span class="token punctuation">;</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>browser <span class="token operator">=</span> browser<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">public</span> <span class="token function">WebDriverPoolConfig</span><span class="token punctuation">(</span>String path<span class="token punctuation">,</span> Browser browser<span class="token punctuation">,</span>List<span class="token operator">&lt;</span>Proxy<span class="token operator">></span> proxies<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+
+        <span class="token keyword">this</span><span class="token punctuation">.</span>path <span class="token operator">=</span> path<span class="token punctuation">;</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>browser <span class="token operator">=</span> browser<span class="token punctuation">;</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>proxies <span class="token operator">=</span> proxies<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">public</span> String <span class="token function">getPath</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> path<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">public</span> Browser <span class="token function">getBrowser</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> browser<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">public</span> List<span class="token operator">&lt;</span>Proxy<span class="token operator">></span> <span class="token function">getProxies</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> proxies<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<h4 id="3-3、WebDriverPooledFactory"><a href="#3-3、WebDriverPooledFactory" class="headerlink" title="3.3、WebDriverPooledFactory"></a>3.3、WebDriverPooledFactory</h4><pre class=" language-java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">final</span> <span class="token keyword">class</span> <span class="token class-name">WebDriverPooledFactory</span> <span class="token keyword">implements</span> <span class="token class-name">PooledObjectFactory</span><span class="token operator">&lt;</span>WebDriver<span class="token operator">></span> <span class="token punctuation">{</span>
+
+    <span class="token keyword">private</span> String path<span class="token punctuation">;</span>
+    <span class="token keyword">private</span> Browser browser<span class="token punctuation">;</span>
+
+    <span class="token keyword">public</span> <span class="token function">WebDriverPooledFactory</span><span class="token punctuation">(</span>WebDriverPoolConfig config<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+
+        <span class="token keyword">this</span><span class="token punctuation">.</span>path <span class="token operator">=</span> config<span class="token punctuation">.</span><span class="token function">getPath</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>browser <span class="token operator">=</span> config<span class="token punctuation">.</span><span class="token function">getBrowser</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        ProxyPool<span class="token punctuation">.</span><span class="token function">addProxyList</span><span class="token punctuation">(</span>config<span class="token punctuation">.</span><span class="token function">getProxies</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment" spellcheck="true">/**
+     * 创建一个对象
+     * @return
+     * @throws Exception
+     */</span>
+    <span class="token annotation punctuation">@Override</span>
+    <span class="token keyword">public</span> PooledObject<span class="token operator">&lt;</span>WebDriver<span class="token operator">></span> <span class="token function">makeObject</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword">throws</span> Exception <span class="token punctuation">{</span>
+
+        Proxy proxy <span class="token operator">=</span>  ProxyPool<span class="token punctuation">.</span><span class="token function">getProxy</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>proxy<span class="token operator">!=</span>null <span class="token operator">&amp;&amp;</span> HttpManager<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">checkProxy</span><span class="token punctuation">(</span>proxy<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+
+            <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">DefaultPooledObject</span><span class="token operator">&lt;</span><span class="token operator">></span><span class="token punctuation">(</span>WebDriverFactory<span class="token punctuation">.</span><span class="token function">getWebDriver</span><span class="token punctuation">(</span>path<span class="token punctuation">,</span>browser<span class="token punctuation">,</span>proxy<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span> <span class="token comment" spellcheck="true">// 重试第一次获取Proxy</span>
+
+            proxy <span class="token operator">=</span> ProxyPool<span class="token punctuation">.</span><span class="token function">getProxy</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>proxy<span class="token operator">!=</span>null <span class="token operator">&amp;&amp;</span> HttpManager<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">checkProxy</span><span class="token punctuation">(</span>proxy<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+
+                <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">DefaultPooledObject</span><span class="token operator">&lt;</span><span class="token operator">></span><span class="token punctuation">(</span>WebDriverFactory<span class="token punctuation">.</span><span class="token function">getWebDriver</span><span class="token punctuation">(</span>path<span class="token punctuation">,</span>browser<span class="token punctuation">,</span>proxy<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span> <span class="token comment" spellcheck="true">// 重试第二次获取Proxy</span>
+
+                proxy <span class="token operator">=</span> ProxyPool<span class="token punctuation">.</span><span class="token function">getProxy</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+                <span class="token keyword">if</span> <span class="token punctuation">(</span>proxy<span class="token operator">!=</span>null <span class="token operator">&amp;&amp;</span> HttpManager<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">checkProxy</span><span class="token punctuation">(</span>proxy<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+
+                    <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">DefaultPooledObject</span><span class="token operator">&lt;</span><span class="token operator">></span><span class="token punctuation">(</span>WebDriverFactory<span class="token punctuation">.</span><span class="token function">getWebDriver</span><span class="token punctuation">(</span>path<span class="token punctuation">,</span> browser<span class="token punctuation">,</span> proxy<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token punctuation">}</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+
+        <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">DefaultPooledObject</span><span class="token operator">&lt;</span><span class="token operator">></span><span class="token punctuation">(</span>WebDriverFactory<span class="token punctuation">.</span><span class="token function">getWebDriver</span><span class="token punctuation">(</span>path<span class="token punctuation">,</span>browser<span class="token punctuation">,</span>null<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 不使用Proxy</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment" spellcheck="true">/**
+     * 销毁一个对象
+     * @param p
+     * @throws Exception
+     */</span>
+    <span class="token annotation punctuation">@Override</span>
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">destroyObject</span><span class="token punctuation">(</span>PooledObject<span class="token operator">&lt;</span>WebDriver<span class="token operator">></span> p<span class="token punctuation">)</span> <span class="token keyword">throws</span> Exception <span class="token punctuation">{</span>
+        p<span class="token punctuation">.</span><span class="token function">getObject</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">quit</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment" spellcheck="true">/**
+     * 对象是否有效
+     * @param p
+     * @return
+     */</span>
+    <span class="token annotation punctuation">@Override</span>
+    <span class="token keyword">public</span> <span class="token keyword">boolean</span> <span class="token function">validateObject</span><span class="token punctuation">(</span>PooledObject<span class="token operator">&lt;</span>WebDriver<span class="token operator">></span> p<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> null <span class="token operator">!=</span> p<span class="token punctuation">.</span><span class="token function">getObject</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment" spellcheck="true">/**
+     * 激活一个对象
+     * @param p
+     * @throws Exception
+     */</span>
+    <span class="token annotation punctuation">@Override</span>
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">activateObject</span><span class="token punctuation">(</span>PooledObject<span class="token operator">&lt;</span>WebDriver<span class="token operator">></span> p<span class="token punctuation">)</span> <span class="token keyword">throws</span> Exception <span class="token punctuation">{</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment" spellcheck="true">/**
+     * 钝化一个对象，在归还前做一起清理动作。
+     * @param p
+     * @throws Exception
+     */</span>
+    <span class="token annotation punctuation">@Override</span>
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">passivateObject</span><span class="token punctuation">(</span>PooledObject<span class="token operator">&lt;</span>WebDriver<span class="token operator">></span> p<span class="token punctuation">)</span> <span class="token keyword">throws</span> Exception <span class="token punctuation">{</span>
+        WebDriver driver <span class="token operator">=</span> p<span class="token punctuation">.</span><span class="token function">getObject</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        Set<span class="token operator">&lt;</span>String<span class="token operator">></span> handles <span class="token operator">=</span> driver<span class="token punctuation">.</span><span class="token function">getWindowHandles</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        String<span class="token punctuation">[</span><span class="token punctuation">]</span> handlesArray <span class="token operator">=</span> handles<span class="token punctuation">.</span><span class="token function">toArray</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">String</span><span class="token punctuation">[</span>handles<span class="token punctuation">.</span><span class="token function">size</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">int</span> size <span class="token operator">=</span> handles<span class="token punctuation">.</span><span class="token function">size</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token comment" spellcheck="true">// 留一个窗口，否则driver会退出</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> size <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            driver<span class="token punctuation">.</span><span class="token function">switchTo</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">window</span><span class="token punctuation">(</span>handlesArray<span class="token punctuation">[</span>size <span class="token operator">-</span> i<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            driver<span class="token punctuation">.</span><span class="token function">close</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+
+<span class="token punctuation">}</span></code></pre>
+<h4 id="3-4、Browser"><a href="#3-4、Browser" class="headerlink" title="3.4、Browser"></a>3.4、Browser</h4><pre class=" language-java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">enum</span> Browser <span class="token keyword">implements</span> <span class="token class-name">WebDriverInitializer</span> <span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">/**
+     * Chrome
+     */</span>
+    CHROME <span class="token punctuation">{</span>
+        <span class="token annotation punctuation">@Override</span>
+        <span class="token keyword">public</span> WebDriver <span class="token function">init</span><span class="token punctuation">(</span>String path<span class="token punctuation">,</span> Proxy proxy<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            System<span class="token punctuation">.</span><span class="token function">setProperty</span><span class="token punctuation">(</span><span class="token string">"webdriver.chrome.driver"</span><span class="token punctuation">,</span> path<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>proxy <span class="token operator">!=</span> null<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+
+                ChromeOptions options <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">ChromeOptions</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token comment" spellcheck="true">// 禁止弹出拦截</span>
+                options<span class="token punctuation">.</span><span class="token function">addArguments</span><span class="token punctuation">(</span><span class="token string">"--disable-popup-blocking"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token comment" spellcheck="true">// 取消沙盘模式</span>
+                options<span class="token punctuation">.</span><span class="token function">addArguments</span><span class="token punctuation">(</span><span class="token string">"--no-sandbox"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token comment" spellcheck="true">// 无头声明</span>
+                options<span class="token punctuation">.</span><span class="token function">addArguments</span><span class="token punctuation">(</span><span class="token string">"--headless"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token comment" spellcheck="true">// 禁止GPU</span>
+                options<span class="token punctuation">.</span><span class="token function">addArguments</span><span class="token punctuation">(</span><span class="token string">"--disable-gpu"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                options<span class="token punctuation">.</span><span class="token function">addArguments</span><span class="token punctuation">(</span><span class="token string">"--disable-dev-shm-usage"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                options<span class="token punctuation">.</span><span class="token function">addArguments</span><span class="token punctuation">(</span><span class="token string">"blink-settings=imagesEnabled=false"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token comment" spellcheck="true">// 禁止扩展</span>
+                options<span class="token punctuation">.</span><span class="token function">addArguments</span><span class="token punctuation">(</span><span class="token string">"--disable-extensions"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token comment" spellcheck="true">// 禁止默认浏览器检查</span>
+                options<span class="token punctuation">.</span><span class="token function">addArguments</span><span class="token punctuation">(</span><span class="token string">"--no-default-browser-check"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                options<span class="token punctuation">.</span><span class="token function">addArguments</span><span class="token punctuation">(</span><span class="token string">"about:histograms"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                options<span class="token punctuation">.</span><span class="token function">addArguments</span><span class="token punctuation">(</span><span class="token string">"about:cache"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token comment" spellcheck="true">// 设置浏览器固定大小</span>
+                options<span class="token punctuation">.</span><span class="token function">addArguments</span><span class="token punctuation">(</span><span class="token string">"--window-size=1600,900"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token comment" spellcheck="true">// chrome正受到自动测试软件的控制</span>
+                options<span class="token punctuation">.</span><span class="token function">addArguments</span><span class="token punctuation">(</span><span class="token string">"--disable-infobars"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token comment" spellcheck="true">// Add the WebDriver proxy capability.</span>
+                options<span class="token punctuation">.</span><span class="token function">setCapability</span><span class="token punctuation">(</span><span class="token string">"proxy"</span><span class="token punctuation">,</span> ProxyUtils<span class="token punctuation">.</span><span class="token function">toSeleniumProxy</span><span class="token punctuation">(</span>proxy<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                WebDriver driver <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">ChromeDriver</span><span class="token punctuation">(</span>options<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token comment" spellcheck="true">// 设置获取页面元素的最大等待时间</span>
+                driver<span class="token punctuation">.</span><span class="token function">manage</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">timeouts</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">implicitlyWait</span><span class="token punctuation">(</span><span class="token number">20</span><span class="token punctuation">,</span> TimeUnit<span class="token punctuation">.</span>SECONDS<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token keyword">return</span> driver<span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+            <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">ChromeDriver</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token comment" spellcheck="true">/**
+     * FireFox
+     */</span>
+    FIREFOX <span class="token punctuation">{</span>
+        <span class="token annotation punctuation">@Override</span>
+        <span class="token keyword">public</span> WebDriver <span class="token function">init</span><span class="token punctuation">(</span>String path<span class="token punctuation">,</span> Proxy proxy<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            System<span class="token punctuation">.</span><span class="token function">setProperty</span><span class="token punctuation">(</span><span class="token string">"webdriver.gecko.driver"</span><span class="token punctuation">,</span> path<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>proxy <span class="token operator">!=</span> null<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+
+                String PROXY <span class="token operator">=</span> proxy<span class="token punctuation">.</span><span class="token function">getIp</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token string">":"</span> <span class="token operator">+</span> proxy<span class="token punctuation">.</span><span class="token function">getPort</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+                org<span class="token punctuation">.</span>openqa<span class="token punctuation">.</span>selenium<span class="token punctuation">.</span>Proxy seleniumProxy <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">org<span class="token punctuation">.</span>openqa<span class="token punctuation">.</span>selenium<span class="token punctuation">.</span>Proxy</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                seleniumProxy<span class="token punctuation">.</span><span class="token function">setHttpProxy</span><span class="token punctuation">(</span>PROXY<span class="token punctuation">)</span>
+                        <span class="token punctuation">.</span><span class="token function">setFtpProxy</span><span class="token punctuation">(</span>PROXY<span class="token punctuation">)</span>
+                        <span class="token punctuation">.</span><span class="token function">setSslProxy</span><span class="token punctuation">(</span>PROXY<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                DesiredCapabilities cap <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">DesiredCapabilities</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                cap<span class="token punctuation">.</span><span class="token function">setCapability</span><span class="token punctuation">(</span>CapabilityType<span class="token punctuation">.</span>PROXY<span class="token punctuation">,</span> proxy<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+                <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">FirefoxDriver</span><span class="token punctuation">(</span>cap<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+
+            <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">FirefoxDriver</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token comment" spellcheck="true">/**
+     * IE
+     */</span>
+    IE <span class="token punctuation">{</span>
+        <span class="token annotation punctuation">@Override</span>
+        <span class="token keyword">public</span> WebDriver <span class="token function">init</span><span class="token punctuation">(</span>String path<span class="token punctuation">,</span> Proxy proxy<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            System<span class="token punctuation">.</span><span class="token function">setProperty</span><span class="token punctuation">(</span><span class="token string">"webdriver.ie.driver"</span><span class="token punctuation">,</span> path<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>proxy <span class="token operator">!=</span> null<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+
+                String PROXY <span class="token operator">=</span> proxy<span class="token punctuation">.</span><span class="token function">getIp</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token string">":"</span> <span class="token operator">+</span> proxy<span class="token punctuation">.</span><span class="token function">getPort</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+                org<span class="token punctuation">.</span>openqa<span class="token punctuation">.</span>selenium<span class="token punctuation">.</span>Proxy seleniumProxy <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">org<span class="token punctuation">.</span>openqa<span class="token punctuation">.</span>selenium<span class="token punctuation">.</span>Proxy</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                seleniumProxy<span class="token punctuation">.</span><span class="token function">setHttpProxy</span><span class="token punctuation">(</span>PROXY<span class="token punctuation">)</span>
+                        <span class="token punctuation">.</span><span class="token function">setFtpProxy</span><span class="token punctuation">(</span>PROXY<span class="token punctuation">)</span>
+                        <span class="token punctuation">.</span><span class="token function">setSslProxy</span><span class="token punctuation">(</span>PROXY<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                DesiredCapabilities cap <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">DesiredCapabilities</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                cap<span class="token punctuation">.</span><span class="token function">setCapability</span><span class="token punctuation">(</span>CapabilityType<span class="token punctuation">.</span>PROXY<span class="token punctuation">,</span> proxy<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+                <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">InternetExplorerDriver</span><span class="token punctuation">(</span>cap<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+
+            <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">InternetExplorerDriver</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token comment" spellcheck="true">/**
+     * PhantomJs
+     */</span>
+    PHANTOMJS <span class="token punctuation">{</span>
+        <span class="token annotation punctuation">@Override</span>
+        <span class="token keyword">public</span> WebDriver <span class="token function">init</span><span class="token punctuation">(</span>String path<span class="token punctuation">,</span> Proxy proxy<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+
+            DesiredCapabilities capabilities <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">DesiredCapabilities</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            capabilities<span class="token punctuation">.</span><span class="token function">setCapability</span><span class="token punctuation">(</span><span class="token string">"phantomjs.binary.path"</span><span class="token punctuation">,</span> path<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            capabilities<span class="token punctuation">.</span><span class="token function">setCapability</span><span class="token punctuation">(</span>CapabilityType<span class="token punctuation">.</span>ACCEPT_SSL_CERTS<span class="token punctuation">,</span> <span class="token boolean">true</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            capabilities<span class="token punctuation">.</span><span class="token function">setJavascriptEnabled</span><span class="token punctuation">(</span><span class="token boolean">true</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            capabilities<span class="token punctuation">.</span><span class="token function">setCapability</span><span class="token punctuation">(</span><span class="token string">"takesScreenshot"</span><span class="token punctuation">,</span> <span class="token boolean">true</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            capabilities<span class="token punctuation">.</span><span class="token function">setCapability</span><span class="token punctuation">(</span><span class="token string">"cssSelectorsEnabled"</span><span class="token punctuation">,</span> <span class="token boolean">true</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>proxy <span class="token operator">!=</span> null<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+
+                ArrayList<span class="token operator">&lt;</span>String<span class="token operator">></span> cliArgsCap <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">ArrayList</span><span class="token operator">&lt;</span>String<span class="token operator">></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                cliArgsCap<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span><span class="token string">"--proxy="</span> <span class="token operator">+</span> proxy<span class="token punctuation">.</span><span class="token function">getIp</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token string">":"</span> <span class="token operator">+</span> proxy<span class="token punctuation">.</span><span class="token function">getPort</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">//                cliArgsCap.add("--proxy-auth=username:password");</span>
+                cliArgsCap<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span><span class="token string">"--proxy-type=http"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                capabilities<span class="token punctuation">.</span><span class="token function">setCapability</span><span class="token punctuation">(</span>
+                        PhantomJSDriverService<span class="token punctuation">.</span>PHANTOMJS_CLI_ARGS<span class="token punctuation">,</span> cliArgsCap<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+
+            <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">PhantomJSDriver</span><span class="token punctuation">(</span>capabilities<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<h4 id="3-5、WebDriverInitializer"><a href="#3-5、WebDriverInitializer" class="headerlink" title="3.5、WebDriverInitializer"></a>3.5、WebDriverInitializer</h4><pre class=" language-java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">interface</span> <span class="token class-name">WebDriverInitializer</span> <span class="token punctuation">{</span>
+    WebDriver <span class="token function">init</span><span class="token punctuation">(</span>String driverPath<span class="token punctuation">,</span> Proxy proxy<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
+<h4 id="3-6、初始化"><a href="#3-6、初始化" class="headerlink" title="3.6、初始化"></a>3.6、初始化</h4><pre class=" language-java"><code class="language-java"><span class="token comment" spellcheck="true">//设置浏览器的驱动程序和浏览器的类型，浏览器的驱动程序要跟操作系统匹配。</span>
+WebDriverPoolConfig config <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">WebDriverPoolConfig</span><span class="token punctuation">(</span>ProjectConstant<span class="token punctuation">.</span>WEBDRIVER_CHROME_DRIVER<span class="token punctuation">,</span> Browser<span class="token punctuation">.</span>CHROME<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">// 需要先使用init，才能使用WebDriverPool</span>
+WebDriverPool<span class="token punctuation">.</span><span class="token function">init</span><span class="token punctuation">(</span>config<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<h3 id="4、参考实现"><a href="#4、参考实现" class="headerlink" title="4、参考实现"></a>4、参考实现</h3><blockquote>
+<ul>
+<li><a href="https://www.jianshu.com/p/061befafbfe5" target="_blank" rel="noopener">https://www.jianshu.com/p/061befafbfe5</a></li>
+<li><a href="https://blog.csdn.net/tiantiandjava/article/details/42915331" target="_blank" rel="noopener">https://blog.csdn.net/tiantiandjava/article/details/42915331</a></li>
+</ul>
+</blockquote>
+
+            </div>
+            <hr/>
+
+            
+
+    <div class="reprint" id="reprint-statement">
+        
+            <div class="reprint__author">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-user">
+                        文章作者:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="https://www.asxing.com" rel="external nofollow noreferrer">HoldDie</a>
+                </span>
+            </div>
+            <div class="reprint__type">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-link">
+                        文章链接:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="https://www.asxing.com/2018/12/04/java-pa-chong-chromedriver-lian-jie-chi-jiu/">https://www.asxing.com/2018/12/04/java-pa-chong-chromedriver-lian-jie-chi-jiu/</a>
+                </span>
+            </div>
+            <div class="reprint__notice">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-copyright">
+                        版权声明:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    本博客所有文章除特別声明外，均采用
+                    <a href="https://creativecommons.org/licenses/by/4.0/deed.zh" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>
+                    许可协议。转载请注明来源
+                    <a href="https://www.asxing.com" target="_blank">HoldDie</a>
+                    !
+                </span>
+            </div>
+        
+    </div>
+
+    <script async defer>
+      document.addEventListener("copy", function (e) {
+        let toastHTML = '<span>复制成功，请遵循本文的转载规则</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">查看</a>';
+        M.toast({html: toastHTML})
+      });
+
+      function navToReprintStatement() {
+        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      }
+    </script>
+
+
+
+            <div class="tag_share" style="display: block;">
+                <div class="post-meta__tag-list" style="display: inline-block;">
+                    
+                        <div class="article-tag">
+                            
+                                <a href="/tags/Java/">
+                                    <span class="chip bg-color">Java</span>
+                                </a>
+                            
+                                <a href="/tags/%E7%88%AC%E8%99%AB/">
+                                    <span class="chip bg-color">爬虫</span>
+                                </a>
+                            
+                                <a href="/tags/%E8%BF%9E%E6%8E%A5%E6%B1%A0/">
+                                    <span class="chip bg-color">连接池</span>
+                                </a>
+                            
+                                <a href="/tags/ChromeDriver/">
+                                    <span class="chip bg-color">ChromeDriver</span>
+                                </a>
+                            
+                        </div>
+                    
+                </div>
+                <div class="post_share" style="zoom: 80%; width: fit-content; display: inline-block; float: right; margin: -0.15rem 0;">
+                    <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+
+<div id="article-share">
+    
+    
+    <div class="social-share" data-sites="twitter,facebook,google,qq,qzone,wechat,weibo,douban,linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
+    <script src="/libs/share/js/social-share.min.js"></script>
+    
+
+    
+
+</div>
+
+                </div>
+            </div>
+            
+                <style>
+    #reward {
+        margin: 40px 0;
+        text-align: center;
+    }
+
+    #reward .reward-link {
+        font-size: 1.4rem;
+        line-height: 38px;
+    }
+
+    #reward .btn-floating:hover {
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2), 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    #rewardModal {
+        width: 320px;
+        height: 350px;
+    }
+
+    #rewardModal .reward-title {
+        margin: 15px auto;
+        padding-bottom: 5px;
+    }
+
+    #rewardModal .modal-content {
+        padding: 10px;
+    }
+
+    #rewardModal .close {
+        position: absolute;
+        right: 15px;
+        top: 15px;
+        color: rgba(0, 0, 0, 0.5);
+        font-size: 1.3rem;
+        line-height: 20px;
+        cursor: pointer;
+    }
+
+    #rewardModal .close:hover {
+        color: #ef5350;
+        transform: scale(1.3);
+        -moz-transform:scale(1.3);
+        -webkit-transform:scale(1.3);
+        -o-transform:scale(1.3);
+    }
+
+    #rewardModal .reward-tabs {
+        margin: 0 auto;
+        width: 210px;
+    }
+
+    .reward-tabs .tabs {
+        height: 38px;
+        margin: 10px auto;
+        padding-left: 0;
+    }
+
+    .reward-content ul {
+        padding-left: 0 !important;
+    }
+
+    .reward-tabs .tabs .tab {
+        height: 38px;
+        line-height: 38px;
+    }
+
+    .reward-tabs .tab a {
+        color: #fff;
+        background-color: #ccc;
+    }
+
+    .reward-tabs .tab a:hover {
+        background-color: #ccc;
+        color: #fff;
+    }
+
+    .reward-tabs .wechat-tab .active {
+        color: #fff !important;
+        background-color: #22AB38 !important;
+    }
+
+    .reward-tabs .alipay-tab .active {
+        color: #fff !important;
+        background-color: #019FE8 !important;
+    }
+
+    .reward-tabs .reward-img {
+        width: 210px;
+        height: 210px;
+    }
+</style>
+
+<div id="reward">
+    <a href="#rewardModal" class="reward-link modal-trigger btn-floating btn-medium waves-effect waves-light red">赏</a>
+
+    <!-- Modal Structure -->
+    <div id="rewardModal" class="modal">
+        <div class="modal-content">
+            <a class="close modal-close"><i class="fas fa-times"></i></a>
+            <h4 class="reward-title">你的赏识是我前进的动力</h4>
+            <div class="reward-content">
+                <div class="reward-tabs">
+                    <ul class="tabs row">
+                        <li class="tab col s6 alipay-tab waves-effect waves-light"><a href="#alipay">支付宝</a></li>
+                        <li class="tab col s6 wechat-tab waves-effect waves-light"><a href="#wechat">微 信</a></li>
+                    </ul>
+                    <div id="alipay">
+                        <img src="/medias/reward/alipay.jpg" class="reward-img" alt="支付宝打赏二维码">
+                    </div>
+                    <div id="wechat">
+                        <img src="/medias/reward/wechat.png" class="reward-img" alt="微信打赏二维码">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $('.tabs').tabs();
+    });
+</script>
+            
+        </div>
+    </div>
+
+    
+        <link rel="stylesheet" href="/libs/gitalk/gitalk.css">
+<link rel="stylesheet" href="/css/my-gitalk.css">
+
+<div class="card gitalk-card" data-aos="fade-up">
+    <div class="comment_headling" style="font-size: 20px; font-weight: 700; position: relative; left: 20px; top: 15px; padding-bottom: 5px;">
+        <i class="fas fa-comments fa-fw" aria-hidden="true"></i>
+        <span>评论</span>
+    </div>
+    <div id="gitalk-container" class="card-content"></div>
+</div>
+
+<script src="/libs/gitalk/gitalk.min.js"></script>
+<script>
+    let gitalk = new Gitalk({
+        clientID: 'c4e18e113d94091c8828',
+        clientSecret: '891f04d80de6a77fd6eb60d1cbe792e916cde3ff',
+        repo: 'asxing.github.io',
+        owner: 'Asxing',
+        admin: "asxing",
+        id: '2018-12-04T19-43-41',
+        distractionFreeMode: false  // Facebook-like distraction free mode
+    });
+
+    gitalk.render('gitalk-container');
+</script>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+            <div class="card">
+                <a href="/2018/12/10/java-pa-chong-yin-cang-de-xiao-xi-jie-shi/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/14.jpg" class="responsive-img" alt="Java爬虫-隐藏的小细节（十）">
+                        
+                        <span class="card-title">Java爬虫-隐藏的小细节（十）</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            乌云遮蔽了整个天空，闪电便已在其中酝酿。 ——飞行的河马
+
+主要记录一些有趣的思路
+
+赤狐为例，通常我们可以从cookie里面看到jsessionid这个参数通常用于记录session。
+所以经常我们会遇到关闭浏览器或者一段时间，然后这个值
+                        
+                    </div>
+                    <div class="publish-info">
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2018-12-10
+                        </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/%E7%88%AC%E8%99%AB/" class="post-category">
+                                    爬虫
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/Java/">
+                        <span class="chip bg-color">Java</span>
+                    </a>
+                    
+                    <a href="/tags/%E7%88%AC%E8%99%AB/">
+                        <span class="chip bg-color">爬虫</span>
+                    </a>
+                    
+                    <a href="/tags/%E6%80%9D%E8%B7%AF/">
+                        <span class="chip bg-color">思路</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2018/11/28/java-pa-chong-selenium-shi-zhan-xiao-xi-jie-ba/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/9.jpg" class="responsive-img" alt="Java爬虫-Selenium实战小细节（八）">
+                        
+                        <span class="card-title">Java爬虫-Selenium实战小细节（八）</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            猎人的眼睛从来不会闭上，因为野兽正在暗中注视着他。 ——尘鸟
+问题一：invalid element state: Element must be user-editable in order to clear it
+invalid ele
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2018-11-28
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/%E7%88%AC%E8%99%AB/" class="post-category">
+                                    爬虫
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/Java/">
+                        <span class="chip bg-color">Java</span>
+                    </a>
+                    
+                    <a href="/tags/Selenium/">
+                        <span class="chip bg-color">Selenium</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+
+</div>
+
+
+
+<!-- 代码块功能依赖 -->
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+
+<!-- 代码语言 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+
+    
+<!-- 代码块复制 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+
+
+<!-- 代码块收缩 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script>
+
+
+<!-- 代码块折行 -->
+
+<style type="text/css">
+code[class*="language-"], pre[class*="language-"] { white-space: pre !important; }
+</style>
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget">
+            <div class="toc-title"><i class="far fa-list-alt"></i>&nbsp;&nbsp;目录</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fas fa-list-ul"></i>
+    </a>
+</div>
+
+
+<script src="/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            // headingsOffset: -205,
+            headingSelector: 'h2, h3, h4'
+        });
+
+        // modify the toc link href to support Chinese.
+        let i = 0;
+        let tocHeading = 'toc-heading-';
+        $('#toc-content a').each(function () {
+            $(this).attr('href', '#' + tocHeading + (++i));
+        });
+
+        // modify the heading title id to support Chinese.
+        i = 0;
+        $('#articleContent').children('h2, h3, h4').each(function () {
+            $(this).attr('id', tocHeading + (++i));
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).hide();
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).show();
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+        });
+        
+    });
+</script>
+
+    
+
+</main>
+
+
+
+    <footer class="page-footer bg-color">
+    <div class="container row center-align">
+        <div class="col s12 m8 l8 copy-right">
+            Copyright&nbsp;&copy;
+            <span id="year">年份</span>
+            <a href="https://www.asxing.com" target="_blank">Asxing</a>
+            |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
+            |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
+            <br>
+            
+            &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
+                class="white-color">479k</span>&nbsp;字
+            
+            
+            
+            
+            <span id="busuanzi_container_site_pv">
+                |&nbsp;<i class="far fa-eye"></i>&nbsp;总访问量:&nbsp;<span id="busuanzi_value_site_pv"
+                    class="white-color"></span>&nbsp;次
+            </span>
+            
+            
+            <span id="busuanzi_container_site_uv">
+                |&nbsp;<i class="fas fa-users"></i>&nbsp;总访问人数:&nbsp;<span id="busuanzi_value_site_uv"
+                    class="white-color"></span>&nbsp;人
+            </span>
+            
+            <br>
+            
+            <span id="sitetime">载入运行时间...</span>
+            <script>
+                function siteTime() {
+                    window.setTimeout("siteTime()", 1000);
+                    var seconds = 1000;
+                    var minutes = seconds * 60;
+                    var hours = minutes * 60;
+                    var days = hours * 24;
+                    var years = days * 365;
+                    var today = new Date();
+                    var startYear = "2019";
+                    var startMonth = "10";
+                    var startDate = "30";
+                    var startHour = "22";
+                    var startMinute = "30";
+                    var startSecond = "0";
+                    var todayYear = today.getFullYear();
+                    var todayMonth = today.getMonth() + 1;
+                    var todayDate = today.getDate();
+                    var todayHour = today.getHours();
+                    var todayMinute = today.getMinutes();
+                    var todaySecond = today.getSeconds();
+                    var t1 = Date.UTC(startYear, startMonth, startDate, startHour, startMinute, startSecond);
+                    var t2 = Date.UTC(todayYear, todayMonth, todayDate, todayHour, todayMinute, todaySecond);
+                    var diff = t2 - t1;
+                    var diffYears = Math.floor(diff / years);
+                    var diffDays = Math.floor((diff / days) - diffYears * 365);
+                    var diffHours = Math.floor((diff - (diffYears * 365 + diffDays) * days) / hours);
+                    var diffMinutes = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours) /
+                        minutes);
+                    var diffSeconds = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours -
+                        diffMinutes * minutes) / seconds);
+                    if (startYear == todayYear) {
+                        document.getElementById("year").innerHTML = todayYear;
+                        document.getElementById("sitetime").innerHTML = "本站已安全运行 " + diffDays + " 天 " + diffHours +
+                            " 小时 " + diffMinutes + " 分钟 " + diffSeconds + " 秒";
+                    } else {
+                        document.getElementById("year").innerHTML = startYear + " - " + todayYear;
+                        document.getElementById("sitetime").innerHTML = "本站已安全运行 " + diffYears + " 年 " + diffDays +
+                            " 天 " + diffHours + " 小时 " + diffMinutes + " 分钟 " + diffSeconds + " 秒";
+                    }
+                }
+                setInterval(siteTime, 1000);
+            </script>
+            
+            <br>
+            
+        </div>
+        <div class="col s12 m4 l4 social-link ">
+    <a href="https://github.com/asxing" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+        <i class="fab fa-github"></i>
+    </a>
+
+
+
+    <a href="mailto:asxingking@gmail.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fas fa-envelope-open"></i>
+    </a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <a href="/atom.xml" class="tooltipped" target="_blank" data-tooltip="RSS 订阅" data-position="top" data-delay="50">
+        <i class="fas fa-rss"></i>
+    </a>
+
+</div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+
+    <!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fas fa-search"></i>&nbsp;&nbsp;搜索</span>
+            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script src="/js/search.js"></script>
+<script type="text/javascript">
+$(function () {
+    searchFunc("/" + "search.xml", 'searchInput', 'searchResult');
+});
+</script>
+    <!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+</div>
+
+
+    <script src="/libs/materialize/materialize.min.js"></script>
+    <script src="/libs/masonry/masonry.pkgd.min.js"></script>
+    <script src="/libs/aos/aos.js"></script>
+    <script src="/libs/scrollprogress/scrollProgress.min.js"></script>
+    <script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+    <script src="/js/matery.js"></script>
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+    <!-- Baidu Analytics -->
+
+    <!-- Baidu Push -->
+
+    
+    <script src="/libs/others/clicklove.js" async="async"></script>
+    
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <script type="text/javascript" src="/libs/background/ribbon-dynamic.js" async="async"></script>
+    
+    
+    
+
+</body>
+
+</html>

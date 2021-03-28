@@ -1,0 +1,1684 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="keywords" content="Common-VScode（二）, 编程 读书 生活">
+    <meta name="description" content="
+花开在天边，而我需要走过一路的荆棘。 ——折焰
+
+VSCode
+基础功能
+
+转到定义：f12
+查看引用：shift+f12
+跳转到文件的符号：command + f12
+终端：option+f12
+跳转到工作区的符号：caps+t
+拖动的">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>Common-VScode（二） | Asxing-阿行</title>
+    <link rel="icon" type="image/png" href="/favicon.png">
+
+    <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
+    <link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
+    <link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/matery.css">
+    <link rel="stylesheet" type="text/css" href="/css/my.css">
+    
+    <script src="/libs/jquery/jquery.min.js"></script>
+    
+<meta name="generator" content="Hexo 4.2.1"><link rel="alternate" href="/atom.xml" title="Asxing-阿行" type="application/atom+xml">
+<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+
+
+<body>
+    <header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper head-container">
+            <div class="brand-logo">
+                <a href="/" class="waves-effect waves-light">
+                    
+                    <img src="/medias/logo.png" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">Asxing-阿行</span>
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
+<ul class="right nav-menu">
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/" class="waves-effect waves-light">
+      
+      <i class="fas fa-home" style="zoom: 0.6;"></i>
+      
+      <span>首页</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/tags" class="waves-effect waves-light">
+      
+      <i class="fas fa-tags" style="zoom: 0.6;"></i>
+      
+      <span>标签</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/categories" class="waves-effect waves-light">
+      
+      <i class="fas fa-bookmark" style="zoom: 0.6;"></i>
+      
+      <span>分类</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/archives" class="waves-effect waves-light">
+      
+      <i class="fas fa-archive" style="zoom: 0.6;"></i>
+      
+      <span>归档</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/about" class="waves-effect waves-light">
+      
+      <i class="fas fa-user-circle" style="zoom: 0.6;"></i>
+      
+      <span>关于</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/contact" class="waves-effect waves-light">
+      
+      <i class="fas fa-comments" style="zoom: 0.6;"></i>
+      
+      <span>留言板</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/friends" class="waves-effect waves-light">
+      
+      <i class="fas fa-address-book" style="zoom: 0.6;"></i>
+      
+      <span>友情链接</span>
+    </a>
+    
+  </li>
+  
+  <li>
+    <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+      <i id="searchIcon" class="fas fa-search" title="搜索" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+</ul>
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="/medias/logo.png" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">Asxing-阿行</div>
+        <div class="logo-desc">
+            
+            Never really desperate, only the lost of the soul.
+            
+        </div>
+    </div>
+
+    
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li class="m-nav-item">
+	  
+		<a href="/" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-home"></i>
+			
+			首页
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/tags" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-tags"></i>
+			
+			标签
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/categories" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-bookmark"></i>
+			
+			分类
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/archives" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-archive"></i>
+			
+			归档
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/about" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-user-circle"></i>
+			
+			关于
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/contact" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-comments"></i>
+			
+			Contact
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/friends" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-address-book"></i>
+			
+			友情链接
+		</a>
+          
+        </li>
+        
+        
+        <li><div class="divider"></div></li>
+        <li>
+            <a href="https://github.com/asxing" class="waves-effect waves-light" target="_blank">
+                <i class="fab fa-github-square fa-fw"></i>Fork Me
+            </a>
+        </li>
+        
+    </ul>
+</div>
+
+        </div>
+
+        
+            <style>
+    .nav-transparent .github-corner {
+        display: none !important;
+    }
+
+    .github-corner {
+        position: absolute;
+        z-index: 10;
+        top: 0;
+        right: 0;
+        border: 0;
+        transform: scale(1.1);
+    }
+
+    .github-corner svg {
+        color: #0f9d58;
+        fill: #fff;
+        height: 64px;
+        width: 64px;
+    }
+
+    .github-corner:hover .octo-arm {
+        animation: a 0.56s ease-in-out;
+    }
+
+    .github-corner .octo-arm {
+        animation: none;
+    }
+
+    @keyframes a {
+        0%,
+        to {
+            transform: rotate(0);
+        }
+        20%,
+        60% {
+            transform: rotate(-25deg);
+        }
+        40%,
+        80% {
+            transform: rotate(10deg);
+        }
+    }
+</style>
+
+<a href="https://github.com/asxing" class="github-corner tooltipped hide-on-med-and-down" target="_blank"
+   data-tooltip="Fork Me" data-position="left" data-delay="50">
+    <svg viewBox="0 0 250 250" aria-hidden="true">
+        <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
+        <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2"
+              fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path>
+        <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z"
+              fill="currentColor" class="octo-body"></path>
+    </svg>
+</a>
+        
+    </nav>
+
+</header>
+
+    
+<script src="/libs/cryptojs/crypto-js.min.js"></script>
+<script>
+    (function() {
+        let pwd = '';
+        if (pwd && pwd.length > 0) {
+            if (pwd !== CryptoJS.SHA256(prompt('请输入访问本文章的密码')).toString(CryptoJS.enc.Hex)) {
+                alert('密码错误，将返回主页！');
+                location.href = '/';
+            }
+        }
+    })();
+</script>
+
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/23.jpg')">
+    <div class="container" style="right: 0px;left: 0px;">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <div class="description center-align post-title">
+                        Common-VScode（二）
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<main class="post-container content">
+
+    
+    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
+<style>
+    #articleContent h1::before,
+    #articleContent h2::before,
+    #articleContent h3::before,
+    #articleContent h4::before,
+    #articleContent h5::before,
+    #articleContent h6::before {
+        display: block;
+        content: " ";
+        height: 100px;
+        margin-top: -100px;
+        visibility: hidden;
+    }
+
+    #articleContent :focus {
+        outline: none;
+    }
+
+    .toc-fixed {
+        position: fixed;
+        top: 64px;
+    }
+
+    .toc-widget {
+        padding-left: 20px;
+    }
+
+    .toc-widget .toc-title {
+        margin: 35px 0 15px 0;
+        padding-left: 17px;
+        font-size: 1.5rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    .toc-widget ol {
+        padding: 0;
+        list-style: none;
+    }
+
+    #toc-content ol {
+        padding-left: 10px;
+    }
+
+    #toc-content ol li {
+        padding-left: 10px;
+    }
+
+    #toc-content .toc-link:hover {
+        color: #42b983;
+        font-weight: 700;
+        text-decoration: underline;
+    }
+
+    #toc-content .toc-link::before {
+        background-color: transparent;
+        max-height: 25px;
+    }
+
+    #toc-content .is-active-link {
+        color: #42b983;
+    }
+
+    #toc-content .is-active-link::before {
+        background-color: #42b983;
+    }
+
+    #floating-toc-btn {
+        position: fixed;
+        right: 15px;
+        bottom: 76px;
+        padding-top: 15px;
+        margin-bottom: 0;
+        z-index: 998;
+    }
+
+    #floating-toc-btn .btn-floating {
+        width: 48px;
+        height: 48px;
+    }
+
+    #floating-toc-btn .btn-floating i {
+        line-height: 48px;
+        font-size: 1.4rem;
+    }
+</style>
+<div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                            <a href="/tags/Tools/">
+                                <span class="chip bg-color">Tools</span>
+                            </a>
+                        
+                            <a href="/tags/VScode/">
+                                <span class="chip bg-color">VScode</span>
+                            </a>
+                        
+                            <a href="/tags/%E6%95%88%E7%8E%87/">
+                                <span class="chip bg-color">效率</span>
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fas fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/categories/Tools/" class="post-category">
+                                Tools
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
+                    2019-01-28
+                </div>
+                
+
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
+                    2.9k
+                </div>
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
+                    12 分
+                </div>
+                
+				
+                
+            </div>
+            
+        </div>
+        <hr class="clearfix">
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <blockquote>
+<p><strong>花开在天边，而我需要走过一路的荆棘。 ——折焰</strong></p>
+</blockquote>
+<h3 id="VSCode"><a href="#VSCode" class="headerlink" title="VSCode"></a>VSCode</h3><ul>
+<li><p>基础功能</p>
+<ul>
+<li>转到定义：f12</li>
+<li>查看引用：shift+f12</li>
+<li>跳转到文件的符号：command + f12</li>
+<li>终端：option+f12</li>
+<li>跳转到工作区的符号：caps+t</li>
+<li>拖动的时候，按住Option键时就可以复制这块代码</li>
+<li>按住鼠标的中键，随意拖动就可以按块选择代码</li>
+<li>自动提示的小黄灯泡就是可以提示，可以设置为option+enter匹配idea</li>
+<li>重构：ctrl+shift+R</li>
+<li>搜索:command+shift+f</li>
+<li>git 源码：comman+9 源码管理</li>
+<li>调试：command+5</li>
+<li>扩展：command+shift+x</li>
+</ul>
+</li>
+<li><p>自定义代码模板</p>
+<ul>
+<li>command+ shift + p</li>
+<li>配置用户代码片段</li>
+<li>name：就是一个名称，没有什么含义</li>
+<li>prefix：前缀</li>
+<li>doby：打印出的字符</li>
+<li>description：描述</li>
+<li>${1:label}：可以为变量设置默认值</li>
+<li>${1:$CLIPBOARD}：默认值可以是剪切板中的内容</li>
+</ul>
+</li>
+<li><p>编辑页面</p>
+<ul>
+<li>代码折叠：option+command+[</li>
+<li>代码展开：option+command+]</li>
+<li>关闭小地图：editor.minimap.renderCharacter</li>
+<li>打开面包屑：breadcrumbs.enabled</li>
+</ul>
+</li>
+<li><p>搜索</p>
+<ul>
+<li>搜索属性：<ul>
+<li>大小写敏感</li>
+<li>全词匹配</li>
+<li>正则表达式匹配（JavaScript引擎）</li>
+</ul>
+</li>
+<li>极度搜索：command+f</li>
+<li>替换：command+R<ul>
+<li>使用enter</li>
+</ul>
+</li>
+<li>选中字符：直接 command+G 效果和comman+f相同</li>
+<li>command+shift +F 全文搜索</li>
+</ul>
+</li>
+<li><p>自定义编辑器</p>
+<ul>
+<li>设置行号：可以设置整个文件的第几行，也可以设置相对于当前行是第几行</li>
+<li>设置显示空格或者制表符，editor.renderWhitespace: all</li>
+<li>设置编辑器中的几个竖线：editor.renderIndentGuides .设置行书写的限制，例如120个字符</li>
+<li>关闭小地图功能minimap</li>
+<li>设置光标的定制：editor.cursorBlinking</li>
+<li>设置行号：editor.renderLineHighlight: all</li>
+<li>自动检测：Detect Indentation 自动检测空格符和制表符</li>
+<li>自动保存：editor.formatOnSave: true</li>
+<li>保存延迟：files.autoSaveDelay</li>
+<li>自动格式化： Format On Type</li>
+<li>主题使用：OneDarkProBold</li>
+</ul>
+</li>
+<li><p>组件</p>
+<ul>
+<li>问题面板</li>
+<li>输出面板</li>
+<li>调试面板</li>
+<li>终端</li>
+</ul>
+</li>
+<li><p>命令面板</p>
+<ul>
+<li>… 转到文件</li>
+<li># 转到工作区中的符号</li>
+<li>&gt; 显示并运行命令</li>
+<li>debug：调试配置</li>
+<li>edt：显示所有一打开的编辑器</li>
+<li>edt active：显示活动组中的编辑器</li>
+<li>ext：管理扩展</li>
+<li>ext install：安装扩展库</li>
+<li>task：运行任务</li>
+<li>term：显示所有一打开的终端</li>
+<li>view：打开视图、</li>
+<li>: 冒号：跳转到第几行</li>
+<li>@ 跳转到文件中的方法</li>
+</ul>
+</li>
+<li><p>muti-root workspace</p>
+<ul>
+<li>多文件工作区</li>
+<li>即使当我们同时开发不同的项目的时候，我们就可以使用多文件工作区，</li>
+<li>在命令行面板中，将文件夹添加到工作区中</li>
+<li>同时可以，将文件夹另存为</li>
+<li>多个工作区之间的切换使用 Ctrl + W</li>
+<li>.vscode 文件夹可以自定义当前文件夹的一些规范，便于自定义统一开发环境</li>
+</ul>
+</li>
+<li><p>版本管理</p>
+<ul>
+<li>主要使用git进行版本控制</li>
+<li>文件变动时会有标记，以及对比</li>
+<li>使用Git搜索可以看见命令提示</li>
+</ul>
+</li>
+<li><p>终端</p>
+<ul>
+<li>配置对应的主题<ul>
+<li>字体类型：Menlo for Powerline</li>
+<li>安装步骤<ul>
+<li>$cd /Library/Fonts</li>
+<li>$sudo git clone <a href="https://github.com/abertsch/Menlo-for-Powerline.git" target="_blank" rel="noopener">https://github.com/abertsch/Menlo-for-Powerline.git</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>WorkFlow</p>
+<ul>
+<li><p>执行任务</p>
+</li>
+<li><p>针对于node，maven，typescripte，等在工程下面会有特殊的文件存在，vscode会自动检测，这样当我们在命令面板下面输入配置任务的时候，就会显示</p>
+</li>
+<li><p>当我们选择node install 的时候，就会生成如下一个 task.json 的文件：</p>
+<p><img src="https://img.mubu.com/document_image/c0675526-ed15-4e45-b4c4-dcf6b6c08f3a-172511.jpg" alt="img"></p>
+<ul>
+<li>version：版本</li>
+<li>task：<ul>
+<li>type：代表是那种类型</li>
+<li>script：代表执行的什么操作</li>
+<li>problemMatcher：是一个对象，在这个对象中定义了如何去分析任务运行的结果</li>
+<li>label：代表了任务的名字，描述任务的作用</li>
+<li>presentation: 控制任务运行的时候，是否要自动调用运行的界面，让我们看到结果，或者是否要创建一个窗口执行任务；</li>
+<li>options：<ul>
+<li>cwd：用户控制任务执行时候的几个配置，控制任务脚本运行文件夹地址，</li>
+<li>env：控制环境变量</li>
+<li>shell：shell 使用那个环境执行</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>结果分析</p>
+<ul>
+<li>$tsc，用于分析 TypeScript 编译的结果，$tsc-watch 则是用于分析运行在观察模式下的 TypeScript 编译器的结果；</li>
+<li>$jshint用于分析 JSHint 的结果，$jshint-stylish 用于分析 JSHint Stylish 的运行结果；</li>
+<li>$eslint-compact 和 $eslint-stylish 分别用于分析 ESLint Compact 和 ESLint Stylish；</li>
+<li>$go 是 Go 编译器的分析器；</li>
+<li>$mscompile 用于分析 CSharp 和 VB 的编译结果；</li>
+<li>$lessc 是用于分析 Lessc 的运行结果的；</li>
+<li>$node-sass 用于分析 Node Sass 编译结果。</li>
+</ul>
+</li>
+<li><p>自定义任务分析</p>
+<ul>
+<li>文件地址 行号 列号 错误的重要级别 错误信息</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>Debugger</p>
+<ul>
+<li><p>vscode 用于调试的配置是一个 launch.json 文件</p>
+<p><img src="https://img.mubu.com/document_image/859510af-1288-4bfc-b68c-db86c2c78d4b-172511.jpg" alt="img"></p>
+<ul>
+<li>type： 代表了调试的类型决定了VS Code 使用哪种调试插件来调试代码</li>
+<li>request：代表如何启动调试器，<ul>
+<li>如果代码已经运行起来了，则可以将它设置为attach，那么我们则是使用调试器来调试这个已有的代码进程</li>
+<li>如果是launch，则意味着我们会使用调试器直接启动代码进行调试</li>
+</ul>
+</li>
+<li>name：配置的名字</li>
+<li>program：告诉调试器，调试文件的位置</li>
+</ul>
+</li>
+<li><p>通用属性</p>
+<ul>
+<li>program 一般用于指定将要调试的文件。</li>
+<li>stopOnEntry，当调试器启动后，是否在第一行代码处暂停代码的执行。这个属性非常方便，如果没有设置断点而代码执行非常快的话，我们就会像文章的最开头那样，代码调试一闪而过，而没有办法在代码执行的过程中暂停了。而设置了 stopOnEntry 后，代码会自动在第一行停下来，然后我们就可以继续我们的代码调试了。</li>
+<li>args 参数。相信你应该记得在前面任务系统配置的文章里，我已经说明了可以使用 args 来控制传入任务脚本的参数，同样的，我们也可以通过 args 来把参数传给将要被调试的代码。</li>
+<li>env 环境变量。大部分调试器都使用它来控制调试进程的特殊环境变量。</li>
+<li>cwd 控制调试程序的工作目录。</li>
+<li>port 是调试时使用的端口。</li>
+</ul>
+</li>
+<li><p>总结来说</p>
+<ul>
+<li>借助模板和智能提示，尽可能利用调试插件给我们的提示和文档</li>
+<li>第二：试着记住和学习通用的配置属性和技巧</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>工作区快捷键</p>
+<ul>
+<li><p>对于编辑快捷键的处理 不仅仅是处理 快捷键的简单设置，我们可以高级自定义的设置</p>
+</li>
+<li><p>对于不同场景的按键是可以重复的，但是此时我们就是如何区分不同的场景</p>
+<p><a href="https://code.visualstudio.com/docs/getstarted/keybindings#_when-clause-contexts" target="_blank" rel="noopener">https://code.visualstudio.com/docs/getstarted/keybindings#_when-clause-contexts</a></p>
+<ul>
+<li>Editor contexts</li>
+<li>editorFocus An editor has focus, either the text or a widget.</li>
+<li>editorTextFocus The text in an editor has focus (cursor is blinking).</li>
+<li>textInputFocus Any editor has focus (regular editor, debug REPL, etc.).</li>
+<li>inputFocus Any text input area has focus (editors or text boxes).</li>
+<li>editorHasSelection Text is selected in the editor.</li>
+<li>editorHasMultipleSelections Multiple regions of text are selected (multiple cursors).</li>
+<li>editorReadOnly The editor is read only.</li>
+<li>editorLangId True when the editor’s associated language Id matches. Example: “editorLangId == typescript”.</li>
+<li>isInDiffEditor The active editor is a difference editor.</li>
+<li>Operating system contexts</li>
+<li>isLinux True when the OS is Linux</li>
+<li>isMac True when the OS is macOS</li>
+<li>isWindows True when the OS is Windows</li>
+<li>Mode contexts</li>
+<li>inDebugMode A debug session is running.</li>
+<li>inSnippetMode The editor is in snippet mode.</li>
+<li>inQuickOpen The Quick Open drop-down has focus.</li>
+<li>Resource contexts</li>
+<li>resourceScheme True when the resource Uri scheme matches. Example: “resourceScheme == file”</li>
+<li>resourceFilename True when the Explorer or editor filename matches. Example: “resourceFilename == gulpfile.js”</li>
+<li>resourceExtname True when the Explorer or editor filename extension matches. Example: “resourceExtname == .js”</li>
+<li>resourceLangId True when the Explorer or editor title language Id matches. Example: “resourceLangId == markdown”</li>
+<li>Explorer contexts</li>
+<li>explorerViewletVisible True if Explorer view is visible.</li>
+<li>explorerViewletFocus True if Explorer view has keyboard focus.</li>
+<li>filesExplorerFocus True if File Explorer section has keyboard focus.</li>
+<li>openEditorsFocus True if OPEN EDITORS section has keyboard focus.</li>
+<li>explorerResourceIsFolder True if a folder is selected in the Explorer.</li>
+<li>Editor widget contexts</li>
+<li>findWidgetVisible Editor Find widget is visible.</li>
+<li>suggestWidgetVisible Suggestion widget (IntelliSense) is visible.</li>
+<li>suggestWidgetMultipleSuggestions Multiple suggestions are displayed.</li>
+<li>renameInputVisible Rename input text box is visible.</li>
+<li>referenceSearchVisible Peek References peek window is open.</li>
+<li>inReferenceSearchEditor The Peek References peek window editor has focus.</li>
+<li>config.editor.stablePeek Keep peek editors open (controlled by editor.stablePeeksetting).</li>
+<li>quickFixWidgetVisible Quick Fix widget is visible.</li>
+<li>parameterHintsVisible Parameter hints are visible (controlled by editor.parameterHints setting).</li>
+<li>parameterHintsMultipleSignatures Multiple parameter hints are displayed.</li>
+<li>Integrated terminal contexts</li>
+<li>terminalFocus An integrated terminal has focus.</li>
+<li>Global UI contexts</li>
+<li>notificationFocus Notification has keyboard focus.</li>
+<li>notificationCenterVisible Notification Center is visible at the bottom right of VS Code.</li>
+<li>notificationToastsVisible Notification toast is visible at the bottom right of VS Code.</li>
+<li>searchViewletVisible Search view is open.</li>
+<li>sidebarVisible Side Bar is displayed.</li>
+<li>sideBarFocus Side Bar has focus.</li>
+<li>panelFocus Panel has focus.</li>
+<li>editorIsOpen True if one editor is open.</li>
+<li>inZenMode Window is in Zen Mode.</li>
+<li>inDebugRepl Focus is in the Debug Console REPL.</li>
+<li>textCompareEditorVisible At least one diff (compare) view is visible.</li>
+<li>workspaceFolderCount Count of workspace folders.</li>
+<li>replaceActive Search view Replace text box is open.</li>
+<li>view True when view identifier matches. Example: “view == myViewsExplorerID”.</li>
+<li>viewItem True when viewItem context matches. Example: “viewItem == someContextValue”.</li>
+</ul>
+</li>
+<li><p>when 条件规则的使用</p>
+<ul>
+<li>! 取反。比如我们希望当光标不在编辑器里时，绑定一个快捷键，那么我们可以使用 !editorFocus，使用 ！进行取反。</li>
+<li>== 等于。when 条件值除了是 boolean 以外，也可以是字符串。比如 resourceExtname 对应的是打开的文件的后缀名，如果我们想给 js 文件绑定一个快捷键，我们可以用 “resourceExtname == .js”。</li>
+<li>&amp;&amp; And 操作符。我们可以将多个条件值组合使用，比如我希望当光标在编辑器里且编辑器里正在编辑的是 js 文件，那么我可以用 “editorFocus &amp;&amp; resourceExtname == .js”。</li>
+<li>=~ 正则表达式。还是使用上面的例子，如果我要检测文件后缀是不是 js，我也可以写成 “resourceExtname =~ /js/”，通过正则表达式来进行判断。</li>
+</ul>
+</li>
+<li><p>删除快捷键，就是在command的命令前面：添加‘-’</p>
+</li>
+</ul>
+</li>
+<li><p>基础语言支持</p>
+<ul>
+<li><p>JSON</p>
+<ul>
+<li><p>支持Schema</p>
+<p><img src="https://img.mubu.com/document_image/ccb15dc7-594b-4f6f-929b-1e558d4488b2-172511.jpg" alt="img"></p>
+</li>
+</ul>
+</li>
+<li><p>Markdown</p>
+<ul>
+<li><p>可以自定义样式格式</p>
+<p><img src="https://img.mubu.com/document_image/5fbf6638-0123-468c-bc2f-39bf9be7caf6-172511.jpg" alt="img"></p>
+</li>
+</ul>
+</li>
+<li><p>JavaScript</p>
+<ul>
+<li>类型提示<ul>
+<li>JsDoc</li>
+</ul>
+</li>
+<li>自动模块引用</li>
+<li>自动模块更新（自动修复文件路径）</li>
+<li>代码审查 tsconfig、checkJs</li>
+<li>NodeJs</li>
+<li>记录点Logpoints<ul>
+<li>对于记录的console.log，在对应的行号右击，</li>
+<li>点击添加记录点，可以自己类似console进行日志输出</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>GO</p>
+<ul>
+<li>官方插件</li>
+<li>安装Go环境变量、goPath</li>
+</ul>
+</li>
+<li><p>Java</p>
+<ul>
+<li>Java Extension Pack 打包安装</li>
+<li>调试<ul>
+<li>可以自己设置调试的开始方法</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>Python</p>
+</li>
+<li><p>C#</p>
+</li>
+<li><p>HTML CSS</p>
+<ul>
+<li>取色器 Color Picker</li>
+<li>Emmet<ul>
+<li>Child: &gt; 子节点操作符</li>
+<li>兄弟节点操作符 Sibling: +</li>
+<li>乘法操作 Multiplication: *</li>
+<li>Class Name, ID</li>
+<li>#page&gt;div.logo+ul#navigation&gt;li*5&gt;a{Item $}</li>
+</ul>
+</li>
+<li>展开缩写：p10</li>
+<li>建议列表：</li>
+<li>使用缩写包围</li>
+<li>多光标操作</li>
+<li>如何在其他语言中使用Emmet<ul>
+<li>“emmet.includeLanguages”: {<ul>
+<li>“javascript”: “javascriptreact”,</li>
+<li>“vue-html”: “html”,</li>
+<li>“razor”: “html”,</li>
+<li>“plaintext”: “jade”</li>
+</ul>
+</li>
+<li>}</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>深度定制自己的主题</p>
+<ul>
+<li><p>固定UI视图</p>
+<ul>
+<li>“workbench.sideBar.location”: “right”</li>
+</ul>
+</li>
+<li><p>修改工作区配色</p>
+<pre class=" language-json"><code class="language-json"><span class="token punctuation">{</span>
+    <span class="token property">"statusBar.background"</span><span class="token operator">:</span> <span class="token string">"#666666"</span><span class="token punctuation">,</span>
+    <span class="token property">"panel.background"</span><span class="token operator">:</span> <span class="token string">"#555555"</span><span class="token punctuation">,</span>
+    <span class="token property">"sideBar.background"</span><span class="token operator">:</span> <span class="token string">"#444444"</span>
+<span class="token punctuation">}</span></code></pre>
+</li>
+</ul>
+</li>
+<li><p>修改编辑器配色</p>
+<pre class=" language-json"><code class="language-json"><span class="token property">"workbench.colorCustomizations"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+    <span class="token property">"[Monokai]"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+        <span class="token property">"statusBar.background"</span><span class="token operator">:</span> <span class="token string">"#666666"</span><span class="token punctuation">,</span>
+        <span class="token property">"panel.background"</span><span class="token operator">:</span> <span class="token string">"#555555"</span><span class="token punctuation">,</span>
+        <span class="token property">"sideBar.background"</span><span class="token operator">:</span> <span class="token string">"#444444"</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span></code></pre>
+</li>
+</ul>
+<pre><code>- 基本类型颜色修改
+- TextMate 规则修改</code></pre><ul>
+<li><p>插件推荐</p>
+<ul>
+<li>GIT<ul>
+<li>gitlens</li>
+<li>RemoteHub</li>
+<li>GitHub Pull Request</li>
+</ul>
+</li>
+<li>工作区<ul>
+<li>Settings Sync</li>
+<li>Project Manager</li>
+</ul>
+</li>
+<li>编辑器<ul>
+<li>VIM</li>
+<li>Rainbow Brackets</li>
+<li>Indent Rainbow</li>
+<li>Pigment</li>
+<li>Import Cost</li>
+</ul>
+</li>
+<li>Debug<ul>
+<li>Debug for Chrome</li>
+</ul>
+</li>
+<li>其他<ul>
+<li>Rest Client</li>
+<li>Code Runner</li>
+<li>Live Share</li>
+<li>Live Share Audio</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>配置、部署、调试 Docker</p>
+<ul>
+<li><p>这个没什么难点，关键都会使用命令时，提供图形化界面的时候，我们可以简化输入一些命令</p>
+</li>
+<li><p>还有就是一个远程的调试</p>
+<ul>
+<li><p>将调试的类型设置为 attach</p>
+<pre class=" language-json"><code class="language-json"><span class="token punctuation">{</span>
+    <span class="token property">"version"</span><span class="token operator">:</span> <span class="token string">"0.2.0"</span><span class="token punctuation">,</span>
+    <span class="token property">"configurations"</span><span class="token operator">:</span> <span class="token punctuation">[</span>
+        <span class="token punctuation">{</span>
+            <span class="token property">"type"</span><span class="token operator">:</span> <span class="token string">"node"</span><span class="token punctuation">,</span>
+            <span class="token property">"request"</span><span class="token operator">:</span> <span class="token string">"attach"</span><span class="token punctuation">,</span>
+            <span class="token property">"name"</span><span class="token operator">:</span> <span class="token string">"Docker: Attach to Node"</span><span class="token punctuation">,</span>
+            <span class="token property">"port"</span><span class="token operator">:</span> <span class="token number">9229</span><span class="token punctuation">,</span>
+            <span class="token property">"address"</span><span class="token operator">:</span> <span class="token string">"localhost"</span><span class="token punctuation">,</span>
+            <span class="token property">"localRoot"</span><span class="token operator">:</span> <span class="token string">"${workspaceFolder}"</span><span class="token punctuation">,</span>
+            <span class="token property">"remoteRoot"</span><span class="token operator">:</span> <span class="token string">"/usr/src/app"</span><span class="token punctuation">,</span>
+            <span class="token property">"protocol"</span><span class="token operator">:</span> <span class="token string">"inspector"</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">]</span>
+<span class="token punctuation">}</span></code></pre>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>对于docker自身的容器管理使用docker-compose</p>
+</li>
+<li><p>docker-compose up</p>
+</li>
+<li><p>docker-compose start</p>
+</li>
+<li><p>docker-compose stop</p>
+</li>
+<li><p>自动生成dockefile文件</p>
+</li>
+<li><p>Tips &amp; Tricks</p>
+<ul>
+<li>跳转 F12</li>
+<li>跳转到上一次编辑位置 alt + command + ←</li>
+<li>跳转到下一次编辑位置 alt + command + →</li>
+<li>复制当前行</li>
+<li>移动编辑窗口</li>
+<li>鼠标打开新编辑器窗口</li>
+<li>Font ligatures 字体连字</li>
+<li>更快速的自动补全</li>
+<li>文件删除</li>
+<li>创建多层次文件夹和文件</li>
+<li>为不同的工作区设置标题栏颜色</li>
+<li>复制搜索结果</li>
+<li>固定调试工具条位置</li>
+<li>挑选键盘的设置 tenkeyless</li>
+</ul>
+</li>
+<li><p>插件开发</p>
+</li>
+</ul>
+<h3 id=""><a href="#" class="headerlink" title=""></a></h3>
+            </div>
+            <hr/>
+
+            
+
+    <div class="reprint" id="reprint-statement">
+        
+            <div class="reprint__author">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-user">
+                        文章作者:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="https://www.asxing.com" rel="external nofollow noreferrer">HoldDie</a>
+                </span>
+            </div>
+            <div class="reprint__type">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-link">
+                        文章链接:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="https://www.asxing.com/2019/01/28/common-vscode-er/">https://www.asxing.com/2019/01/28/common-vscode-er/</a>
+                </span>
+            </div>
+            <div class="reprint__notice">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-copyright">
+                        版权声明:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    本博客所有文章除特別声明外，均采用
+                    <a href="https://creativecommons.org/licenses/by/4.0/deed.zh" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>
+                    许可协议。转载请注明来源
+                    <a href="https://www.asxing.com" target="_blank">HoldDie</a>
+                    !
+                </span>
+            </div>
+        
+    </div>
+
+    <script async defer>
+      document.addEventListener("copy", function (e) {
+        let toastHTML = '<span>复制成功，请遵循本文的转载规则</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">查看</a>';
+        M.toast({html: toastHTML})
+      });
+
+      function navToReprintStatement() {
+        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      }
+    </script>
+
+
+
+            <div class="tag_share" style="display: block;">
+                <div class="post-meta__tag-list" style="display: inline-block;">
+                    
+                        <div class="article-tag">
+                            
+                                <a href="/tags/Tools/">
+                                    <span class="chip bg-color">Tools</span>
+                                </a>
+                            
+                                <a href="/tags/VScode/">
+                                    <span class="chip bg-color">VScode</span>
+                                </a>
+                            
+                                <a href="/tags/%E6%95%88%E7%8E%87/">
+                                    <span class="chip bg-color">效率</span>
+                                </a>
+                            
+                        </div>
+                    
+                </div>
+                <div class="post_share" style="zoom: 80%; width: fit-content; display: inline-block; float: right; margin: -0.15rem 0;">
+                    <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+
+<div id="article-share">
+    
+    
+    <div class="social-share" data-sites="twitter,facebook,google,qq,qzone,wechat,weibo,douban,linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
+    <script src="/libs/share/js/social-share.min.js"></script>
+    
+
+    
+
+</div>
+
+                </div>
+            </div>
+            
+                <style>
+    #reward {
+        margin: 40px 0;
+        text-align: center;
+    }
+
+    #reward .reward-link {
+        font-size: 1.4rem;
+        line-height: 38px;
+    }
+
+    #reward .btn-floating:hover {
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2), 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    #rewardModal {
+        width: 320px;
+        height: 350px;
+    }
+
+    #rewardModal .reward-title {
+        margin: 15px auto;
+        padding-bottom: 5px;
+    }
+
+    #rewardModal .modal-content {
+        padding: 10px;
+    }
+
+    #rewardModal .close {
+        position: absolute;
+        right: 15px;
+        top: 15px;
+        color: rgba(0, 0, 0, 0.5);
+        font-size: 1.3rem;
+        line-height: 20px;
+        cursor: pointer;
+    }
+
+    #rewardModal .close:hover {
+        color: #ef5350;
+        transform: scale(1.3);
+        -moz-transform:scale(1.3);
+        -webkit-transform:scale(1.3);
+        -o-transform:scale(1.3);
+    }
+
+    #rewardModal .reward-tabs {
+        margin: 0 auto;
+        width: 210px;
+    }
+
+    .reward-tabs .tabs {
+        height: 38px;
+        margin: 10px auto;
+        padding-left: 0;
+    }
+
+    .reward-content ul {
+        padding-left: 0 !important;
+    }
+
+    .reward-tabs .tabs .tab {
+        height: 38px;
+        line-height: 38px;
+    }
+
+    .reward-tabs .tab a {
+        color: #fff;
+        background-color: #ccc;
+    }
+
+    .reward-tabs .tab a:hover {
+        background-color: #ccc;
+        color: #fff;
+    }
+
+    .reward-tabs .wechat-tab .active {
+        color: #fff !important;
+        background-color: #22AB38 !important;
+    }
+
+    .reward-tabs .alipay-tab .active {
+        color: #fff !important;
+        background-color: #019FE8 !important;
+    }
+
+    .reward-tabs .reward-img {
+        width: 210px;
+        height: 210px;
+    }
+</style>
+
+<div id="reward">
+    <a href="#rewardModal" class="reward-link modal-trigger btn-floating btn-medium waves-effect waves-light red">赏</a>
+
+    <!-- Modal Structure -->
+    <div id="rewardModal" class="modal">
+        <div class="modal-content">
+            <a class="close modal-close"><i class="fas fa-times"></i></a>
+            <h4 class="reward-title">你的赏识是我前进的动力</h4>
+            <div class="reward-content">
+                <div class="reward-tabs">
+                    <ul class="tabs row">
+                        <li class="tab col s6 alipay-tab waves-effect waves-light"><a href="#alipay">支付宝</a></li>
+                        <li class="tab col s6 wechat-tab waves-effect waves-light"><a href="#wechat">微 信</a></li>
+                    </ul>
+                    <div id="alipay">
+                        <img src="/medias/reward/alipay.jpg" class="reward-img" alt="支付宝打赏二维码">
+                    </div>
+                    <div id="wechat">
+                        <img src="/medias/reward/wechat.png" class="reward-img" alt="微信打赏二维码">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $('.tabs').tabs();
+    });
+</script>
+            
+        </div>
+    </div>
+
+    
+        <link rel="stylesheet" href="/libs/gitalk/gitalk.css">
+<link rel="stylesheet" href="/css/my-gitalk.css">
+
+<div class="card gitalk-card" data-aos="fade-up">
+    <div class="comment_headling" style="font-size: 20px; font-weight: 700; position: relative; left: 20px; top: 15px; padding-bottom: 5px;">
+        <i class="fas fa-comments fa-fw" aria-hidden="true"></i>
+        <span>评论</span>
+    </div>
+    <div id="gitalk-container" class="card-content"></div>
+</div>
+
+<script src="/libs/gitalk/gitalk.min.js"></script>
+<script>
+    let gitalk = new Gitalk({
+        clientID: 'c4e18e113d94091c8828',
+        clientSecret: '891f04d80de6a77fd6eb60d1cbe792e916cde3ff',
+        repo: 'asxing.github.io',
+        owner: 'Asxing',
+        admin: "asxing",
+        id: '2019-01-28T19-43-41',
+        distractionFreeMode: false  // Facebook-like distraction free mode
+    });
+
+    gitalk.render('gitalk-container');
+</script>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+            <div class="card">
+                <a href="/2019/02/11/flutter-kuai-jie-jian-san/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/1.jpg" class="responsive-img" alt="Flutter-快捷键（三）">
+                        
+                        <span class="card-title">Flutter-快捷键（三）</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            在涅槃的凤凰火中，燃烧殆尽的，恰恰是之前的自己。——酒空雪
+VScode Dart快捷键如下：
+
+
+快捷键
+描述
+
+
+
+bab
+创建AnimatedBuilder
+
+
+bu
+创建Build()方法
+
+
+bufb
+创建FutureBuilde
+                        
+                    </div>
+                    <div class="publish-info">
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2019-02-11
+                        </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/Flutter/" class="post-category">
+                                    Flutter
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/Flutter/">
+                        <span class="chip bg-color">Flutter</span>
+                    </a>
+                    
+                    <a href="/tags/Keyboard/">
+                        <span class="chip bg-color">Keyboard</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2019/01/22/flutter-huan-jing-da-jian-er/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/13.jpg" class="responsive-img" alt="Flutter-环境搭建（二）">
+                        
+                        <span class="card-title">Flutter-环境搭建（二）</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+想要看清雾中的景物，不能仅仅相信自己的眼睛。 ——飞鸟
+
+首先是下载Gradle环境太慢建议，直接下载然后放置到指定文件下面，下载Gradle，下载对应的版本
+地址：http://services.gradle.org/distribut
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2019-01-22
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/Flutter/" class="post-category">
+                                    Flutter
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/Flutter/">
+                        <span class="chip bg-color">Flutter</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+
+</div>
+
+
+
+<!-- 代码块功能依赖 -->
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+
+<!-- 代码语言 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+
+    
+<!-- 代码块复制 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+
+
+<!-- 代码块收缩 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script>
+
+
+<!-- 代码块折行 -->
+
+<style type="text/css">
+code[class*="language-"], pre[class*="language-"] { white-space: pre !important; }
+</style>
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget">
+            <div class="toc-title"><i class="far fa-list-alt"></i>&nbsp;&nbsp;目录</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fas fa-list-ul"></i>
+    </a>
+</div>
+
+
+<script src="/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            // headingsOffset: -205,
+            headingSelector: 'h2, h3, h4'
+        });
+
+        // modify the toc link href to support Chinese.
+        let i = 0;
+        let tocHeading = 'toc-heading-';
+        $('#toc-content a').each(function () {
+            $(this).attr('href', '#' + tocHeading + (++i));
+        });
+
+        // modify the heading title id to support Chinese.
+        i = 0;
+        $('#articleContent').children('h2, h3, h4').each(function () {
+            $(this).attr('id', tocHeading + (++i));
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).hide();
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).show();
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+        });
+        
+    });
+</script>
+
+    
+
+</main>
+
+
+
+    <footer class="page-footer bg-color">
+    <div class="container row center-align">
+        <div class="col s12 m8 l8 copy-right">
+            Copyright&nbsp;&copy;
+            <span id="year">年份</span>
+            <a href="https://www.asxing.com" target="_blank">Asxing</a>
+            |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
+            |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
+            <br>
+            
+            &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
+                class="white-color">479k</span>&nbsp;字
+            
+            
+            
+            
+            <span id="busuanzi_container_site_pv">
+                |&nbsp;<i class="far fa-eye"></i>&nbsp;总访问量:&nbsp;<span id="busuanzi_value_site_pv"
+                    class="white-color"></span>&nbsp;次
+            </span>
+            
+            
+            <span id="busuanzi_container_site_uv">
+                |&nbsp;<i class="fas fa-users"></i>&nbsp;总访问人数:&nbsp;<span id="busuanzi_value_site_uv"
+                    class="white-color"></span>&nbsp;人
+            </span>
+            
+            <br>
+            
+            <span id="sitetime">载入运行时间...</span>
+            <script>
+                function siteTime() {
+                    window.setTimeout("siteTime()", 1000);
+                    var seconds = 1000;
+                    var minutes = seconds * 60;
+                    var hours = minutes * 60;
+                    var days = hours * 24;
+                    var years = days * 365;
+                    var today = new Date();
+                    var startYear = "2019";
+                    var startMonth = "10";
+                    var startDate = "30";
+                    var startHour = "22";
+                    var startMinute = "30";
+                    var startSecond = "0";
+                    var todayYear = today.getFullYear();
+                    var todayMonth = today.getMonth() + 1;
+                    var todayDate = today.getDate();
+                    var todayHour = today.getHours();
+                    var todayMinute = today.getMinutes();
+                    var todaySecond = today.getSeconds();
+                    var t1 = Date.UTC(startYear, startMonth, startDate, startHour, startMinute, startSecond);
+                    var t2 = Date.UTC(todayYear, todayMonth, todayDate, todayHour, todayMinute, todaySecond);
+                    var diff = t2 - t1;
+                    var diffYears = Math.floor(diff / years);
+                    var diffDays = Math.floor((diff / days) - diffYears * 365);
+                    var diffHours = Math.floor((diff - (diffYears * 365 + diffDays) * days) / hours);
+                    var diffMinutes = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours) /
+                        minutes);
+                    var diffSeconds = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours -
+                        diffMinutes * minutes) / seconds);
+                    if (startYear == todayYear) {
+                        document.getElementById("year").innerHTML = todayYear;
+                        document.getElementById("sitetime").innerHTML = "本站已安全运行 " + diffDays + " 天 " + diffHours +
+                            " 小时 " + diffMinutes + " 分钟 " + diffSeconds + " 秒";
+                    } else {
+                        document.getElementById("year").innerHTML = startYear + " - " + todayYear;
+                        document.getElementById("sitetime").innerHTML = "本站已安全运行 " + diffYears + " 年 " + diffDays +
+                            " 天 " + diffHours + " 小时 " + diffMinutes + " 分钟 " + diffSeconds + " 秒";
+                    }
+                }
+                setInterval(siteTime, 1000);
+            </script>
+            
+            <br>
+            
+        </div>
+        <div class="col s12 m4 l4 social-link ">
+    <a href="https://github.com/asxing" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+        <i class="fab fa-github"></i>
+    </a>
+
+
+
+    <a href="mailto:asxingking@gmail.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fas fa-envelope-open"></i>
+    </a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <a href="/atom.xml" class="tooltipped" target="_blank" data-tooltip="RSS 订阅" data-position="top" data-delay="50">
+        <i class="fas fa-rss"></i>
+    </a>
+
+</div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+
+    <!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fas fa-search"></i>&nbsp;&nbsp;搜索</span>
+            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script src="/js/search.js"></script>
+<script type="text/javascript">
+$(function () {
+    searchFunc("/" + "search.xml", 'searchInput', 'searchResult');
+});
+</script>
+    <!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+</div>
+
+
+    <script src="/libs/materialize/materialize.min.js"></script>
+    <script src="/libs/masonry/masonry.pkgd.min.js"></script>
+    <script src="/libs/aos/aos.js"></script>
+    <script src="/libs/scrollprogress/scrollProgress.min.js"></script>
+    <script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+    <script src="/js/matery.js"></script>
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+    <!-- Baidu Analytics -->
+
+    <!-- Baidu Push -->
+
+    
+    <script src="/libs/others/clicklove.js" async="async"></script>
+    
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <script type="text/javascript" src="/libs/background/ribbon-dynamic.js" async="async"></script>
+    
+    
+    
+
+</body>
+
+</html>

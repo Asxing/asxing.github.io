@@ -1,0 +1,1284 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="keywords" content="系统对账收集, 编程 读书 生活">
+    <meta name="description" content="本文收集业务知识，系统对账了解一下。
+什么是对账传统的对账就是核对账目，是指在会计核算中，为保证账簿记录正确可靠，对账簿中的有关数据进行检查和核对的工作。在银行或者第三方支付中，对账其实是对一定周期内的交易进行双方确认的过程，一般都是在第二">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>系统对账收集 | Asxing-阿行</title>
+    <link rel="icon" type="image/png" href="/favicon.png">
+
+    <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
+    <link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
+    <link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/matery.css">
+    <link rel="stylesheet" type="text/css" href="/css/my.css">
+    
+    <script src="/libs/jquery/jquery.min.js"></script>
+    
+<meta name="generator" content="Hexo 4.2.1"><link rel="alternate" href="/atom.xml" title="Asxing-阿行" type="application/atom+xml">
+<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+
+
+<body>
+    <header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper head-container">
+            <div class="brand-logo">
+                <a href="/" class="waves-effect waves-light">
+                    
+                    <img src="/medias/logo.png" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">Asxing-阿行</span>
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
+<ul class="right nav-menu">
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/" class="waves-effect waves-light">
+      
+      <i class="fas fa-home" style="zoom: 0.6;"></i>
+      
+      <span>首页</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/tags" class="waves-effect waves-light">
+      
+      <i class="fas fa-tags" style="zoom: 0.6;"></i>
+      
+      <span>标签</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/categories" class="waves-effect waves-light">
+      
+      <i class="fas fa-bookmark" style="zoom: 0.6;"></i>
+      
+      <span>分类</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/archives" class="waves-effect waves-light">
+      
+      <i class="fas fa-archive" style="zoom: 0.6;"></i>
+      
+      <span>归档</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/about" class="waves-effect waves-light">
+      
+      <i class="fas fa-user-circle" style="zoom: 0.6;"></i>
+      
+      <span>关于</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/contact" class="waves-effect waves-light">
+      
+      <i class="fas fa-comments" style="zoom: 0.6;"></i>
+      
+      <span>留言板</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/friends" class="waves-effect waves-light">
+      
+      <i class="fas fa-address-book" style="zoom: 0.6;"></i>
+      
+      <span>友情链接</span>
+    </a>
+    
+  </li>
+  
+  <li>
+    <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+      <i id="searchIcon" class="fas fa-search" title="搜索" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+</ul>
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="/medias/logo.png" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">Asxing-阿行</div>
+        <div class="logo-desc">
+            
+            Never really desperate, only the lost of the soul.
+            
+        </div>
+    </div>
+
+    
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li class="m-nav-item">
+	  
+		<a href="/" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-home"></i>
+			
+			首页
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/tags" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-tags"></i>
+			
+			标签
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/categories" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-bookmark"></i>
+			
+			分类
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/archives" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-archive"></i>
+			
+			归档
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/about" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-user-circle"></i>
+			
+			关于
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/contact" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-comments"></i>
+			
+			Contact
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/friends" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-address-book"></i>
+			
+			友情链接
+		</a>
+          
+        </li>
+        
+        
+        <li><div class="divider"></div></li>
+        <li>
+            <a href="https://github.com/asxing" class="waves-effect waves-light" target="_blank">
+                <i class="fab fa-github-square fa-fw"></i>Fork Me
+            </a>
+        </li>
+        
+    </ul>
+</div>
+
+        </div>
+
+        
+            <style>
+    .nav-transparent .github-corner {
+        display: none !important;
+    }
+
+    .github-corner {
+        position: absolute;
+        z-index: 10;
+        top: 0;
+        right: 0;
+        border: 0;
+        transform: scale(1.1);
+    }
+
+    .github-corner svg {
+        color: #0f9d58;
+        fill: #fff;
+        height: 64px;
+        width: 64px;
+    }
+
+    .github-corner:hover .octo-arm {
+        animation: a 0.56s ease-in-out;
+    }
+
+    .github-corner .octo-arm {
+        animation: none;
+    }
+
+    @keyframes a {
+        0%,
+        to {
+            transform: rotate(0);
+        }
+        20%,
+        60% {
+            transform: rotate(-25deg);
+        }
+        40%,
+        80% {
+            transform: rotate(10deg);
+        }
+    }
+</style>
+
+<a href="https://github.com/asxing" class="github-corner tooltipped hide-on-med-and-down" target="_blank"
+   data-tooltip="Fork Me" data-position="left" data-delay="50">
+    <svg viewBox="0 0 250 250" aria-hidden="true">
+        <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
+        <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2"
+              fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path>
+        <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z"
+              fill="currentColor" class="octo-body"></path>
+    </svg>
+</a>
+        
+    </nav>
+
+</header>
+
+    
+<script src="/libs/cryptojs/crypto-js.min.js"></script>
+<script>
+    (function() {
+        let pwd = '';
+        if (pwd && pwd.length > 0) {
+            if (pwd !== CryptoJS.SHA256(prompt('请输入访问本文章的密码')).toString(CryptoJS.enc.Hex)) {
+                alert('密码错误，将返回主页！');
+                location.href = '/';
+            }
+        }
+    })();
+</script>
+
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/17.jpg')">
+    <div class="container" style="right: 0px;left: 0px;">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <div class="description center-align post-title">
+                        系统对账收集
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<main class="post-container content">
+
+    
+    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
+<style>
+    #articleContent h1::before,
+    #articleContent h2::before,
+    #articleContent h3::before,
+    #articleContent h4::before,
+    #articleContent h5::before,
+    #articleContent h6::before {
+        display: block;
+        content: " ";
+        height: 100px;
+        margin-top: -100px;
+        visibility: hidden;
+    }
+
+    #articleContent :focus {
+        outline: none;
+    }
+
+    .toc-fixed {
+        position: fixed;
+        top: 64px;
+    }
+
+    .toc-widget {
+        padding-left: 20px;
+    }
+
+    .toc-widget .toc-title {
+        margin: 35px 0 15px 0;
+        padding-left: 17px;
+        font-size: 1.5rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    .toc-widget ol {
+        padding: 0;
+        list-style: none;
+    }
+
+    #toc-content ol {
+        padding-left: 10px;
+    }
+
+    #toc-content ol li {
+        padding-left: 10px;
+    }
+
+    #toc-content .toc-link:hover {
+        color: #42b983;
+        font-weight: 700;
+        text-decoration: underline;
+    }
+
+    #toc-content .toc-link::before {
+        background-color: transparent;
+        max-height: 25px;
+    }
+
+    #toc-content .is-active-link {
+        color: #42b983;
+    }
+
+    #toc-content .is-active-link::before {
+        background-color: #42b983;
+    }
+
+    #floating-toc-btn {
+        position: fixed;
+        right: 15px;
+        bottom: 76px;
+        padding-top: 15px;
+        margin-bottom: 0;
+        z-index: 998;
+    }
+
+    #floating-toc-btn .btn-floating {
+        width: 48px;
+        height: 48px;
+    }
+
+    #floating-toc-btn .btn-floating i {
+        line-height: 48px;
+        font-size: 1.4rem;
+    }
+</style>
+<div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                            <a href="/tags/Java/">
+                                <span class="chip bg-color">Java</span>
+                            </a>
+                        
+                            <a href="/tags/%E5%AF%B9%E8%B4%A6/">
+                                <span class="chip bg-color">对账</span>
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fas fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/categories/%E5%AF%B9%E8%B4%A6/" class="post-category">
+                                对账
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
+                    2018-03-29
+                </div>
+                
+
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
+                    4.2k
+                </div>
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
+                    14 分
+                </div>
+                
+				
+                
+            </div>
+            
+        </div>
+        <hr class="clearfix">
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <p>本文收集业务知识，系统对账了解一下。</p>
+<h3 id="什么是对账"><a href="#什么是对账" class="headerlink" title="什么是对账"></a>什么是对账</h3><p>传统的对账就是核对账目，是指在会计核算中，为保证账簿记录正确可靠，对账簿中的有关数据进行检查和核对的工作。在银行或者第三方支付中，对账其实是对一定周期内的交易进行双方确认的过程，一般都是在第二天银行或者第三方支付公司对前一日交易进行清分，生成对账单供平台商户下载，并将应结算款结算给平台商户。在往下一层，在互联网金融行业或者电商行业中，对账其实就是确认在固定周期内和支付提供方（银行和第反方支付）的交易、资金的正确性，保证双方的交易、资金一致正确。</p>
+<p>广义的对账，所有跨应用的数据交互，理论上都应该进行对账。所以对账也可以分为信息流对账，资金流对账。信息流对账也一般用在自己内部系统的对账，比如支付系统的支付数据和业务系统的业务数据进行对账，保证资金交易和业务交易的一致性。资金流对账也就是支付系统和银行或者第三方支付系统之间的资金交易对账。</p>
+<p><strong>对账方式</strong></p>
+<ul>
+<li>单向对账：一般拿第三方支付机构或银行流水，与自己系统进行对账，防止出现掉单问题；</li>
+<li>双向对账：两个应用间的流水进行双向核对，如订单与财务系统，既要保证财务系统支付成功的记录，订单系统也是成功的；也要确保订单系统记录成功的记录，财务系统也成功。</li>
+</ul>
+<p>我们一般采用双向对账的方式进行对账</p>
+<p><strong>对账相关的问题</strong></p>
+<p>不同系统日切点不一致问题：滚动对账<br>差错处理：补账，补偿（退款）</p>
+<h3 id="相关概念"><a href="#相关概念" class="headerlink" title="相关概念"></a>相关概念</h3><p><strong>轧帐和平帐</strong></p>
+<p>每一笔交易，都要做到各参与者的记录能够吻合，没有偏差。对账系统的工作，是发现有差异的记录，即轧帐；然后通过人工或者自动的方式，解决这些差异，即平帐。</p>
+<p><strong>长款和漏单</strong></p>
+<p>在以平台交易为基准的情况下和银行对账，发现周期内的交易，平台有此订单而第三方支付中没有订单，成为平台长款。平台长款一般是由于用户在支付的时候跨天的情况，比如用户在23:58分创建了订单，在第二天的凌晨00:03分进行了支付。在以银行交易为基准的情况下对账，银行有此订单而平台无此订单，即为平台漏单。平台漏单很少见，一般直接转人工处理。</p>
+<p><strong>账户体系</strong></p>
+<p>在一般的支付体系中会分为登录账户和支付账户，支付账户指用户在支付系统中用于交易的资金所有者权益的凭证；登录账号指用户在系统中登录的凭证和个人信息。一个用户可以有多个登录账户，一个登录账户可以有多个支付账户，比如零钱账户、储值卡账户等。一般来说，支付账户不会在多个登录账户之间共用。对账的交易一般都是支付账户参与交易。</p>
+<p><strong>交易与账户</strong></p>
+<p>账户设置，一般是从交易开始的。 交易的实现必须有账户的支持，账户是交易的基本构成元素。 从支付系统的角度，交易中涉及到的资金流是资金从一个账户流向另一个账户。 发起交易的一方，被称之为交易主体，他可以是一个人，也可以是一个机构。</p>
+<p><strong>清算和结算</strong></p>
+<p>清算主要是指不同银行间的货币收付，可以认为是结算进行之前，发起行和接收行对支付指令的发送、接收、核对确认，其结果是全面交换结算工具和支付信息，并建立最终结算头寸。</p>
+<p>结算是指将清算过程产生的待结算头寸分别在发起行、接收行进行相应的会计处理，完成资金转移，并通知收付双方的过程。当前，大多数银行结算业务的完成主要通过两类账户：一是银行间互相开立的代理账户，二是开立在央行、独立金融机构如银联、或者第三方支付机构的账户。</p>
+<p>清算：计算各方应收应付钱款的时间与金额。结算：根据清算的结果在指定的时间对各方进行实际的资金转移操作</p>
+<p><strong>资金池</strong></p>
+<p>用户备付资金（如充值）统一放在企业的银行账户中，企业可以随意支配这些资金，即为资金池。与之对应的是第三方托管，用户备付资金是放在企业在第三方支付机构为用户开设的虚拟账户中，企业无法随意取出这些资金。现在互联网金融全面要求接入银行存管，就是银行会为每个用户创建一个资金账户来保护用户的资金，互联金融公司不能随意划拨这些资金账户中的金额。</p>
+<h2 id="对账系统"><a href="#对账系统" class="headerlink" title="对账系统"></a>对账系统</h2><h3 id="对账设计"><a href="#对账设计" class="headerlink" title="对账设计"></a>对账设计</h3><p><img src="https://www.holddie.com/img/20200105152036.jpg" alt=""></p>
+<p>对账系统的设计阶段，将对账系统分为四个模块，每个模块的负责自己的职能。</p>
+<ul>
+<li>文件获取模块：下载或者读取各渠道对账文件</li>
+<li>文件解析模块：创建不同的解析模板，根据渠道和文件类型获取对应的解析模板进行解析</li>
+<li>对账处理模块：对账的业务逻辑处理</li>
+<li>差错处理模块：处理差错池中的订单</li>
+</ul>
+<p>一般会设计一个定时任务，每天固定的时间点触发，定时驱动调度类分别调用四个模块来处理对账。也有的银行会主动的推送对账单，再通过http回调来触发对账流程。</p>
+<p><strong>对账算法</strong></p>
+<p>一、流程：</p>
+<p>1、从上游渠道（银行、银联等金融机构）获取对账文件，程序逐行解析入库；<br>2、在程序处理中，以上游对账文件的表为基准，程序逐行读取并与我们系统的交易记录对比账务记录（有账务系统情况下，合理方案应该是于账务记录）对比，查找出差异记录；<br>3、以我们系统的交易记录对比账务记录为基准，程序逐行读取与上游对账文件对比，查找出差异记录。</p>
+<p>二、缺陷：</p>
+<p>1、对账过程中查询相关数据，如果数据量巨大，对数据库性能影响较大，而且对账逻辑扩展极为麻烦；<br>2、逐行比对算法效率较低，但算法上并无好的优化余地。如果采用数据库INTERSECT、MINUS对数据库压力也高；<br>3、在业务量大的情况下（例如有上百家上游渠道需要对，每一家都有几十万条交易记录），对账服务器及数据库服务器负荷较高。即便采用读写分离，对账时候使用读库，压力一样很大；<br>4、导入批量文件，逐行入库效率较为低下（每一次都需要建立网络连接、关闭连接）。</p>
+<p>三、改进：</p>
+<p>1、涉及网络传输的，尽量采用批量方式操作，减少网络消耗及时间消耗；<br>2、使用Redis等NOSQL数据库，降低数据库服务器的压力。同时在扩展上也容易，一台Redis服务器不够，可以无限制增加用于对账用的服务器；<br>3、使用Redis的set集合的sdiff功能，利用Redis sdiff算法的高性能，比对上游记录和我方记录的差异。</p>
+<h3 id="对账流程"><a href="#对账流程" class="headerlink" title="对账流程"></a>对账流程</h3><p><img src="https://www.holddie.com/img/20200105152015.jpg" alt=""></p>
+<p><strong>1、下载对账单</strong></p>
+<p>大多数银行都要求接入方提供ftp服务，银行定时将对账单推送到接入方提供的ftp服务器上面；还有一部分银行会提供对账单的下载服务，通过ftp/http的都有，ftp方式居多；另外网银的对账单比较特殊，一般都需要结算登录网银的后台管理系统中，手动下载，结算下载完对账单后在导入到对账系统。</p>
+<p>技术实现上可以做成工厂模式，不同的支付渠道有不同的下载类，如果是http接口将文件写入到对账单，如果是ftp服务器，将服务器中的对账单下载到本地带解析的目录中。主要涉及的代码ftp工具类、http(s)工具类，相关IO读写。</p>
+<p>技术选型上，HTTP(S)用apache httpclient即可实现链接池和断点续传， FTP也可以使用Apache Commons Net API。 但不管是哪一个，都需要设置重试次数和链接超时间。重试次数和间隔的设置需要小心，重试太频繁，容易把服务器打死.；时间间隔太大，又会阻塞后续处理步骤。5～10分钟是一个合适的重试间隔区间。</p>
+<p><strong>2、创建批次</strong></p>
+<p>创建批次一方面是为了防止重复对账，另一方面需要在对账结束的时候将对账的结果信息存储到批次中。</p>
+<p><strong>3、解析文件</strong></p>
+<p>解析文件主要是将下载的对账文件解析成我们可以对账的数据类型并且入库。解析的文件不同渠道有不同的类型，因此也可以设计成不同的解析模板，使用工厂模式将不同格式的文件解析成可以对账的统一数据类型。解析的文件类型一般包括：json、text、cvs、excle等，另外部分银行会对账单做加密或者提供zip打包的格式，这里就需要额外开发zip工具类和加解密工具类进行处理。</p>
+<p>对账文件中包含的主要信息有：商户订单号、交易流水号、交易时间、支付时间、付款方、交易金额、交易类型、交易状态这些字段。</p>
+<p><strong>4、对账处理</strong></p>
+<p>对账处理也是对账的核心逻辑，具体分为以下的几个步骤来实现：</p>
+<ul>
+<li>查询平台所有交易成功的订单</li>
+<li>查询平台所有的交易订单</li>
+<li>查询平台缓存池中的数据</li>
+<li>查询银行交易成功的订单</li>
+<li>开始以平台的数据为准对账,平台长款记入缓冲池</li>
+<li>开始以银行通道的数据为准对账</li>
+</ul>
+<p>以平台订单为基准对账逻辑：以平台所有交易成功的订单为基准，遍历银行订单的所有数据，找出订单号相同的订单，对比订单的金额、手续费是否一致。如果一致跳过；如果不一致，平台订单进入差错池；如果在银行订单中没有找到此笔交易，订单进入缓存池，记录平台长款。同时统计对账相关金额和订单数。</p>
+<p>以银行订单为基准对账逻辑：以银行的交易数据为基准，遍历所有平台的交易（包括未成功的订单），找出订单号相同但支付状态不一致的订单，在进行对比金额存入差错池。如果没有在平台的交易中找到此订单，再从缓存池中遍历查找，找到对应的平台订单验证金额是否一致，不一致进入差错池。如果在缓存池汇中依然没有找到对应的订单，直接进入差错池，记录平台漏单。同时统计对账相关金额和订单数。</p>
+<p><strong>5、对账统计</strong></p>
+<p>根据对账处理中，统计的相关信息包括：对账完成时间、对账是否成功、平账的金额和订单数、差错的金额和订单数、缓存池金额和订单数等。</p>
+<p><strong>6、差错处理</strong></p>
+<p>在一般系统中，差错处理分为两种，一种人工来处理，一种系统自动来处理。</p>
+<p>主要有如下情况：</p>
+<ul>
+<li>本地未支付，支付渠道已支付。这主要是本地未正确接收到渠道下发的异步通知导致。 一般处理是将本地状态修改为已支付，并做响应的后续处理，比如通知业务方等。</li>
+<li>本地已支付，支付渠道已支付，但是金额不同，这个需要人工核查。</li>
+<li>本地已支付，但是支付渠道中无记录；或者本地无记录，支付渠道有记录。在排除跨日因素外，这种情况非常少见，需要了解具体原因后做处理。</li>
+</ul>
+<h2 id="支付系统对账算法优化方案"><a href="#支付系统对账算法优化方案" class="headerlink" title="支付系统对账算法优化方案"></a>支付系统对账算法优化方案</h2><h3 id="一、目前对账的算法："><a href="#一、目前对账的算法：" class="headerlink" title="一、目前对账的算法："></a>一、目前对账的算法：</h3><p>1、从上游渠道（银行、银联等金融机构）获取对账文件，程序逐行解析入库</p>
+<p>2、在存储过程中，以上游对账文件的表为基准，程序逐行读取并与我们系统的交易记录/账务记录（有账务系统情况下，合理方案应该是于账务记录）对比，查找出差异记录。</p>
+<p>3、以我们系统的交易记录/账务记录为基准，程序逐行读取与上游对账文件对比，查找出差异记录</p>
+<h3 id="二、目前对账算法问题："><a href="#二、目前对账算法问题：" class="headerlink" title="二、目前对账算法问题："></a>二、目前对账算法问题：</h3><p>1、使用存储过程，对账过程都在数据库端完成，对数据库性能影响较大，而且对账逻辑扩展极为麻烦</p>
+<p>2、逐行比对算法效率较低，但算法上并无好的优化余地。如果采用数据库INTERSECT、MINUS对数据库压力也高。</p>
+<p>3、在业务量大的情况下（例如有上百家上游渠道需要对，每一家都有几十万条交易记录），对账服务器及数据库服务器负荷较高。即便采用读写分离，对账时候使用读库，压力一样很大。</p>
+<p>4、导入批量文件，逐行入库效率较为低下（每一次都需要建立网络连接、关闭连接）</p>
+<h3 id="三、对账算法优化思路："><a href="#三、对账算法优化思路：" class="headerlink" title="三、对账算法优化思路："></a>三、对账算法优化思路：</h3><p>1、涉及网络传输的，尽量采用批量方式操作，减少网络消耗及时间消耗</p>
+<p>2、使用Redis等NOSQL数据库，降低数据库服务器的压力。同时在扩展上也容易，一台Redis服务器不够，可以无限制增加用于对账用的服务器。</p>
+<p>3、使用Redis的set集合的sdiff功能，利用Redis sdiff算法的高性能，比对上游记录和我方记录的差异</p>
+<h3 id="四、对账算法说明："><a href="#四、对账算法说明：" class="headerlink" title="四、对账算法说明："></a>四、对账算法说明：</h3><p>1、利用Oracle/Mysql的load data infile将对账文件批量导入到数据库</p>
+<p>2、程序读取上游账务记录表，对上游账户记录执行select  concat(channel_id, “:” , order_id , “:” , HASH_MD5(channel_id , order_id , amount , status , timestamp1 , timestamp2 ,…) )  as hashid from table ，得到对应的SET集合。</p>
+<p>这里思路是将需要对账的记录拼成格式为：channel_id:order_id:hashid形式的串，以便作为Redis SET集合的item。</p>
+<p>其中channel_id和order_id用于标识对应的渠道及订单，只是例子，根据实际需要补充。之所以要在hashid前面带上channel_id和order_id，主要目的是在sdiff后，能够作为主键，根据set结合的item查找出对应的数据库记录。</p>
+<p>3、对我方的交易记录表/账户历史表采用上一步的类似算法，得到对应的SET结合</p>
+<p>4、采用Redis的pipeline功能（Redis的各种客户端，包括java客户端jedis 都提供此功能），将上游账务记录SET集合和我方的交易记录/账务历史记录SET集分别批量执行sadd插入Redis，得到两个SET集合。</p>
+<p>由于单条记录sadd 插入Redis效率较差（每一次都涉及网络open、close、传输消耗），因此使用Redis的pipeline功能，已实现批量入库功能。</p>
+<p>可以参考：<a href="http://redis.io/topics/mass-insert" target="_blank" rel="noopener">http://redis.io/topics/mass-insert</a></p>
+<p>5、利用redis的sdiff功能查找出上游账务集合与我方记录集合的差值</p>
+<p>6、从sdiff 集合中channel_id:order_id:hash，定位对应的数据库记录，更新对账状态。</p>
+<p>具体性能及实现可以在实现后测试对比一下，应该会有大幅的性能提升。</p>
+<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
+<li><a href="https://www.jianshu.com/p/8991cb09fe0d" target="_blank" rel="noopener">https://www.jianshu.com/p/8991cb09fe0d</a></li>
+<li><a href="https://www.cnblogs.com/ityouknow/p/7015879.html" target="_blank" rel="noopener">https://www.cnblogs.com/ityouknow/p/7015879.html</a></li>
+<li><a href="http://www.10tiao.com/html/542/201706/2650921108/1.html" target="_blank" rel="noopener">http://www.10tiao.com/html/542/201706/2650921108/1.html</a></li>
+<li><a href="http://dinguangx.iteye.com/blog/2271566" target="_blank" rel="noopener">http://dinguangx.iteye.com/blog/2271566</a></li>
+</ul>
+
+            </div>
+            <hr/>
+
+            
+
+    <div class="reprint" id="reprint-statement">
+        
+            <div class="reprint__author">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-user">
+                        文章作者:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="https://www.asxing.com" rel="external nofollow noreferrer">HoldDie</a>
+                </span>
+            </div>
+            <div class="reprint__type">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-link">
+                        文章链接:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="https://www.asxing.com/2018/03/29/xi-tong-dui-zhang-shou-ji/">https://www.asxing.com/2018/03/29/xi-tong-dui-zhang-shou-ji/</a>
+                </span>
+            </div>
+            <div class="reprint__notice">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-copyright">
+                        版权声明:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    本博客所有文章除特別声明外，均采用
+                    <a href="https://creativecommons.org/licenses/by/4.0/deed.zh" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>
+                    许可协议。转载请注明来源
+                    <a href="https://www.asxing.com" target="_blank">HoldDie</a>
+                    !
+                </span>
+            </div>
+        
+    </div>
+
+    <script async defer>
+      document.addEventListener("copy", function (e) {
+        let toastHTML = '<span>复制成功，请遵循本文的转载规则</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">查看</a>';
+        M.toast({html: toastHTML})
+      });
+
+      function navToReprintStatement() {
+        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      }
+    </script>
+
+
+
+            <div class="tag_share" style="display: block;">
+                <div class="post-meta__tag-list" style="display: inline-block;">
+                    
+                        <div class="article-tag">
+                            
+                                <a href="/tags/Java/">
+                                    <span class="chip bg-color">Java</span>
+                                </a>
+                            
+                                <a href="/tags/%E5%AF%B9%E8%B4%A6/">
+                                    <span class="chip bg-color">对账</span>
+                                </a>
+                            
+                        </div>
+                    
+                </div>
+                <div class="post_share" style="zoom: 80%; width: fit-content; display: inline-block; float: right; margin: -0.15rem 0;">
+                    <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+
+<div id="article-share">
+    
+    
+    <div class="social-share" data-sites="twitter,facebook,google,qq,qzone,wechat,weibo,douban,linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
+    <script src="/libs/share/js/social-share.min.js"></script>
+    
+
+    
+
+</div>
+
+                </div>
+            </div>
+            
+                <style>
+    #reward {
+        margin: 40px 0;
+        text-align: center;
+    }
+
+    #reward .reward-link {
+        font-size: 1.4rem;
+        line-height: 38px;
+    }
+
+    #reward .btn-floating:hover {
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2), 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    #rewardModal {
+        width: 320px;
+        height: 350px;
+    }
+
+    #rewardModal .reward-title {
+        margin: 15px auto;
+        padding-bottom: 5px;
+    }
+
+    #rewardModal .modal-content {
+        padding: 10px;
+    }
+
+    #rewardModal .close {
+        position: absolute;
+        right: 15px;
+        top: 15px;
+        color: rgba(0, 0, 0, 0.5);
+        font-size: 1.3rem;
+        line-height: 20px;
+        cursor: pointer;
+    }
+
+    #rewardModal .close:hover {
+        color: #ef5350;
+        transform: scale(1.3);
+        -moz-transform:scale(1.3);
+        -webkit-transform:scale(1.3);
+        -o-transform:scale(1.3);
+    }
+
+    #rewardModal .reward-tabs {
+        margin: 0 auto;
+        width: 210px;
+    }
+
+    .reward-tabs .tabs {
+        height: 38px;
+        margin: 10px auto;
+        padding-left: 0;
+    }
+
+    .reward-content ul {
+        padding-left: 0 !important;
+    }
+
+    .reward-tabs .tabs .tab {
+        height: 38px;
+        line-height: 38px;
+    }
+
+    .reward-tabs .tab a {
+        color: #fff;
+        background-color: #ccc;
+    }
+
+    .reward-tabs .tab a:hover {
+        background-color: #ccc;
+        color: #fff;
+    }
+
+    .reward-tabs .wechat-tab .active {
+        color: #fff !important;
+        background-color: #22AB38 !important;
+    }
+
+    .reward-tabs .alipay-tab .active {
+        color: #fff !important;
+        background-color: #019FE8 !important;
+    }
+
+    .reward-tabs .reward-img {
+        width: 210px;
+        height: 210px;
+    }
+</style>
+
+<div id="reward">
+    <a href="#rewardModal" class="reward-link modal-trigger btn-floating btn-medium waves-effect waves-light red">赏</a>
+
+    <!-- Modal Structure -->
+    <div id="rewardModal" class="modal">
+        <div class="modal-content">
+            <a class="close modal-close"><i class="fas fa-times"></i></a>
+            <h4 class="reward-title">你的赏识是我前进的动力</h4>
+            <div class="reward-content">
+                <div class="reward-tabs">
+                    <ul class="tabs row">
+                        <li class="tab col s6 alipay-tab waves-effect waves-light"><a href="#alipay">支付宝</a></li>
+                        <li class="tab col s6 wechat-tab waves-effect waves-light"><a href="#wechat">微 信</a></li>
+                    </ul>
+                    <div id="alipay">
+                        <img src="/medias/reward/alipay.jpg" class="reward-img" alt="支付宝打赏二维码">
+                    </div>
+                    <div id="wechat">
+                        <img src="/medias/reward/wechat.png" class="reward-img" alt="微信打赏二维码">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $('.tabs').tabs();
+    });
+</script>
+            
+        </div>
+    </div>
+
+    
+        <link rel="stylesheet" href="/libs/gitalk/gitalk.css">
+<link rel="stylesheet" href="/css/my-gitalk.css">
+
+<div class="card gitalk-card" data-aos="fade-up">
+    <div class="comment_headling" style="font-size: 20px; font-weight: 700; position: relative; left: 20px; top: 15px; padding-bottom: 5px;">
+        <i class="fas fa-comments fa-fw" aria-hidden="true"></i>
+        <span>评论</span>
+    </div>
+    <div id="gitalk-container" class="card-content"></div>
+</div>
+
+<script src="/libs/gitalk/gitalk.min.js"></script>
+<script>
+    let gitalk = new Gitalk({
+        clientID: 'c4e18e113d94091c8828',
+        clientSecret: '891f04d80de6a77fd6eb60d1cbe792e916cde3ff',
+        repo: 'asxing.github.io',
+        owner: 'Asxing',
+        admin: "asxing",
+        id: '2018-03-29T21-32-16',
+        distractionFreeMode: false  // Facebook-like distraction free mode
+    });
+
+    gitalk.render('gitalk-container');
+</script>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+            <div class="card">
+                <a href="/2018/04/01/spring-data-jpa-shi-zhan-yi/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/18.jpg" class="responsive-img" alt="spring-data-jpa-实战（一）">
+                        
+                        <span class="card-title">spring-data-jpa-实战（一）</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            在 SpringBoot 中不可或缺的一部分，以下对自己学习做一个简单记录。
+主要实现类的结构图：
+
+SimpleJpaRepository#save() 源码分析：
+@Transactional
+public &lt;S extends 
+                        
+                    </div>
+                    <div class="publish-info">
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2018-04-01
+                        </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/Spring-Data-JPA/" class="post-category">
+                                    Spring-Data-JPA
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/Spring/">
+                        <span class="chip bg-color">Spring</span>
+                    </a>
+                    
+                    <a href="/tags/JPA/">
+                        <span class="chip bg-color">JPA</span>
+                    </a>
+                    
+                    <a href="/tags/ORM/">
+                        <span class="chip bg-color">ORM</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2018/03/29/fastjson-chang-yong-xiao-chao/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/9.jpg" class="responsive-img" alt="FastJson常用小抄">
+                        
+                        <span class="card-title">FastJson常用小抄</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            I forget to use it every time I use it, so write this article.
+简单查询// 把JSON文本parse为JSONObject或者JSONArray 
+public static 
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2018-03-29
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/FastJson/" class="post-category">
+                                    FastJson
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/FastJson/">
+                        <span class="chip bg-color">FastJson</span>
+                    </a>
+                    
+                    <a href="/tags/Json/">
+                        <span class="chip bg-color">Json</span>
+                    </a>
+                    
+                    <a href="/tags/Convert/">
+                        <span class="chip bg-color">Convert</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+
+</div>
+
+
+
+<!-- 代码块功能依赖 -->
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+
+<!-- 代码语言 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+
+    
+<!-- 代码块复制 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+
+
+<!-- 代码块收缩 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script>
+
+
+<!-- 代码块折行 -->
+
+<style type="text/css">
+code[class*="language-"], pre[class*="language-"] { white-space: pre !important; }
+</style>
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget">
+            <div class="toc-title"><i class="far fa-list-alt"></i>&nbsp;&nbsp;目录</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fas fa-list-ul"></i>
+    </a>
+</div>
+
+
+<script src="/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            // headingsOffset: -205,
+            headingSelector: 'h2, h3, h4'
+        });
+
+        // modify the toc link href to support Chinese.
+        let i = 0;
+        let tocHeading = 'toc-heading-';
+        $('#toc-content a').each(function () {
+            $(this).attr('href', '#' + tocHeading + (++i));
+        });
+
+        // modify the heading title id to support Chinese.
+        i = 0;
+        $('#articleContent').children('h2, h3, h4').each(function () {
+            $(this).attr('id', tocHeading + (++i));
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).hide();
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).show();
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+        });
+        
+    });
+</script>
+
+    
+
+</main>
+
+
+<script src="https://cdn.bootcss.com/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script>
+    MathJax.Hub.Config({
+        tex2jax: {inlineMath: [['$', '$'], ['\(', '\)']]}
+    });
+</script>
+
+
+    <footer class="page-footer bg-color">
+    <div class="container row center-align">
+        <div class="col s12 m8 l8 copy-right">
+            Copyright&nbsp;&copy;
+            <span id="year">年份</span>
+            <a href="https://www.asxing.com" target="_blank">Asxing</a>
+            |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
+            |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
+            <br>
+            
+            &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
+                class="white-color">479k</span>&nbsp;字
+            
+            
+            
+            
+            <span id="busuanzi_container_site_pv">
+                |&nbsp;<i class="far fa-eye"></i>&nbsp;总访问量:&nbsp;<span id="busuanzi_value_site_pv"
+                    class="white-color"></span>&nbsp;次
+            </span>
+            
+            
+            <span id="busuanzi_container_site_uv">
+                |&nbsp;<i class="fas fa-users"></i>&nbsp;总访问人数:&nbsp;<span id="busuanzi_value_site_uv"
+                    class="white-color"></span>&nbsp;人
+            </span>
+            
+            <br>
+            
+            <span id="sitetime">载入运行时间...</span>
+            <script>
+                function siteTime() {
+                    window.setTimeout("siteTime()", 1000);
+                    var seconds = 1000;
+                    var minutes = seconds * 60;
+                    var hours = minutes * 60;
+                    var days = hours * 24;
+                    var years = days * 365;
+                    var today = new Date();
+                    var startYear = "2019";
+                    var startMonth = "10";
+                    var startDate = "30";
+                    var startHour = "22";
+                    var startMinute = "30";
+                    var startSecond = "0";
+                    var todayYear = today.getFullYear();
+                    var todayMonth = today.getMonth() + 1;
+                    var todayDate = today.getDate();
+                    var todayHour = today.getHours();
+                    var todayMinute = today.getMinutes();
+                    var todaySecond = today.getSeconds();
+                    var t1 = Date.UTC(startYear, startMonth, startDate, startHour, startMinute, startSecond);
+                    var t2 = Date.UTC(todayYear, todayMonth, todayDate, todayHour, todayMinute, todaySecond);
+                    var diff = t2 - t1;
+                    var diffYears = Math.floor(diff / years);
+                    var diffDays = Math.floor((diff / days) - diffYears * 365);
+                    var diffHours = Math.floor((diff - (diffYears * 365 + diffDays) * days) / hours);
+                    var diffMinutes = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours) /
+                        minutes);
+                    var diffSeconds = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours -
+                        diffMinutes * minutes) / seconds);
+                    if (startYear == todayYear) {
+                        document.getElementById("year").innerHTML = todayYear;
+                        document.getElementById("sitetime").innerHTML = "本站已安全运行 " + diffDays + " 天 " + diffHours +
+                            " 小时 " + diffMinutes + " 分钟 " + diffSeconds + " 秒";
+                    } else {
+                        document.getElementById("year").innerHTML = startYear + " - " + todayYear;
+                        document.getElementById("sitetime").innerHTML = "本站已安全运行 " + diffYears + " 年 " + diffDays +
+                            " 天 " + diffHours + " 小时 " + diffMinutes + " 分钟 " + diffSeconds + " 秒";
+                    }
+                }
+                setInterval(siteTime, 1000);
+            </script>
+            
+            <br>
+            
+        </div>
+        <div class="col s12 m4 l4 social-link ">
+    <a href="https://github.com/asxing" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+        <i class="fab fa-github"></i>
+    </a>
+
+
+
+    <a href="mailto:asxingking@gmail.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fas fa-envelope-open"></i>
+    </a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <a href="/atom.xml" class="tooltipped" target="_blank" data-tooltip="RSS 订阅" data-position="top" data-delay="50">
+        <i class="fas fa-rss"></i>
+    </a>
+
+</div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+
+    <!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fas fa-search"></i>&nbsp;&nbsp;搜索</span>
+            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script src="/js/search.js"></script>
+<script type="text/javascript">
+$(function () {
+    searchFunc("/" + "search.xml", 'searchInput', 'searchResult');
+});
+</script>
+    <!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+</div>
+
+
+    <script src="/libs/materialize/materialize.min.js"></script>
+    <script src="/libs/masonry/masonry.pkgd.min.js"></script>
+    <script src="/libs/aos/aos.js"></script>
+    <script src="/libs/scrollprogress/scrollProgress.min.js"></script>
+    <script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+    <script src="/js/matery.js"></script>
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+    <!-- Baidu Analytics -->
+
+    <!-- Baidu Push -->
+
+    
+    <script src="/libs/others/clicklove.js" async="async"></script>
+    
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <script type="text/javascript" src="/libs/background/ribbon-dynamic.js" async="async"></script>
+    
+    
+    
+
+</body>
+
+</html>

@@ -1,0 +1,2312 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="keywords" content="k8s集群基础环境, 编程 读书 生活">
+    <meta name="description" content="拿起是实力，放下是智慧。                                                            ——孤灯星使
+经历了两天的摸索，对于服务的改造，从最初的设想从原先的openshift环境，改造">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>k8s集群基础环境 | Asxing-阿行</title>
+    <link rel="icon" type="image/png" href="/favicon.png">
+
+    <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
+    <link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
+    <link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/matery.css">
+    <link rel="stylesheet" type="text/css" href="/css/my.css">
+    
+    <script src="/libs/jquery/jquery.min.js"></script>
+    
+<meta name="generator" content="Hexo 4.2.1"><link rel="alternate" href="/atom.xml" title="Asxing-阿行" type="application/atom+xml">
+<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+
+
+<body>
+    <header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper head-container">
+            <div class="brand-logo">
+                <a href="/" class="waves-effect waves-light">
+                    
+                    <img src="/medias/logo.png" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">Asxing-阿行</span>
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
+<ul class="right nav-menu">
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/" class="waves-effect waves-light">
+      
+      <i class="fas fa-home" style="zoom: 0.6;"></i>
+      
+      <span>首页</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/tags" class="waves-effect waves-light">
+      
+      <i class="fas fa-tags" style="zoom: 0.6;"></i>
+      
+      <span>标签</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/categories" class="waves-effect waves-light">
+      
+      <i class="fas fa-bookmark" style="zoom: 0.6;"></i>
+      
+      <span>分类</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/archives" class="waves-effect waves-light">
+      
+      <i class="fas fa-archive" style="zoom: 0.6;"></i>
+      
+      <span>归档</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/about" class="waves-effect waves-light">
+      
+      <i class="fas fa-user-circle" style="zoom: 0.6;"></i>
+      
+      <span>关于</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/contact" class="waves-effect waves-light">
+      
+      <i class="fas fa-comments" style="zoom: 0.6;"></i>
+      
+      <span>留言板</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/friends" class="waves-effect waves-light">
+      
+      <i class="fas fa-address-book" style="zoom: 0.6;"></i>
+      
+      <span>友情链接</span>
+    </a>
+    
+  </li>
+  
+  <li>
+    <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+      <i id="searchIcon" class="fas fa-search" title="搜索" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+</ul>
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="/medias/logo.png" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">Asxing-阿行</div>
+        <div class="logo-desc">
+            
+            Never really desperate, only the lost of the soul.
+            
+        </div>
+    </div>
+
+    
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li class="m-nav-item">
+	  
+		<a href="/" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-home"></i>
+			
+			首页
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/tags" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-tags"></i>
+			
+			标签
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/categories" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-bookmark"></i>
+			
+			分类
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/archives" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-archive"></i>
+			
+			归档
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/about" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-user-circle"></i>
+			
+			关于
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/contact" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-comments"></i>
+			
+			Contact
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/friends" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-address-book"></i>
+			
+			友情链接
+		</a>
+          
+        </li>
+        
+        
+        <li><div class="divider"></div></li>
+        <li>
+            <a href="https://github.com/asxing" class="waves-effect waves-light" target="_blank">
+                <i class="fab fa-github-square fa-fw"></i>Fork Me
+            </a>
+        </li>
+        
+    </ul>
+</div>
+
+        </div>
+
+        
+            <style>
+    .nav-transparent .github-corner {
+        display: none !important;
+    }
+
+    .github-corner {
+        position: absolute;
+        z-index: 10;
+        top: 0;
+        right: 0;
+        border: 0;
+        transform: scale(1.1);
+    }
+
+    .github-corner svg {
+        color: #0f9d58;
+        fill: #fff;
+        height: 64px;
+        width: 64px;
+    }
+
+    .github-corner:hover .octo-arm {
+        animation: a 0.56s ease-in-out;
+    }
+
+    .github-corner .octo-arm {
+        animation: none;
+    }
+
+    @keyframes a {
+        0%,
+        to {
+            transform: rotate(0);
+        }
+        20%,
+        60% {
+            transform: rotate(-25deg);
+        }
+        40%,
+        80% {
+            transform: rotate(10deg);
+        }
+    }
+</style>
+
+<a href="https://github.com/asxing" class="github-corner tooltipped hide-on-med-and-down" target="_blank"
+   data-tooltip="Fork Me" data-position="left" data-delay="50">
+    <svg viewBox="0 0 250 250" aria-hidden="true">
+        <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
+        <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2"
+              fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path>
+        <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z"
+              fill="currentColor" class="octo-body"></path>
+    </svg>
+</a>
+        
+    </nav>
+
+</header>
+
+    
+<script src="/libs/cryptojs/crypto-js.min.js"></script>
+<script>
+    (function() {
+        let pwd = '';
+        if (pwd && pwd.length > 0) {
+            if (pwd !== CryptoJS.SHA256(prompt('请输入访问本文章的密码')).toString(CryptoJS.enc.Hex)) {
+                alert('密码错误，将返回主页！');
+                location.href = '/';
+            }
+        }
+    })();
+</script>
+
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('https://www.holddie.com/img/20200105160754.jpg')">
+    <div class="container" style="right: 0px;left: 0px;">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <div class="description center-align post-title">
+                        k8s集群基础环境
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<main class="post-container content">
+
+    
+    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
+<style>
+    #articleContent h1::before,
+    #articleContent h2::before,
+    #articleContent h3::before,
+    #articleContent h4::before,
+    #articleContent h5::before,
+    #articleContent h6::before {
+        display: block;
+        content: " ";
+        height: 100px;
+        margin-top: -100px;
+        visibility: hidden;
+    }
+
+    #articleContent :focus {
+        outline: none;
+    }
+
+    .toc-fixed {
+        position: fixed;
+        top: 64px;
+    }
+
+    .toc-widget {
+        padding-left: 20px;
+    }
+
+    .toc-widget .toc-title {
+        margin: 35px 0 15px 0;
+        padding-left: 17px;
+        font-size: 1.5rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    .toc-widget ol {
+        padding: 0;
+        list-style: none;
+    }
+
+    #toc-content ol {
+        padding-left: 10px;
+    }
+
+    #toc-content ol li {
+        padding-left: 10px;
+    }
+
+    #toc-content .toc-link:hover {
+        color: #42b983;
+        font-weight: 700;
+        text-decoration: underline;
+    }
+
+    #toc-content .toc-link::before {
+        background-color: transparent;
+        max-height: 25px;
+    }
+
+    #toc-content .is-active-link {
+        color: #42b983;
+    }
+
+    #toc-content .is-active-link::before {
+        background-color: #42b983;
+    }
+
+    #floating-toc-btn {
+        position: fixed;
+        right: 15px;
+        bottom: 76px;
+        padding-top: 15px;
+        margin-bottom: 0;
+        z-index: 998;
+    }
+
+    #floating-toc-btn .btn-floating {
+        width: 48px;
+        height: 48px;
+    }
+
+    #floating-toc-btn .btn-floating i {
+        line-height: 48px;
+        font-size: 1.4rem;
+    }
+</style>
+<div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                            <a href="/tags/k8s/">
+                                <span class="chip bg-color">k8s</span>
+                            </a>
+                        
+                            <a href="/tags/Docker/">
+                                <span class="chip bg-color">Docker</span>
+                            </a>
+                        
+                            <a href="/tags/CentOS7/">
+                                <span class="chip bg-color">CentOS7</span>
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fas fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/categories/k8s/" class="post-category">
+                                k8s
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
+                    2018-06-13
+                </div>
+                
+
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
+                    3.9k
+                </div>
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
+                    22 分
+                </div>
+                
+				
+                
+            </div>
+            
+        </div>
+        <hr class="clearfix">
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <p>拿起是实力，放下是智慧。                                                            ——孤灯星使</p>
+<p>经历了两天的摸索，对于服务的改造，从最初的设想从原先的openshift环境，改造开始，到最后的环境重新部署，其中遇见的一些点滴。</p>
+<h3 id="探索期"><a href="#探索期" class="headerlink" title="探索期"></a>探索期</h3><pre class=" language-shell"><code class="language-shell">$ yum remove origin-node
+$ yum remove origin-master
+
+centos-openshift-origin
+
+$ /usr/bin/openshift start master api --config=/etc/origin/master/master-config.yaml --loglevel=2 --listen=https://0.0.0.0:8443 --master=https://master3:8443
+
+$ /usr/bin/openshift start master controllers --config=/etc/origin/master/master-config.yaml --loglevel=2 --listen=https://0.0.0.0:8444
+
+$ rm -rf /usr/bin/openshift*
+
+$ rm -rf /etc/selinux/targeted/active/modules/100/openshift
+
+$ find / -name docker | awk '{print $1}' | xargs rm -rf 
+
+$ find / -name openshift | awk '{print $1}' | xargs rm -rf 
+
+$ yum install docker
+
+$ systemctl start docker.service</code></pre>
+<p>自从卸载完docker以后出现启动异常问题：</p>
+<pre class=" language-shell"><code class="language-shell">service docker start</code></pre>
+<p>你需要：</p>
+<ul>
+<li>编辑  <code>vim /etc/sysconfig/docker</code>  </li>
+<li>然后  <code>OPTIONS=&#39;--selinux-enabled --log-driver=journald --registry-mirror=http://xxxx.m.daocloud.io&#39;  registry-mirror 输入你的镜像地址</code>   </li>
+<li>最后 service docker restart 重启 daemon </li>
+</ul>
+<p>错误一</p>
+<pre class=" language-verilog"><code class="language-verilog">Error starting daemon<span class="token punctuation">:</span> SELinux is <span class="token keyword">not</span> supported <span class="token keyword">with</span> the overlay2 graph <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>false<span class="token punctuation">)</span></code></pre>
+<p>解决办法：</p>
+<pre class=" language-shell"><code class="language-shell">OPTIONS='--selinux-enabled=false --log-driver=journald --signature-verification=false'
+if [ -z "${DOCKER_CERT_PATH}" ]; then
+    DOCKER_CERT_PATH=/etc/docker
+fi</code></pre>
+<p>配置中心</p>
+<pre class=" language-properties"><code class="language-properties"><span class="token attr-name">192.168.1.95</span> <span class="token attr-value">k8s-node-95</span>
+<span class="token attr-name">192.168.1.96</span> <span class="token attr-value">k8s-node-96</span>
+<span class="token attr-name">192.168.1.97</span> <span class="token attr-value">k8s-node-97</span>
+<span class="token attr-name">192.168.1.98</span> <span class="token attr-value">k8s-node-98</span>
+<span class="token attr-name">192.168.1.99</span> <span class="token attr-value">k8s-node-99</span>
+<span class="token attr-name">192.168.1.100</span> <span class="token attr-value">k8s-node-100</span>
+<span class="token attr-name">192.168.1.101</span> <span class="token attr-value">k8s-node-101</span>
+<span class="token attr-name">192.168.1.102</span> <span class="token attr-value">k8s-node-102</span>
+<span class="token attr-name">192.168.1.103</span> <span class="token attr-value">k8s-node-103</span></code></pre>
+<h3 id="懵懂期"><a href="#懵懂期" class="headerlink" title="懵懂期"></a>懵懂期</h3><h4 id="安装centos7"><a href="#安装centos7" class="headerlink" title="安装centos7"></a>安装centos7</h4><ul>
+<li><p>使用rufus工具</p>
+</li>
+<li><p>插入优盘进行安装</p>
+<ul>
+<li>因为使用的是ThinkPad，所以安装过程中，直接按f12，进行选择</li>
+</ul>
+</li>
+</ul>
+<h4 id="软件安装"><a href="#软件安装" class="headerlink" title="软件安装"></a>软件安装</h4><p>首先联网处理，其次修改网卡，启动网络，重启服务</p>
+<p>修改阿里云镜像（可以不需要，默认是华为云）</p>
+<pre class=" language-shell"><code class="language-shell">$ ip addr
+
+$ yum install net-tools</code></pre>
+<p>安装网络工具，修改网络DNS解析，绑定网卡</p>
+<pre class=" language-shell"><code class="language-shell">BOOTPROTO=static
+ONBOOT=yes
+IPADDR=192.168.1.102
+NETMASK=255.255.255.0
+NM_CONTROLLED=no
+GATEWAY=192.168.1.1
+DNS1=114.114.114.114</code></pre>
+<p>修改网络昵称</p>
+<pre class=" language-shell"><code class="language-shell">$ hostnamectl set-hostname k8s-node-xx</code></pre>
+<h3 id="操作期"><a href="#操作期" class="headerlink" title="操作期"></a>操作期</h3><pre class=" language-shell"><code class="language-shell"># 安装依赖包
+yum install -y yum-utils device-mapper-persistent-data lvm2
+
+# 添加Docker软件包源
+yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+
+#关闭测试版本list（只显示稳定版）
+sudo yum-config-manager --enable docker-ce-edge
+sudo yum-config-manager --enable docker-ce-test
+
+# 更新yum包索引
+yum makecache fast
+
+#NO.1 直接安装Docker CE （will always install the highest  possible version，可能不符合你的需求）
+yum install docker-ce
+
+#NO.2 指定版本安装
+yum list docker-ce --showduplicates|sort -r  
+yum install docker-ce-18.03.1.ce -y
+yum install docker-ce-17.03.2.ce -y
+17.03.2.ce-1.el7.centos
+
+# 启动
+systemctl start docker
+# 测试
+docker run hello-world
+docker version
+# 卸载
+yum remove docker-ce
+rm -rf /var/lib/docker</code></pre>
+<h3 id="安装环境准备"><a href="#安装环境准备" class="headerlink" title="安装环境准备"></a>安装环境准备</h3><ul>
+<li>关闭防火墙，关闭 <code>SELinux</code></li>
+<li>配置结点解析</li>
+</ul>
+<p>安装环境：</p>
+<p>重新安装docker</p>
+<pre class=" language-shell"><code class="language-shell">Examining /var/tmp/yum-root-agOWM7/docker-ce-17.03.2.ce-1.el7.centos.x86_64.rpm: docker-ce-17.03.2.ce-1.el7.centos.x86_64
+Marking /var/tmp/yum-root-agOWM7/docker-ce-17.03.2.ce-1.el7.centos.x86_64.rpm to be installed
+Resolving Dependencies
+--> Running transaction check
+---> Package docker-ce.x86_64 0:17.03.2.ce-1.el7.centos will be installed
+--> Processing Dependency: docker-ce-selinux >= 17.03.2.ce-1.el7.centos for package: docker-ce-17.03.2.ce-1.el7.centos.x86_64
+Loading mirror speeds from cached hostfile
+ * base: mirrors.tuna.tsinghua.edu.cn
+ * extras: mirrors.tuna.tsinghua.edu.cn
+ * updates: mirrors.huaweicloud.com
+Package docker-ce-selinux is obsoleted by docker-ce, but obsoleting package does not provide for requirements
+--> Finished Dependency Resolution
+Error: Package: docker-ce-17.03.2.ce-1.el7.centos.x86_64 (/docker-ce-17.03.2.ce-1.el7.centos.x86_64)
+           Requires: docker-ce-selinux >= 17.03.2.ce-1.el7.centos
+           Available: docker-ce-selinux-17.03.0.ce-1.el7.centos.noarch (docker-ce-stable)
+               docker-ce-selinux = 17.03.0.ce-1.el7.centos
+           Available: docker-ce-selinux-17.03.1.ce-0.1.rc1.el7.centos.noarch (docker-ce-test)
+               docker-ce-selinux = 17.03.1.ce-0.1.rc1.el7.centos
+           Available: docker-ce-selinux-17.03.1.ce-1.el7.centos.noarch (docker-ce-stable)
+               docker-ce-selinux = 17.03.1.ce-1.el7.centos
+           Available: docker-ce-selinux-17.03.2.ce-0.1.rc1.el7.centos.noarch (docker-ce-test)
+               docker-ce-selinux = 17.03.2.ce-0.1.rc1.el7.centos
+           Available: docker-ce-selinux-17.03.2.ce-1.el7.centos.noarch (docker-ce-stable)
+               docker-ce-selinux = 17.03.2.ce-1.el7.centos
+           Available: docker-ce-selinux-17.04.0.ce-0.1.rc1.el7.centos.noarch (docker-ce-test)
+               docker-ce-selinux = 17.04.0.ce-0.1.rc1.el7.centos
+           Available: docker-ce-selinux-17.04.0.ce-0.2.rc2.el7.centos.noarch (docker-ce-test)
+               docker-ce-selinux = 17.04.0.ce-0.2.rc2.el7.centos
+           Available: docker-ce-selinux-17.04.0.ce-1.el7.centos.noarch (docker-ce-edge)
+               docker-ce-selinux = 17.04.0.ce-1.el7.centos
+           Available: docker-ce-selinux-17.05.0.ce-0.1.rc1.el7.centos.noarch (docker-ce-test)
+               docker-ce-selinux = 17.05.0.ce-0.1.rc1.el7.centos
+           Available: docker-ce-selinux-17.05.0.ce-0.2.rc2.el7.centos.noarch (docker-ce-test)
+               docker-ce-selinux = 17.05.0.ce-0.2.rc2.el7.centos
+           Available: docker-ce-selinux-17.05.0.ce-0.3.rc3.el7.centos.noarch (docker-ce-test)
+               docker-ce-selinux = 17.05.0.ce-0.3.rc3.el7.centos
+           Available: docker-ce-selinux-17.05.0.ce-1.el7.centos.noarch (docker-ce-edge)
+               docker-ce-selinux = 17.05.0.ce-1.el7.centos
+ You could try using --skip-broken to work around the problem</code></pre>
+<h4 id="docker-执行命令"><a href="#docker-执行命令" class="headerlink" title="docker 执行命令"></a><code>docker</code> 执行命令</h4><pre class=" language-shell"><code class="language-shell">[root@k8s-node-100 ~]# yum install https://mirrors.aliyun.com/docker-ce/linux/centos/7/x86_64/stable/Packages/docker-ce-selinux-17.03.2.ce-1.el7.centos.noarch.rpm -y
+Loaded plugins: fastestmirror
+docker-ce-selinux-17.03.2.ce-1.el7.centos.noarch.rpm                                                                                             |  28 kB  00:00:00
+
+Examining /var/tmp/yum-root-agOWM7/docker-ce-selinux-17.03.2.ce-1.el7.centos.noarch.rpm: docker-ce-selinux-17.03.2.ce-1.el7.centos.noarch
+Marking /var/tmp/yum-root-agOWM7/docker-ce-selinux-17.03.2.ce-1.el7.centos.noarch.rpm to be installed
+Resolving Dependencies
+--> Running transaction check
+---> Package docker-ce-selinux.noarch 0:17.03.2.ce-1.el7.centos will be installed
+--> Processing Conflict: docker-ce-selinux-17.03.2.ce-1.el7.centos.noarch conflicts docker-selinux
+Loading mirror speeds from cached hostfile
+ * base: mirrors.tuna.tsinghua.edu.cn
+ * extras: mirrors.tuna.tsinghua.edu.cn
+ * updates: mirrors.huaweicloud.com
+--> Finished Dependency Resolution
+Error: docker-ce-selinux conflicts with 2:container-selinux-2.55-1.el7.noarch
+ You could try using --skip-broken to work around the problem
+ You could try running: rpm -Va --nofiles --nodigest
+[root@k8s-node-100 ~]# yum list container-selinux-2.55-1.el7.noarch
+Loaded plugins: fastestmirror
+Loading mirror speeds from cached hostfile
+ * base: mirrors.tuna.tsinghua.edu.cn
+ * extras: mirrors.tuna.tsinghua.edu.cn
+ * updates: mirrors.huaweicloud.com
+Installed Packages
+container-selinux.noarch                                                              2:2.55-1.el7                                                               @extras
+
+[root@k8s-node-100 ~]# yum erase container-selinux.noarch
+Loaded plugins: fastestmirror
+Resolving Dependencies
+--> Running transaction check
+---> Package container-selinux.noarch 2:2.55-1.el7 will be erased
+--> Finished Dependency Resolution
+
+Dependencies Resolved
+
+========================================================================================================================================================================
+
+ Package                                       Arch                               Version                                     Repository                           Size ========================================================================================================================================================================
+
+Removing:
+ container-selinux                             noarch                             2:2.55-1.el7                                @extras                              36 k
+
+Transaction Summary
+========================================================================================================================================================================
+
+Remove  1 Package
+
+Installed size: 36 k
+Is this ok [y/N]: y
+Downloading packages:
+Running transaction check
+Running transaction test
+Transaction test succeeded
+Running transaction
+  Erasing    : 2:container-selinux-2.55-1.el7.noarch                                                                                                                1/1
+
+  Verifying  : 2:container-selinux-2.55-1.el7.noarch                                                                                                                1/1
+
+
+Removed:
+  container-selinux.noarch 2:2.55-1.el7
+
+
+Complete!</code></pre>
+<h4 id="服务器SSH免密"><a href="#服务器SSH免密" class="headerlink" title="服务器SSH免密"></a>服务器SSH免密</h4><pre class=" language-shell"><code class="language-shell">$ ssh-keygen -t rsa
+$ cd /root/.ssh/ && cat id_rsa.pub >> authorized_keys 
+$ cat id_rsa.pub
+$ vi authorized_keys
+
+ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQD3xuQB1+b2oFzVNLwf6bmOcWBZRLmJLJwDHVSCxVXqf0BtjRojK3v1RvebAs1IRY6uOh+oE2n41wWqb9Linxpcrq9SCmTe0cWxFi1NErFfknJlYHKARHg//K/7wcHAkPT0uL73jmwkRoBFTpetuCOk9uc5I8uSdoyC8NaSbc8RLFxllj/V3T6OIRaiTt2OP4gaCZgpOQeQRLv1ZZbEd+R9SY6DxVPEE1wl3f9OO00YvPuNiDKVS6B3LaEIAX0GWmk8axSo4ywO200pHbPHaEX3NEOjxpxCt7PVSaA6hMU7hMRlVG4FGRLfMyZu/pKkahC0oCJgyF3erXF+dW05fdoT root@k8s-node-100</code></pre>
+<h4 id="配置keepalive"><a href="#配置keepalive" class="headerlink" title="配置keepalive"></a>配置keepalive</h4><h5 id="keepalive-仅限在-master-主节点上，"><a href="#keepalive-仅限在-master-主节点上，" class="headerlink" title="keepalive 仅限在(master)主节点上，"></a>keepalive 仅限在(<code>master</code>)主节点上，</h5><h5 id="配置k8s-node-101节点"><a href="#配置k8s-node-101节点" class="headerlink" title="配置k8s-node-101节点"></a>配置k8s-node-101节点</h5><pre class=" language-shell"><code class="language-shell">cat <<EOF > /etc/keepalived/keepalived.conf
+global_defs {
+   router_id LVS_k8s
+}
+
+vrrp_script CheckK8sMaster {
+    script "curl -k https://192.168.1.111:6443"
+    interval 3
+    timeout 9
+    fall 2
+    rise 2
+}
+
+vrrp_instance VI_1 {
+    state MASTER
+    interface eno1
+    virtual_router_id 61
+    priority 100
+    advert_int 1
+    mcast_src_ip 192.168.1.101
+    nopreempt
+    authentication {
+        auth_type PASS
+        auth_pass sqP05dQgMSlzrxHj
+    }
+    unicast_peer {
+        192.168.1.102
+        192.168.1.103
+    }
+    virtual_ipaddress {
+        192.168.1.111/24
+    }
+    track_script {
+        CheckK8sMaster
+    }
+}
+EOF</code></pre>
+<h5 id="node-102-节点"><a href="#node-102-节点" class="headerlink" title="node-102 节点"></a>node-102 节点</h5><pre class=" language-shell"><code class="language-shell">cat <<EOF > /etc/keepalived/keepalived.conf
+global_defs {
+   router_id LVS_k8s
+}
+
+vrrp_script CheckK8sMaster {
+    script "curl -k https://192.168.1.111:6443"
+    interval 3
+    timeout 9
+    fall 2
+    rise 2
+}
+
+vrrp_instance VI_1 {
+    state BACKUP
+    interface eno1
+    virtual_router_id 61
+    priority 90
+    advert_int 1
+    mcast_src_ip 192.168.1.102
+    nopreempt
+    authentication {
+        auth_type PASS
+        auth_pass sqP05dQgMSlzrxHj
+    }
+    unicast_peer {
+        192.168.1.101
+        192.168.1.103
+    }
+    virtual_ipaddress {
+        192.168.1.111/24
+    }
+    track_script {
+        CheckK8sMaster
+    }
+}
+EOF</code></pre>
+<h5 id="node-103"><a href="#node-103" class="headerlink" title="node-103"></a>node-103</h5><pre class=" language-shell"><code class="language-shell">cat <<EOF > /etc/keepalived/keepalived.conf
+global_defs {
+   router_id LVS_k8s
+}
+
+vrrp_script CheckK8sMaster {
+    script "curl -k https://192.168.1.111:6443"
+    interval 3
+    timeout 9
+    fall 2
+    rise 2
+}
+
+vrrp_instance VI_1 {
+    state BACKUP
+    interface eno1
+    virtual_router_id 61
+    priority 80
+    advert_int 1
+    mcast_src_ip 192.168.1.103
+    nopreempt
+    authentication {
+        auth_type PASS
+        auth_pass sqP05dQgMSlzrxHj
+    }
+    unicast_peer {
+        192.168.1.101
+        192.168.1.102
+    }
+    virtual_ipaddress {
+        192.168.1.111/24
+    }
+    track_script {
+        CheckK8sMaster
+    }
+}
+EOF</code></pre>
+<p>最后达到的效果</p>
+<pre class=" language-shell"><code class="language-shell">[root@k8s-node-101 ~]# ip a
+1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+    inet 127.0.0.1/8 scope host lo
+       valid_lft forever preferred_lft forever
+    inet6 ::1/128 scope host 
+       valid_lft forever preferred_lft forever
+2: eno1: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc pfifo_fast state UP group default qlen 1000
+    link/ether fc:4d:d4:f7:64:7b brd ff:ff:ff:ff:ff:ff
+    inet 192.168.1.101/24 brd 192.168.1.255 scope global eno1
+       valid_lft forever preferred_lft forever
+    inet 192.168.1.111/24 scope global secondary eno1
+       valid_lft forever preferred_lft forever
+    inet6 fe80::fe4d:d4ff:fef7:647b/64 scope link 
+       valid_lft forever preferred_lft forever
+3: docker0: <NO-CARRIER,BROADCAST,MULTICAST,UP> mtu 1500 qdisc noqueue state DOWN group default 
+    link/ether 02:42:a6:ec:3d:fe brd ff:ff:ff:ff:ff:ff
+    inet 172.17.0.1/16 brd 172.17.255.255 scope global docker0
+       valid_lft forever preferred_lft forever
+</code></pre>
+<h3 id="配置ETCD"><a href="#配置ETCD" class="headerlink" title="配置ETCD"></a>配置ETCD</h3><h4 id="node-101-设置cffsl环境"><a href="#node-101-设置cffsl环境" class="headerlink" title="node-101,设置cffsl环境"></a>node-101,设置cffsl环境</h4><pre class=" language-shell"><code class="language-shell">wget https://pkg.cfssl.org/R1.2/cfssl_linux-amd64
+wget https://pkg.cfssl.org/R1.2/cfssljson_linux-amd64
+wget https://pkg.cfssl.org/R1.2/cfssl-certinfo_linux-amd64
+chmod +x cfssl_linux-amd64
+mv cfssl_linux-amd64 /usr/local/bin/cfssl
+chmod +x cfssljson_linux-amd64
+mv cfssljson_linux-amd64 /usr/local/bin/cfssljson
+chmod +x cfssl-certinfo_linux-amd64
+mv cfssl-certinfo_linux-amd64 /usr/local/bin/cfssl-certinfo
+export PATH=/usr/local/bin:$PATH</code></pre>
+<h4 id="创建CA证书"><a href="#创建CA证书" class="headerlink" title="创建CA证书"></a>创建CA证书</h4><pre class=" language-shell"><code class="language-shell">mkdir /root/ssl
+cd /root/ssl
+cat >  ca-config.json <<EOF
+{
+"signing": {
+"default": {
+  "expiry": "8760h"
+},
+"profiles": {
+  "kubernetes-Soulmate": {
+    "usages": [
+        "signing",
+        "key encipherment",
+        "server auth",
+        "client auth"
+    ],
+    "expiry": "8760h"
+  }
+}
+}
+}
+EOF
+
+cat >  ca-csr.json <<EOF
+{
+"CN": "kubernetes-Soulmate",
+"key": {
+"algo": "rsa",
+"size": 2048
+},
+"names": [
+{
+  "C": "CN",
+  "ST": "shanghai",
+  "L": "shanghai",
+  "O": "k8s",
+  "OU": "System"
+}
+]
+}
+EOF
+
+cfssl gencert -initca ca-csr.json | cfssljson -bare ca
+
+cat > etcd-csr.json <<EOF
+{
+  "CN": "etcd",
+  "hosts": [
+    "127.0.0.1",
+    "192.168.1.101",
+    "192.168.1.102",
+    "192.168.1.103"
+  ],
+  "key": {
+    "algo": "rsa",
+    "size": 2048
+  },
+  "names": [
+    {
+      "C": "CN",
+      "ST": "shanghai",
+      "L": "shanghai",
+      "O": "k8s",
+      "OU": "System"
+    }
+  ]
+}
+EOF
+
+cfssl gencert -ca=ca.pem \
+  -ca-key=ca-key.pem \
+  -config=ca-config.json \
+  -profile=kubernetes-Soulmate etcd-csr.json | cfssljson -bare etcd</code></pre>
+<h4 id="证书分发到其他两个主节点上"><a href="#证书分发到其他两个主节点上" class="headerlink" title="证书分发到其他两个主节点上"></a>证书分发到其他两个主节点上</h4><pre class=" language-shell"><code class="language-shell">mkdir -p /etc/etcd/ssl
+cp etcd.pem etcd-key.pem ca.pem /etc/etcd/ssl/
+ssh -n k8s-node-102 "mkdir -p /etc/etcd/ssl && exit"
+ssh -n k8s-node-103 "mkdir -p /etc/etcd/ssl && exit"
+scp -r /etc/etcd/ssl/*.pem k8s-node-102:/etc/etcd/ssl/
+scp -r /etc/etcd/ssl/*.pem k8s-node-103:/etc/etcd/ssl/</code></pre>
+<h4 id="安装配置etcd（三个主节点）"><a href="#安装配置etcd（三个主节点）" class="headerlink" title="安装配置etcd（三个主节点）"></a>安装配置etcd（三个主节点）</h4><h5 id="安装etcd"><a href="#安装etcd" class="headerlink" title="安装etcd"></a>安装etcd</h5><pre class=" language-shell"><code class="language-shell">yum install etcd -y
+mkdir -p /var/lib/etcd</code></pre>
+<h5 id="k8s-node-101-配置-etcd-service"><a href="#k8s-node-101-配置-etcd-service" class="headerlink" title="k8s-node-101 配置 etcd.service"></a>k8s-node-101 配置 <code>etcd.service</code></h5><pre class=" language-shell"><code class="language-shell">cat <<EOF >/etc/systemd/system/etcd.service
+[Unit]
+Description=Etcd Server
+After=network.target
+After=network-online.target
+Wants=network-online.target
+Documentation=https://github.com/coreos
+
+[Service]
+Type=notify
+WorkingDirectory=/var/lib/etcd/
+ExecStart=/usr/bin/etcd \
+  --name k8s-node-101 \
+  --cert-file=/etc/etcd/ssl/etcd.pem \
+  --key-file=/etc/etcd/ssl/etcd-key.pem \
+  --peer-cert-file=/etc/etcd/ssl/etcd.pem \
+  --peer-key-file=/etc/etcd/ssl/etcd-key.pem \
+  --trusted-ca-file=/etc/etcd/ssl/ca.pem \
+  --peer-trusted-ca-file=/etc/etcd/ssl/ca.pem \
+  --initial-advertise-peer-urls https://192.168.1.101:2380 \
+  --listen-peer-urls https://192.168.1.101:2380 \
+  --listen-client-urls https://192.168.1.101:2379,http://127.0.0.1:2379 \
+  --advertise-client-urls https://192.168.1.101:2379 \
+  --initial-cluster-token etcd-cluster-0 \
+  --initial-cluster k8s-node-101=https://192.168.1.101:2380,k8s-node-102=https://192.168.1.102:2380,k8s-node-103=https://192.168.1.103:2380 \
+  --initial-cluster-state new \
+  --data-dir=/var/lib/etcd
+Restart=on-failure
+RestartSec=5
+LimitNOFILE=65536
+
+[Install]
+WantedBy=multi-user.target
+EOF</code></pre>
+<h5 id="k8s-node-102-节点-etc-service"><a href="#k8s-node-102-节点-etc-service" class="headerlink" title="k8s-node-102 节点 etc.service"></a>k8s-node-102 节点 <code>etc.service</code></h5><pre class=" language-shell"><code class="language-shell">cat <<EOF >/etc/systemd/system/etcd.service
+[Unit]
+Description=Etcd Server
+After=network.target
+After=network-online.target
+Wants=network-online.target
+Documentation=https://github.com/coreos
+
+[Service]
+Type=notify
+WorkingDirectory=/var/lib/etcd/
+ExecStart=/usr/bin/etcd \
+  --name k8s-node-102 \
+  --cert-file=/etc/etcd/ssl/etcd.pem \
+  --key-file=/etc/etcd/ssl/etcd-key.pem \
+  --peer-cert-file=/etc/etcd/ssl/etcd.pem \
+  --peer-key-file=/etc/etcd/ssl/etcd-key.pem \
+  --trusted-ca-file=/etc/etcd/ssl/ca.pem \
+  --peer-trusted-ca-file=/etc/etcd/ssl/ca.pem \
+  --initial-advertise-peer-urls https://192.168.1.102:2380 \
+  --listen-peer-urls https://192.168.1.102:2380 \
+  --listen-client-urls https://192.168.1.102:2379,http://127.0.0.1:2379 \
+  --advertise-client-urls https://192.168.1.102:2379 \
+  --initial-cluster-token etcd-cluster-0 \
+  --initial-cluster k8s-node-101=https://192.168.1.101:2380,k8s-node-102=https://192.168.1.102:2380,k8s-node-103=https://192.168.1.103:2380 \
+  --initial-cluster-state new \
+  --data-dir=/var/lib/etcd
+Restart=on-failure
+RestartSec=5
+LimitNOFILE=65536
+
+[Install]
+WantedBy=multi-user.target
+EOF</code></pre>
+<h5 id="k8s-node-103-配置-etc-service"><a href="#k8s-node-103-配置-etc-service" class="headerlink" title="k8s-node-103 配置 etc.service"></a>k8s-node-103 配置 etc.service</h5><pre class=" language-shell"><code class="language-shell">cat <<EOF >/etc/systemd/system/etcd.service
+[Unit]
+Description=Etcd Server
+After=network.target
+After=network-online.target
+Wants=network-online.target
+Documentation=https://github.com/coreos
+
+[Service]
+Type=notify
+WorkingDirectory=/var/lib/etcd/
+ExecStart=/usr/bin/etcd \
+  --name k8s-node-103 \
+  --cert-file=/etc/etcd/ssl/etcd.pem \
+  --key-file=/etc/etcd/ssl/etcd-key.pem \
+  --peer-cert-file=/etc/etcd/ssl/etcd.pem \
+  --peer-key-file=/etc/etcd/ssl/etcd-key.pem \
+  --trusted-ca-file=/etc/etcd/ssl/ca.pem \
+  --peer-trusted-ca-file=/etc/etcd/ssl/ca.pem \
+  --initial-advertise-peer-urls https://192.168.1.103:2380 \
+  --listen-peer-urls https://192.168.1.103:2380 \
+  --listen-client-urls https://192.168.1.103:2379,http://127.0.0.1:2379 \
+  --advertise-client-urls https://192.168.1.103:2379 \
+  --initial-cluster-token etcd-cluster-0 \
+  --initial-cluster k8s-node-101=https://192.168.1.101:2380,k8s-node-102=https://192.168.1.102:2380,k8s-node-103=https://192.168.1.103:2380 \
+  --initial-cluster-state new \
+  --data-dir=/var/lib/etcd
+Restart=on-failure
+RestartSec=5
+LimitNOFILE=65536
+
+[Install]
+WantedBy=multi-user.target
+EOF</code></pre>
+<p>路径配置</p>
+<pre class=" language-shell"><code class="language-shell">mv /etc/systemd/system/etcd.service /usr/lib/systemd/system/
+
+# 此时会提示冲突
+[root@k8s-node-103 ~]# cat /usr/lib/systemd/system/etcd.service 
+[Unit]
+Description=Etcd Server
+After=network.target
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=notify
+WorkingDirectory=/var/lib/etcd/
+EnvironmentFile=-/etc/etcd/etcd.conf
+User=etcd
+# set GOMAXPROCS to number of processors
+ExecStart=/bin/bash -c "GOMAXPROCS=$(nproc) /usr/bin/etcd --name=\"${ETCD_NAME}\" --data-dir=\"${ETCD_DATA_DIR}\" --listen-client-urls=\"${ETCD_LISTEN_CLIENT_URLS}\""
+Restart=on-failure
+LimitNOFILE=65536
+
+[Install]
+WantedBy=multi-user.target
+
+ systemctl daemon-reload
+ systemctl enable etcd
+ systemctl start etcd
+ systemctl status etcd
+</code></pre>
+<h5 id="在各自节点上执行检查命令"><a href="#在各自节点上执行检查命令" class="headerlink" title="在各自节点上执行检查命令"></a>在各自节点上执行检查命令</h5><pre class=" language-shell"><code class="language-shell">etcdctl --endpoints=https://192.168.1.101:2379,https://192.168.1.102:2379,https://192.168.1.103:2379 \
+  --ca-file=/etc/etcd/ssl/ca.pem \
+  --cert-file=/etc/etcd/ssl/etcd.pem \
+  --key-file=/etc/etcd/ssl/etcd-key.pem  cluster-health
+
+[root@k8s-node-103 ~]# etcdctl --endpoints=https://192.168.1.101:2379,https://192.168.1.102:2379,https://192.168.1.103:2379 \
+>   --ca-file=/etc/etcd/ssl/ca.pem \
+>   --cert-file=/etc/etcd/ssl/etcd.pem \
+>   --key-file=/etc/etcd/ssl/etcd-key.pem  cluster-health
+member 4469cb53324fe68b is healthy: got healthy result from https://192.168.1.102:2379
+member 9f5e0acc1f346641 is healthy: got healthy result from https://192.168.1.101:2379
+member e519401c4b995768 is healthy: got healthy result from https://192.168.1.103:2379
+cluster is healthy
+
+[root@k8s-node-102 ~]# etcdctl --endpoints=https://192.168.1.101:2379,https://192.168.1.102:2379,https://192.168.1.103:2379 \
+>   --ca-file=/etc/etcd/ssl/ca.pem \
+>   --cert-file=/etc/etcd/ssl/etcd.pem \
+>   --key-file=/etc/etcd/ssl/etcd-key.pem  cluster-health
+member 4469cb53324fe68b is healthy: got healthy result from https://192.168.1.102:2379
+member 9f5e0acc1f346641 is healthy: got healthy result from https://192.168.1.101:2379
+member e519401c4b995768 is healthy: got healthy result from https://192.168.1.103:2379
+cluster is healthy
+
+[root@k8s-node-101 ssl]# etcdctl --endpoints=https://192.168.1.101:2379,https://192.168.1.102:2379,https://192.168.1.103:2379 \
+>   --ca-file=/etc/etcd/ssl/ca.pem \
+>   --cert-file=/etc/etcd/ssl/etcd.pem \
+>   --key-file=/etc/etcd/ssl/etcd-key.pem  cluster-health
+member 4469cb53324fe68b is healthy: got healthy result from https://192.168.1.102:2379
+member 9f5e0acc1f346641 is healthy: got healthy result from https://192.168.1.101:2379
+member e519401c4b995768 is healthy: got healthy result from https://192.168.1.103:2379
+cluster is healthy
+</code></pre>
+<h4 id="Docker-安装命令："><a href="#Docker-安装命令：" class="headerlink" title="Docker 安装命令："></a>Docker 安装命令：</h4><pre class=" language-shell"><code class="language-shell">$ yum install https://mirrors.aliyun.com/docker-ce/linux/centos/7/x86_64/stable/Packages/docker-ce-selinux-17.03.2.ce-1.el7.centos.noarch.rpm -y
+
+$ yum list container-selinux-2.55-1.el7.noarch
+
+$ yum erase container-selinux.noarch -y
+
+$ yum install https://mirrors.aliyun.com/docker-ce/linux/centos/7/x86_64/stable/Packages/docker-ce-17.03.2.ce-1.el7.centos.x86_64.rpm -y</code></pre>
+<p>修改docker配置</p>
+<pre class=" language-shell"><code class="language-shell">vim /usr/lib/systemd/system/docker.service
+
+ExecStart=/usr/bin/dockerd   -H tcp://0.0.0.0:2375 -H unix:///var/run/docker.sock  --registry-mirror=https://v0sh66ab.mirror.aliyuncs.com</code></pre>
+<p>docker启动</p>
+<pre class=" language-shell"><code class="language-shell">systemctl daemon-reload
+systemctl restart docker
+systemctl enable docker
+systemctl status docker</code></pre>
+<p>启动的时候会报错：</p>
+<pre class=" language-shell"><code class="language-shell">Jun 14 04:34:48 k8s-node-95 dockerd[13013]: time="2018-06-14T04:34:48.583200130-04:00" level=warning msg="[!] DON'T BIND ON ANY IP ADDRESS WITHOUT setting -tlsverify IF YOU DON'T KNOW WHAT YOU'RE DOING [!]"
+Jun 14 04:34:48 k8s-node-95 dockerd[13013]: time="2018-06-14T04:34:48.585672553-04:00" level=info msg="libcontainerd: new containerd process, pid: 13021"
+Jun 14 04:34:49 k8s-node-95 dockerd[13013]: time="2018-06-14T04:34:49.591608230-04:00" level=error msg="[graphdriver] prior storage driver overlay2 failed: driver not supported"
+Jun 14 04:34:49 k8s-node-95 dockerd[13013]: Error starting daemon: error initializing graphdriver: driver not supported
+Jun 14 04:34:49 k8s-node-95 systemd[1]: docker.service: main process exited, code=exited, status=1/FAILURE
+Jun 14 04:34:49 k8s-node-95 systemd[1]: Failed to start Docker Application Container Engine.
+-- Subject: Unit docker.service has failed
+-- Defined-By: systemd
+-- Support: http://lists.freedesktop.org/mailman/listinfo/systemd-devel</code></pre>
+<p>解决办法：</p>
+<pre class=" language-shell"><code class="language-shell">mv /var/lib/docker /var/lib/docker.old  
+
+vim /usr/lib/systemd/system/docker.service
+
+ExecStart=/usr/bin/dockerd   -H tcp://0.0.0.0:2375 -H unix:///var/run/docker.sock  --registry-mirror=https://v0sh66ab.mirror.aliyuncs.com</code></pre>
+<p>之后再执行docker启动</p>
+<pre class=" language-shell"><code class="language-shell">systemctl daemon-reload
+systemctl restart docker
+systemctl enable docker
+systemctl status docker</code></pre>
+<h4 id="docker使用阿里云镜像库加速"><a href="#docker使用阿里云镜像库加速" class="headerlink" title="docker使用阿里云镜像库加速"></a><strong>docker使用阿里云镜像库加速</strong></h4><p>注册阿里云开发者帐号帐号，<code>https://cr.console.aliyun.com/</code></p>
+<p>登陆后取得专属加速器地址，类似这样<a href="https://xxxxxx.mirror.aliyuncs.com/" target="_blank" rel="noopener">https://xxxxxx.mirror.aliyuncs.com</a></p>
+<h3 id="安装、配置kubeadm"><a href="#安装、配置kubeadm" class="headerlink" title="安装、配置kubeadm"></a>安装、配置kubeadm</h3><h4 id="1：所有节点安装kubelet-kubeadm-kubectl"><a href="#1：所有节点安装kubelet-kubeadm-kubectl" class="headerlink" title="1：所有节点安装kubelet kubeadm kubectl"></a>1：所有节点安装kubelet kubeadm kubectl</h4><pre class=" language-shell"><code class="language-shell">yum install -y kubelet kubeadm kubectl
+systemctl enable kubelet </code></pre>
+<h4 id="2、所有节点修改kubelet配置文件"><a href="#2、所有节点修改kubelet配置文件" class="headerlink" title="2、所有节点修改kubelet配置文件"></a>2、所有节点修改kubelet配置文件</h4><pre class=" language-shell"><code class="language-shell">vi /etc/systemd/system/kubelet.service.d/10-kubeadm.conf
+
+#修改这一行
+
+Environment="KUBELET_CGROUP_ARGS=--cgroup-driver=cgroupfs"
+Environment="KUBELET_EXTRA_ARGS=--v=2 --fail-swap-on=false --pod-infra-container-image=registry.cn-hangzhou.aliyuncs.com/k8sth/pause-amd64:3.0"</code></pre>
+<h4 id="3、所有节点配置文件重新加载"><a href="#3、所有节点配置文件重新加载" class="headerlink" title="3、所有节点配置文件重新加载"></a>3、所有节点配置文件重新加载</h4><pre class=" language-shell"><code class="language-shell">systemctl daemon-reload
+systemctl enable kubelet</code></pre>
+<h4 id="4、命令补全"><a href="#4、命令补全" class="headerlink" title="4、命令补全"></a>4、命令补全</h4><pre class=" language-shell"><code class="language-shell">yum install -y bash-completion
+source /usr/share/bash-completion/bash_completion
+source <(kubectl completion bash)
+echo "source <(kubectl completion bash)" >> ~/.bashrc</code></pre>
+<h3 id="初始化集群"><a href="#初始化集群" class="headerlink" title="初始化集群"></a>初始化集群</h3><h4 id="在-k8s-node-101、k8s-node-102、k8s-node-103-上添加配置文件-都相同）"><a href="#在-k8s-node-101、k8s-node-102、k8s-node-103-上添加配置文件-都相同）" class="headerlink" title="在 k8s-node-101、k8s-node-102、k8s-node-103 上添加配置文件(都相同）"></a>在 k8s-node-101、k8s-node-102、k8s-node-103 上添加配置文件(都相同）</h4><pre class=" language-shell"><code class="language-shell">cat <<EOF > config.yaml 
+apiVersion: kubeadm.k8s.io/v1alpha1
+kind: MasterConfiguration
+etcd:
+  endpoints:
+  - https://192.168.1.101:2379
+  - https://192.168.1.102:2379
+  - https://192.168.1.103:2379
+  caFile: /etc/etcd/ssl/ca.pem
+  certFile: /etc/etcd/ssl/etcd.pem
+  keyFile: /etc/etcd/ssl/etcd-key.pem
+  dataDir: /var/lib/etcd
+networking:
+  podSubnet: 10.244.0.0/16
+kubernetesVersion: 1.10.0
+api:
+  advertiseAddress: "192.168.1.111"
+token: "b99a00.a144ef80536d4344"
+tokenTTL: "0s"
+apiServerCertSANs:
+- k8s-node-95
+- k8s-node-96
+- k8s-node-97
+- k8s-node-98
+- k8s-node-99
+- k8s-node-100
+- k8s-node-101
+- k8s-node-102
+- k8s-node-103
+- 192.168.1.95
+- 192.168.1.95
+- 192.168.1.96
+- 192.168.1.97
+- 192.168.1.98
+- 192.168.1.99
+- 192.168.1.100
+- 192.168.1.101
+- 192.168.1.102
+- 192.168.1.103
+featureGates:
+  CoreDNS: true
+imageRepository: "registry.cn-hangzhou.aliyuncs.com/k8sth"
+EOF</code></pre>
+<h4 id="进行集群的初始化"><a href="#进行集群的初始化" class="headerlink" title="进行集群的初始化"></a>进行集群的初始化</h4><ul>
+<li>配置文件定义podnetwork是<code>10.244.0.0/16</code> </li>
+<li><code>kubeadmin init –hlep</code>可以看出，<code>service</code>默认网段是<code>10.96.0.0/12</code> </li>
+<li><code>/etc/systemd/system/kubelet.service.d/10-kubeadm.conf</code>，默认dns地址<code>cluster-dns=10.96.0.10</code> </li>
+</ul>
+<pre class=" language-shell"><code class="language-shell">[root@k8s-node-101 ~]# kubeadm init --config config.yaml 
+[init] Using Kubernetes version: v1.10.0
+[init] Using Authorization modes: [Node RBAC]
+[preflight] Running pre-flight checks.
+    [WARNING Service-Docker]: docker service is not enabled, please run 'systemctl enable docker.service'
+    [WARNING FileExisting-crictl]: crictl not found in system path
+Suggestion: go get github.com/kubernetes-incubator/cri-tools/cmd/crictl
+[preflight] Starting the kubelet service
+[certificates] Generated ca certificate and key.
+[certificates] Generated apiserver certificate and key.
+[certificates] apiserver serving cert is signed for DNS names [k8s-node-101 kubernetes kubernetes.default kubernetes.default.svc kubernetes.default.svc.cluster.local k8s-node-95 k8s-node-96 k8s-node-97 k8s-node-98 k8s-node-99 k8s-node-100 k8s-node-101 k8s-node-102 k8s-node-103] and IPs [10.96.0.1 192.168.1.111 192.168.1.95 192.168.1.95 192.168.1.96 192.168.1.97 192.168.1.98 192.168.1.99 192.168.1.100 192.168.1.101 192.168.1.102 192.168.1.103]
+[certificates] Generated apiserver-kubelet-client certificate and key.
+[certificates] Generated sa key and public key.
+[certificates] Generated front-proxy-ca certificate and key.
+[certificates] Generated front-proxy-client certificate and key.
+[certificates] Valid certificates and keys now exist in "/etc/kubernetes/pki"
+[kubeconfig] Wrote KubeConfig file to disk: "/etc/kubernetes/admin.conf"
+[kubeconfig] Wrote KubeConfig file to disk: "/etc/kubernetes/kubelet.conf"
+[kubeconfig] Wrote KubeConfig file to disk: "/etc/kubernetes/controller-manager.conf"
+[kubeconfig] Wrote KubeConfig file to disk: "/etc/kubernetes/scheduler.conf"
+[controlplane] Wrote Static Pod manifest for component kube-apiserver to "/etc/kubernetes/manifests/kube-apiserver.yaml"
+[controlplane] Wrote Static Pod manifest for component kube-controller-manager to "/etc/kubernetes/manifests/kube-controller-manager.yaml"
+[controlplane] Wrote Static Pod manifest for component kube-scheduler to "/etc/kubernetes/manifests/kube-scheduler.yaml"
+[init] Waiting for the kubelet to boot up the control plane as Static Pods from directory "/etc/kubernetes/manifests".
+[init] This might take a minute or longer if the control plane images have to be pulled.
+[apiclient] All control plane components are healthy after 46.501688 seconds
+[uploadconfig] Storing the configuration used in ConfigMap "kubeadm-config" in the "kube-system" Namespace
+[markmaster] Will mark node k8s-node-101 as master by adding a label and a taint
+[markmaster] Master k8s-node-101 tainted and labelled with key/value: node-role.kubernetes.io/master=""
+[bootstraptoken] Using token: b99a00.a144ef80536d4344
+[bootstraptoken] Configured RBAC rules to allow Node Bootstrap tokens to post CSRs in order for nodes to get long term certificate credentials
+[bootstraptoken] Configured RBAC rules to allow the csrapprover controller automatically approve CSRs from a Node Bootstrap Token
+[bootstraptoken] Configured RBAC rules to allow certificate rotation for all node client certificates in the cluster
+[bootstraptoken] Creating the "cluster-info" ConfigMap in the "kube-public" namespace
+[addons] Applied essential addon: CoreDNS
+[addons] Applied essential addon: kube-proxy
+
+Your Kubernetes master has initialized successfully!
+
+To start using your cluster, you need to run the following as a regular user:
+
+  mkdir -p $HOME/.kube
+  sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+  sudo chown $(id -u):$(id -g) $HOME/.kube/config
+
+You should now deploy a pod network to the cluster.
+Run "kubectl apply -f [podnetwork].yaml" with one of the options listed at:
+  https://kubernetes.io/docs/concepts/cluster-administration/addons/
+
+You can now join any number of machines by running the following on each node
+as root:
+
+  kubeadm join 192.168.1.111:6443 --token b99a00.a144ef80536d4344 --discovery-token-ca-cert-hash sha256:65d85b12cac62a6492f75e60b67904f0cbeaeefe618220166b174961e0f79d47
+</code></pre>
+<h4 id="执行命令"><a href="#执行命令" class="headerlink" title="执行命令"></a>执行命令</h4><pre class=" language-shell"><code class="language-shell">  mkdir -p $HOME/.kube
+  sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+  sudo chown $(id -u):$(id -g) $HOME/.kube/config</code></pre>
+<h4 id="kubeadm生成证书密码文件分发到node-102和node-103上面去"><a href="#kubeadm生成证书密码文件分发到node-102和node-103上面去" class="headerlink" title="kubeadm生成证书密码文件分发到node-102和node-103上面去"></a>kubeadm生成证书密码文件分发到node-102和node-103上面去</h4><pre class=" language-shell"><code class="language-shell">scp -r /etc/kubernetes/pki  k8s-node-103:/etc/kubernetes/
+scp -r /etc/kubernetes/pki  k8s-node-102:/etc/kubernetes/</code></pre>
+<h4 id="安装flannel-网络，只需要在k8s-node-101执行"><a href="#安装flannel-网络，只需要在k8s-node-101执行" class="headerlink" title="安装flannel 网络，只需要在k8s-node-101执行"></a>安装flannel 网络，只需要在k8s-node-101执行</h4><pre class=" language-shell"><code class="language-shell">wget https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml
+#版本信息：quay.io/coreos/flannel:v0.10.0-amd64
+
+kubectl create -f  kube-flannel.yml
+
+kubectl   get node
+
+kubectl   get pods --all-namespaces</code></pre>
+<h4 id=""><a href="#" class="headerlink" title=""></a></h4><h4 id="部署dashboard"><a href="#部署dashboard" class="headerlink" title="部署dashboard"></a>部署dashboard</h4><h5 id="kubernetes-dashboard-yaml"><a href="#kubernetes-dashboard-yaml" class="headerlink" title="kubernetes-dashboard.yaml"></a>kubernetes-dashboard.yaml</h5><pre class=" language-yaml"><code class="language-yaml"><span class="token comment" spellcheck="true"># Copyright 2017 The Kubernetes Authors.</span>
+<span class="token comment" spellcheck="true">#</span>
+<span class="token comment" spellcheck="true"># Licensed under the Apache License, Version 2.0 (the "License");</span>
+<span class="token comment" spellcheck="true"># you may not use this file except in compliance with the License.</span>
+<span class="token comment" spellcheck="true"># You may obtain a copy of the License at</span>
+<span class="token comment" spellcheck="true">#</span>
+<span class="token comment" spellcheck="true">#     http://www.apache.org/licenses/LICENSE-2.0</span>
+<span class="token comment" spellcheck="true">#</span>
+<span class="token comment" spellcheck="true"># Unless required by applicable law or agreed to in writing, software</span>
+<span class="token comment" spellcheck="true"># distributed under the License is distributed on an "AS IS" BASIS,</span>
+<span class="token comment" spellcheck="true"># WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</span>
+<span class="token comment" spellcheck="true"># See the License for the specific language governing permissions and</span>
+<span class="token comment" spellcheck="true"># limitations under the License.</span>
+
+<span class="token comment" spellcheck="true"># Configuration to deploy release version of the Dashboard UI compatible with</span>
+<span class="token comment" spellcheck="true"># Kubernetes 1.8.</span>
+<span class="token comment" spellcheck="true">#</span>
+<span class="token comment" spellcheck="true"># Example usage: kubectl create -f &lt;this_file></span>
+
+<span class="token comment" spellcheck="true"># ------------------- Dashboard Secret ------------------- #</span>
+
+<span class="token key atrule">apiVersion</span><span class="token punctuation">:</span> v1
+<span class="token key atrule">kind</span><span class="token punctuation">:</span> Secret
+<span class="token key atrule">metadata</span><span class="token punctuation">:</span>
+  <span class="token key atrule">labels</span><span class="token punctuation">:</span>
+    <span class="token key atrule">k8s-app</span><span class="token punctuation">:</span> kubernetes<span class="token punctuation">-</span>dashboard
+  <span class="token key atrule">name</span><span class="token punctuation">:</span> kubernetes<span class="token punctuation">-</span>dashboard<span class="token punctuation">-</span>certs
+  <span class="token key atrule">namespace</span><span class="token punctuation">:</span> kube<span class="token punctuation">-</span>system
+<span class="token key atrule">type</span><span class="token punctuation">:</span> Opaque
+
+<span class="token punctuation">---</span>
+<span class="token comment" spellcheck="true"># ------------------- Dashboard Service Account ------------------- #</span>
+
+<span class="token key atrule">apiVersion</span><span class="token punctuation">:</span> v1
+<span class="token key atrule">kind</span><span class="token punctuation">:</span> ServiceAccount
+<span class="token key atrule">metadata</span><span class="token punctuation">:</span>
+  <span class="token key atrule">labels</span><span class="token punctuation">:</span>
+    <span class="token key atrule">k8s-app</span><span class="token punctuation">:</span> kubernetes<span class="token punctuation">-</span>dashboard
+  <span class="token key atrule">name</span><span class="token punctuation">:</span> kubernetes<span class="token punctuation">-</span>dashboard
+  <span class="token key atrule">namespace</span><span class="token punctuation">:</span> kube<span class="token punctuation">-</span>system
+
+<span class="token punctuation">---</span>
+<span class="token comment" spellcheck="true"># ------------------- Dashboard Role &amp; Role Binding ------------------- #</span>
+
+<span class="token key atrule">kind</span><span class="token punctuation">:</span> Role
+<span class="token key atrule">apiVersion</span><span class="token punctuation">:</span> rbac.authorization.k8s.io/v1
+<span class="token key atrule">metadata</span><span class="token punctuation">:</span>
+  <span class="token key atrule">name</span><span class="token punctuation">:</span> kubernetes<span class="token punctuation">-</span>dashboard<span class="token punctuation">-</span>minimal
+  <span class="token key atrule">namespace</span><span class="token punctuation">:</span> kube<span class="token punctuation">-</span>system
+<span class="token key atrule">rules</span><span class="token punctuation">:</span>
+  <span class="token comment" spellcheck="true"># Allow Dashboard to create 'kubernetes-dashboard-key-holder' secret.</span>
+<span class="token punctuation">-</span> <span class="token key atrule">apiGroups</span><span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token string">""</span><span class="token punctuation">]</span>
+  <span class="token key atrule">resources</span><span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token string">"secrets"</span><span class="token punctuation">]</span>
+  <span class="token key atrule">verbs</span><span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token string">"create"</span><span class="token punctuation">]</span>
+  <span class="token comment" spellcheck="true"># Allow Dashboard to create 'kubernetes-dashboard-settings' config map.</span>
+<span class="token punctuation">-</span> <span class="token key atrule">apiGroups</span><span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token string">""</span><span class="token punctuation">]</span>
+  <span class="token key atrule">resources</span><span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token string">"configmaps"</span><span class="token punctuation">]</span>
+  <span class="token key atrule">verbs</span><span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token string">"create"</span><span class="token punctuation">]</span>
+  <span class="token comment" spellcheck="true"># Allow Dashboard to get, update and delete Dashboard exclusive secrets.</span>
+<span class="token punctuation">-</span> <span class="token key atrule">apiGroups</span><span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token string">""</span><span class="token punctuation">]</span>
+  <span class="token key atrule">resources</span><span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token string">"secrets"</span><span class="token punctuation">]</span>
+  <span class="token key atrule">resourceNames</span><span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token string">"kubernetes-dashboard-key-holder"</span><span class="token punctuation">,</span> <span class="token string">"kubernetes-dashboard-certs"</span><span class="token punctuation">]</span>
+  <span class="token key atrule">verbs</span><span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token string">"get"</span><span class="token punctuation">,</span> <span class="token string">"update"</span><span class="token punctuation">,</span> <span class="token string">"delete"</span><span class="token punctuation">]</span>
+  <span class="token comment" spellcheck="true"># Allow Dashboard to get and update 'kubernetes-dashboard-settings' config map.</span>
+<span class="token punctuation">-</span> <span class="token key atrule">apiGroups</span><span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token string">""</span><span class="token punctuation">]</span>
+  <span class="token key atrule">resources</span><span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token string">"configmaps"</span><span class="token punctuation">]</span>
+  <span class="token key atrule">resourceNames</span><span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token string">"kubernetes-dashboard-settings"</span><span class="token punctuation">]</span>
+  <span class="token key atrule">verbs</span><span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token string">"get"</span><span class="token punctuation">,</span> <span class="token string">"update"</span><span class="token punctuation">]</span>
+  <span class="token comment" spellcheck="true"># Allow Dashboard to get metrics from heapster.</span>
+<span class="token punctuation">-</span> <span class="token key atrule">apiGroups</span><span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token string">""</span><span class="token punctuation">]</span>
+  <span class="token key atrule">resources</span><span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token string">"services"</span><span class="token punctuation">]</span>
+  <span class="token key atrule">resourceNames</span><span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token string">"heapster"</span><span class="token punctuation">]</span>
+  <span class="token key atrule">verbs</span><span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token string">"proxy"</span><span class="token punctuation">]</span>
+<span class="token punctuation">-</span> <span class="token key atrule">apiGroups</span><span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token string">""</span><span class="token punctuation">]</span>
+  <span class="token key atrule">resources</span><span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token string">"services/proxy"</span><span class="token punctuation">]</span>
+  <span class="token key atrule">resourceNames</span><span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token string">"heapster"</span><span class="token punctuation">,</span> <span class="token string">"http:heapster:"</span><span class="token punctuation">,</span> <span class="token string">"https:heapster:"</span><span class="token punctuation">]</span>
+  <span class="token key atrule">verbs</span><span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token string">"get"</span><span class="token punctuation">]</span>
+
+<span class="token punctuation">---</span>
+<span class="token key atrule">apiVersion</span><span class="token punctuation">:</span> rbac.authorization.k8s.io/v1
+<span class="token key atrule">kind</span><span class="token punctuation">:</span> RoleBinding
+<span class="token key atrule">metadata</span><span class="token punctuation">:</span>
+  <span class="token key atrule">name</span><span class="token punctuation">:</span> kubernetes<span class="token punctuation">-</span>dashboard<span class="token punctuation">-</span>minimal
+  <span class="token key atrule">namespace</span><span class="token punctuation">:</span> kube<span class="token punctuation">-</span>system
+<span class="token key atrule">roleRef</span><span class="token punctuation">:</span>
+  <span class="token key atrule">apiGroup</span><span class="token punctuation">:</span> rbac.authorization.k8s.io
+  <span class="token key atrule">kind</span><span class="token punctuation">:</span> Role
+  <span class="token key atrule">name</span><span class="token punctuation">:</span> kubernetes<span class="token punctuation">-</span>dashboard<span class="token punctuation">-</span>minimal
+<span class="token key atrule">subjects</span><span class="token punctuation">:</span>
+<span class="token punctuation">-</span> <span class="token key atrule">kind</span><span class="token punctuation">:</span> ServiceAccount
+  <span class="token key atrule">name</span><span class="token punctuation">:</span> kubernetes<span class="token punctuation">-</span>dashboard
+  <span class="token key atrule">namespace</span><span class="token punctuation">:</span> kube<span class="token punctuation">-</span>system
+
+<span class="token punctuation">---</span>
+<span class="token comment" spellcheck="true"># ------------------- Dashboard Deployment ------------------- #</span>
+
+<span class="token key atrule">kind</span><span class="token punctuation">:</span> Deployment
+<span class="token key atrule">apiVersion</span><span class="token punctuation">:</span> apps/v1beta2
+<span class="token key atrule">metadata</span><span class="token punctuation">:</span>
+  <span class="token key atrule">labels</span><span class="token punctuation">:</span>
+    <span class="token key atrule">k8s-app</span><span class="token punctuation">:</span> kubernetes<span class="token punctuation">-</span>dashboard
+  <span class="token key atrule">name</span><span class="token punctuation">:</span> kubernetes<span class="token punctuation">-</span>dashboard
+  <span class="token key atrule">namespace</span><span class="token punctuation">:</span> kube<span class="token punctuation">-</span>system
+<span class="token key atrule">spec</span><span class="token punctuation">:</span>
+  <span class="token key atrule">replicas</span><span class="token punctuation">:</span> <span class="token number">1</span>
+  <span class="token key atrule">revisionHistoryLimit</span><span class="token punctuation">:</span> <span class="token number">10</span>
+  <span class="token key atrule">selector</span><span class="token punctuation">:</span>
+    <span class="token key atrule">matchLabels</span><span class="token punctuation">:</span>
+      <span class="token key atrule">k8s-app</span><span class="token punctuation">:</span> kubernetes<span class="token punctuation">-</span>dashboard
+  <span class="token key atrule">template</span><span class="token punctuation">:</span>
+    <span class="token key atrule">metadata</span><span class="token punctuation">:</span>
+      <span class="token key atrule">labels</span><span class="token punctuation">:</span>
+        <span class="token key atrule">k8s-app</span><span class="token punctuation">:</span> kubernetes<span class="token punctuation">-</span>dashboard
+    <span class="token key atrule">spec</span><span class="token punctuation">:</span>
+      <span class="token key atrule">nodeSelector</span><span class="token punctuation">:</span>
+        <span class="token key atrule">node-role.kubernetes.io/master</span><span class="token punctuation">:</span> <span class="token string">""</span>
+      <span class="token key atrule">containers</span><span class="token punctuation">:</span>
+      <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> kubernetes<span class="token punctuation">-</span>dashboard
+        <span class="token key atrule">image</span><span class="token punctuation">:</span> registry.cn<span class="token punctuation">-</span>hangzhou.aliyuncs.com/k8sth/kubernetes<span class="token punctuation">-</span>dashboard<span class="token punctuation">-</span>amd64<span class="token punctuation">:</span>v1.8.3
+        <span class="token key atrule">ports</span><span class="token punctuation">:</span>
+        <span class="token punctuation">-</span> <span class="token key atrule">containerPort</span><span class="token punctuation">:</span> <span class="token number">8443</span>
+          <span class="token key atrule">protocol</span><span class="token punctuation">:</span> TCP
+        <span class="token key atrule">args</span><span class="token punctuation">:</span>
+          <span class="token punctuation">-</span> <span class="token punctuation">-</span><span class="token punctuation">-</span>auto<span class="token punctuation">-</span>generate<span class="token punctuation">-</span>certificates
+          <span class="token comment" spellcheck="true"># Uncomment the following line to manually specify Kubernetes API server Host</span>
+          <span class="token comment" spellcheck="true"># If not specified, Dashboard will attempt to auto discover the API server and connect</span>
+          <span class="token comment" spellcheck="true"># to it. Uncomment only if the default does not work.</span>
+          <span class="token comment" spellcheck="true"># - --apiserver-host=http://my-address:port</span>
+        <span class="token key atrule">volumeMounts</span><span class="token punctuation">:</span>
+        <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> kubernetes<span class="token punctuation">-</span>dashboard<span class="token punctuation">-</span>certs
+          <span class="token key atrule">mountPath</span><span class="token punctuation">:</span> /certs
+          <span class="token comment" spellcheck="true"># Create on-disk volume to store exec logs</span>
+        <span class="token punctuation">-</span> <span class="token key atrule">mountPath</span><span class="token punctuation">:</span> /tmp
+          <span class="token key atrule">name</span><span class="token punctuation">:</span> tmp<span class="token punctuation">-</span>volume
+        <span class="token key atrule">livenessProbe</span><span class="token punctuation">:</span>
+          <span class="token key atrule">httpGet</span><span class="token punctuation">:</span>
+            <span class="token key atrule">scheme</span><span class="token punctuation">:</span> HTTPS
+            <span class="token key atrule">path</span><span class="token punctuation">:</span> /
+            <span class="token key atrule">port</span><span class="token punctuation">:</span> <span class="token number">8443</span>
+          <span class="token key atrule">initialDelaySeconds</span><span class="token punctuation">:</span> <span class="token number">30</span>
+          <span class="token key atrule">timeoutSeconds</span><span class="token punctuation">:</span> <span class="token number">30</span>
+      <span class="token key atrule">volumes</span><span class="token punctuation">:</span>
+      <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> kubernetes<span class="token punctuation">-</span>dashboard<span class="token punctuation">-</span>certs
+        <span class="token key atrule">secret</span><span class="token punctuation">:</span>
+          <span class="token key atrule">secretName</span><span class="token punctuation">:</span> kubernetes<span class="token punctuation">-</span>dashboard<span class="token punctuation">-</span>certs
+      <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> tmp<span class="token punctuation">-</span>volume
+        <span class="token key atrule">emptyDir</span><span class="token punctuation">:</span> <span class="token punctuation">{</span><span class="token punctuation">}</span>
+      <span class="token key atrule">serviceAccountName</span><span class="token punctuation">:</span> kubernetes<span class="token punctuation">-</span>dashboard
+      <span class="token comment" spellcheck="true"># Comment the following tolerations if Dashboard must not be deployed on master</span>
+      <span class="token key atrule">tolerations</span><span class="token punctuation">:</span>
+      <span class="token punctuation">-</span> <span class="token key atrule">key</span><span class="token punctuation">:</span> node<span class="token punctuation">-</span>role.kubernetes.io/master
+        <span class="token key atrule">effect</span><span class="token punctuation">:</span> NoSchedule
+
+<span class="token punctuation">---</span>
+<span class="token comment" spellcheck="true"># ------------------- Dashboard Service ------------------- #</span>
+
+<span class="token key atrule">kind</span><span class="token punctuation">:</span> Service
+<span class="token key atrule">apiVersion</span><span class="token punctuation">:</span> v1
+<span class="token key atrule">metadata</span><span class="token punctuation">:</span>
+  <span class="token key atrule">labels</span><span class="token punctuation">:</span>
+    <span class="token key atrule">k8s-app</span><span class="token punctuation">:</span> kubernetes<span class="token punctuation">-</span>dashboard
+  <span class="token key atrule">name</span><span class="token punctuation">:</span> kubernetes<span class="token punctuation">-</span>dashboard
+  <span class="token key atrule">namespace</span><span class="token punctuation">:</span> kube<span class="token punctuation">-</span>system
+<span class="token key atrule">spec</span><span class="token punctuation">:</span>
+  <span class="token key atrule">type</span><span class="token punctuation">:</span> NodePort
+  <span class="token key atrule">ports</span><span class="token punctuation">:</span>
+    <span class="token punctuation">-</span> <span class="token key atrule">port</span><span class="token punctuation">:</span> <span class="token number">443</span>
+      <span class="token key atrule">targetPort</span><span class="token punctuation">:</span> <span class="token number">8443</span>
+      <span class="token key atrule">nodePort</span><span class="token punctuation">:</span> <span class="token number">30000</span>
+  <span class="token key atrule">selector</span><span class="token punctuation">:</span>
+    <span class="token key atrule">k8s-app</span><span class="token punctuation">:</span> kubernetes<span class="token punctuation">-</span>dashboard
+
+<span class="token punctuation">---</span>
+<span class="token key atrule">apiVersion</span><span class="token punctuation">:</span> v1
+<span class="token key atrule">kind</span><span class="token punctuation">:</span> ServiceAccount
+<span class="token key atrule">metadata</span><span class="token punctuation">:</span>
+  <span class="token key atrule">name</span><span class="token punctuation">:</span> admin<span class="token punctuation">-</span>user
+  <span class="token key atrule">namespace</span><span class="token punctuation">:</span> kube<span class="token punctuation">-</span>system
+
+<span class="token punctuation">---</span>
+<span class="token key atrule">apiVersion</span><span class="token punctuation">:</span> rbac.authorization.k8s.io/v1beta1
+<span class="token key atrule">kind</span><span class="token punctuation">:</span> ClusterRoleBinding
+<span class="token key atrule">metadata</span><span class="token punctuation">:</span>
+  <span class="token key atrule">name</span><span class="token punctuation">:</span> admin<span class="token punctuation">-</span>user
+<span class="token key atrule">roleRef</span><span class="token punctuation">:</span>
+  <span class="token key atrule">apiGroup</span><span class="token punctuation">:</span> rbac.authorization.k8s.io
+  <span class="token key atrule">kind</span><span class="token punctuation">:</span> ClusterRole
+  <span class="token key atrule">name</span><span class="token punctuation">:</span> cluster<span class="token punctuation">-</span>admin
+<span class="token key atrule">subjects</span><span class="token punctuation">:</span>
+<span class="token punctuation">-</span> <span class="token key atrule">kind</span><span class="token punctuation">:</span> ServiceAccount
+  <span class="token key atrule">name</span><span class="token punctuation">:</span> admin<span class="token punctuation">-</span>user
+  <span class="token key atrule">namespace</span><span class="token punctuation">:</span> kube<span class="token punctuation">-</span>system</code></pre>
+<pre class=" language-shell"><code class="language-shell"># github地址：https://github.com/kubernetes/dashboard/releases/tag/v1.8.3
+# 官方文档：https://kubernetes.io/docs/tasks/access-application-cluster/web-ui-dashboard/
+wget   https://raw.githubusercontent.com/kubernetes/dashboard/v1.8.3/src/deploy/recommended/kubernetes-dashboard.yaml  </code></pre>
+<p>进行 yaml文件的下载和生成</p>
+<p>获取Token，通过令牌登录</p>
+<pre class=" language-shell"><code class="language-shell">kubectl -n kube-system describe secret $(kubectl -n kube-system get secret | grep admin-user | awk '{print $1}')</code></pre>
+<p>输入token，即可登录</p>
+<pre class=" language-shell"><code class="language-shell">https://192.168.150.181:30000/#!/login</code></pre>
+<p>registry.cn-hangzhou.aliyuncs.com/k8sth</p>
+<p>强制删除 pod 命令，删除Pod一直处于Terminating状态 </p>
+<pre class=" language-shell"><code class="language-shell">kubectl delete pod  kube-flannel-aliyun-ds-46q98  --namespace=kube-system --grace-period=0 --force</code></pre>
+<p>coredns 未启动原因定位：</p>
+<pre class=" language-shell"><code class="language-shell">docker pull registry.cn-hangzhou.aliyuncs.com/kubernetes_containers/coredns</code></pre>
+<p>定位问题是镜像地址问题</p>
+<p>编辑系统的pod内容</p>
+<pre class=" language-shell"><code class="language-shell">kubectl edit pod name -n kube-system</code></pre>
+<pre class=" language-shell"><code class="language-shell">sed -i '9a\Environment="KUBELET_EXTRA_ARGS=–pod-infra-container-image=registry.cn-hangzhou.aliyuncs.com/osoulmate/pause-amd64:3.0"' /etc/systemd/system/kubelet.service.d/10-kubeadm.conf</code></pre>
+<pre><code>Environment=&quot;KUBELET_KUBECONFIG_ARGS=--bootstrap-kubeconfig=/etc/kubernetes/bootstrap-kubelet.conf --kubeconfig=/etc/kubernetes/kubelet.conf&quot;
+Environment=&quot;KUBELET_SYSTEM_PODS_ARGS=--pod-manifest-path=/etc/kubernetes/manifests --allow-privileged=true&quot;
+Environment=&quot;KUBELET_NETWORK_ARGS=--network-plugin=cni --cni-conf-dir=/etc/cni/net.d --cni-bin-dir=/opt/cni/bin&quot;
+Environment=&quot;KUBELET_DNS_ARGS=--cluster-dns=10.96.0.10 --cluster-domain=cluster.local&quot;
+Environment=&quot;KUBELET_AUTHZ_ARGS=--authorization-mode=Webhook --client-ca-file=/etc/kubernetes/pki/ca.pem&quot;
+Environment=&quot;KUBELET_CADVISOR_ARGS=--cadvisor-port=0&quot;
+Environment=&quot;KUBELET_CERTIFICATE_ARGS=--rotate-certificates=true --cert-dir=/var/lib/kubelet/pki&quot;
+Environment=&quot;KUBELET_EXTRA_ARGS=--node-labels=node-role.kubernetes.io/node=&#39;&#39; --logtostderr=true --v=0&quot;
+ExecStart=
+ExecStart=/usr/local/bin//kubelet $KUBELET_KUBECONFIG_ARGS $KUBELET_SYSTEM_PODS_ARGS $KUBELET_NETWORK_ARGS $KUBELET_DNS_ARGS $KUBELET_AUTHZ_ARGS $KUBELET_CADVISOR_ARGS $KUBELET_CERTIFICATE_ARGS $KUBELET_EXTRA_ARGS
+</code></pre><h3 id="ETC-数据清理"><a href="#ETC-数据清理" class="headerlink" title="ETC 数据清理"></a>ETC 数据清理</h3><pre class=" language-shell"><code class="language-shell"># 使用环境变量定义api版本
+export ETCDCTL_API=3
+
+# etcd有目录结构类似linux文件系统，获取所有key看一看：
+etcdctl get / --prefix --keys-only
+
+# 查找etc
+etcdctl get / --prefix --keys-only
+
+# 删除
+etcdctl del --prefix=true /registry
+</code></pre>
+<p>重新安装集群环境，我滴妈</p>
+<pre class=" language-shell"><code class="language-shell">yum remove kubelet kubeadm kubectl kubernetes-cni -y
+
+yum install kubelet kubeadm kubectl kubernetes-cni -y
+
+vim /etc/systemd/system/kubelet.service.d/10-kubeadm.conf
+
+Environment="KUBELET_CGROUP_ARGS=--cgroup-driver=cgroupfs"
+
+Environment="KUBELET_EXTRA_ARGS=--v=2 --fail-swap-on=false --pod-infra-container-image=registry.cn-hangzhou.aliyuncs.com/k8sth/pause-amd64:3.0"
+
+systemctl daemon-reload
+
+systemctl restart kubelet && systemctl status kubelet
+
+
+kubeadm reset
+#或
+rm -rf /etc/kubernetes/*.conf
+rm -rf /etc/kubernetes/manifests/*.yaml
+docker ps -a |awk '{print $1}' |xargs docker rm -f
+systemctl  stop kubelet
+
+scp -r /etc/kubernetes/pki  k8s-node-102:/etc/kubernetes/
+
+rm -rf $HOME/.kube
+
+kubeadm init --config config.yaml 
+
+mkdir -p $HOME/.kube
+
+sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+
+sudo chown $(id -u):$(id -g) $HOME/.kube/config
+
+# 记住不执行时，此时会产生链接不上
+</code></pre>
+<p>报错</p>
+<pre class=" language-shell"><code class="language-shell">server.go:218] unable to load client CA file /etc/kubernetes/pki/ca.crt: open /etc/kubernetes/pki/ca.crt: no such file or directory
+
+# 根据github上的说法。
+
+You have to initialize the kubelet config before it will start successfully. That is typically done with kubeadm init or kubeadm join
+
+# 需要运行kubeadm init 产生配置文件后，再启动kubelet才能成功，所以和这个报错可以忽略。</code></pre>
+<p>对于个人结点node首先配置master的kube文件夹的config文件到node结点</p>
+<pre class=" language-shell"><code class="language-shell">export image=pause-amd64:3.1
+docker pull registry.cn-hangzhou.aliyuncs.com/anoy/${image}
+docker tag registry.cn-hangzhou.aliyuncs.com/anoy/${image} k8s.gcr.io/${image}
+docker rmi registry.cn-hangzhou.aliyuncs.com/anoy/${image}
+
+export image=kube-proxy-amd64:v1.10.4
+docker pull registry.cn-hangzhou.aliyuncs.com/google_containers/${image}
+docker tag registry.cn-hangzhou.aliyuncs.com/google_containers/${image} k8s.gcr.io/${image}
+docker rmi registry.cn-hangzhou.aliyuncs.com/google_containers/${image}</code></pre>
+<p>常用命令：</p>
+<pre class=" language-shell"><code class="language-shell">tail -f /var/log/messages
+
+rm -rf /usr/local/bin/kubelet
+
+cp /usr/bin/kubelet /usr/local/bin/
+
+find / -name kubelet*
+
+rm -rf /etc/systemd/system/multi-user.target.wants/kubelet.service
+systemctl disable kubelet</code></pre>
+<p>错误：</p>
+<pre class=" language-shell"><code class="language-shell">server.go:218] unable to load client CA file /etc/kubernetes/pki/ca.crt: open /etc/kubernetes/pki/ca.crt: no such file or directory
+
+根据github上的说法。
+
+You have to initialize the kubelet config before it will start successfully. That is typically done with kubeadm init or kubeadm join
+
+需要运行kubeadm init 产生配置文件后，再启动kubelet才能成功，所以和这个报错可以忽略。</code></pre>
+<p>其中发现特别奇怪的一种情况就是，莫名的会出现一个文件夹</p>
+<pre class=" language-shell"><code class="language-shell">[root@k8s-node-95 exec]# find / -name kubelet*
+/etc/systemd/system/kubelet.service.d
+/var/lib/kubelet
+/usr/lib/systemd/system/kubelet.service
+/usr/libexec/kubernetes/kubelet-plugins
+/usr/local/bin/kubelet
+[root@k8s-node-95 kubelet.service.d]# cd /var/lib/kubelet/
+[root@k8s-node-95 kubelet]# ll
+total 4
+-rw-r--r-- 1 root root 40 Jun 17 02:37 cpu_manager_state
+drwxr-xr-x 2 root root  6 Jun 17 02:37 device-plugins
+drwxr-xr-x 2 root root 44 Jun 17 02:37 pki
+drwx------ 2 root root  6 Jun 17 02:37 plugin-containers
+drwxr-x--- 2 root root  6 Jun 17 02:37 plugins
+drwxr-x--- 2 root root  6 Jun 17 02:37 pods
+[root@k8s-node-95 kubelet]# rm -rf /var/lib/kubelet
+[root@k8s-node-95 kubelet]# rm -rf /usr/lib/systemd/system/kubelet.service
+[root@k8s-node-95 kubelet]# cd /usr/libexec/kubernetes/
+[root@k8s-node-95 kubernetes]# ll
+total 0
+drwxr-xr-x. 3 root root 20 Jun 14 06:45 kubelet-plugins
+[root@k8s-node-95 kubernetes]# rm -rf kubelet-plugins/
+[root@k8s-node-95 kubernetes]# rm -rf /usr/local/bin/kubelet
+[root@k8s-node-95 kubernetes]# 
+</code></pre>
+<pre class=" language-shell"><code class="language-shell">export image=pause-amd64:3.1
+docker pull registry.cn-hangzhou.aliyuncs.com/anoy/${image}
+docker tag registry.cn-hangzhou.aliyuncs.com/anoy/${image} k8s.gcr.io/${image}
+docker rmi registry.cn-hangzhou.aliyuncs.com/anoy/${image}
+
+export image=kube-proxy-amd64:v1.10.4
+docker pull registry.cn-hangzhou.aliyuncs.com/google_containers/${image}
+docker tag registry.cn-hangzhou.aliyuncs.com/google_containers/${image} k8s.gcr.io/${image}
+docker rmi registry.cn-hangzhou.aliyuncs.com/google_containers/${image}
+
+yum remove kubelet kubeadm kubectl kubernetes-cni -y
+
+yum install kubelet kubeadm kubectl kubernetes-cni -y
+
+vim /etc/systemd/system/kubelet.service.d/10-kubeadm.conf
+
+Environment="KUBELET_CGROUP_ARGS=--cgroup-driver=cgroupfs"
+
+Environment="KUBELET_EXTRA_ARGS=--v=2 --fail-swap-on=false --pod-infra-container-image=registry.cn-hangzhou.aliyuncs.com/k8sth/pause-amd64:3.0"
+
+systemctl daemon-reload && systemctl restart kubelet && systemctl status kubelet
+
+systemctl stop kubelet && systemctl status kubelet
+
+kubeadm reset
+
+kubeadm join 192.168.1.111:6443 --token srw09q.8xuzjaroxj6yjul3 --discovery-token-ca-cert-hash sha256:0209586f10f119722fa129dedce68b10f7043ace922c23ea0b4231b8c1280cd5
+
+systemctl start kubelet && tail -f /var/log/messages</code></pre>
+<p>参考链接：</p>
+<ul>
+<li><a href="https://www.kubernetes.org.cn/3808.html" target="_blank" rel="noopener">https://www.kubernetes.org.cn/3808.html</a></li>
+</ul>
+
+            </div>
+            <hr/>
+
+            
+
+    <div class="reprint" id="reprint-statement">
+        
+            <div class="reprint__author">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-user">
+                        文章作者:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="https://www.asxing.com" rel="external nofollow noreferrer">Asxing</a>
+                </span>
+            </div>
+            <div class="reprint__type">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-link">
+                        文章链接:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="https://www.asxing.com/2018/06/13/k8s-ji-qun-ji-chu-huan-jing/">https://www.asxing.com/2018/06/13/k8s-ji-qun-ji-chu-huan-jing/</a>
+                </span>
+            </div>
+            <div class="reprint__notice">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-copyright">
+                        版权声明:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    本博客所有文章除特別声明外，均采用
+                    <a href="https://creativecommons.org/licenses/by/4.0/deed.zh" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>
+                    许可协议。转载请注明来源
+                    <a href="https://www.asxing.com" target="_blank">Asxing</a>
+                    !
+                </span>
+            </div>
+        
+    </div>
+
+    <script async defer>
+      document.addEventListener("copy", function (e) {
+        let toastHTML = '<span>复制成功，请遵循本文的转载规则</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">查看</a>';
+        M.toast({html: toastHTML})
+      });
+
+      function navToReprintStatement() {
+        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      }
+    </script>
+
+
+
+            <div class="tag_share" style="display: block;">
+                <div class="post-meta__tag-list" style="display: inline-block;">
+                    
+                        <div class="article-tag">
+                            
+                                <a href="/tags/k8s/">
+                                    <span class="chip bg-color">k8s</span>
+                                </a>
+                            
+                                <a href="/tags/Docker/">
+                                    <span class="chip bg-color">Docker</span>
+                                </a>
+                            
+                                <a href="/tags/CentOS7/">
+                                    <span class="chip bg-color">CentOS7</span>
+                                </a>
+                            
+                        </div>
+                    
+                </div>
+                <div class="post_share" style="zoom: 80%; width: fit-content; display: inline-block; float: right; margin: -0.15rem 0;">
+                    <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+
+<div id="article-share">
+    
+    
+    <div class="social-share" data-sites="twitter,facebook,google,qq,qzone,wechat,weibo,douban,linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
+    <script src="/libs/share/js/social-share.min.js"></script>
+    
+
+    
+
+</div>
+
+                </div>
+            </div>
+            
+                <style>
+    #reward {
+        margin: 40px 0;
+        text-align: center;
+    }
+
+    #reward .reward-link {
+        font-size: 1.4rem;
+        line-height: 38px;
+    }
+
+    #reward .btn-floating:hover {
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2), 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    #rewardModal {
+        width: 320px;
+        height: 350px;
+    }
+
+    #rewardModal .reward-title {
+        margin: 15px auto;
+        padding-bottom: 5px;
+    }
+
+    #rewardModal .modal-content {
+        padding: 10px;
+    }
+
+    #rewardModal .close {
+        position: absolute;
+        right: 15px;
+        top: 15px;
+        color: rgba(0, 0, 0, 0.5);
+        font-size: 1.3rem;
+        line-height: 20px;
+        cursor: pointer;
+    }
+
+    #rewardModal .close:hover {
+        color: #ef5350;
+        transform: scale(1.3);
+        -moz-transform:scale(1.3);
+        -webkit-transform:scale(1.3);
+        -o-transform:scale(1.3);
+    }
+
+    #rewardModal .reward-tabs {
+        margin: 0 auto;
+        width: 210px;
+    }
+
+    .reward-tabs .tabs {
+        height: 38px;
+        margin: 10px auto;
+        padding-left: 0;
+    }
+
+    .reward-content ul {
+        padding-left: 0 !important;
+    }
+
+    .reward-tabs .tabs .tab {
+        height: 38px;
+        line-height: 38px;
+    }
+
+    .reward-tabs .tab a {
+        color: #fff;
+        background-color: #ccc;
+    }
+
+    .reward-tabs .tab a:hover {
+        background-color: #ccc;
+        color: #fff;
+    }
+
+    .reward-tabs .wechat-tab .active {
+        color: #fff !important;
+        background-color: #22AB38 !important;
+    }
+
+    .reward-tabs .alipay-tab .active {
+        color: #fff !important;
+        background-color: #019FE8 !important;
+    }
+
+    .reward-tabs .reward-img {
+        width: 210px;
+        height: 210px;
+    }
+</style>
+
+<div id="reward">
+    <a href="#rewardModal" class="reward-link modal-trigger btn-floating btn-medium waves-effect waves-light red">赏</a>
+
+    <!-- Modal Structure -->
+    <div id="rewardModal" class="modal">
+        <div class="modal-content">
+            <a class="close modal-close"><i class="fas fa-times"></i></a>
+            <h4 class="reward-title">你的赏识是我前进的动力</h4>
+            <div class="reward-content">
+                <div class="reward-tabs">
+                    <ul class="tabs row">
+                        <li class="tab col s6 alipay-tab waves-effect waves-light"><a href="#alipay">支付宝</a></li>
+                        <li class="tab col s6 wechat-tab waves-effect waves-light"><a href="#wechat">微 信</a></li>
+                    </ul>
+                    <div id="alipay">
+                        <img src="/medias/reward/alipay.jpg" class="reward-img" alt="支付宝打赏二维码">
+                    </div>
+                    <div id="wechat">
+                        <img src="/medias/reward/wechat.png" class="reward-img" alt="微信打赏二维码">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $('.tabs').tabs();
+    });
+</script>
+            
+        </div>
+    </div>
+
+    
+        <link rel="stylesheet" href="/libs/gitalk/gitalk.css">
+<link rel="stylesheet" href="/css/my-gitalk.css">
+
+<div class="card gitalk-card" data-aos="fade-up">
+    <div class="comment_headling" style="font-size: 20px; font-weight: 700; position: relative; left: 20px; top: 15px; padding-bottom: 5px;">
+        <i class="fas fa-comments fa-fw" aria-hidden="true"></i>
+        <span>评论</span>
+    </div>
+    <div id="gitalk-container" class="card-content"></div>
+</div>
+
+<script src="/libs/gitalk/gitalk.min.js"></script>
+<script>
+    let gitalk = new Gitalk({
+        clientID: 'c4e18e113d94091c8828',
+        clientSecret: '891f04d80de6a77fd6eb60d1cbe792e916cde3ff',
+        repo: 'asxing.github.io',
+        owner: 'Asxing',
+        admin: "asxing",
+        id: '2018-06-13T22-01-24',
+        distractionFreeMode: false  // Facebook-like distraction free mode
+    });
+
+    gitalk.render('gitalk-container');
+</script>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+            <div class="card">
+                <a href="/2018/06/17/k8s-ji-qun-ji-chu-zu-jian/">
+                    <div class="card-image">
+                        
+                        <img src="https://www.holddie.com/img/20200105160900.jpg" class="responsive-img" alt="k8s集群基础组件">
+                        
+                        <span class="card-title">k8s集群基础组件</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            在烈火中重塑一个自己，一个不再停留于故国的我。                                        ——桃旌
+直接下载官方GitHub上的yaml文件，进行部署，启动service报错，
+wget https://
+                        
+                    </div>
+                    <div class="publish-info">
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2018-06-17
+                        </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/k8s/" class="post-category">
+                                    k8s
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/k8s/">
+                        <span class="chip bg-color">k8s</span>
+                    </a>
+                    
+                    <a href="/tags/Dashboard/">
+                        <span class="chip bg-color">Dashboard</span>
+                    </a>
+                    
+                    <a href="/tags/heapster/">
+                        <span class="chip bg-color">heapster</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2018/06/12/gong-zuo-shen-qi-vim-cao-zuo/">
+                    <div class="card-image">
+                        
+                        <img src="https://www.holddie.com/img/20200105160629.jpg" class="responsive-img" alt="工作神器-Vim操作">
+                        
+                        <span class="card-title">工作神器-Vim操作</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            我，宁愿死作剑上的铭文，也不要被遗忘地活着！                                        ——桡旌
+Vim 利器
+首先是安装vim插件，
+修改快捷键配置，搜索流程  setting --&gt; keyma
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2018-06-12
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/tools/" class="post-category">
+                                    tools
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/tools/">
+                        <span class="chip bg-color">tools</span>
+                    </a>
+                    
+                    <a href="/tags/Vim/">
+                        <span class="chip bg-color">Vim</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+
+</div>
+
+
+
+<!-- 代码块功能依赖 -->
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+
+<!-- 代码语言 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+
+    
+<!-- 代码块复制 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+
+
+<!-- 代码块收缩 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script>
+
+
+<!-- 代码块折行 -->
+
+<style type="text/css">
+code[class*="language-"], pre[class*="language-"] { white-space: pre !important; }
+</style>
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget">
+            <div class="toc-title"><i class="far fa-list-alt"></i>&nbsp;&nbsp;目录</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fas fa-list-ul"></i>
+    </a>
+</div>
+
+
+<script src="/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            // headingsOffset: -205,
+            headingSelector: 'h2, h3, h4'
+        });
+
+        // modify the toc link href to support Chinese.
+        let i = 0;
+        let tocHeading = 'toc-heading-';
+        $('#toc-content a').each(function () {
+            $(this).attr('href', '#' + tocHeading + (++i));
+        });
+
+        // modify the heading title id to support Chinese.
+        i = 0;
+        $('#articleContent').children('h2, h3, h4').each(function () {
+            $(this).attr('id', tocHeading + (++i));
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).hide();
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).show();
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+        });
+        
+    });
+</script>
+
+    
+
+</main>
+
+
+
+    <footer class="page-footer bg-color">
+    <div class="container row center-align">
+        <div class="col s12 m8 l8 copy-right">
+            Copyright&nbsp;&copy;
+            <span id="year">年份</span>
+            <a href="https://www.asxing.com" target="_blank">Asxing</a>
+            |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
+            |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
+            <br>
+            
+            &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
+                class="white-color">479k</span>&nbsp;字
+            
+            
+            
+            
+            <span id="busuanzi_container_site_pv">
+                |&nbsp;<i class="far fa-eye"></i>&nbsp;总访问量:&nbsp;<span id="busuanzi_value_site_pv"
+                    class="white-color"></span>&nbsp;次
+            </span>
+            
+            
+            <span id="busuanzi_container_site_uv">
+                |&nbsp;<i class="fas fa-users"></i>&nbsp;总访问人数:&nbsp;<span id="busuanzi_value_site_uv"
+                    class="white-color"></span>&nbsp;人
+            </span>
+            
+            <br>
+            
+            <span id="sitetime">载入运行时间...</span>
+            <script>
+                function siteTime() {
+                    window.setTimeout("siteTime()", 1000);
+                    var seconds = 1000;
+                    var minutes = seconds * 60;
+                    var hours = minutes * 60;
+                    var days = hours * 24;
+                    var years = days * 365;
+                    var today = new Date();
+                    var startYear = "2019";
+                    var startMonth = "10";
+                    var startDate = "30";
+                    var startHour = "22";
+                    var startMinute = "30";
+                    var startSecond = "0";
+                    var todayYear = today.getFullYear();
+                    var todayMonth = today.getMonth() + 1;
+                    var todayDate = today.getDate();
+                    var todayHour = today.getHours();
+                    var todayMinute = today.getMinutes();
+                    var todaySecond = today.getSeconds();
+                    var t1 = Date.UTC(startYear, startMonth, startDate, startHour, startMinute, startSecond);
+                    var t2 = Date.UTC(todayYear, todayMonth, todayDate, todayHour, todayMinute, todaySecond);
+                    var diff = t2 - t1;
+                    var diffYears = Math.floor(diff / years);
+                    var diffDays = Math.floor((diff / days) - diffYears * 365);
+                    var diffHours = Math.floor((diff - (diffYears * 365 + diffDays) * days) / hours);
+                    var diffMinutes = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours) /
+                        minutes);
+                    var diffSeconds = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours -
+                        diffMinutes * minutes) / seconds);
+                    if (startYear == todayYear) {
+                        document.getElementById("year").innerHTML = todayYear;
+                        document.getElementById("sitetime").innerHTML = "本站已安全运行 " + diffDays + " 天 " + diffHours +
+                            " 小时 " + diffMinutes + " 分钟 " + diffSeconds + " 秒";
+                    } else {
+                        document.getElementById("year").innerHTML = startYear + " - " + todayYear;
+                        document.getElementById("sitetime").innerHTML = "本站已安全运行 " + diffYears + " 年 " + diffDays +
+                            " 天 " + diffHours + " 小时 " + diffMinutes + " 分钟 " + diffSeconds + " 秒";
+                    }
+                }
+                setInterval(siteTime, 1000);
+            </script>
+            
+            <br>
+            
+        </div>
+        <div class="col s12 m4 l4 social-link ">
+    <a href="https://github.com/asxing" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+        <i class="fab fa-github"></i>
+    </a>
+
+
+
+    <a href="mailto:asxingking@gmail.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fas fa-envelope-open"></i>
+    </a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <a href="/atom.xml" class="tooltipped" target="_blank" data-tooltip="RSS 订阅" data-position="top" data-delay="50">
+        <i class="fas fa-rss"></i>
+    </a>
+
+</div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+
+    <!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fas fa-search"></i>&nbsp;&nbsp;搜索</span>
+            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script src="/js/search.js"></script>
+<script type="text/javascript">
+$(function () {
+    searchFunc("/" + "search.xml", 'searchInput', 'searchResult');
+});
+</script>
+    <!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+</div>
+
+
+    <script src="/libs/materialize/materialize.min.js"></script>
+    <script src="/libs/masonry/masonry.pkgd.min.js"></script>
+    <script src="/libs/aos/aos.js"></script>
+    <script src="/libs/scrollprogress/scrollProgress.min.js"></script>
+    <script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+    <script src="/js/matery.js"></script>
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+    <!-- Baidu Analytics -->
+
+    <!-- Baidu Push -->
+
+    
+    <script src="/libs/others/clicklove.js" async="async"></script>
+    
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <script type="text/javascript" src="/libs/background/ribbon-dynamic.js" async="async"></script>
+    
+    
+    
+
+</body>
+
+</html>

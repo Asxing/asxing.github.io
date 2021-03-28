@@ -1,0 +1,1396 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="keywords" content="Jhipster-要点（三）, 编程 读书 生活">
+    <meta name="description" content="梦想会指引我们，从伤疤里绽放光芒，长出翅膀。即使流尽鲜血，也再所不惜。                    ——我就是一个虚
+保护应用为了保护单页面应用权限，在Jhipster中需要登录和注销页面，我们会配置权限进行页面正确显示，当然这部">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>Jhipster-要点（三） | Asxing-阿行</title>
+    <link rel="icon" type="image/png" href="/favicon.png">
+
+    <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
+    <link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
+    <link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/matery.css">
+    <link rel="stylesheet" type="text/css" href="/css/my.css">
+    
+    <script src="/libs/jquery/jquery.min.js"></script>
+    
+<meta name="generator" content="Hexo 4.2.1"><link rel="alternate" href="/atom.xml" title="Asxing-阿行" type="application/atom+xml">
+<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+
+
+<body>
+    <header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper head-container">
+            <div class="brand-logo">
+                <a href="/" class="waves-effect waves-light">
+                    
+                    <img src="/medias/logo.png" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">Asxing-阿行</span>
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
+<ul class="right nav-menu">
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/" class="waves-effect waves-light">
+      
+      <i class="fas fa-home" style="zoom: 0.6;"></i>
+      
+      <span>首页</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/tags" class="waves-effect waves-light">
+      
+      <i class="fas fa-tags" style="zoom: 0.6;"></i>
+      
+      <span>标签</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/categories" class="waves-effect waves-light">
+      
+      <i class="fas fa-bookmark" style="zoom: 0.6;"></i>
+      
+      <span>分类</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/archives" class="waves-effect waves-light">
+      
+      <i class="fas fa-archive" style="zoom: 0.6;"></i>
+      
+      <span>归档</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/about" class="waves-effect waves-light">
+      
+      <i class="fas fa-user-circle" style="zoom: 0.6;"></i>
+      
+      <span>关于</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/contact" class="waves-effect waves-light">
+      
+      <i class="fas fa-comments" style="zoom: 0.6;"></i>
+      
+      <span>留言板</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/friends" class="waves-effect waves-light">
+      
+      <i class="fas fa-address-book" style="zoom: 0.6;"></i>
+      
+      <span>友情链接</span>
+    </a>
+    
+  </li>
+  
+  <li>
+    <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+      <i id="searchIcon" class="fas fa-search" title="搜索" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+</ul>
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="/medias/logo.png" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">Asxing-阿行</div>
+        <div class="logo-desc">
+            
+            Never really desperate, only the lost of the soul.
+            
+        </div>
+    </div>
+
+    
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li class="m-nav-item">
+	  
+		<a href="/" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-home"></i>
+			
+			首页
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/tags" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-tags"></i>
+			
+			标签
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/categories" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-bookmark"></i>
+			
+			分类
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/archives" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-archive"></i>
+			
+			归档
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/about" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-user-circle"></i>
+			
+			关于
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/contact" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-comments"></i>
+			
+			Contact
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/friends" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-address-book"></i>
+			
+			友情链接
+		</a>
+          
+        </li>
+        
+        
+        <li><div class="divider"></div></li>
+        <li>
+            <a href="https://github.com/asxing" class="waves-effect waves-light" target="_blank">
+                <i class="fab fa-github-square fa-fw"></i>Fork Me
+            </a>
+        </li>
+        
+    </ul>
+</div>
+
+        </div>
+
+        
+            <style>
+    .nav-transparent .github-corner {
+        display: none !important;
+    }
+
+    .github-corner {
+        position: absolute;
+        z-index: 10;
+        top: 0;
+        right: 0;
+        border: 0;
+        transform: scale(1.1);
+    }
+
+    .github-corner svg {
+        color: #0f9d58;
+        fill: #fff;
+        height: 64px;
+        width: 64px;
+    }
+
+    .github-corner:hover .octo-arm {
+        animation: a 0.56s ease-in-out;
+    }
+
+    .github-corner .octo-arm {
+        animation: none;
+    }
+
+    @keyframes a {
+        0%,
+        to {
+            transform: rotate(0);
+        }
+        20%,
+        60% {
+            transform: rotate(-25deg);
+        }
+        40%,
+        80% {
+            transform: rotate(10deg);
+        }
+    }
+</style>
+
+<a href="https://github.com/asxing" class="github-corner tooltipped hide-on-med-and-down" target="_blank"
+   data-tooltip="Fork Me" data-position="left" data-delay="50">
+    <svg viewBox="0 0 250 250" aria-hidden="true">
+        <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
+        <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2"
+              fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path>
+        <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z"
+              fill="currentColor" class="octo-body"></path>
+    </svg>
+</a>
+        
+    </nav>
+
+</header>
+
+    
+<script src="/libs/cryptojs/crypto-js.min.js"></script>
+<script>
+    (function() {
+        let pwd = '';
+        if (pwd && pwd.length > 0) {
+            if (pwd !== CryptoJS.SHA256(prompt('请输入访问本文章的密码')).toString(CryptoJS.enc.Hex)) {
+                alert('密码错误，将返回主页！');
+                location.href = '/';
+            }
+        }
+    })();
+</script>
+
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('https://www.holddie.com/img/20200105162301.jpg')">
+    <div class="container" style="right: 0px;left: 0px;">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <div class="description center-align post-title">
+                        Jhipster-要点（三）
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<main class="post-container content">
+
+    
+    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
+<style>
+    #articleContent h1::before,
+    #articleContent h2::before,
+    #articleContent h3::before,
+    #articleContent h4::before,
+    #articleContent h5::before,
+    #articleContent h6::before {
+        display: block;
+        content: " ";
+        height: 100px;
+        margin-top: -100px;
+        visibility: hidden;
+    }
+
+    #articleContent :focus {
+        outline: none;
+    }
+
+    .toc-fixed {
+        position: fixed;
+        top: 64px;
+    }
+
+    .toc-widget {
+        padding-left: 20px;
+    }
+
+    .toc-widget .toc-title {
+        margin: 35px 0 15px 0;
+        padding-left: 17px;
+        font-size: 1.5rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    .toc-widget ol {
+        padding: 0;
+        list-style: none;
+    }
+
+    #toc-content ol {
+        padding-left: 10px;
+    }
+
+    #toc-content ol li {
+        padding-left: 10px;
+    }
+
+    #toc-content .toc-link:hover {
+        color: #42b983;
+        font-weight: 700;
+        text-decoration: underline;
+    }
+
+    #toc-content .toc-link::before {
+        background-color: transparent;
+        max-height: 25px;
+    }
+
+    #toc-content .is-active-link {
+        color: #42b983;
+    }
+
+    #toc-content .is-active-link::before {
+        background-color: #42b983;
+    }
+
+    #floating-toc-btn {
+        position: fixed;
+        right: 15px;
+        bottom: 76px;
+        padding-top: 15px;
+        margin-bottom: 0;
+        z-index: 998;
+    }
+
+    #floating-toc-btn .btn-floating {
+        width: 48px;
+        height: 48px;
+    }
+
+    #floating-toc-btn .btn-floating i {
+        line-height: 48px;
+        font-size: 1.4rem;
+    }
+</style>
+<div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                            <a href="/tags/SpringBoot/">
+                                <span class="chip bg-color">SpringBoot</span>
+                            </a>
+                        
+                            <a href="/tags/Jhipster/">
+                                <span class="chip bg-color">Jhipster</span>
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fas fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/categories/Jhipster/" class="post-category">
+                                Jhipster
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
+                    2018-08-08
+                </div>
+                
+
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
+                    2.7k
+                </div>
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
+                    10 分
+                </div>
+                
+				
+                
+            </div>
+            
+        </div>
+        <hr class="clearfix">
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <p>梦想会指引我们，从伤疤里绽放光芒，长出翅膀。即使流尽鲜血，也再所不惜。                    ——我就是一个虚</p>
+<h3 id="保护应用"><a href="#保护应用" class="headerlink" title="保护应用"></a>保护应用</h3><p>为了保护单页面应用权限，在Jhipster中需要登录和注销页面，我们会配置权限进行页面正确显示，当然这部分代码Jhipster会帮你生成。</p>
+<p>默认，Jhipster有四种不同的用户角色：</p>
+<ul>
+<li>system：当一些操作自动化操作之后，我们主要监控的对象</li>
+<li>anonymousUser：匿名用户的一些操作</li>
+<li>user：对应系统中的“ROLE_USER”授权，默认的密码是“user”</li>
+<li>admin：它是“ROLE_ADMIN”和“ROLE_USER”授权，默认的密码是“admin”</li>
+</ul>
+<p>Jhipster 提供了四种安全方式：</p>
+<ul>
+<li>JWT<ul>
+<li>主要配置秘钥 <code>jhipster.security.authentication.jwt.secret</code></li>
+</ul>
+</li>
+<li>基于Session的方式<ul>
+<li>对于系统的扩容不容易</li>
+<li>同时可以配置 <code>jhipster.security.remember-me.key</code>  对应的秘钥，提供了 IP地址，浏览器，时间等有效信息</li>
+<li>防止Cookie 防盗保护，就是用户每次登陆的时候，记性数据库和客户端同时刷新，这样即使Cookie被盗，只有一次有效</li>
+<li>CSRF 保护，对于Cookie没有固定的参数和请求头中。</li>
+</ul>
+</li>
+<li>OAuth2 和 OpenId Connect </li>
+<li>使用 UAA</li>
+</ul>
+<h3 id="过滤实体"><a href="#过滤实体" class="headerlink" title="过滤实体"></a>过滤实体</h3><h4 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h4><p>在实现基础的CRUD的基本功能的时候，这是一个非常通用的请求对于创建一个过滤器对于实体，因此服务端可以被更加高效的使用。这些过滤可以被发送给任何客户端、浏览器。</p>
+<h4 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h4><ul>
+<li><p>但我们使用 <code>jhipster entity</code> 命令行来生成实体的时候，我们可以选择 Service 接口来过滤这些实体。</p>
+</li>
+<li><p>如果你想过滤已经存在的实体，我们可以修改<code>.jhipster</code>文件夹下，通过设置 <code>service</code> 到<code>serviceClass</code> 或者 从<code>no</code> 到<code>serviceImpl</code> 然后设置 <code>jpaMetamodelFiltering</code> 为 true，然后重新生成实体 <code>jhipster entity  &lt;entity name&gt;</code></p>
+</li>
+<li><p>当我们使用JDL，我们可以添加一行 <code>filter &lt;entity name&gt;</code> ,然后重新执行 <code>jhipster import-jdl</code> 命令。</p>
+</li>
+</ul>
+<h4 id="公共接口"><a href="#公共接口" class="headerlink" title="公共接口"></a>公共接口</h4><p>对于每一个实体，你可以开启实体过滤，之后你就可以调用对应的API接口，<code>/api/my-entity</code> GET 请求可以跟随以下参数：</p>
+<h5 id="对于xyz-字段"><a href="#对于xyz-字段" class="headerlink" title="对于xyz 字段"></a>对于xyz 字段</h5><ul>
+<li><code>xyz.equals=someValue</code><ul>
+<li>展示所有实体中，xyz值为<code>someValue</code>的实体</li>
+</ul>
+</li>
+<li><code>xyz.equals=someValue,otherValue</code><ul>
+<li>展示实体xyz字段值为<code>someValue</code> 或 <code>otherValue</code>的实体</li>
+</ul>
+</li>
+<li><code>xyz.specified=true</code><ul>
+<li>展示xyz字段不为空的所有实体</li>
+</ul>
+</li>
+<li><code>xyz.specified=false</code><ul>
+<li>展示xyz字段为空的实体</li>
+</ul>
+</li>
+</ul>
+<h5 id="如果xyz字段是String类型"><a href="#如果xyz字段是String类型" class="headerlink" title="如果xyz字段是String类型"></a>如果xyz字段是String类型</h5><ul>
+<li><code>xyz.contains=something</code><ul>
+<li>罗列xyz字段中包含something字段的实体</li>
+</ul>
+</li>
+</ul>
+<h5 id="如果xyz字段是数字类型"><a href="#如果xyz字段是数字类型" class="headerlink" title="如果xyz字段是数字类型"></a>如果xyz字段是数字类型</h5><ul>
+<li><code>xyz.greaterThan=someValue</code></li>
+<li><code>xyz.lessThan=someValue</code></li>
+<li><code>xyz.greaterOrEqualThan=someValue</code></li>
+<li><code>xyz.lessOrEqualThan=someValue</code></li>
+</ul>
+<h3 id="ElasticSearch"><a href="#ElasticSearch" class="headerlink" title="ElasticSearch"></a>ElasticSearch</h3><p>ElasticSearch 是一个选择对于数据库中数据的Top数据。</p>
+<p>当然会有一些限制：</p>
+<ul>
+<li>它仅对于SQL数据库和MongoDB</li>
+<li>没有持久化关于数据库和ElasticSearch之间，因此你可能会有不同步的数据。这是正常的，因为ElasticSearch不是一个真正的数据库。</li>
+<li>因此你可能需要写一些明确的代码来同步你的数据，例如你可以使用 <code>Schedule</code> 注解，去运行任何事件。</li>
+</ul>
+<p>ElasticSearch什么情况下可以使用：</p>
+<ul>
+<li>对于使用Spring-Data-ElasticSearch 被使用，会被SpringBoot自动配置</li>
+<li>会有一个新的repo子目录被创建，创建 search，然后包括所有的 ElasticSearch repo</li>
+<li>对于 User 实体会自动创建索引，你可以请求 <code>/api/_search/users/:query</code> REST接口</li>
+<li>当使用模板生成实体，创建的实体将会自动被ElasticSearch创建索引，对于前端框架，我们直接使用CRUD。</li>
+</ul>
+<h5 id="开发使用"><a href="#开发使用" class="headerlink" title="开发使用"></a>开发使用</h5><p>最简单的方式就是使用docker创建虚拟实体：</p>
+<pre class=" language-shell"><code class="language-shell">$ docker-compose -f src/main/docker/elasticsearch.yml up -d</code></pre>
+<h3 id="使用-WebSocket"><a href="#使用-WebSocket" class="headerlink" title="使用 WebSocket"></a>使用 WebSocket</h3><p>WebSockets 是十分有用的，对于一个动态的应用来说，它可以实时共享服务端和客户端之间的数据。</p>
+<p>JHipster 当前使用的是 Spring WebSocket的接口，因此我们可以发现更多的特性在官网</p>
+<h4 id="限制："><a href="#限制：" class="headerlink" title="限制："></a>限制：</h4><ul>
+<li>默认情况下，Spring WebSocket 使用dispatcher提供了，对此只是一个内存实现。</li>
+<li>很明显如果使用多个服务端，不能够满足自动扩容。</li>
+<li>但是如果你想多个服务端，可以参考官方文档，在系统外部使用了一个额外的中间件</li>
+</ul>
+<h4 id="对于追踪举例"><a href="#对于追踪举例" class="headerlink" title="对于追踪举例"></a>对于追踪举例</h4><p>Jhipster 提供了一个简单的追踪的开箱即用的例子，存在于admin目录中，他将会追踪用户的行为，例如查看用户的登录的IP等信息。</p>
+<ul>
+<li>这就是一个标准的Demo去开始使用WebSocket，而不是生产就绪的追踪器，但是它是起作用的。</li>
+<li>他将会展示如何整合WebSocket和SpringSecurity，这是一个十分复杂的话题</li>
+<li>这个起作用是应为它是一个单页面应用，因此在 WebSocket 连接不需要重新初始化在每个界面之间，这是使用Jhipster最大的好处。</li>
+</ul>
+<h3 id="缓存使用"><a href="#缓存使用" class="headerlink" title="缓存使用"></a>缓存使用</h3><p> 在JHipster中使用二级缓存：</p>
+<ul>
+<li>在SpringBoot应用程序中，在应用的启动的时候只是用一个 <code>@EnableCaching</code> 注解是抽象的，这个需要根据业务需求进行相应调整，具体设置比二级缓存更高级别。</li>
+<li>对于Hibernate二级缓存，使用缓存可以有巨大的性能提升，这就是人们问什么使用Jhipster。</li>
+<li>请注意此二级缓存只是适用于SQL数据库，如果你选择使用SpringCache</li>
+</ul>
+<p>SpringCache 和 Hibernate 二级缓存将会使用相同的缓存方式，但是不工作在一个层面，我们不建议使用两者存储相同的一个对象，否则将会导致很复杂的问题，相反，我们建议：</p>
+<ul>
+<li>Spring Cache 存储更高层次的 或者 聚合VO，例如我们使用的DTO</li>
+<li>Hibernate 二级缓存，则是对应实体到数据库，为了减少SQL请求。</li>
+</ul>
+<p>JHipster 支持四种缓存方式：Ehcache、Hazelcast、Infinispan和Memcached，他们有如下：</p>
+<h4 id="公共配置"><a href="#公共配置" class="headerlink" title="公共配置"></a>公共配置</h4><p>缓存被<code>CacheConfiguration</code>类配置，同时我们应该调整我们的配置文件</p>
+<h4 id="Ehcache"><a href="#Ehcache" class="headerlink" title="Ehcache"></a>Ehcache</h4><ul>
+<li><p>Ehcache 是JHipster带有moniliths的默认缓存。Ehcache 简单配置和快速启动，所以他是默认非常好的缓存方式。</p>
+</li>
+<li><p>对于Jhipster来说，Ehcache 不是一个分布式的缓存，并且没有一个API来通过命令来添加新的节点。</p>
+</li>
+<li><p>Ehcache 被 CacheConfiguration 配置，默认使用了两个属性<code>time-to-live-seconds</code> 和 <code>max-entries</code>在配置文件中，更多的配置可以在ApplicationProperties配置文件中添加。</p>
+</li>
+<li><p>默认 <code>time-to-live-seconds</code> 属性有一个默认值为 3600秒（一个小时）在开发和生产环境，对于<code>max-entries</code>在开发环境默认值为100个entity，开发环境下有1000个entity。</p>
+</li>
+<li><p>这些值将根据业务逻辑进行调整，Jhipster的监控将会更好的告诉我们缓存的使用情况，具体参数查看官方文档。</p>
+</li>
+</ul>
+<h4 id="Hazelcast"><a href="#Hazelcast" class="headerlink" title="Hazelcast"></a>Hazelcast</h4><ul>
+<li>Hazelcast 可以在本地启动，同时也支持分布式缓存。结果是：<ul>
+<li>它是微服务环境下，默认的缓存推荐，同时支持扩容</li>
+<li>网关的默认缓存，同时支持分布式网关存储限流信息</li>
+<li>在整体使用过程中，Hazelcast 需要有注册中心，以应对扩容</li>
+</ul>
+</li>
+<li>对于扩容应用，Hazelcast 将会配置服务发现来发现新节点，通知水平扩展。对于微服务和网关，同时支持Jhipster registry和 consul，对于整体工作在Jhipster 注册中心。</li>
+<li>当一个节点新增时，他将会注册他到服务发现，根据相同的类型寻找其他的节点。如果发现相同类型的节点，他们将会自动创建一个集群，我们将会看到他们之间的节点信息。</li>
+</ul>
+<p>为了更好的使用Hazelcast，Jhipster支持Hazelcast 管理中心：</p>
+<ul>
+<li>请注意你仅仅支持免费监控两个节点，作为一个私有的产品，但是他足够应对我们开发测试应用</li>
+<li>他可以只用Jhipster公共配置，可以使用 <code>jhipster.cache.hazelcast.management-center</code> ，默认是不可以使用的。</li>
+<li>最简单方式就是我们使用Docker来运行Hazelcast 管理中心，我们可以使用命令：  <code>docker-compose -f src/main/docker/hazelcast-management-center.yml up -d</code></li>
+</ul>
+<h3 id="Kafka-使用"><a href="#Kafka-使用" class="headerlink" title="Kafka 使用"></a>Kafka 使用</h3><p>Kafka使用受欢迎的消息中间件，Jhipster有对 Kafka的支持：</p>
+<ul>
+<li>在Jhipster中配置Spring Cloud Stream</li>
+<li>添加必要的配置在配置文件中，对于有一个简单的订阅 <code>topic-jhipster</code> 主题，同时有一个健康监测对于Kafka</li>
+<li>生成一个Docker Compose 配置，使用了简单的 <code>topic-jhipster</code> 主题，因此可以使用简单的类型： <code>docker-compose -f src/main/docker/kafka.yml up -d</code></li>
+<li>当使用Docker环境的时候，提供了Kafka环境的支持。Docker Compose 配置文件将会自动生成，如果微服务或者网关使用Kafka。</li>
+<li>所有的微服务都会消费 Kafka中的消息。这个Broker将会被通用于应用之间消息的传递。</li>
+</ul>
+<h4 id="使用教程"><a href="#使用教程" class="headerlink" title="使用教程"></a>使用教程</h4><p>提前准备：</p>
+<p>当我们在创建一个应用的时候，我们应该选择使用 Kafka 选项，然后在对应文件下回生成 指定的 kafka配置文件。</p>
+<pre class=" language-shell"><code class="language-shell">$ docker-compose -f src/main/docker/kafka.yml up -d</code></pre>
+<p>传递对象实体：</p>
+<pre class=" language-java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">Greeting</span> <span class="token punctuation">{</span>
+    <span class="token keyword">private</span> String message<span class="token punctuation">;</span>
+
+    <span class="token keyword">public</span> <span class="token function">Greeting</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">public</span> String <span class="token function">getMessage</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> message<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">public</span> Greeting <span class="token function">setMessage</span><span class="token punctuation">(</span>String message<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>message <span class="token operator">=</span> message<span class="token punctuation">;</span>
+        <span class="token keyword">return</span> <span class="token keyword">this</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<p>消息管道：</p>
+<p>SpringCloudStream作为一个抽象的消息管道层使用。生产者发送消息给消息管道，然后消费者从消费者管道获取数据。这样就会有一个更加灵活对于不同的消息系统不需要使用额外的平台对应代码。</p>
+<p>然我们创建output 渠道和 input 渠道：</p>
+<p>output channel：</p>
+<pre class=" language-java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">interface</span> <span class="token class-name">ProducerChannel</span> <span class="token punctuation">{</span>
+
+    String CHANNEL <span class="token operator">=</span> <span class="token string">"messageChannel"</span><span class="token punctuation">;</span>
+
+    <span class="token annotation punctuation">@Output</span>
+    MessageChannel <span class="token function">messageChannel</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
+<p>input channel：</p>
+<pre class=" language-java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">interface</span> <span class="token class-name">ConsumerChannel</span> <span class="token punctuation">{</span>
+
+    String CHANNEL <span class="token operator">=</span> <span class="token string">"subscribableChannel"</span><span class="token punctuation">;</span>
+
+    <span class="token annotation punctuation">@Input</span>
+    SubscribableChannel <span class="token function">subscribableChannel</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
+<p>配置此时我们需要告诉SpringCloudStream关于渠道的配置</p>
+<pre class=" language-java"><code class="language-java"><span class="token annotation punctuation">@EnableBinding</span><span class="token punctuation">(</span>value <span class="token operator">=</span> <span class="token punctuation">{</span>Source<span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">,</span> ProducerChannel<span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">,</span> ConsumerChannel<span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">MessagingConfiguration</span> <span class="token punctuation">{</span>
+
+<span class="token punctuation">}</span></code></pre>
+<p>同时我们配置使用Kafka</p>
+<pre class=" language-yaml"><code class="language-yaml"><span class="token key atrule">spring</span><span class="token punctuation">:</span>
+    <span class="token key atrule">cloud</span><span class="token punctuation">:</span>
+      <span class="token key atrule">stream</span><span class="token punctuation">:</span>
+        <span class="token key atrule">bindings</span><span class="token punctuation">:</span>
+            <span class="token key atrule">messageChannel</span><span class="token punctuation">:</span>
+                <span class="token key atrule">destination</span><span class="token punctuation">:</span> greetings
+                <span class="token key atrule">content-type</span><span class="token punctuation">:</span> application/json
+            <span class="token key atrule">subscribableChannel</span><span class="token punctuation">:</span>
+                <span class="token key atrule">destination</span><span class="token punctuation">:</span> greetings</code></pre>
+<p>这个相当于 <code>spring.cloud.stream.bindings.&lt;channelName&gt;.destination.&lt;topic&gt;</code> </p>
+<h4 id="生产者和消费者"><a href="#生产者和消费者" class="headerlink" title="生产者和消费者"></a>生产者和消费者</h4><p>我们创建一个简单的REST请求，然后我们就可以发送主题，<code>greetings</code></p>
+<pre class=" language-java"><code class="language-java"><span class="token annotation punctuation">@RestController</span>
+<span class="token annotation punctuation">@RequestMapping</span><span class="token punctuation">(</span><span class="token string">"/api"</span><span class="token punctuation">)</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">ProducerResource</span><span class="token punctuation">{</span>
+
+    <span class="token keyword">private</span> MessageChannel channel<span class="token punctuation">;</span>
+
+    <span class="token keyword">public</span> <span class="token function">ProducerResource</span><span class="token punctuation">(</span>ProducerChannel channel<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>channel <span class="token operator">=</span> channel<span class="token punctuation">.</span><span class="token function">messageChannel</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token annotation punctuation">@GetMapping</span><span class="token punctuation">(</span><span class="token string">"/greetings/{count}"</span><span class="token punctuation">)</span>
+    <span class="token annotation punctuation">@Timed</span>
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">produce</span><span class="token punctuation">(</span><span class="token annotation punctuation">@PathVariable</span> <span class="token keyword">int</span> count<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">while</span><span class="token punctuation">(</span>count <span class="token operator">></span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            channel<span class="token punctuation">.</span><span class="token function">send</span><span class="token punctuation">(</span>MessageBuilder<span class="token punctuation">.</span><span class="token function">withPayload</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">Greeting</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">setMessage</span><span class="token punctuation">(</span><span class="token string">"Hello world!: "</span> <span class="token operator">+</span> count<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">build</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            count<span class="token operator">--</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<p>消费者进行消费，消费的时候使用<code>StreamListener</code>对于消息的匹配和自动类型转换：</p>
+<pre class=" language-java"><code class="language-java"><span class="token annotation punctuation">@Service</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">ConsumerService</span> <span class="token punctuation">{</span>
+
+    <span class="token keyword">private</span> <span class="token keyword">final</span> Logger log <span class="token operator">=</span> LoggerFactory<span class="token punctuation">.</span><span class="token function">getLogger</span><span class="token punctuation">(</span>ConsumerService<span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token annotation punctuation">@StreamListener</span><span class="token punctuation">(</span>ConsumerChannel<span class="token punctuation">.</span>CHANNEL<span class="token punctuation">)</span>
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">consume</span><span class="token punctuation">(</span>Greeting greeting<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        log<span class="token punctuation">.</span><span class="token function">info</span><span class="token punctuation">(</span><span class="token string">"Received message: {}."</span><span class="token punctuation">,</span> greeting<span class="token punctuation">.</span><span class="token function">getMessage</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<p>同时为了让程序能够访问到我们需要配置过滤的规则，修改 <code>SecurityConfiguration.java</code>，修改匹配规则<code>.antMatchers(&quot;/api/greetings/**&quot;).permitAll()</code></p>
+<p>运行终端的请求地址： <code>http://localhost:8080/api/greetings/5</code>我们将会看到消费的日志。</p>
+
+            </div>
+            <hr/>
+
+            
+
+    <div class="reprint" id="reprint-statement">
+        
+            <div class="reprint__author">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-user">
+                        文章作者:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="https://www.asxing.com" rel="external nofollow noreferrer">Asxing</a>
+                </span>
+            </div>
+            <div class="reprint__type">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-link">
+                        文章链接:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="https://www.asxing.com/2018/08/08/jhipster-yao-dian-san/">https://www.asxing.com/2018/08/08/jhipster-yao-dian-san/</a>
+                </span>
+            </div>
+            <div class="reprint__notice">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-copyright">
+                        版权声明:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    本博客所有文章除特別声明外，均采用
+                    <a href="https://creativecommons.org/licenses/by/4.0/deed.zh" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>
+                    许可协议。转载请注明来源
+                    <a href="https://www.asxing.com" target="_blank">Asxing</a>
+                    !
+                </span>
+            </div>
+        
+    </div>
+
+    <script async defer>
+      document.addEventListener("copy", function (e) {
+        let toastHTML = '<span>复制成功，请遵循本文的转载规则</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">查看</a>';
+        M.toast({html: toastHTML})
+      });
+
+      function navToReprintStatement() {
+        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      }
+    </script>
+
+
+
+            <div class="tag_share" style="display: block;">
+                <div class="post-meta__tag-list" style="display: inline-block;">
+                    
+                        <div class="article-tag">
+                            
+                                <a href="/tags/SpringBoot/">
+                                    <span class="chip bg-color">SpringBoot</span>
+                                </a>
+                            
+                                <a href="/tags/Jhipster/">
+                                    <span class="chip bg-color">Jhipster</span>
+                                </a>
+                            
+                        </div>
+                    
+                </div>
+                <div class="post_share" style="zoom: 80%; width: fit-content; display: inline-block; float: right; margin: -0.15rem 0;">
+                    <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+
+<div id="article-share">
+    
+    
+    <div class="social-share" data-sites="twitter,facebook,google,qq,qzone,wechat,weibo,douban,linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
+    <script src="/libs/share/js/social-share.min.js"></script>
+    
+
+    
+
+</div>
+
+                </div>
+            </div>
+            
+                <style>
+    #reward {
+        margin: 40px 0;
+        text-align: center;
+    }
+
+    #reward .reward-link {
+        font-size: 1.4rem;
+        line-height: 38px;
+    }
+
+    #reward .btn-floating:hover {
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2), 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    #rewardModal {
+        width: 320px;
+        height: 350px;
+    }
+
+    #rewardModal .reward-title {
+        margin: 15px auto;
+        padding-bottom: 5px;
+    }
+
+    #rewardModal .modal-content {
+        padding: 10px;
+    }
+
+    #rewardModal .close {
+        position: absolute;
+        right: 15px;
+        top: 15px;
+        color: rgba(0, 0, 0, 0.5);
+        font-size: 1.3rem;
+        line-height: 20px;
+        cursor: pointer;
+    }
+
+    #rewardModal .close:hover {
+        color: #ef5350;
+        transform: scale(1.3);
+        -moz-transform:scale(1.3);
+        -webkit-transform:scale(1.3);
+        -o-transform:scale(1.3);
+    }
+
+    #rewardModal .reward-tabs {
+        margin: 0 auto;
+        width: 210px;
+    }
+
+    .reward-tabs .tabs {
+        height: 38px;
+        margin: 10px auto;
+        padding-left: 0;
+    }
+
+    .reward-content ul {
+        padding-left: 0 !important;
+    }
+
+    .reward-tabs .tabs .tab {
+        height: 38px;
+        line-height: 38px;
+    }
+
+    .reward-tabs .tab a {
+        color: #fff;
+        background-color: #ccc;
+    }
+
+    .reward-tabs .tab a:hover {
+        background-color: #ccc;
+        color: #fff;
+    }
+
+    .reward-tabs .wechat-tab .active {
+        color: #fff !important;
+        background-color: #22AB38 !important;
+    }
+
+    .reward-tabs .alipay-tab .active {
+        color: #fff !important;
+        background-color: #019FE8 !important;
+    }
+
+    .reward-tabs .reward-img {
+        width: 210px;
+        height: 210px;
+    }
+</style>
+
+<div id="reward">
+    <a href="#rewardModal" class="reward-link modal-trigger btn-floating btn-medium waves-effect waves-light red">赏</a>
+
+    <!-- Modal Structure -->
+    <div id="rewardModal" class="modal">
+        <div class="modal-content">
+            <a class="close modal-close"><i class="fas fa-times"></i></a>
+            <h4 class="reward-title">你的赏识是我前进的动力</h4>
+            <div class="reward-content">
+                <div class="reward-tabs">
+                    <ul class="tabs row">
+                        <li class="tab col s6 alipay-tab waves-effect waves-light"><a href="#alipay">支付宝</a></li>
+                        <li class="tab col s6 wechat-tab waves-effect waves-light"><a href="#wechat">微 信</a></li>
+                    </ul>
+                    <div id="alipay">
+                        <img src="/medias/reward/alipay.jpg" class="reward-img" alt="支付宝打赏二维码">
+                    </div>
+                    <div id="wechat">
+                        <img src="/medias/reward/wechat.png" class="reward-img" alt="微信打赏二维码">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $('.tabs').tabs();
+    });
+</script>
+            
+        </div>
+    </div>
+
+    
+        <link rel="stylesheet" href="/libs/gitalk/gitalk.css">
+<link rel="stylesheet" href="/css/my-gitalk.css">
+
+<div class="card gitalk-card" data-aos="fade-up">
+    <div class="comment_headling" style="font-size: 20px; font-weight: 700; position: relative; left: 20px; top: 15px; padding-bottom: 5px;">
+        <i class="fas fa-comments fa-fw" aria-hidden="true"></i>
+        <span>评论</span>
+    </div>
+    <div id="gitalk-container" class="card-content"></div>
+</div>
+
+<script src="/libs/gitalk/gitalk.min.js"></script>
+<script>
+    let gitalk = new Gitalk({
+        clientID: 'c4e18e113d94091c8828',
+        clientSecret: '891f04d80de6a77fd6eb60d1cbe792e916cde3ff',
+        repo: 'asxing.github.io',
+        owner: 'Asxing',
+        admin: "asxing",
+        id: '2018-08-08T09-03-48',
+        distractionFreeMode: false  // Facebook-like distraction free mode
+    });
+
+    gitalk.render('gitalk-container');
+</script>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+            <div class="card">
+                <a href="/2018/08/09/jhipster-kai-fa-si/">
+                    <div class="card-image">
+                        
+                        <img src="https://www.holddie.com/img/20200105162328.jpg" class="responsive-img" alt="Jhipster-开发（四）">
+                        
+                        <span class="card-title">Jhipster-开发（四）</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            风卷而击里历史默然转身，乱世的帷幕，砰然落下。                                                    ——红绫
+通用配置工具配置对于 IntellIJ工具来说，有如下配置：
+
+添加 node_
+                        
+                    </div>
+                    <div class="publish-info">
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2018-08-09
+                        </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/Jhipster/" class="post-category">
+                                    Jhipster
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/SpringBoot/">
+                        <span class="chip bg-color">SpringBoot</span>
+                    </a>
+                    
+                    <a href="/tags/Jhipster/">
+                        <span class="chip bg-color">Jhipster</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2018/08/07/jhipster-wei-fu-wu-er/">
+                    <div class="card-image">
+                        
+                        <img src="https://www.holddie.com/img/20200105162119.jpg" class="responsive-img" alt="Jhipster-微服务（二）">
+                        
+                        <span class="card-title">Jhipster-微服务（二）</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            乐土掩藏在每个人心底深处，犹如一场镜花水月。                                                        ——泪落秦觞
+API 网关网关架构
+
+使用GateWay网关进行管理，主要使用了Zu
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2018-08-07
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/Jhipster/" class="post-category">
+                                    Jhipster
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/SpringBoot/">
+                        <span class="chip bg-color">SpringBoot</span>
+                    </a>
+                    
+                    <a href="/tags/Jhipster/">
+                        <span class="chip bg-color">Jhipster</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+
+</div>
+
+
+
+<!-- 代码块功能依赖 -->
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+
+<!-- 代码语言 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+
+    
+<!-- 代码块复制 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+
+
+<!-- 代码块收缩 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script>
+
+
+<!-- 代码块折行 -->
+
+<style type="text/css">
+code[class*="language-"], pre[class*="language-"] { white-space: pre !important; }
+</style>
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget">
+            <div class="toc-title"><i class="far fa-list-alt"></i>&nbsp;&nbsp;目录</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fas fa-list-ul"></i>
+    </a>
+</div>
+
+
+<script src="/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            // headingsOffset: -205,
+            headingSelector: 'h2, h3, h4'
+        });
+
+        // modify the toc link href to support Chinese.
+        let i = 0;
+        let tocHeading = 'toc-heading-';
+        $('#toc-content a').each(function () {
+            $(this).attr('href', '#' + tocHeading + (++i));
+        });
+
+        // modify the heading title id to support Chinese.
+        i = 0;
+        $('#articleContent').children('h2, h3, h4').each(function () {
+            $(this).attr('id', tocHeading + (++i));
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).hide();
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).show();
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+        });
+        
+    });
+</script>
+
+    
+
+</main>
+
+
+
+    <footer class="page-footer bg-color">
+    <div class="container row center-align">
+        <div class="col s12 m8 l8 copy-right">
+            Copyright&nbsp;&copy;
+            <span id="year">年份</span>
+            <a href="https://www.asxing.com" target="_blank">Asxing</a>
+            |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
+            |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
+            <br>
+            
+            &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
+                class="white-color">479k</span>&nbsp;字
+            
+            
+            
+            
+            <span id="busuanzi_container_site_pv">
+                |&nbsp;<i class="far fa-eye"></i>&nbsp;总访问量:&nbsp;<span id="busuanzi_value_site_pv"
+                    class="white-color"></span>&nbsp;次
+            </span>
+            
+            
+            <span id="busuanzi_container_site_uv">
+                |&nbsp;<i class="fas fa-users"></i>&nbsp;总访问人数:&nbsp;<span id="busuanzi_value_site_uv"
+                    class="white-color"></span>&nbsp;人
+            </span>
+            
+            <br>
+            
+            <span id="sitetime">载入运行时间...</span>
+            <script>
+                function siteTime() {
+                    window.setTimeout("siteTime()", 1000);
+                    var seconds = 1000;
+                    var minutes = seconds * 60;
+                    var hours = minutes * 60;
+                    var days = hours * 24;
+                    var years = days * 365;
+                    var today = new Date();
+                    var startYear = "2019";
+                    var startMonth = "10";
+                    var startDate = "30";
+                    var startHour = "22";
+                    var startMinute = "30";
+                    var startSecond = "0";
+                    var todayYear = today.getFullYear();
+                    var todayMonth = today.getMonth() + 1;
+                    var todayDate = today.getDate();
+                    var todayHour = today.getHours();
+                    var todayMinute = today.getMinutes();
+                    var todaySecond = today.getSeconds();
+                    var t1 = Date.UTC(startYear, startMonth, startDate, startHour, startMinute, startSecond);
+                    var t2 = Date.UTC(todayYear, todayMonth, todayDate, todayHour, todayMinute, todaySecond);
+                    var diff = t2 - t1;
+                    var diffYears = Math.floor(diff / years);
+                    var diffDays = Math.floor((diff / days) - diffYears * 365);
+                    var diffHours = Math.floor((diff - (diffYears * 365 + diffDays) * days) / hours);
+                    var diffMinutes = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours) /
+                        minutes);
+                    var diffSeconds = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours -
+                        diffMinutes * minutes) / seconds);
+                    if (startYear == todayYear) {
+                        document.getElementById("year").innerHTML = todayYear;
+                        document.getElementById("sitetime").innerHTML = "本站已安全运行 " + diffDays + " 天 " + diffHours +
+                            " 小时 " + diffMinutes + " 分钟 " + diffSeconds + " 秒";
+                    } else {
+                        document.getElementById("year").innerHTML = startYear + " - " + todayYear;
+                        document.getElementById("sitetime").innerHTML = "本站已安全运行 " + diffYears + " 年 " + diffDays +
+                            " 天 " + diffHours + " 小时 " + diffMinutes + " 分钟 " + diffSeconds + " 秒";
+                    }
+                }
+                setInterval(siteTime, 1000);
+            </script>
+            
+            <br>
+            
+        </div>
+        <div class="col s12 m4 l4 social-link ">
+    <a href="https://github.com/asxing" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+        <i class="fab fa-github"></i>
+    </a>
+
+
+
+    <a href="mailto:asxingking@gmail.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fas fa-envelope-open"></i>
+    </a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <a href="/atom.xml" class="tooltipped" target="_blank" data-tooltip="RSS 订阅" data-position="top" data-delay="50">
+        <i class="fas fa-rss"></i>
+    </a>
+
+</div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+
+    <!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fas fa-search"></i>&nbsp;&nbsp;搜索</span>
+            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script src="/js/search.js"></script>
+<script type="text/javascript">
+$(function () {
+    searchFunc("/" + "search.xml", 'searchInput', 'searchResult');
+});
+</script>
+    <!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+</div>
+
+
+    <script src="/libs/materialize/materialize.min.js"></script>
+    <script src="/libs/masonry/masonry.pkgd.min.js"></script>
+    <script src="/libs/aos/aos.js"></script>
+    <script src="/libs/scrollprogress/scrollProgress.min.js"></script>
+    <script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+    <script src="/js/matery.js"></script>
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+    <!-- Baidu Analytics -->
+
+    <!-- Baidu Push -->
+
+    
+    <script src="/libs/others/clicklove.js" async="async"></script>
+    
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <script type="text/javascript" src="/libs/background/ribbon-dynamic.js" async="async"></script>
+    
+    
+    
+
+</body>
+
+</html>

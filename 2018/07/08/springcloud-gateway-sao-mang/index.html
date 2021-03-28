@@ -1,0 +1,1962 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="keywords" content="SpringCloud-Gateway扫盲, 编程 读书 生活">
+    <meta name="description" content="你的命，如物，却不在你手中！                                                            ——白二丫头
+Spring Cloud Gateway
+**Table of Content">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>SpringCloud-Gateway扫盲 | Asxing-阿行</title>
+    <link rel="icon" type="image/png" href="/favicon.png">
+
+    <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
+    <link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
+    <link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/matery.css">
+    <link rel="stylesheet" type="text/css" href="/css/my.css">
+    
+    <script src="/libs/jquery/jquery.min.js"></script>
+    
+<meta name="generator" content="Hexo 4.2.1"><link rel="alternate" href="/atom.xml" title="Asxing-阿行" type="application/atom+xml">
+<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+
+
+<body>
+    <header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper head-container">
+            <div class="brand-logo">
+                <a href="/" class="waves-effect waves-light">
+                    
+                    <img src="/medias/logo.png" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">Asxing-阿行</span>
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
+<ul class="right nav-menu">
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/" class="waves-effect waves-light">
+      
+      <i class="fas fa-home" style="zoom: 0.6;"></i>
+      
+      <span>首页</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/tags" class="waves-effect waves-light">
+      
+      <i class="fas fa-tags" style="zoom: 0.6;"></i>
+      
+      <span>标签</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/categories" class="waves-effect waves-light">
+      
+      <i class="fas fa-bookmark" style="zoom: 0.6;"></i>
+      
+      <span>分类</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/archives" class="waves-effect waves-light">
+      
+      <i class="fas fa-archive" style="zoom: 0.6;"></i>
+      
+      <span>归档</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/about" class="waves-effect waves-light">
+      
+      <i class="fas fa-user-circle" style="zoom: 0.6;"></i>
+      
+      <span>关于</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/contact" class="waves-effect waves-light">
+      
+      <i class="fas fa-comments" style="zoom: 0.6;"></i>
+      
+      <span>留言板</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/friends" class="waves-effect waves-light">
+      
+      <i class="fas fa-address-book" style="zoom: 0.6;"></i>
+      
+      <span>友情链接</span>
+    </a>
+    
+  </li>
+  
+  <li>
+    <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+      <i id="searchIcon" class="fas fa-search" title="搜索" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+</ul>
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="/medias/logo.png" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">Asxing-阿行</div>
+        <div class="logo-desc">
+            
+            Never really desperate, only the lost of the soul.
+            
+        </div>
+    </div>
+
+    
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li class="m-nav-item">
+	  
+		<a href="/" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-home"></i>
+			
+			首页
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/tags" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-tags"></i>
+			
+			标签
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/categories" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-bookmark"></i>
+			
+			分类
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/archives" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-archive"></i>
+			
+			归档
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/about" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-user-circle"></i>
+			
+			关于
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/contact" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-comments"></i>
+			
+			Contact
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/friends" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-address-book"></i>
+			
+			友情链接
+		</a>
+          
+        </li>
+        
+        
+        <li><div class="divider"></div></li>
+        <li>
+            <a href="https://github.com/asxing" class="waves-effect waves-light" target="_blank">
+                <i class="fab fa-github-square fa-fw"></i>Fork Me
+            </a>
+        </li>
+        
+    </ul>
+</div>
+
+        </div>
+
+        
+            <style>
+    .nav-transparent .github-corner {
+        display: none !important;
+    }
+
+    .github-corner {
+        position: absolute;
+        z-index: 10;
+        top: 0;
+        right: 0;
+        border: 0;
+        transform: scale(1.1);
+    }
+
+    .github-corner svg {
+        color: #0f9d58;
+        fill: #fff;
+        height: 64px;
+        width: 64px;
+    }
+
+    .github-corner:hover .octo-arm {
+        animation: a 0.56s ease-in-out;
+    }
+
+    .github-corner .octo-arm {
+        animation: none;
+    }
+
+    @keyframes a {
+        0%,
+        to {
+            transform: rotate(0);
+        }
+        20%,
+        60% {
+            transform: rotate(-25deg);
+        }
+        40%,
+        80% {
+            transform: rotate(10deg);
+        }
+    }
+</style>
+
+<a href="https://github.com/asxing" class="github-corner tooltipped hide-on-med-and-down" target="_blank"
+   data-tooltip="Fork Me" data-position="left" data-delay="50">
+    <svg viewBox="0 0 250 250" aria-hidden="true">
+        <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
+        <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2"
+              fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path>
+        <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z"
+              fill="currentColor" class="octo-body"></path>
+    </svg>
+</a>
+        
+    </nav>
+
+</header>
+
+    
+<script src="/libs/cryptojs/crypto-js.min.js"></script>
+<script>
+    (function() {
+        let pwd = '';
+        if (pwd && pwd.length > 0) {
+            if (pwd !== CryptoJS.SHA256(prompt('请输入访问本文章的密码')).toString(CryptoJS.enc.Hex)) {
+                alert('密码错误，将返回主页！');
+                location.href = '/';
+            }
+        }
+    })();
+</script>
+
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('https://www.holddie.com/img/20200105161400.jpg')">
+    <div class="container" style="right: 0px;left: 0px;">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <div class="description center-align post-title">
+                        SpringCloud-Gateway扫盲
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<main class="post-container content">
+
+    
+    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
+<style>
+    #articleContent h1::before,
+    #articleContent h2::before,
+    #articleContent h3::before,
+    #articleContent h4::before,
+    #articleContent h5::before,
+    #articleContent h6::before {
+        display: block;
+        content: " ";
+        height: 100px;
+        margin-top: -100px;
+        visibility: hidden;
+    }
+
+    #articleContent :focus {
+        outline: none;
+    }
+
+    .toc-fixed {
+        position: fixed;
+        top: 64px;
+    }
+
+    .toc-widget {
+        padding-left: 20px;
+    }
+
+    .toc-widget .toc-title {
+        margin: 35px 0 15px 0;
+        padding-left: 17px;
+        font-size: 1.5rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    .toc-widget ol {
+        padding: 0;
+        list-style: none;
+    }
+
+    #toc-content ol {
+        padding-left: 10px;
+    }
+
+    #toc-content ol li {
+        padding-left: 10px;
+    }
+
+    #toc-content .toc-link:hover {
+        color: #42b983;
+        font-weight: 700;
+        text-decoration: underline;
+    }
+
+    #toc-content .toc-link::before {
+        background-color: transparent;
+        max-height: 25px;
+    }
+
+    #toc-content .is-active-link {
+        color: #42b983;
+    }
+
+    #toc-content .is-active-link::before {
+        background-color: #42b983;
+    }
+
+    #floating-toc-btn {
+        position: fixed;
+        right: 15px;
+        bottom: 76px;
+        padding-top: 15px;
+        margin-bottom: 0;
+        z-index: 998;
+    }
+
+    #floating-toc-btn .btn-floating {
+        width: 48px;
+        height: 48px;
+    }
+
+    #floating-toc-btn .btn-floating i {
+        line-height: 48px;
+        font-size: 1.4rem;
+    }
+</style>
+<div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                            <a href="/tags/SpringCloud/">
+                                <span class="chip bg-color">SpringCloud</span>
+                            </a>
+                        
+                            <a href="/tags/Gateway/">
+                                <span class="chip bg-color">Gateway</span>
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fas fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/categories/SpringCloud/" class="post-category">
+                                SpringCloud
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
+                    2018-07-08
+                </div>
+                
+
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
+                    6k
+                </div>
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
+                    33 分
+                </div>
+                
+				
+                
+            </div>
+            
+        </div>
+        <hr class="clearfix">
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <p>你的命，如物，却不在你手中！                                                            ——白二丫头</p>
+<h1 id="Spring-Cloud-Gateway"><a href="#Spring-Cloud-Gateway" class="headerlink" title="Spring Cloud Gateway"></a>Spring Cloud Gateway</h1><hr>
+<p>**Table of Contents</p>
+<ul>
+<li></li>
+<li><p><a href="https://cloud.spring.io/spring-cloud-gateway/single/spring-cloud-gateway.html#gateway-starter" target="_blank" rel="noopener">1. How to Include Spring Cloud Gateway</a></p>
+</li>
+<li><p><a href="https://cloud.spring.io/spring-cloud-gateway/single/spring-cloud-gateway.html#_glossary" target="_blank" rel="noopener">2. Glossary</a></p>
+</li>
+<li><p><a href="https://cloud.spring.io/spring-cloud-gateway/single/spring-cloud-gateway.html#gateway-how-it-works" target="_blank" rel="noopener">3. How It Works</a></p>
+</li>
+<li><p><a href="https://cloud.spring.io/spring-cloud-gateway/single/spring-cloud-gateway.html#gateway-request-predicates-factories" target="_blank" rel="noopener">4. Route Predicate Factories</a></p>
+<p><a href="https://cloud.spring.io/spring-cloud-gateway/single/spring-cloud-gateway.html#_after_route_predicate_factory" target="_blank" rel="noopener">4.1. After Route Predicate Factory</a><a href="https://cloud.spring.io/spring-cloud-gateway/single/spring-cloud-gateway.html#_before_route_predicate_factory" target="_blank" rel="noopener">4.2. Before Route Predicate Factory</a><a href="https://cloud.spring.io/spring-cloud-gateway/single/spring-cloud-gateway.html#_between_route_predicate_factory" target="_blank" rel="noopener">4.3. Between Route Predicate Factory</a><a href="https://cloud.spring.io/spring-cloud-gateway/single/spring-cloud-gateway.html#_cookie_route_predicate_factory" target="_blank" rel="noopener">4.4. Cookie Route Predicate Factory</a><a href="https://cloud.spring.io/spring-cloud-gateway/single/spring-cloud-gateway.html#_header_route_predicate_factory" target="_blank" rel="noopener">4.5. Header Route Predicate Factory</a><a href="https://cloud.spring.io/spring-cloud-gateway/single/spring-cloud-gateway.html#_host_route_predicate_factory" target="_blank" rel="noopener">4.6. Host Route Predicate Factory</a><a href="https://cloud.spring.io/spring-cloud-gateway/single/spring-cloud-gateway.html#_method_route_predicate_factory" target="_blank" rel="noopener">4.7. Method Route Predicate Factory</a><a href="https://cloud.spring.io/spring-cloud-gateway/single/spring-cloud-gateway.html#_path_route_predicate_factory" target="_blank" rel="noopener">4.8. Path Route Predicate Factory</a><a href="https://cloud.spring.io/spring-cloud-gateway/single/spring-cloud-gateway.html#_query_route_predicate_factory" target="_blank" rel="noopener">4.9. Query Route Predicate Factory</a><a href="https://cloud.spring.io/spring-cloud-gateway/single/spring-cloud-gateway.html#_remoteaddr_route_predicate_factory" target="_blank" rel="noopener">4.10. RemoteAddr Route Predicate Factory</a><a href="https://cloud.spring.io/spring-cloud-gateway/single/spring-cloud-gateway.html#_modifying_the_way_remote_addresses_are_resolved" target="_blank" rel="noopener">4.10.1. Modifying the way remote addresses are resolved</a></p>
+</li>
+<li><p><a href="https://cloud.spring.io/spring-cloud-gateway/single/spring-cloud-gateway.html#_gatewayfilter_factories" target="_blank" rel="noopener">5. GatewayFilter Factories</a></p>
+<p><a href="https://cloud.spring.io/spring-cloud-gateway/single/spring-cloud-gateway.html#_addrequestheader_gatewayfilter_factory" target="_blank" rel="noopener">5.1. AddRequestHeader GatewayFilter Factory</a><a href="https://cloud.spring.io/spring-cloud-gateway/single/spring-cloud-gateway.html#_addrequestparameter_gatewayfilter_factory" target="_blank" rel="noopener">5.2. AddRequestParameter GatewayFilter Factory</a><a href="https://cloud.spring.io/spring-cloud-gateway/single/spring-cloud-gateway.html#_addresponseheader_gatewayfilter_factory" target="_blank" rel="noopener">5.3. AddResponseHeader GatewayFilter Factory</a><a href="https://cloud.spring.io/spring-cloud-gateway/single/spring-cloud-gateway.html#_hystrix_gatewayfilter_factory" target="_blank" rel="noopener">5.4. Hystrix GatewayFilter Factory</a><a href="https://cloud.spring.io/spring-cloud-gateway/single/spring-cloud-gateway.html#_prefixpath_gatewayfilter_factory" target="_blank" rel="noopener">5.5. PrefixPath GatewayFilter Factory</a><a href="https://cloud.spring.io/spring-cloud-gateway/single/spring-cloud-gateway.html#_preservehostheader_gatewayfilter_factory" target="_blank" rel="noopener">5.6. PreserveHostHeader GatewayFilter Factory</a><a href="https://cloud.spring.io/spring-cloud-gateway/single/spring-cloud-gateway.html#_requestratelimiter_gatewayfilter_factory" target="_blank" rel="noopener">5.7. RequestRateLimiter GatewayFilter Factory</a><a href="https://cloud.spring.io/spring-cloud-gateway/single/spring-cloud-gateway.html#_redis_ratelimiter" target="_blank" rel="noopener">5.7.1. Redis RateLimiter</a><a href="https://cloud.spring.io/spring-cloud-gateway/single/spring-cloud-gateway.html#_redirectto_gatewayfilter_factory" target="_blank" rel="noopener">5.8. RedirectTo GatewayFilter Factory</a><a href="https://cloud.spring.io/spring-cloud-gateway/single/spring-cloud-gateway.html#_removenonproxyheaders_gatewayfilter_factory" target="_blank" rel="noopener">5.9. RemoveNonProxyHeaders GatewayFilter Factory</a><a href="https://cloud.spring.io/spring-cloud-gateway/single/spring-cloud-gateway.html#_removerequestheader_gatewayfilter_factory" target="_blank" rel="noopener">5.10. RemoveRequestHeader GatewayFilter Factory</a><a href="https://cloud.spring.io/spring-cloud-gateway/single/spring-cloud-gateway.html#_removeresponseheader_gatewayfilter_factory" target="_blank" rel="noopener">5.11. RemoveResponseHeader GatewayFilter Factory</a><a href="https://cloud.spring.io/spring-cloud-gateway/single/spring-cloud-gateway.html#_rewritepath_gatewayfilter_factory" target="_blank" rel="noopener">5.12. RewritePath GatewayFilter Factory</a><a href="https://cloud.spring.io/spring-cloud-gateway/single/spring-cloud-gateway.html#_savesession_gatewayfilter_factory" target="_blank" rel="noopener">5.13. SaveSession GatewayFilter Factory</a><a href="https://cloud.spring.io/spring-cloud-gateway/single/spring-cloud-gateway.html#_secureheaders_gatewayfilter_factory" target="_blank" rel="noopener">5.14. SecureHeaders GatewayFilter Factory</a><a href="https://cloud.spring.io/spring-cloud-gateway/single/spring-cloud-gateway.html#_setpath_gatewayfilter_factory" target="_blank" rel="noopener">5.15. SetPath GatewayFilter Factory</a><a href="https://cloud.spring.io/spring-cloud-gateway/single/spring-cloud-gateway.html#_setresponseheader_gatewayfilter_factory" target="_blank" rel="noopener">5.16. SetResponseHeader GatewayFilter Factory</a><a href="https://cloud.spring.io/spring-cloud-gateway/single/spring-cloud-gateway.html#_setstatus_gatewayfilter_factory" target="_blank" rel="noopener">5.17. SetStatus GatewayFilter Factory</a><a href="https://cloud.spring.io/spring-cloud-gateway/single/spring-cloud-gateway.html#_stripprefix_gatewayfilter_factory" target="_blank" rel="noopener">5.18. StripPrefix GatewayFilter Factory</a><a href="https://cloud.spring.io/spring-cloud-gateway/single/spring-cloud-gateway.html#_retry_gatewayfilter_factory" target="_blank" rel="noopener">5.19. Retry GatewayFilter Factory</a></p>
+</li>
+<li><p><a href="https://cloud.spring.io/spring-cloud-gateway/single/spring-cloud-gateway.html#_global_filters" target="_blank" rel="noopener">6. Global Filters</a></p>
+<p><a href="https://cloud.spring.io/spring-cloud-gateway/single/spring-cloud-gateway.html#_combined_global_filter_and_gatewayfilter_ordering" target="_blank" rel="noopener">6.1. Combined Global Filter and GatewayFilter Ordering</a><a href="https://cloud.spring.io/spring-cloud-gateway/single/spring-cloud-gateway.html#_forward_routing_filter" target="_blank" rel="noopener">6.2. Forward Routing Filter</a><a href="https://cloud.spring.io/spring-cloud-gateway/single/spring-cloud-gateway.html#_loadbalancerclient_filter" target="_blank" rel="noopener">6.3. LoadBalancerClient Filter</a><a href="https://cloud.spring.io/spring-cloud-gateway/single/spring-cloud-gateway.html#_netty_routing_filter" target="_blank" rel="noopener">6.4. Netty Routing Filter</a><a href="https://cloud.spring.io/spring-cloud-gateway/single/spring-cloud-gateway.html#_netty_write_response_filter" target="_blank" rel="noopener">6.5. Netty Write Response Filter</a><a href="https://cloud.spring.io/spring-cloud-gateway/single/spring-cloud-gateway.html#_routetorequesturl_filter" target="_blank" rel="noopener">6.6. RouteToRequestUrl Filter</a><a href="https://cloud.spring.io/spring-cloud-gateway/single/spring-cloud-gateway.html#_websocket_routing_filter" target="_blank" rel="noopener">6.7. Websocket Routing Filter</a><a href="https://cloud.spring.io/spring-cloud-gateway/single/spring-cloud-gateway.html#_making_an_exchange_as_routed" target="_blank" rel="noopener">6.8. Making An Exchange As Routed</a></p>
+</li>
+<li><p><a href="https://cloud.spring.io/spring-cloud-gateway/single/spring-cloud-gateway.html#_configuration" target="_blank" rel="noopener">7. Configuration</a></p>
+<p><a href="https://cloud.spring.io/spring-cloud-gateway/single/spring-cloud-gateway.html#_fluent_java_routes_api" target="_blank" rel="noopener">7.1. Fluent Java Routes API</a><a href="https://cloud.spring.io/spring-cloud-gateway/single/spring-cloud-gateway.html#_discoveryclient_route_definition_locator" target="_blank" rel="noopener">7.2. DiscoveryClient Route Definition Locator</a></p>
+</li>
+<li><p><a href="https://cloud.spring.io/spring-cloud-gateway/single/spring-cloud-gateway.html#_actuator_api" target="_blank" rel="noopener">8. Actuator API</a></p>
+</li>
+<li><p><a href="https://cloud.spring.io/spring-cloud-gateway/single/spring-cloud-gateway.html#_developer_guide" target="_blank" rel="noopener">9. Developer Guide</a></p>
+<p><a href="https://cloud.spring.io/spring-cloud-gateway/single/spring-cloud-gateway.html#_writing_custom_route_predicate_factories" target="_blank" rel="noopener">9.1. Writing Custom Route Predicate Factories</a><a href="https://cloud.spring.io/spring-cloud-gateway/single/spring-cloud-gateway.html#_writing_custom_gatewayfilter_factories" target="_blank" rel="noopener">9.2. Writing Custom GatewayFilter Factories</a><a href="https://cloud.spring.io/spring-cloud-gateway/single/spring-cloud-gateway.html#_writing_custom_global_filters" target="_blank" rel="noopener">9.3. Writing Custom Global Filters</a><a href="https://cloud.spring.io/spring-cloud-gateway/single/spring-cloud-gateway.html#_writing_custom_route_locators_and_writers" target="_blank" rel="noopener">9.4. Writing Custom Route Locators and Writers</a></p>
+</li>
+<li><p><a href="https://cloud.spring.io/spring-cloud-gateway/single/spring-cloud-gateway.html#_building_a_simple_gateway_using_spring_mvc_or_webflux" target="_blank" rel="noopener">10. Building a Simple Gateway Using Spring MVC or Webflux</a></p>
+</li>
+</ul>
+<h1 id=""><a href="#" class="headerlink" title=""></a></h1><p><strong>2.0.1.BUILD-SNAPSHOT</strong></p>
+<p>This project provides an API Gateway built on top of the Spring Ecosystem, including: Spring 5, Spring Boot 2 and Project Reactor. Spring Cloud Gateway aims to provide a simple, yet effective way to route to APIs and provide cross cutting concerns to them such as: security, monitoring/metrics, and resiliency.</p>
+<h1 id="1-How-to-Include-Spring-Cloud-Gateway"><a href="#1-How-to-Include-Spring-Cloud-Gateway" class="headerlink" title="1. How to Include Spring Cloud Gateway"></a>1. How to Include Spring Cloud Gateway</h1><p>To include Spring Cloud Gateway in your project use the starter with group <code>org.springframework.cloud</code> and artifact id <code>spring-cloud-starter-gateway</code>. See the <a href="https://projects.spring.io/spring-cloud/" target="_blank" rel="noopener">Spring Cloud Project page</a> for details on setting up your build system with the current Spring Cloud Release Train.</p>
+<p>If you include the starter, but, for some reason, you do not want the gateway to be enabled, set <code>spring.cloud.gateway.enabled=false</code>.</p>
+<table>
+<thead>
+<tr>
+<th><img src="https://cloud.spring.io/spring-cloud-gateway/single/images/important.png" alt="[Important]"></th>
+<th>Important</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Spring Cloud Gateway requires the Netty runtime provided by Spring Boot and Spring Webflux. It does not work in a traditional Servlet Container or built as a WAR.</td>
+<td></td>
+</tr>
+</tbody></table>
+<h1 id="2-Glossary"><a href="#2-Glossary" class="headerlink" title="2. Glossary"></a>2. Glossary</h1><ul>
+<li><strong>Route</strong>: Route the basic building block of the gateway. It is defined by an ID, a destination URI, a collection of predicates and a collection of filters. A route is matched if aggregate predicate is true.</li>
+<li><strong>Predicate</strong>: This is a <a href="https://docs.oracle.com/javase/8/docs/api/java/util/function/Predicate.html" target="_blank" rel="noopener">Java 8 Function Predicate</a>. The input type is a <a href="https://docs.spring.io/spring/docs/5.0.x/javadoc-api/org/springframework/web/server/ServerWebExchange.html" target="_blank" rel="noopener">Spring Framework <code>ServerWebExchange</code></a>. This allows developers to match on anything from the HTTP request, such as headers or parameters.</li>
+<li><strong>Filter</strong>: These are instances <a href="https://docs.spring.io/spring/docs/5.0.x/javadoc-api/org/springframework/web/server/GatewayFilter.html" target="_blank" rel="noopener">Spring Framework <code>GatewayFilter</code></a> constructed in with a specific factory. Here, requests and responses can be modified before or after sending the downstream request.</li>
+</ul>
+<h1 id="3-How-It-Works"><a href="#3-How-It-Works" class="headerlink" title="3. How It Works"></a>3. How It Works</h1><p><img src="https://raw.githubusercontent.com/spring-cloud/spring-cloud-gateway/master/docs/src/main/asciidoc/images/spring_cloud_gateway_diagram.png" alt="Spring Cloud Gateway Diagram"></p>
+<p>Clients make requests to Spring Cloud Gateway. If the Gateway Handler Mapping determines that a request matches a Route, it is sent to the Gateway Web Handler. This handler runs sends the request through a filter chain that is specific to the request. The reason the filters are divided by the dotted line, is that filters may execute logic before the proxy request is sent or after. All “pre” filter logic is executed, then the proxy request is made. After the proxy request is made, the “post” filter logic is executed.</p>
+<table>
+<thead>
+<tr>
+<th><img src="https://cloud.spring.io/spring-cloud-gateway/single/images/note.png" alt="[Note]"></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>URIs defined in routes without a port will get a default port set to 80 and 443 for HTTP and HTTPS URIs respectively.</td>
+</tr>
+</tbody></table>
+<h1 id="4-Route-Predicate-Factories"><a href="#4-Route-Predicate-Factories" class="headerlink" title="4. Route Predicate Factories"></a>4. Route Predicate Factories</h1><p>Spring Cloud Gateway matches routes as part of the Spring WebFlux <code>HandlerMapping</code> infrastructure. Spring Cloud Gateway includes many built-in Route Predicate Factories. All of these predicates match on different attributes of the HTTP request. Multiple Route Predicate Factories can be combined and are combined via logical <code>and</code>.</p>
+<h2 id="4-1-After-Route-Predicate-Factory"><a href="#4-1-After-Route-Predicate-Factory" class="headerlink" title="4.1 After Route Predicate Factory"></a>4.1 After Route Predicate Factory</h2><p>The After Route Predicate Factory takes one parameter, a datetime. This predicate matches requests that happen after the current datetime.</p>
+<p><strong>application.yml.</strong> </p>
+<pre class=" language-yaml"><code class="language-yaml"><span class="token key atrule">spring</span><span class="token punctuation">:</span>
+  <span class="token key atrule">cloud</span><span class="token punctuation">:</span>
+    <span class="token key atrule">gateway</span><span class="token punctuation">:</span>
+      <span class="token key atrule">routes</span><span class="token punctuation">:</span>
+      <span class="token punctuation">-</span> <span class="token key atrule">id</span><span class="token punctuation">:</span> after_route
+        <span class="token key atrule">uri</span><span class="token punctuation">:</span> http<span class="token punctuation">:</span>//example.org
+        <span class="token key atrule">predicates</span><span class="token punctuation">:</span>
+        <span class="token punctuation">-</span> After=2017<span class="token punctuation">-</span>01<span class="token punctuation">-</span>20T17<span class="token punctuation">:</span>42<span class="token punctuation">:</span>47.789<span class="token punctuation">-</span>07<span class="token punctuation">:</span>00<span class="token punctuation">[</span>America/Denver<span class="token punctuation">]</span></code></pre>
+<p>This route matches any request after Jan 20, 2017 17:42 Mountain Time (Denver).</p>
+<h2 id="4-2-Before-Route-Predicate-Factory"><a href="#4-2-Before-Route-Predicate-Factory" class="headerlink" title="4.2 Before Route Predicate Factory"></a>4.2 Before Route Predicate Factory</h2><p>The Before Route Predicate Factory takes one parameter, a datetime. This predicate matches requests that happen before the current datetime.</p>
+<p><strong>application.yml.</strong> </p>
+<pre><code>spring:
+  cloud:
+    gateway:
+      routes:
+      - id: before_route
+        uri: http://example.org
+        predicates:
+        - Before=2017-01-20T17:42:47.789-07:00[America/Denver]</code></pre><p>This route matches any request before Jan 20, 2017 17:42 Mountain Time (Denver).</p>
+<h2 id="4-3-Between-Route-Predicate-Factory"><a href="#4-3-Between-Route-Predicate-Factory" class="headerlink" title="4.3 Between Route Predicate Factory"></a>4.3 Between Route Predicate Factory</h2><p>The Between Route Predicate Factory takes two parameters, datetime1 and datetime2. This predicate matches requests that happen after datetime1 and before datetime2. The datetime2 parameter must be after datetime1.</p>
+<p><strong>application.yml.</strong> </p>
+<pre><code>spring:
+  cloud:
+    gateway:
+      routes:
+      - id: between_route
+        uri: http://example.org
+        predicates:
+        - Between=2017-01-20T17:42:47.789-07:00[America/Denver], 2017-01-21T17:42:47.789-07:00[America/Denver]</code></pre><p>This route matches any request after Jan 20, 2017 17:42 Mountain Time (Denver) and before Jan 21, 2017 17:42 Mountain Time (Denver). This could be useful for maintenance windows.</p>
+<h2 id="4-4-Cookie-Route-Predicate-Factory"><a href="#4-4-Cookie-Route-Predicate-Factory" class="headerlink" title="4.4 Cookie Route Predicate Factory"></a>4.4 Cookie Route Predicate Factory</h2><p>The Cookie Route Predicate Factory takes two parameters, the cookie name and a regular expression. This predicate matches cookies that have the given name and the value matches the regular expression.</p>
+<p><strong>application.yml.</strong> </p>
+<pre><code>spring:
+  cloud:
+    gateway:
+      routes:
+      - id: cookie_route
+        uri: http://example.org
+        predicates:
+        - Cookie=chocolate, ch.p</code></pre><p>This route matches the request has a cookie named <code>chocolate</code> who’s value matches the <code>ch.p</code> regular expression.</p>
+<h2 id="4-5-Header-Route-Predicate-Factory"><a href="#4-5-Header-Route-Predicate-Factory" class="headerlink" title="4.5 Header Route Predicate Factory"></a>4.5 Header Route Predicate Factory</h2><p>The Header Route Predicate Factory takes two parameters, the header name and a regular expression. This predicate matches with a header that has the given name and the value matches the regular expression.</p>
+<p><strong>application.yml.</strong> </p>
+<pre><code>spring:
+  cloud:
+    gateway:
+      routes:
+      - id: header_route
+        uri: http://example.org
+        predicates:
+        - Header=X-Request-Id, \d+</code></pre><p>This route matches if the request has a header named <code>X-Request-Id</code> whos value matches the <code>\d+</code> regular expression (has a value of one or more digits).</p>
+<h2 id="4-6-Host-Route-Predicate-Factory"><a href="#4-6-Host-Route-Predicate-Factory" class="headerlink" title="4.6 Host Route Predicate Factory"></a>4.6 Host Route Predicate Factory</h2><p>The Host Route Predicate Factory takes one parameter: the host name pattern. The pattern is an Ant style pattern with <code>.</code> as the separator. This predicates matches the <code>Host</code> header that matches the pattern.</p>
+<p><strong>application.yml.</strong> </p>
+<pre><code>spring:
+  cloud:
+    gateway:
+      routes:
+      - id: host_route
+        uri: http://example.org
+        predicates:
+        - Host=**.somehost.org</code></pre><p>This route would match if the request has a <code>Host</code> header has the value <code>www.somehost.org</code> or <code>beta.somehost.org</code>.</p>
+<h2 id="4-7-Method-Route-Predicate-Factory"><a href="#4-7-Method-Route-Predicate-Factory" class="headerlink" title="4.7 Method Route Predicate Factory"></a>4.7 Method Route Predicate Factory</h2><p>The Method Route Predicate Factory takes one parameter: the HTTP method to match.</p>
+<p><strong>application.yml.</strong> </p>
+<pre><code>spring:
+  cloud:
+    gateway:
+      routes:
+      - id: method_route
+        uri: http://example.org
+        predicates:
+        - Method=GET</code></pre><p>This route would match if the request method was a <code>GET</code>.</p>
+<h2 id="4-8-Path-Route-Predicate-Factory"><a href="#4-8-Path-Route-Predicate-Factory" class="headerlink" title="4.8 Path Route Predicate Factory"></a>4.8 Path Route Predicate Factory</h2><p>The Path Route Predicate Factory takes one parameter: a Spring <code>PathMatcher</code> pattern.</p>
+<p><strong>application.yml.</strong> </p>
+<pre><code>spring:
+  cloud:
+    gateway:
+      routes:
+      - id: host_route
+        uri: http://example.org
+        predicates:
+        - Path=/foo/{segment}</code></pre><p>This route would match if the request path was, for example: <code>/foo/1</code> or <code>/foo/bar</code>.</p>
+<p>This predicate extracts the URI template variables (like <code>segment</code> defined in the example above) as a map of names and values and places it in the <code>ServerWebExchange.getAttributes()</code> with a key defined in <code>PathRoutePredicate.URL_PREDICATE_VARS_ATTR</code>. Those values are then available for use by <a href="https://cloud.spring.io/spring-cloud-gateway/single/spring-cloud-gateway.html#gateway-route-filters" target="_blank" rel="noopener">GatewayFilter Factories</a></p>
+<h2 id="4-9-Query-Route-Predicate-Factory"><a href="#4-9-Query-Route-Predicate-Factory" class="headerlink" title="4.9 Query Route Predicate Factory"></a>4.9 Query Route Predicate Factory</h2><p>The Query Route Predicate Factory takes two parameters: a required <code>param</code> and an optional <code>regexp</code>.</p>
+<p><strong>application.yml.</strong> </p>
+<pre><code>spring:
+  cloud:
+    gateway:
+      routes:
+      - id: query_route
+        uri: http://example.org
+        predicates:
+        - Query=baz</code></pre><p>This route would match if the request contained a <code>baz</code> query parameter.</p>
+<p><strong>application.yml.</strong> </p>
+<pre><code>spring:
+  cloud:
+    gateway:
+      routes:
+      - id: query_route
+        uri: http://example.org
+        predicates:
+        - Query=foo, ba.</code></pre><p>This route would match if the request contained a <code>foo</code> query parameter whose value matched the <code>ba.</code> regexp, so <code>bar</code> and <code>baz</code> would match.</p>
+<h2 id="4-10-RemoteAddr-Route-Predicate-Factory"><a href="#4-10-RemoteAddr-Route-Predicate-Factory" class="headerlink" title="4.10 RemoteAddr Route Predicate Factory"></a>4.10 RemoteAddr Route Predicate Factory</h2><p>The RemoteAddr Route Predicate Factory takes a list (min size 1) of CIDR-notation (IPv4 or IPv6) strings, e.g. <code>192.168.0.1/16</code> (where <code>192.168.0.1</code> is an IP address and <code>16</code> is a subnet mask).</p>
+<p><strong>application.yml.</strong> </p>
+<pre><code>spring:
+  cloud:
+    gateway:
+      routes:
+      - id: remoteaddr_route
+        uri: http://example.org
+        predicates:
+        - RemoteAddr=192.168.1.1/24</code></pre><p>This route would match if the remote address of the request was, for example, <code>192.168.1.10</code>.</p>
+<h3 id="4-10-1-Modifying-the-way-remote-addresses-are-resolved"><a href="#4-10-1-Modifying-the-way-remote-addresses-are-resolved" class="headerlink" title="4.10.1 Modifying the way remote addresses are resolved"></a>4.10.1 Modifying the way remote addresses are resolved</h3><p>By default the RemoteAddr Route Predicate Factory uses the remote address from the incoming request. This may not match the actual client IP address if Spring Cloud Gateway sits behind a proxy layer.</p>
+<p>You can customize the way that the remote address is resolved by setting a custom <code>RemoteAddressResolver</code>. Spring Cloud Gateway comes with one non-default remote address resolver which is based off of the <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Forwarded-For" target="_blank" rel="noopener">X-Forwarded-For header</a>, <code>XForwardedRemoteAddressResolver</code>.</p>
+<p><code>XForwardedRemoteAddressResolver</code> has two static constructor methods which take different approaches to security:</p>
+<p><code>XForwardedRemoteAddressResolver::trustAll</code> returns a <code>RemoteAddressResolver</code> which always takes the first IP address found in the <code>X-Forwarded-For</code>header. This approach is vulnerable to spoofing, as a malicious client could set an initial value for the <code>X-Forwarded-For</code> which would be accepted by the resolver.</p>
+<p><code>XForwardedRemoteAddressResolver::maxTrustedIndex</code> takes an index which correlates to the number of trusted infrastructure running in front of Spring Cloud Gateway. If Spring Cloud Gateway is, for example only accessible via HAProxy, then a value of 1 should be used. If two hops of trusted infrastructure are required before Spring Cloud Gateway is accessible, then a value of 2 should be used.</p>
+<p>Given the following header value:</p>
+<pre><code>X-Forwarded-For: 0.0.0.1, 0.0.0.2, 0.0.0.3</code></pre><p>The <code>maxTrustedIndex</code> values below will yield the following remote addresses.</p>
+<table>
+<thead>
+<tr>
+<th><code>maxTrustedIndex</code></th>
+<th>result</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>[<code>Integer.MIN_VALUE</code>,0]</td>
+<td>(invalid, <code>IllegalArgumentException</code> during initialization)</td>
+</tr>
+<tr>
+<td>1</td>
+<td>0.0.0.3</td>
+</tr>
+<tr>
+<td>2</td>
+<td>0.0.0.2</td>
+</tr>
+<tr>
+<td>3</td>
+<td>0.0.0.1</td>
+</tr>
+<tr>
+<td>[4, <code>Integer.MAX_VALUE</code>]</td>
+<td>0.0.0.1</td>
+</tr>
+</tbody></table>
+<p>Using Java config:</p>
+<p>GatewayConfig.java</p>
+<pre class=" language-yaml"><code class="language-yaml">RemoteAddressResolver resolver = XForwardedRemoteAddressResolver
+    .maxTrustedIndex(1);
+
+<span class="token punctuation">...</span>
+
+.route("direct<span class="token punctuation">-</span>route"<span class="token punctuation">,</span>
+    r <span class="token punctuation">-</span><span class="token punctuation">></span> r.remoteAddr("10.1.1.1"<span class="token punctuation">,</span> "10.10.1.1/24")
+        .uri("https<span class="token punctuation">:</span>//downstream1")
+.route("proxied<span class="token punctuation">-</span>route"<span class="token punctuation">,</span>
+    r <span class="token punctuation">-</span><span class="token punctuation">></span> r.remoteAddr(resolver<span class="token punctuation">,</span>  <span class="token string">"10.10.1.1"</span><span class="token punctuation">,</span> "10.10.1.1/24")
+        .uri("https<span class="token punctuation">:</span>//downstream2")
+)</code></pre>
+<h1 id="5-GatewayFilter-Factories"><a href="#5-GatewayFilter-Factories" class="headerlink" title="5. GatewayFilter Factories"></a>5. GatewayFilter Factories</h1><p>Route filters allow the modification of the incoming HTTP request or outgoing HTTP response in some manner. Route filters are scoped to a particular route. Spring Cloud Gateway includes many built-in GatewayFilter Factories.</p>
+<p>NOTE For more detailed examples on how to use any of the following filters, take a look at the <a href="https://github.com/spring-cloud/spring-cloud-gateway/tree/master/spring-cloud-gateway-core/src/test/java/org/springframework/cloud/gateway/filter/factory" target="_blank" rel="noopener">unit tests</a>.</p>
+<h2 id="5-1-AddRequestHeader-GatewayFilter-Factory"><a href="#5-1-AddRequestHeader-GatewayFilter-Factory" class="headerlink" title="5.1 AddRequestHeader GatewayFilter Factory"></a>5.1 AddRequestHeader GatewayFilter Factory</h2><p>The AddRequestHeader GatewayFilter Factory takes a name and value parameter.</p>
+<p><strong>application.yml.</strong> </p>
+<pre class=" language-yaml"><code class="language-yaml"><span class="token key atrule">spring</span><span class="token punctuation">:</span>
+  <span class="token key atrule">cloud</span><span class="token punctuation">:</span>
+    <span class="token key atrule">gateway</span><span class="token punctuation">:</span>
+      <span class="token key atrule">routes</span><span class="token punctuation">:</span>
+      <span class="token punctuation">-</span> <span class="token key atrule">id</span><span class="token punctuation">:</span> add_request_header_route
+        <span class="token key atrule">uri</span><span class="token punctuation">:</span> http<span class="token punctuation">:</span>//example.org
+        <span class="token key atrule">filters</span><span class="token punctuation">:</span>
+        <span class="token punctuation">-</span> AddRequestHeader=X<span class="token punctuation">-</span>Request<span class="token punctuation">-</span>Foo<span class="token punctuation">,</span> Bar</code></pre>
+<p>This will add <code>X-Request-Foo:Bar</code> header to the downstream request’s headers for all matching requests.</p>
+<h2 id="5-2-AddRequestParameter-GatewayFilter-Factory"><a href="#5-2-AddRequestParameter-GatewayFilter-Factory" class="headerlink" title="5.2 AddRequestParameter GatewayFilter Factory"></a>5.2 AddRequestParameter GatewayFilter Factory</h2><p>The AddRequestParameter GatewayFilter Factory takes a name and value parameter.</p>
+<p><strong>application.yml.</strong> </p>
+<pre class=" language-yaml"><code class="language-yaml"><span class="token key atrule">spring</span><span class="token punctuation">:</span>
+  <span class="token key atrule">cloud</span><span class="token punctuation">:</span>
+    <span class="token key atrule">gateway</span><span class="token punctuation">:</span>
+      <span class="token key atrule">routes</span><span class="token punctuation">:</span>
+      <span class="token punctuation">-</span> <span class="token key atrule">id</span><span class="token punctuation">:</span> add_request_parameter_route
+        <span class="token key atrule">uri</span><span class="token punctuation">:</span> http<span class="token punctuation">:</span>//example.org
+        <span class="token key atrule">filters</span><span class="token punctuation">:</span>
+        <span class="token punctuation">-</span> AddRequestParameter=foo<span class="token punctuation">,</span> bar</code></pre>
+<p>This will add <code>foo=bar</code> to the downstream request’s query string for all matching requests.</p>
+<h2 id="5-3-AddResponseHeader-GatewayFilter-Factory"><a href="#5-3-AddResponseHeader-GatewayFilter-Factory" class="headerlink" title="5.3 AddResponseHeader GatewayFilter Factory"></a>5.3 AddResponseHeader GatewayFilter Factory</h2><p>The AddResponseHeader GatewayFilter Factory takes a name and value parameter.</p>
+<p><strong>application.yml.</strong> </p>
+<pre class=" language-yaml"><code class="language-yaml"><span class="token key atrule">spring</span><span class="token punctuation">:</span>
+  <span class="token key atrule">cloud</span><span class="token punctuation">:</span>
+    <span class="token key atrule">gateway</span><span class="token punctuation">:</span>
+      <span class="token key atrule">routes</span><span class="token punctuation">:</span>
+      <span class="token punctuation">-</span> <span class="token key atrule">id</span><span class="token punctuation">:</span> add_request_header_route
+        <span class="token key atrule">uri</span><span class="token punctuation">:</span> http<span class="token punctuation">:</span>//example.org
+        <span class="token key atrule">filters</span><span class="token punctuation">:</span>
+        <span class="token punctuation">-</span> AddResponseHeader=X<span class="token punctuation">-</span>Response<span class="token punctuation">-</span>Foo<span class="token punctuation">,</span> Bar</code></pre>
+<p>This will add <code>X-Response-Foo:Bar</code> header to the downstream response’s headers for all matching requests.</p>
+<h2 id="5-4-Hystrix-GatewayFilter-Factory"><a href="#5-4-Hystrix-GatewayFilter-Factory" class="headerlink" title="5.4 Hystrix GatewayFilter Factory"></a>5.4 Hystrix GatewayFilter Factory</h2><p><a href="https://github.com/Netflix/Hystrix" target="_blank" rel="noopener">Hystrix</a> is a library from Netflix that implements the <a href="https://martinfowler.com/bliki/CircuitBreaker.html" target="_blank" rel="noopener">circuit breaker pattern</a>. The Hystrix GatewayFilter allows you to introduce circuit breakers to your gateway routes, protecting your services from cascading failures and allowing you to provide fallback responses in the event of downstream failures.</p>
+<p>To enable Hystrix GatewayFilters in your project, add a dependency on <code>spring-cloud-starter-netflix-hystrix</code> from <a href="https://cloud.spring.io/spring-cloud-netflix/" target="_blank" rel="noopener">Spring Cloud Netflix</a>.</p>
+<p>The Hystrix GatewayFilter Factory requires a single <code>name</code> parameter, which is the name of the <code>HystrixCommand</code>.</p>
+<p><strong>application.yml.</strong> </p>
+<pre class=" language-yaml"><code class="language-yaml"><span class="token key atrule">spring</span><span class="token punctuation">:</span>
+  <span class="token key atrule">cloud</span><span class="token punctuation">:</span>
+    <span class="token key atrule">gateway</span><span class="token punctuation">:</span>
+      <span class="token key atrule">routes</span><span class="token punctuation">:</span>
+      <span class="token punctuation">-</span> <span class="token key atrule">id</span><span class="token punctuation">:</span> hystrix_route
+        <span class="token key atrule">uri</span><span class="token punctuation">:</span> http<span class="token punctuation">:</span>//example.org
+        <span class="token key atrule">filters</span><span class="token punctuation">:</span>
+        <span class="token punctuation">-</span> Hystrix=myCommandName</code></pre>
+<p>This wraps the remaining filters in a <code>HystrixCommand</code> with command name <code>myCommandName</code>.</p>
+<p>The Hystrix filter can also accept an optional <code>fallbackUri</code> parameter. Currently, only <code>forward:</code> schemed URIs are supported. If the fallback is called, the request will be forwarded to the controller matched by the URI.</p>
+<p><strong>application.yml.</strong> </p>
+<pre class=" language-yaml"><code class="language-yaml"><span class="token key atrule">spring</span><span class="token punctuation">:</span>
+  <span class="token key atrule">cloud</span><span class="token punctuation">:</span>
+    <span class="token key atrule">gateway</span><span class="token punctuation">:</span>
+      <span class="token key atrule">routes</span><span class="token punctuation">:</span>
+      <span class="token punctuation">-</span> <span class="token key atrule">id</span><span class="token punctuation">:</span> hystrix_route
+        <span class="token key atrule">uri</span><span class="token punctuation">:</span> lb<span class="token punctuation">:</span>//backing<span class="token punctuation">-</span>service<span class="token punctuation">:</span><span class="token number">8088</span>
+        <span class="token key atrule">predicates</span><span class="token punctuation">:</span>
+        <span class="token punctuation">-</span> Path=/consumingserviceendpoint
+        <span class="token key atrule">filters</span><span class="token punctuation">:</span>
+        <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> Hystrix
+          <span class="token key atrule">args</span><span class="token punctuation">:</span>
+            <span class="token key atrule">name</span><span class="token punctuation">:</span> fallbackcmd
+            <span class="token key atrule">fallbackUri</span><span class="token punctuation">:</span> forward<span class="token punctuation">:</span>/incaseoffailureusethis
+        <span class="token punctuation">-</span> RewritePath=/consumingserviceendpoint<span class="token punctuation">,</span> /backingserviceendpoint</code></pre>
+<p>This will forward to the <code>/incaseoffailureusethis</code> URI when the Hystrix fallback is called. Note that this example also demonstrates (optional) Spring Cloud Netflix Ribbon load-balancing via the <code>lb</code> prefix on the destination URI.</p>
+<p>Hystrix settings (such as timeouts) can be configured with global defaults or on a route by route basis using application properties as explained on the <a href="https://github.com/Netflix/Hystrix/wiki/Configuration" target="_blank" rel="noopener">Hystrix wiki</a>.</p>
+<p>To set a 5 second timeout for the example route above, the following configuration would be used:</p>
+<p><strong>application.yml.</strong> </p>
+<pre class=" language-properties"><code class="language-properties"><span class="token attr-name">hystrix.command.fallbackcmd.execution.isolation.thread.timeoutInMilliseconds</span><span class="token punctuation">:</span> <span class="token attr-value">5000</span></code></pre>
+<h2 id="5-5-PrefixPath-GatewayFilter-Factory"><a href="#5-5-PrefixPath-GatewayFilter-Factory" class="headerlink" title="5.5 PrefixPath GatewayFilter Factory"></a>5.5 PrefixPath GatewayFilter Factory</h2><p>PrefixPath 过滤器需要一个 prefix 参数，就是添加添加前缀，在访问的请求前面添加一个路径参数。</p>
+<p><strong>application.yml.</strong> </p>
+<pre class=" language-yaml"><code class="language-yaml"><span class="token key atrule">spring</span><span class="token punctuation">:</span>
+  <span class="token key atrule">cloud</span><span class="token punctuation">:</span>
+    <span class="token key atrule">gateway</span><span class="token punctuation">:</span>
+      <span class="token key atrule">routes</span><span class="token punctuation">:</span>
+      <span class="token punctuation">-</span> <span class="token key atrule">id</span><span class="token punctuation">:</span> prefixpath_route
+        <span class="token key atrule">uri</span><span class="token punctuation">:</span> http<span class="token punctuation">:</span>//example.org
+        <span class="token key atrule">filters</span><span class="token punctuation">:</span>
+        <span class="token punctuation">-</span> PrefixPath=/mypath</code></pre>
+<p>使用 PrefixPath 参数，但我们原本访问 <code>/hello</code> 路径的时候，此时访问后端的时候，我们就会添加 <code>/mypath</code> 前缀，最后的发送到后端的路径为：<code>/mypath/hello</code>。</p>
+<h2 id="5-6-PreserveHostHeader-GatewayFilter-Factory"><a href="#5-6-PreserveHostHeader-GatewayFilter-Factory" class="headerlink" title="5.6 PreserveHostHeader GatewayFilter Factory"></a>5.6 PreserveHostHeader GatewayFilter Factory</h2><p>保留请求头过滤器不需要参数，使用测试过滤器可以透传客户端访问时参数的后端访问到的参数。</p>
+<p><strong>application.yml.</strong> </p>
+<pre class=" language-yaml"><code class="language-yaml"><span class="token key atrule">spring</span><span class="token punctuation">:</span>
+  <span class="token key atrule">cloud</span><span class="token punctuation">:</span>
+    <span class="token key atrule">gateway</span><span class="token punctuation">:</span>
+      <span class="token key atrule">routes</span><span class="token punctuation">:</span>
+      <span class="token punctuation">-</span> <span class="token key atrule">id</span><span class="token punctuation">:</span> preserve_host_route
+        <span class="token key atrule">uri</span><span class="token punctuation">:</span> http<span class="token punctuation">:</span>//example.org
+        <span class="token key atrule">filters</span><span class="token punctuation">:</span>
+        <span class="token punctuation">-</span> PreserveHostHeader</code></pre>
+<h2 id="5-7-RequestRateLimiter-GatewayFilter-Factory"><a href="#5-7-RequestRateLimiter-GatewayFilter-Factory" class="headerlink" title="5.7 RequestRateLimiter GatewayFilter Factory"></a>5.7 RequestRateLimiter GatewayFilter Factory</h2><p>The RequestRateLimiter GatewayFilter Factory is uses a <code>RateLimiter</code> implementation to determine if the current request is allowed to proceed. If it is not, a status of <code>HTTP 429 - Too Many Requests</code> (by default) is returned.</p>
+<p>This filter takes an optional <code>keyResolver</code> parameter and parameters specific to the rate limiter (see below).</p>
+<p><code>keyResolver</code> is a bean that implements the <code>KeyResolver</code> interface. In configuration, reference the bean by name using SpEL. <code>#{@myKeyResolver}</code> is a SpEL expression referencing a bean with the name <code>myKeyResolver</code>.</p>
+<p><strong>KeyResolver.java.</strong> </p>
+<pre class=" language-java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">interface</span> <span class="token class-name">KeyResolver</span> <span class="token punctuation">{</span>
+    Mono<span class="token operator">&lt;</span>String<span class="token operator">></span> <span class="token function">resolve</span><span class="token punctuation">(</span>ServerWebExchange exchange<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
+<p>The <code>KeyResolver</code> interface allows pluggable strategies to derive the key for limiting requests. In future milestones, there will be some <code>KeyResolver</code> implementations.</p>
+<p>The default implementation of <code>KeyResolver</code> is the <code>PrincipalNameKeyResolver</code> which retrieves the <code>Principal</code> from the <code>ServerWebExchange</code> and calls <code>Principal.getName()</code>.</p>
+<table>
+<thead>
+<tr>
+<th><img src="https://cloud.spring.io/spring-cloud-gateway/single/images/note.png" alt="[Note]"></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>The RequestRateLimiter is not configurable via the “shortcut” notation. The example below is <em>invalid</em></td>
+</tr>
+</tbody></table>
+<p><strong>application.properties.</strong> </p>
+<pre class=" language-properties"><code class="language-properties"><span class="token comment" spellcheck="true"># INVALID SHORTCUT CONFIGURATION</span>
+<span class="token attr-name">spring.cloud.gateway.routes[0].filters[0]</span><span class="token punctuation">=</span><span class="token attr-value">RequestRateLimiter=2, 2, #{@userkeyresolver}</span></code></pre>
+<h3 id="5-7-1-Redis-RateLimiter"><a href="#5-7-1-Redis-RateLimiter" class="headerlink" title="5.7.1 Redis RateLimiter"></a>5.7.1 Redis RateLimiter</h3><p>The redis implementation is based off of work done at <a href="https://stripe.com/blog/rate-limiters" target="_blank" rel="noopener">Stripe</a>. It requires the use of the <code>spring-boot-starter-data-redis-reactive</code> Spring Boot starter.</p>
+<p>The algorithm used is the <a href="https://en.wikipedia.org/wiki/Token_bucket" target="_blank" rel="noopener">Token Bucket Algorithm</a>.</p>
+<p>The <code>redis-rate-limiter.replenishRate</code> is how many requests per second do you want a user to be allowed to do, without any dropped requests. This is the rate that the token bucket is filled.</p>
+<p>The <code>redis-rate-limiter.burstCapacity</code> is the maximum number of requests a user is allowed to do in a single second. This is the number of tokens the token bucket can hold. Setting this value to zero will block all requests.</p>
+<p>A steady rate is accomplished by setting the same value in <code>replenishRate</code> and <code>burstCapacity</code>. Temporary bursts can be allowed by setting <code>burstCapacity</code> higher than <code>replenishRate</code>. In this case, the rate limiter needs to be allowed some time between bursts (according to <code>replenishRate</code>), as 2 consecutive bursts will result in dropped requests (<code>HTTP 429 - Too Many Requests</code>).</p>
+<p><strong>application.yml.</strong> </p>
+<pre class=" language-java"><code class="language-java">spring<span class="token operator">:</span>
+  cloud<span class="token operator">:</span>
+    gateway<span class="token operator">:</span>
+      routes<span class="token operator">:</span>
+      <span class="token operator">-</span> id<span class="token operator">:</span> requestratelimiter_route
+        uri<span class="token operator">:</span> http<span class="token operator">:</span><span class="token operator">/</span><span class="token operator">/</span>example<span class="token punctuation">.</span>org
+        filters<span class="token operator">:</span>
+        <span class="token operator">-</span> name<span class="token operator">:</span> RequestRateLimiter
+          args<span class="token operator">:</span>
+            redis<span class="token operator">-</span>rate<span class="token operator">-</span>limiter<span class="token punctuation">.</span>replenishRate<span class="token operator">:</span> <span class="token number">10</span>
+            redis<span class="token operator">-</span>rate<span class="token operator">-</span>limiter<span class="token punctuation">.</span>burstCapacity<span class="token operator">:</span> <span class="token number">20</span></code></pre>
+<p><strong>Config.java.</strong> </p>
+<pre class=" language-java"><code class="language-java"><span class="token annotation punctuation">@Bean</span>
+KeyResolver <span class="token function">userKeyResolver</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> exchange <span class="token operator">-</span><span class="token operator">></span> Mono<span class="token punctuation">.</span><span class="token function">just</span><span class="token punctuation">(</span>exchange<span class="token punctuation">.</span><span class="token function">getRequest</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">getQueryParams</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">getFirst</span><span class="token punctuation">(</span><span class="token string">"user"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
+<p>This defines a request rate limit of 10 per user. A burst of 20 is allowed, but the next second only 10 requests will be available. The <code>KeyResolver</code> is a simple one that gets the <code>user</code> request parameter (note: this is not recommended for production).</p>
+<p>A rate limiter can also be defined as a bean implementing the <code>RateLimiter</code> interface. In configuration, reference the bean by name using SpEL. <code>#{@myRateLimiter}</code>is a SpEL expression referencing a bean with the name <code>myRateLimiter</code>.</p>
+<p><strong>application.yml.</strong> </p>
+<pre class=" language-yaml"><code class="language-yaml"><span class="token key atrule">spring</span><span class="token punctuation">:</span>
+  <span class="token key atrule">cloud</span><span class="token punctuation">:</span>
+    <span class="token key atrule">gateway</span><span class="token punctuation">:</span>
+      <span class="token key atrule">routes</span><span class="token punctuation">:</span>
+      <span class="token punctuation">-</span> <span class="token key atrule">id</span><span class="token punctuation">:</span> requestratelimiter_route
+        <span class="token key atrule">uri</span><span class="token punctuation">:</span> http<span class="token punctuation">:</span>//example.org
+        <span class="token key atrule">filters</span><span class="token punctuation">:</span>
+        <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> RequestRateLimiter
+          <span class="token key atrule">args</span><span class="token punctuation">:</span>
+            <span class="token key atrule">rate-limiter</span><span class="token punctuation">:</span> "<span class="token comment" spellcheck="true">#{@myRateLimiter}"</span>
+            <span class="token key atrule">key-resolver</span><span class="token punctuation">:</span> "<span class="token comment" spellcheck="true">#{@userKeyResolver}"</span></code></pre>
+<h2 id="5-8-RedirectTo-GatewayFilter-Factory"><a href="#5-8-RedirectTo-GatewayFilter-Factory" class="headerlink" title="5.8 RedirectTo GatewayFilter Factory"></a>5.8 RedirectTo GatewayFilter Factory</h2><p>The RedirectTo GatewayFilter Factory takes a <code>status</code> and a <code>url</code> parameter. The status should be a 300 series redirect http code, such as 301. The url should be a valid url. This will be the value of the <code>Location</code> header.</p>
+<p><strong>application.yml.</strong> </p>
+<pre class=" language-yaml"><code class="language-yaml"><span class="token key atrule">spring</span><span class="token punctuation">:</span>
+  <span class="token key atrule">cloud</span><span class="token punctuation">:</span>
+    <span class="token key atrule">gateway</span><span class="token punctuation">:</span>
+      <span class="token key atrule">routes</span><span class="token punctuation">:</span>
+      <span class="token punctuation">-</span> <span class="token key atrule">id</span><span class="token punctuation">:</span> prefixpath_route
+        <span class="token key atrule">uri</span><span class="token punctuation">:</span> http<span class="token punctuation">:</span>//example.org
+        <span class="token key atrule">filters</span><span class="token punctuation">:</span>
+        <span class="token punctuation">-</span> RedirectTo=302<span class="token punctuation">,</span> http<span class="token punctuation">:</span>//acme.org</code></pre>
+<p>This will send a status 302 with a <code>Location:http://acme.org</code> header to perform a redirect.</p>
+<h2 id="5-9-RemoveNonProxyHeaders-GatewayFilter-Factory"><a href="#5-9-RemoveNonProxyHeaders-GatewayFilter-Factory" class="headerlink" title="5.9 RemoveNonProxyHeaders GatewayFilter Factory"></a>5.9 RemoveNonProxyHeaders GatewayFilter Factory</h2><p>The RemoveNonProxyHeaders GatewayFilter Factory removes headers from forwarded requests. The default list of headers that is removed comes from the <a href="https://tools.ietf.org/html/draft-ietf-httpbis-p1-messaging-14#section-7.1.3" target="_blank" rel="noopener">IETF</a>.</p>
+<p><strong>The default removed headers are:</strong></p>
+<ul>
+<li>Connection</li>
+<li>Keep-Alive</li>
+<li>Proxy-Authenticate</li>
+<li>Proxy-Authorization</li>
+<li>TE</li>
+<li>Trailer</li>
+<li>Transfer-Encoding</li>
+<li>Upgrade</li>
+</ul>
+<p>To change this, set the <code>spring.cloud.gateway.filter.remove-non-proxy-headers.headers</code> property to the list of header names to remove.</p>
+<h2 id="5-10-RemoveRequestHeader-GatewayFilter-Factory"><a href="#5-10-RemoveRequestHeader-GatewayFilter-Factory" class="headerlink" title="5.10 RemoveRequestHeader GatewayFilter Factory"></a>5.10 RemoveRequestHeader GatewayFilter Factory</h2><p>移除请求头参数，需要制定一个参数名称，被指定的参数将会被过滤传送给下游。</p>
+<p><strong>application.yml.</strong> </p>
+<pre class=" language-yaml"><code class="language-yaml"><span class="token key atrule">spring</span><span class="token punctuation">:</span>
+  <span class="token key atrule">cloud</span><span class="token punctuation">:</span>
+    <span class="token key atrule">gateway</span><span class="token punctuation">:</span>
+      <span class="token key atrule">routes</span><span class="token punctuation">:</span>
+      <span class="token punctuation">-</span> <span class="token key atrule">id</span><span class="token punctuation">:</span> removerequestheader_route
+        <span class="token key atrule">uri</span><span class="token punctuation">:</span> http<span class="token punctuation">:</span>//example.org
+        <span class="token key atrule">filters</span><span class="token punctuation">:</span>
+        <span class="token punctuation">-</span> RemoveRequestHeader=X<span class="token punctuation">-</span>Request<span class="token punctuation">-</span>Foo</code></pre>
+<h2 id="5-11-RemoveResponseHeader-GatewayFilter-Factory"><a href="#5-11-RemoveResponseHeader-GatewayFilter-Factory" class="headerlink" title="5.11 RemoveResponseHeader GatewayFilter Factory"></a>5.11 RemoveResponseHeader GatewayFilter Factory</h2><p>同理制定返回时请求头的过滤参数，被指定的参数会被忽略，返回给请求端的时候，去除掉指定的参数。</p>
+<p><strong>application.yml.</strong> </p>
+<pre class=" language-yaml"><code class="language-yaml"><span class="token key atrule">spring</span><span class="token punctuation">:</span>
+  <span class="token key atrule">cloud</span><span class="token punctuation">:</span>
+    <span class="token key atrule">gateway</span><span class="token punctuation">:</span>
+      <span class="token key atrule">routes</span><span class="token punctuation">:</span>
+      <span class="token punctuation">-</span> <span class="token key atrule">id</span><span class="token punctuation">:</span> removeresponseheader_route
+        <span class="token key atrule">uri</span><span class="token punctuation">:</span> http<span class="token punctuation">:</span>//example.org
+        <span class="token key atrule">filters</span><span class="token punctuation">:</span>
+        <span class="token punctuation">-</span> RemoveResponseHeader=X<span class="token punctuation">-</span>Response<span class="token punctuation">-</span>Foo</code></pre>
+<h2 id="5-12-RewritePath-GatewayFilter-Factory"><a href="#5-12-RewritePath-GatewayFilter-Factory" class="headerlink" title="5.12 RewritePath GatewayFilter Factory"></a>5.12 RewritePath GatewayFilter Factory</h2><p>重定向过滤器需要<strong>匹配一个正则表达式</strong>和<strong>要一个跳转的参数</strong>，使用java的正则表达式更加灵活重定向请求地址。</p>
+<p><strong>application.yml.</strong> </p>
+<pre class=" language-yaml"><code class="language-yaml"><span class="token key atrule">spring</span><span class="token punctuation">:</span>
+  <span class="token key atrule">cloud</span><span class="token punctuation">:</span>
+    <span class="token key atrule">gateway</span><span class="token punctuation">:</span>
+      <span class="token key atrule">routes</span><span class="token punctuation">:</span>
+      <span class="token punctuation">-</span> <span class="token key atrule">id</span><span class="token punctuation">:</span> rewritepath_route
+        <span class="token key atrule">uri</span><span class="token punctuation">:</span> http<span class="token punctuation">:</span>//example.org
+        <span class="token key atrule">predicates</span><span class="token punctuation">:</span>
+        <span class="token punctuation">-</span> Path=/foo/**
+        <span class="token key atrule">filters</span><span class="token punctuation">:</span>
+        <span class="token punctuation">-</span> RewritePath=/foo/(<span class="token punctuation">?</span>&lt;segment<span class="token punctuation">></span>.*)<span class="token punctuation">,</span> /$\<span class="token punctuation">{</span>segment<span class="token punctuation">}</span></code></pre>
+<p>对于 <code>/foo/bar</code> 的请求转发到下游为 <code>/bar</code>，在YAML规范中，我们会注意到使用 <code>$\</code> 来代替 <code>$</code>。</p>
+<h2 id="5-13-SaveSession-GatewayFilter-Factory"><a href="#5-13-SaveSession-GatewayFilter-Factory" class="headerlink" title="5.13 SaveSession GatewayFilter Factory"></a>5.13 SaveSession GatewayFilter Factory</h2><p>使用SaveSession过滤器，在跳转下游的时候强制进行 <code>WebSession::save</code> 操作。</p>
+<p>这是常用的一个操作使用Spring Session进行数据懒加载，在进行跳转前需要确保session已经被存储。</p>
+<p><strong>application.yml.</strong> </p>
+<pre class=" language-yaml"><code class="language-yaml"><span class="token key atrule">spring</span><span class="token punctuation">:</span>
+  <span class="token key atrule">cloud</span><span class="token punctuation">:</span>
+    <span class="token key atrule">gateway</span><span class="token punctuation">:</span>
+      <span class="token key atrule">routes</span><span class="token punctuation">:</span>
+      <span class="token punctuation">-</span> <span class="token key atrule">id</span><span class="token punctuation">:</span> save_session
+        <span class="token key atrule">uri</span><span class="token punctuation">:</span> http<span class="token punctuation">:</span>//example.org
+        <span class="token key atrule">predicates</span><span class="token punctuation">:</span>
+        <span class="token punctuation">-</span> Path=/foo/**
+        <span class="token key atrule">filters</span><span class="token punctuation">:</span>
+        <span class="token punctuation">-</span> SaveSession</code></pre>
+<p>如果要将Spring Security与Spring Session集成，并且希望确保将安全性详细信息转发到远程进程，则这很关键。</p>
+<h2 id="5-14-SecureHeaders-GatewayFilter-Factory"><a href="#5-14-SecureHeaders-GatewayFilter-Factory" class="headerlink" title="5.14 SecureHeaders GatewayFilter Factory"></a>5.14 SecureHeaders GatewayFilter Factory</h2><p>为了确保返回时请求头的安全，在请求头添加数字，来确保这些，具体建议参考这篇文章：<a href="https://blog.appcanary.com/2017/http-security-headers.html" target="_blank" rel="noopener">https://blog.appcanary.com/2017/http-security-headers.html</a></p>
+<p><strong>The following headers are added (allong with default values):</strong></p>
+<ul>
+<li><code>X-Xss-Protection:1; mode=block</code></li>
+<li><code>Strict-Transport-Security:max-age=631138519</code></li>
+<li><code>X-Frame-Options:DENY</code></li>
+<li><code>X-Content-Type-Options:nosniff</code></li>
+<li><code>Referrer-Policy:no-referrer</code></li>
+<li><code>Content-Security-Policy:default-src &#39;self&#39; https:; font-src &#39;self&#39; https: data:; img-src &#39;self&#39; https: data:; object-src &#39;none&#39;; script-src https:; style-src &#39;self&#39; https: &#39;unsafe-inline&#39;</code></li>
+<li><code>X-Download-Options:noopen</code></li>
+<li><code>X-Permitted-Cross-Domain-Policies:none</code></li>
+</ul>
+<p>上述展示的是默认属性，若我们想要修改对应的值，所有的值在：<code>spring.cloud.gateway.filter.secure-headers</code> 命名空间里：</p>
+<p><strong>Property to change:</strong></p>
+<ul>
+<li><code>xss-protection-header</code></li>
+<li><code>strict-transport-security</code></li>
+<li><code>frame-options</code></li>
+<li><code>content-type-options</code></li>
+<li><code>referrer-policy</code></li>
+<li><code>content-security-policy</code></li>
+<li><code>download-options</code></li>
+<li><code>permitted-cross-domain-policies</code></li>
+</ul>
+<h2 id="5-15-SetPath-GatewayFilter-Factory"><a href="#5-15-SetPath-GatewayFilter-Factory" class="headerlink" title="5.15 SetPath GatewayFilter Factory"></a>5.15 SetPath GatewayFilter Factory</h2><p>SetPath 过滤器使用路径模板参数，他通过使用自定义模板参数方式操作请求路径，在此处使用了SpringFramework的URI模板方法。多个请求的段也是可以的。</p>
+<p><strong>application.yml.</strong> </p>
+<pre class=" language-yaml"><code class="language-yaml"><span class="token key atrule">spring</span><span class="token punctuation">:</span>
+  <span class="token key atrule">cloud</span><span class="token punctuation">:</span>
+    <span class="token key atrule">gateway</span><span class="token punctuation">:</span>
+      <span class="token key atrule">routes</span><span class="token punctuation">:</span>
+      <span class="token punctuation">-</span> <span class="token key atrule">id</span><span class="token punctuation">:</span> setpath_route
+        <span class="token key atrule">uri</span><span class="token punctuation">:</span> http<span class="token punctuation">:</span>//example.org
+        <span class="token key atrule">predicates</span><span class="token punctuation">:</span>
+        <span class="token punctuation">-</span> Path=/foo/<span class="token punctuation">{</span>segment<span class="token punctuation">}</span>
+        <span class="token key atrule">filters</span><span class="token punctuation">:</span>
+        <span class="token punctuation">-</span> SetPath=/<span class="token punctuation">{</span>segment<span class="token punctuation">}</span></code></pre>
+<p>对于一个 <code>/foo/bar</code> 的请求，在发送的下游的时候会把路径定义为 <code>/bar</code>。</p>
+<h2 id="5-16-SetResponseHeader-GatewayFilter-Factory"><a href="#5-16-SetResponseHeader-GatewayFilter-Factory" class="headerlink" title="5.16 SetResponseHeader GatewayFilter Factory"></a>5.16 SetResponseHeader GatewayFilter Factory</h2><p>设置返回头所带参数，过滤器需要使用name和value参数。</p>
+<p><strong>application.yml.</strong> </p>
+<pre class=" language-yaml"><code class="language-yaml"><span class="token key atrule">spring</span><span class="token punctuation">:</span>
+  <span class="token key atrule">cloud</span><span class="token punctuation">:</span>
+    <span class="token key atrule">gateway</span><span class="token punctuation">:</span>
+      <span class="token key atrule">routes</span><span class="token punctuation">:</span>
+      <span class="token punctuation">-</span> <span class="token key atrule">id</span><span class="token punctuation">:</span> setresponseheader_route
+        <span class="token key atrule">uri</span><span class="token punctuation">:</span> http<span class="token punctuation">:</span>//example.org
+        <span class="token key atrule">filters</span><span class="token punctuation">:</span>
+        <span class="token punctuation">-</span> SetResponseHeader=X<span class="token punctuation">-</span>Response<span class="token punctuation">-</span>Foo<span class="token punctuation">,</span> Bar</code></pre>
+<p>网关返回头过滤器，将会按照配置完全替换对应的头信息，而不是把对应的参数添加进去。举个栗子，如果下游返回的结果头中包含 <code>X-Response-Foo:1234</code> ，那么过滤器将会 <code>X-Response-Foo:Bar</code> 进行替换，最终返回给客户端。</p>
+<h2 id="5-17-SetStatus-GatewayFilter-Factory"><a href="#5-17-SetStatus-GatewayFilter-Factory" class="headerlink" title="5.17 SetStatus GatewayFilter Factory"></a>5.17 SetStatus GatewayFilter Factory</h2><p>SetStatus 过滤器需要一个表示状态的参数，底层使用的是<code>HttpStatus</code> 枚举对应的状态，因此可以使用数字 <code>404</code> 表示，也可以使用 <code>NOT_FOUND</code>。</p>
+<pre class=" language-java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">final</span> <span class="token keyword">int</span> SC_NOT_FOUND <span class="token operator">=</span> <span class="token number">404</span><span class="token punctuation">;</span></code></pre>
+<p><strong>application.yml.</strong> </p>
+<pre class=" language-yaml"><code class="language-yaml"><span class="token key atrule">spring</span><span class="token punctuation">:</span>
+  <span class="token key atrule">cloud</span><span class="token punctuation">:</span>
+    <span class="token key atrule">gateway</span><span class="token punctuation">:</span>
+      <span class="token key atrule">routes</span><span class="token punctuation">:</span>
+      <span class="token punctuation">-</span> <span class="token key atrule">id</span><span class="token punctuation">:</span> setstatusstring_route
+        <span class="token key atrule">uri</span><span class="token punctuation">:</span> http<span class="token punctuation">:</span>//example.org
+        <span class="token key atrule">filters</span><span class="token punctuation">:</span>
+        <span class="token punctuation">-</span> SetStatus=BAD_REQUEST
+      <span class="token punctuation">-</span> <span class="token key atrule">id</span><span class="token punctuation">:</span> setstatusint_route
+        <span class="token key atrule">uri</span><span class="token punctuation">:</span> http<span class="token punctuation">:</span>//example.org
+        <span class="token key atrule">filters</span><span class="token punctuation">:</span>
+        <span class="token punctuation">-</span> SetStatus=401</code></pre>
+<p>对于这种情况，我们默认返回 <code>401</code> HTTP状态码。</p>
+<h2 id="5-18-StripPrefix-GatewayFilter-Factory"><a href="#5-18-StripPrefix-GatewayFilter-Factory" class="headerlink" title="5.18 StripPrefix GatewayFilter Factory"></a>5.18 StripPrefix GatewayFilter Factory</h2><p>StripPrefix 过滤器需要一个 <code>parts</code> 参数，数字<code>parts</code>表示在请求转发到下游之前忽略的路径数。</p>
+<p><strong>application.yml.</strong> </p>
+<pre class=" language-yaml"><code class="language-yaml"><span class="token key atrule">spring</span><span class="token punctuation">:</span>
+  <span class="token key atrule">cloud</span><span class="token punctuation">:</span>
+    <span class="token key atrule">gateway</span><span class="token punctuation">:</span>
+      <span class="token key atrule">routes</span><span class="token punctuation">:</span>
+      <span class="token punctuation">-</span> <span class="token key atrule">id</span><span class="token punctuation">:</span> nameRoot
+        <span class="token key atrule">uri</span><span class="token punctuation">:</span> http<span class="token punctuation">:</span>//nameservice
+        <span class="token key atrule">predicates</span><span class="token punctuation">:</span>
+        <span class="token punctuation">-</span> Path=/name/**
+        <span class="token key atrule">filters</span><span class="token punctuation">:</span>
+        <span class="token punctuation">-</span> StripPrefix=2</code></pre>
+<p>此处表示当一个请求为 <code>/name/bar/foo</code> 经过网关后，到达后端服务时地址为：<code>http://nameservice/foo</code>,对于中间的 <code>/name/bar</code>路径就被忽略了。</p>
+<h2 id="5-19-Retry-GatewayFilter-Factory"><a href="#5-19-Retry-GatewayFilter-Factory" class="headerlink" title="5.19 Retry GatewayFilter Factory"></a>5.19 Retry GatewayFilter Factory</h2><p>The Retry GatewayFilter Factory takes <code>retries</code>, <code>statuses</code>, <code>methods</code>, and <code>series</code> as parameters.</p>
+<p>对于Retry 过滤器来说需要 <code>retries</code>，<code>statuses</code>，<code>methods</code> 和 <code>series</code> 四个参数。 </p>
+<ul>
+<li><p><code>retries</code>: 请求尝试次数</p>
+</li>
+<li><p><code>statuses</code>:需要被尝试的状态码，详情参考 <code>org.springframework.http.HttpStatus</code> 规范</p>
+</li>
+<li><p><code>methods</code>: 会尝试的请求方法, 详情参考 <code>org.springframework.http.HttpMethod</code>。</p>
+<pre class=" language-java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">enum</span> HttpMethod <span class="token punctuation">{</span>
+    GET<span class="token punctuation">,</span> HEAD<span class="token punctuation">,</span> POST<span class="token punctuation">,</span> PUT<span class="token punctuation">,</span> PATCH<span class="token punctuation">,</span> DELETE<span class="token punctuation">,</span> OPTIONS<span class="token punctuation">,</span> TRACE<span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
+</li>
+<li><p><code>series</code>: 那个大的系列要被重试, 参考使用 <code>org.springframework.http.HttpStatus.Series</code></p>
+<pre class=" language-java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">enum</span> Series <span class="token punctuation">{</span>
+    <span class="token function">INFORMATIONAL</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+    <span class="token function">SUCCESSFUL</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+    <span class="token function">REDIRECTION</span><span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+    <span class="token function">CLIENT_ERROR</span><span class="token punctuation">(</span><span class="token number">4</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+    <span class="token function">SERVER_ERROR</span><span class="token punctuation">(</span><span class="token number">5</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
+</li>
+</ul>
+<p><strong>application.yml.</strong> </p>
+<pre class=" language-yaml"><code class="language-yaml"><span class="token key atrule">spring</span><span class="token punctuation">:</span>
+  <span class="token key atrule">cloud</span><span class="token punctuation">:</span>
+    <span class="token key atrule">gateway</span><span class="token punctuation">:</span>
+      <span class="token key atrule">routes</span><span class="token punctuation">:</span>
+      <span class="token punctuation">-</span> <span class="token key atrule">id</span><span class="token punctuation">:</span> retry_test
+        <span class="token key atrule">uri</span><span class="token punctuation">:</span> http<span class="token punctuation">:</span>//localhost<span class="token punctuation">:</span>8080/flakey
+        <span class="token key atrule">predicates</span><span class="token punctuation">:</span>
+        <span class="token punctuation">-</span> Host=*.retry.com
+        <span class="token key atrule">filters</span><span class="token punctuation">:</span>
+        <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> Retry
+          <span class="token key atrule">args</span><span class="token punctuation">:</span>
+            <span class="token key atrule">retries</span><span class="token punctuation">:</span> <span class="token number">3</span>
+            <span class="token key atrule">statuses</span><span class="token punctuation">:</span> BAD_GATEWAY</code></pre>
+<table>
+<thead>
+<tr>
+<th><img src="https://cloud.spring.io/spring-cloud-gateway/single/images/note.png" alt="[Note]"></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>此时当我们URI使用了跳转协议，不支持重试过滤器。</td>
+</tr>
+</tbody></table>
+<h1 id="6-Global-Filters"><a href="#6-Global-Filters" class="headerlink" title="6. Global Filters"></a>6. Global Filters</h1><p>全局过滤器接口 和<code>GatewayFilter</code> 拥有相同的特性，这里有些特殊的过滤器将会被应用于全局routes。</p>
+<h2 id="6-1-Combined-Global-Filter-and-GatewayFilter-Ordering"><a href="#6-1-Combined-Global-Filter-and-GatewayFilter-Ordering" class="headerlink" title="6.1 Combined Global Filter and GatewayFilter Ordering"></a>6.1 Combined Global Filter and GatewayFilter Ordering</h2><p>当一个请求来临（或者匹配到Route）时，<code>Filtering Web Handler</code> 将会添加所有的<code>GlobalFilter</code>实例以及具体的<code>Route实例</code>到过滤请求链中。这个混合的请求链因为实现 Order 接口而排序，对于 Filter 可以使用 <code>getOrder</code> 方法或 <code>@Order</code> 注解设置<code>Order</code> 顺序。</p>
+<p>由于Spring Cloud Gateway区分了过滤器逻辑执行的“前”和“后”阶段（请参阅：工作原理），具有最高优先级的过滤器将是“前”阶段中的第一个和“后”阶段中的最后一个 。</p>
+<p><strong>ExampleConfiguration.java.</strong> </p>
+<pre class=" language-java"><code class="language-java"><span class="token annotation punctuation">@Bean</span>
+<span class="token annotation punctuation">@Order</span><span class="token punctuation">(</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span>
+<span class="token keyword">public</span> GlobalFilter <span class="token function">a</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> <span class="token punctuation">(</span>exchange<span class="token punctuation">,</span> chain<span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">></span> <span class="token punctuation">{</span>
+        log<span class="token punctuation">.</span><span class="token function">info</span><span class="token punctuation">(</span><span class="token string">"first pre filter"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">return</span> chain<span class="token punctuation">.</span><span class="token function">filter</span><span class="token punctuation">(</span>exchange<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span>Mono<span class="token punctuation">.</span><span class="token function">fromRunnable</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">></span> <span class="token punctuation">{</span>
+            log<span class="token punctuation">.</span><span class="token function">info</span><span class="token punctuation">(</span><span class="token string">"third post filter"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token annotation punctuation">@Bean</span>
+<span class="token annotation punctuation">@Order</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span>
+<span class="token keyword">public</span> GlobalFilter <span class="token function">b</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> <span class="token punctuation">(</span>exchange<span class="token punctuation">,</span> chain<span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">></span> <span class="token punctuation">{</span>
+        log<span class="token punctuation">.</span><span class="token function">info</span><span class="token punctuation">(</span><span class="token string">"second pre filter"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">return</span> chain<span class="token punctuation">.</span><span class="token function">filter</span><span class="token punctuation">(</span>exchange<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span>Mono<span class="token punctuation">.</span><span class="token function">fromRunnable</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">></span> <span class="token punctuation">{</span>
+            log<span class="token punctuation">.</span><span class="token function">info</span><span class="token punctuation">(</span><span class="token string">"second post filter"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token annotation punctuation">@Bean</span>
+<span class="token annotation punctuation">@Order</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span>
+<span class="token keyword">public</span> GlobalFilter <span class="token function">c</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> <span class="token punctuation">(</span>exchange<span class="token punctuation">,</span> chain<span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">></span> <span class="token punctuation">{</span>
+        log<span class="token punctuation">.</span><span class="token function">info</span><span class="token punctuation">(</span><span class="token string">"third pre filter"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">return</span> chain<span class="token punctuation">.</span><span class="token function">filter</span><span class="token punctuation">(</span>exchange<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span>Mono<span class="token punctuation">.</span><span class="token function">fromRunnable</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">></span> <span class="token punctuation">{</span>
+            log<span class="token punctuation">.</span><span class="token function">info</span><span class="token punctuation">(</span><span class="token string">"first post filter"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
+<h2 id="6-2-Forward-Routing-Filter"><a href="#6-2-Forward-Routing-Filter" class="headerlink" title="6.2 Forward Routing Filter"></a>6.2 Forward Routing Filter</h2><p>跳转路由过滤器在 <code>ServerWebExchangeUtils.GATEWAY_REQUEST_URL_ATTR</code> 属性寻找 <code>URI</code> 。如果 URL 有 forward 跳转模式（ie <code>forward:///localendpoint</code>）,他将默认使用<code>spring</code>中的 <code>DispatherHandler</code>去处理这个请求。未定义的原始RUL将会被追加到 <code>ServerWebExchangeUtils.GATEWAY_ORIGINAL_REQUEST_URL_ATTR</code> 属性列表中。</p>
+<h2 id="6-3-LoadBalancerClient-Filter"><a href="#6-3-LoadBalancerClient-Filter" class="headerlink" title="6.3 LoadBalancerClient Filter"></a>6.3 LoadBalancerClient Filter</h2><p>负载均衡客户端过滤器 同理在 <code>ServerWebExchangeUtils.GATEWAY_REQUEST_URL_ATTR</code> 的属性中寻找URI。如果一个URL中有一个<code>lb</code>模式（ie  <code>lb:myservice</code>）,那么那将会使用SpringCloud的负载均衡客户端去解析这个名称最终打到一个真实的Host和Port端口上，未定义的原始URL将会被追加到未定的属性列表中。这个过滤器同样也会去<code>ServerWebExchangeUtils.GATEWAY_SCHEME_PREFIX_ATTR</code> 属性列表中去寻找URI，如果等于<code>lb</code>然后规则和上述相同。</p>
+<p><strong>application.yml.</strong> </p>
+<pre class=" language-yaml"><code class="language-yaml"><span class="token key atrule">spring</span><span class="token punctuation">:</span>
+  <span class="token key atrule">cloud</span><span class="token punctuation">:</span>
+    <span class="token key atrule">gateway</span><span class="token punctuation">:</span>
+      <span class="token key atrule">routes</span><span class="token punctuation">:</span>
+      <span class="token punctuation">-</span> <span class="token key atrule">id</span><span class="token punctuation">:</span> myRoute
+        <span class="token key atrule">uri</span><span class="token punctuation">:</span> lb<span class="token punctuation">:</span>//service
+        <span class="token key atrule">predicates</span><span class="token punctuation">:</span>
+        <span class="token punctuation">-</span> Path=/service/**</code></pre>
+<h2 id="6-4-Netty-Routing-Filter"><a href="#6-4-Netty-Routing-Filter" class="headerlink" title="6.4 Netty Routing Filter"></a>6.4 Netty Routing Filter</h2><p>The Netty Routing Filter runs if the url located in the <code>ServerWebExchangeUtils.GATEWAY_REQUEST_URL_ATTR</code> exchange attribute has a <code>http</code> or <code>https</code> scheme. It uses the Netty <code>HttpClient</code> to make the downstream proxy request. The response is put in the <code>ServerWebExchangeUtils.CLIENT_RESPONSE_ATTR</code> exchange attribute for use in a later filter. (There is an experimental <code>WebClientHttpRoutingFilter</code> that performs the same function, but does not require netty)</p>
+<h2 id="6-5-Netty-Write-Response-Filter"><a href="#6-5-Netty-Write-Response-Filter" class="headerlink" title="6.5 Netty Write Response Filter"></a>6.5 Netty Write Response Filter</h2><p>The <code>NettyWriteResponseFilter</code> runs if there is a Netty <code>HttpClientResponse</code> in the <code>ServerWebExchangeUtils.CLIENT_RESPONSE_ATTR</code> exchange attribute. It is run after all other filters have completed and writes the proxy response back to the gateway client response. (There is an experimental <code>WebClientWriteResponseFilter</code> that performs the same function, but does not require netty)</p>
+<h2 id="6-6-RouteToRequestUrl-Filter"><a href="#6-6-RouteToRequestUrl-Filter" class="headerlink" title="6.6 RouteToRequestUrl Filter"></a>6.6 RouteToRequestUrl Filter</h2><p>The <code>RouteToRequestUrlFilter</code> runs if there is a <code>Route</code> object in the <code>ServerWebExchangeUtils.GATEWAY_ROUTE_ATTR</code> exchange attribute. It creates a new URI, based off of the request URI, but updated with the URI attribute of the <code>Route</code> object. The new URI is placed in the <code>ServerWebExchangeUtils.GATEWAY_REQUEST_URL_ATTR</code> exchange attribute.</p>
+<p>If the URI has a scheme prefix, such as <code>lb:ws://serviceid</code>, the <code>lb</code> scheme is stripped from the URI and placed in the <code>ServerWebExchangeUtils.GATEWAY_SCHEME_PREFIX_ATTR</code> for use later in the filter chain.</p>
+<h2 id="6-7-Websocket-Routing-Filter"><a href="#6-7-Websocket-Routing-Filter" class="headerlink" title="6.7 Websocket Routing Filter"></a>6.7 Websocket Routing Filter</h2><p>The Websocket Routing Filter runs if the url located in the <code>ServerWebExchangeUtils.GATEWAY_REQUEST_URL_ATTR</code> exchange attribute has a <code>ws</code> or <code>wss</code> scheme. It uses the Spring Web Socket infrastructure to forward the Websocket request downstream.</p>
+<p>Websockets may be load-balanced by prefixing the URI with <code>lb</code>, such as <code>lb:ws://serviceid</code>.</p>
+<table>
+<thead>
+<tr>
+<th><img src="https://cloud.spring.io/spring-cloud-gateway/single/images/note.png" alt="[Note]"></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>If you are using <a href="https://github.com/sockjs" target="_blank" rel="noopener">SockJS</a> as a fallback over normal http, you should configure a normal HTTP route as well as the Websocket Route.</td>
+</tr>
+</tbody></table>
+<p><strong>application.yml.</strong> </p>
+<pre class=" language-yaml"><code class="language-yaml"><span class="token key atrule">spring</span><span class="token punctuation">:</span>
+  <span class="token key atrule">cloud</span><span class="token punctuation">:</span>
+    <span class="token key atrule">gateway</span><span class="token punctuation">:</span>
+      <span class="token key atrule">routes</span><span class="token punctuation">:</span>
+      <span class="token comment" spellcheck="true"># SockJS route</span>
+      <span class="token punctuation">-</span> <span class="token key atrule">id</span><span class="token punctuation">:</span> websocket_sockjs_route
+        <span class="token key atrule">uri</span><span class="token punctuation">:</span> http<span class="token punctuation">:</span>//localhost<span class="token punctuation">:</span><span class="token number">3001</span>
+        <span class="token key atrule">predicates</span><span class="token punctuation">:</span>
+        <span class="token punctuation">-</span> Path=/websocket/info/**
+      <span class="token comment" spellcheck="true"># Normwal Websocket route</span>
+      <span class="token punctuation">-</span> <span class="token key atrule">id</span><span class="token punctuation">:</span> websocket_route
+        <span class="token key atrule">uri</span><span class="token punctuation">:</span> ws<span class="token punctuation">:</span>//localhost<span class="token punctuation">:</span><span class="token number">3001</span>
+        <span class="token key atrule">predicates</span><span class="token punctuation">:</span>
+        <span class="token punctuation">-</span> Path=/websocket/**</code></pre>
+<h2 id="6-8-Making-An-Exchange-As-Routed"><a href="#6-8-Making-An-Exchange-As-Routed" class="headerlink" title="6.8 Making An Exchange As Routed"></a>6.8 Making An Exchange As Routed</h2><p>After the Gateway has routed a <code>ServerWebExchange</code> it will mark that exchange as “routed” by adding <code>gatewayAlreadyRouted</code> to the exchange attributes. Once a request has been marked as routed, other routing filters will not route the request again, essentially skipping the filter. There are convenience methods that you can use to mark an exchange as routed or check if an exchange has already been routed.</p>
+<ul>
+<li><code>ServerWebExchangeUtils.isAlreadyRouted</code> takes a <code>ServerWebExchange</code> object and checks if it has been “routed”</li>
+<li><code>ServerWebExchangeUtils.setAlreadyRouted</code> takes a <code>ServerWebExchange</code> object and marks it as “routed”</li>
+</ul>
+<h1 id="7-Configuration"><a href="#7-Configuration" class="headerlink" title="7. Configuration"></a>7. Configuration</h1><p>Configuration for Spring Cloud Gateway is driven by a collection of <code>RouteDefinitionLocator</code>s.</p>
+<p><strong>RouteDefinitionLocator.java.</strong> </p>
+<pre class=" language-java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">interface</span> <span class="token class-name">RouteDefinitionLocator</span> <span class="token punctuation">{</span>
+    Flux<span class="token operator">&lt;</span>RouteDefinition<span class="token operator">></span> <span class="token function">getRouteDefinitions</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
+<p>By default, a <code>PropertiesRouteDefinitionLocator</code> loads properties using Spring Boot’s <code>@ConfigurationProperties</code> mechanism.</p>
+<p>The configuration examples above all use a shortcut notation that uses positional arguments rather than named ones. The two examples below are equivalent:</p>
+<p><strong>application.yml.</strong> </p>
+<pre class=" language-yaml"><code class="language-yaml"><span class="token key atrule">spring</span><span class="token punctuation">:</span>
+  <span class="token key atrule">cloud</span><span class="token punctuation">:</span>
+    <span class="token key atrule">gateway</span><span class="token punctuation">:</span>
+      <span class="token key atrule">routes</span><span class="token punctuation">:</span>
+      <span class="token punctuation">-</span> <span class="token key atrule">id</span><span class="token punctuation">:</span> setstatus_route
+        <span class="token key atrule">uri</span><span class="token punctuation">:</span> http<span class="token punctuation">:</span>//example.org
+        <span class="token key atrule">filters</span><span class="token punctuation">:</span>
+        <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> SetStatus
+          <span class="token key atrule">args</span><span class="token punctuation">:</span>
+            <span class="token key atrule">status</span><span class="token punctuation">:</span> <span class="token number">401</span>
+      <span class="token punctuation">-</span> <span class="token key atrule">id</span><span class="token punctuation">:</span> setstatusshortcut_route
+        <span class="token key atrule">uri</span><span class="token punctuation">:</span> http<span class="token punctuation">:</span>//example.org
+        <span class="token key atrule">filters</span><span class="token punctuation">:</span>
+        <span class="token punctuation">-</span> SetStatus=401</code></pre>
+<p>For some usages of the gateway, properties will be adequate, but some production use cases will benefit from loading configuration from an external source, such as a database. Future milestone versions will have <code>RouteDefinitionLocator</code> implementations based off of Spring Data Repositories such as: Redis, MongoDB and Cassandra.</p>
+<h2 id="7-1-Fluent-Java-Routes-API"><a href="#7-1-Fluent-Java-Routes-API" class="headerlink" title="7.1 Fluent Java Routes API"></a>7.1 Fluent Java Routes API</h2><p>为了在 Java 中简便配置，我们使用了流式的定义，就是一直点点点（…）在<code>RouteLocatorBuilder</code> 中。</p>
+<p><strong>GatewaySampleApplication.java.</strong> </p>
+<pre class=" language-java"><code class="language-java"><span class="token comment" spellcheck="true">// static imports from GatewayFilters and RoutePredicates</span>
+<span class="token annotation punctuation">@Bean</span>
+<span class="token keyword">public</span> RouteLocator <span class="token function">customRouteLocator</span><span class="token punctuation">(</span>RouteLocatorBuilder builder<span class="token punctuation">,</span> ThrottleGatewayFilterFactory throttle<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> builder<span class="token punctuation">.</span><span class="token function">routes</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+        <span class="token punctuation">.</span><span class="token function">route</span><span class="token punctuation">(</span>r <span class="token operator">-</span><span class="token operator">></span> r<span class="token punctuation">.</span><span class="token function">host</span><span class="token punctuation">(</span><span class="token string">"**.abc.org"</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">and</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">path</span><span class="token punctuation">(</span><span class="token string">"/image/png"</span><span class="token punctuation">)</span>
+               <span class="token punctuation">.</span><span class="token function">filters</span><span class="token punctuation">(</span>f <span class="token operator">-</span><span class="token operator">></span>
+                        f<span class="token punctuation">.</span><span class="token function">addResponseHeader</span><span class="token punctuation">(</span><span class="token string">"X-TestHeader"</span><span class="token punctuation">,</span> <span class="token string">"foobar"</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+               <span class="token punctuation">.</span><span class="token function">uri</span><span class="token punctuation">(</span><span class="token string">"http://httpbin.org:80"</span><span class="token punctuation">)</span>
+                  <span class="token punctuation">)</span>
+        <span class="token punctuation">.</span><span class="token function">route</span><span class="token punctuation">(</span>r <span class="token operator">-</span><span class="token operator">></span> r<span class="token punctuation">.</span><span class="token function">path</span><span class="token punctuation">(</span><span class="token string">"/image/webp"</span><span class="token punctuation">)</span>
+               <span class="token punctuation">.</span><span class="token function">filters</span><span class="token punctuation">(</span>f <span class="token operator">-</span><span class="token operator">></span>
+                        f<span class="token punctuation">.</span><span class="token function">addResponseHeader</span><span class="token punctuation">(</span><span class="token string">"X-AnotherHeader"</span><span class="token punctuation">,</span> <span class="token string">"baz"</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+               <span class="token punctuation">.</span><span class="token function">uri</span><span class="token punctuation">(</span><span class="token string">"http://httpbin.org:80"</span><span class="token punctuation">)</span>
+              <span class="token punctuation">)</span>
+        <span class="token punctuation">.</span><span class="token function">route</span><span class="token punctuation">(</span>r <span class="token operator">-</span><span class="token operator">></span> r<span class="token punctuation">.</span><span class="token function">order</span><span class="token punctuation">(</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span>
+               <span class="token punctuation">.</span><span class="token function">host</span><span class="token punctuation">(</span><span class="token string">"**.throttle.org"</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">and</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">path</span><span class="token punctuation">(</span><span class="token string">"/get"</span><span class="token punctuation">)</span>
+               <span class="token punctuation">.</span><span class="token function">filters</span><span class="token punctuation">(</span>f <span class="token operator">-</span><span class="token operator">></span> f<span class="token punctuation">.</span><span class="token function">filter</span><span class="token punctuation">(</span>throttle<span class="token punctuation">.</span><span class="token function">apply</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span>
+                                                     <span class="token number">1</span><span class="token punctuation">,</span>
+                                                     <span class="token number">10</span><span class="token punctuation">,</span>
+                                                     TimeUnit<span class="token punctuation">.</span>SECONDS<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+               <span class="token punctuation">.</span><span class="token function">uri</span><span class="token punctuation">(</span><span class="token string">"http://httpbin.org:80"</span><span class="token punctuation">)</span>
+              <span class="token punctuation">)</span>
+        <span class="token punctuation">.</span><span class="token function">build</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
+<p>This style also allows for more custom predicate assertions. The predicates defined by <code>RouteDefinitionLocator</code> beans are combined using logical <code>and</code>. By using the fluent Java API, you can use the <code>and()</code>, <code>or()</code> and <code>negate()</code> operators on the <code>Predicate</code> class.</p>
+<h2 id="7-2-DiscoveryClient-Route-Definition-Locator"><a href="#7-2-DiscoveryClient-Route-Definition-Locator" class="headerlink" title="7.2 DiscoveryClient Route Definition Locator"></a>7.2 DiscoveryClient Route Definition Locator</h2><p>The Gateway can be configured to create routes based on services registered with a <code>DiscoveryClient</code> compatible service registry.</p>
+<p>To enable this, set <code>spring.cloud.gateway.discovery.locator.enabled=true</code> and make sure a <code>DiscoveryClient</code> implementation is on the classpath and enabled (such as Netflix Eureka, Consul or Zookeeper).</p>
+<h1 id="8-Actuator-API"><a href="#8-Actuator-API" class="headerlink" title="8. Actuator API"></a>8. Actuator API</h1><p>TODO: document the <code>/gateway</code> actuator endpoint</p>
+<h1 id="9-Developer-Guide"><a href="#9-Developer-Guide" class="headerlink" title="9. Developer Guide"></a>9. Developer Guide</h1><p>TODO: overview of writing custom integrations</p>
+<h2 id="9-1-Writing-Custom-Route-Predicate-Factories"><a href="#9-1-Writing-Custom-Route-Predicate-Factories" class="headerlink" title="9.1 Writing Custom Route Predicate Factories"></a>9.1 Writing Custom Route Predicate Factories</h2><p>TODO: document writing Custom Route Predicate Factories</p>
+<h2 id="9-2-Writing-Custom-GatewayFilter-Factories"><a href="#9-2-Writing-Custom-GatewayFilter-Factories" class="headerlink" title="9.2 Writing Custom GatewayFilter Factories"></a>9.2 Writing Custom GatewayFilter Factories</h2><p>为了实现网关过滤你应该实现 <code>GatewayFilterFactory</code>接口，同时也有一个 <code>AbstractGatewayFilterFactory</code> 抽象类可以继承。</p>
+<p><strong>PreGatewayFilterFactory.java.</strong> </p>
+<pre class=" language-java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">PreGatewayFilterFactory</span> <span class="token keyword">extends</span> <span class="token class-name">AbstractGatewayFilterFactory</span><span class="token operator">&lt;</span>PreGatewayFilterFactory<span class="token punctuation">.</span>Config<span class="token operator">></span> <span class="token punctuation">{</span>
+
+    <span class="token keyword">public</span> <span class="token function">PreGatewayFilterFactory</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">super</span><span class="token punctuation">(</span>Config<span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token annotation punctuation">@Override</span>
+    <span class="token keyword">public</span> GatewayFilter <span class="token function">apply</span><span class="token punctuation">(</span>Config config<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token comment" spellcheck="true">// grab configuration from Config object</span>
+        <span class="token keyword">return</span> <span class="token punctuation">(</span>exchange<span class="token punctuation">,</span> chain<span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">></span> <span class="token punctuation">{</span>
+            <span class="token comment" spellcheck="true">//If you want to build a "pre" filter you need to manipulate the</span>
+            <span class="token comment" spellcheck="true">//request before calling change.filter</span>
+            ServerHttpRequest<span class="token punctuation">.</span>Builder builder <span class="token operator">=</span> exchange<span class="token punctuation">.</span><span class="token function">getRequest</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">mutate</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token comment" spellcheck="true">//use builder to manipulate the request</span>
+            <span class="token keyword">return</span> chain<span class="token punctuation">.</span><span class="token function">filter</span><span class="token punctuation">(</span>exchange<span class="token punctuation">.</span><span class="token function">mutate</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">request</span><span class="token punctuation">(</span>request<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">build</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">class</span> <span class="token class-name">Config</span> <span class="token punctuation">{</span>
+        <span class="token comment" spellcheck="true">//Put the configuration properties for your filter here</span>
+    <span class="token punctuation">}</span>
+
+<span class="token punctuation">}</span></code></pre>
+<p><strong>PostGatewayFilterFactory.java.</strong> </p>
+<pre class=" language-java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">PostGatewayFilterFactory</span> <span class="token keyword">extends</span> <span class="token class-name">AbstractGatewayFilterFactory</span><span class="token operator">&lt;</span>PostGatewayFilterFactory<span class="token punctuation">.</span>Config<span class="token operator">></span> <span class="token punctuation">{</span>
+
+    <span class="token keyword">public</span> <span class="token function">PostGatewayFilterFactory</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">super</span><span class="token punctuation">(</span>Config<span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token annotation punctuation">@Override</span>
+    <span class="token keyword">public</span> GatewayFilter <span class="token function">apply</span><span class="token punctuation">(</span>Config config<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token comment" spellcheck="true">// grab configuration from Config object</span>
+        <span class="token keyword">return</span> <span class="token punctuation">(</span>exchange<span class="token punctuation">,</span> chain<span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">></span> <span class="token punctuation">{</span>
+            <span class="token keyword">return</span> chain<span class="token punctuation">.</span><span class="token function">filter</span><span class="token punctuation">(</span>exchange<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span>Mono<span class="token punctuation">.</span><span class="token function">fromRunnable</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">></span> <span class="token punctuation">{</span>
+                ServerHttpResponse response <span class="token operator">=</span> exchange<span class="token punctuation">.</span><span class="token function">getResponse</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token comment" spellcheck="true">//Manipulate the response in some way</span>
+            <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">class</span> <span class="token class-name">Config</span> <span class="token punctuation">{</span>
+        <span class="token comment" spellcheck="true">//Put the configuration properties for your filter here</span>
+    <span class="token punctuation">}</span>
+
+<span class="token punctuation">}</span></code></pre>
+<h2 id="9-3-Writing-Custom-Global-Filters"><a href="#9-3-Writing-Custom-Global-Filters" class="headerlink" title="9.3 Writing Custom Global Filters"></a>9.3 Writing Custom Global Filters</h2><p>TODO: document writing Custom Global Filters</p>
+<h2 id="9-4-Writing-Custom-Route-Locators-and-Writers"><a href="#9-4-Writing-Custom-Route-Locators-and-Writers" class="headerlink" title="9.4 Writing Custom Route Locators and Writers"></a>9.4 Writing Custom Route Locators and Writers</h2><p>TODO: document writing Custom Route Locators and Writers</p>
+<h1 id="10-Building-a-Simple-Gateway-Using-Spring-MVC-or-Webflux"><a href="#10-Building-a-Simple-Gateway-Using-Spring-MVC-or-Webflux" class="headerlink" title="10. Building a Simple Gateway Using Spring MVC or Webflux"></a>10. Building a Simple Gateway Using Spring MVC or Webflux</h1><p>Spring Cloud Gateway provides a utility object called <code>ProxyExchange</code> which you can use inside a regular Spring web handler as a method parameter. It supports basic downstream HTTP exchanges via methods that mirror the HTTP verbs. With MVC it also supports forwarding to a local handler via the <code>forward()</code> method. To use the <code>ProxyExchange</code> just include the right module in your classpath (either <code>spring-cloud-gateway-mvc</code> or <code>spring-cloud-gateway-webflux</code>).</p>
+<p>MVC example (proxying a request to “/test” downstream to a remote server):</p>
+<pre class=" language-java"><code class="language-java"><span class="token annotation punctuation">@RestController</span>
+<span class="token annotation punctuation">@SpringBootApplication</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">GatewaySampleApplication</span> <span class="token punctuation">{</span>
+
+    <span class="token annotation punctuation">@Value</span><span class="token punctuation">(</span><span class="token string">"${remote.home}"</span><span class="token punctuation">)</span>
+    <span class="token keyword">private</span> URI home<span class="token punctuation">;</span>
+
+    <span class="token annotation punctuation">@GetMapping</span><span class="token punctuation">(</span><span class="token string">"/test"</span><span class="token punctuation">)</span>
+    <span class="token keyword">public</span> ResponseEntity<span class="token operator">&lt;</span><span class="token operator">?</span><span class="token operator">></span> <span class="token function">proxy</span><span class="token punctuation">(</span>ProxyExchange<span class="token operator">&lt;</span><span class="token keyword">byte</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token operator">></span> proxy<span class="token punctuation">)</span> <span class="token keyword">throws</span> Exception <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> proxy<span class="token punctuation">.</span><span class="token function">uri</span><span class="token punctuation">(</span>home<span class="token punctuation">.</span><span class="token function">toString</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token string">"/image/png"</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+<span class="token punctuation">}</span></code></pre>
+<p>The same thing with Webflux:</p>
+<pre class=" language-java"><code class="language-java"><span class="token annotation punctuation">@RestController</span>
+<span class="token annotation punctuation">@SpringBootApplication</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">GatewaySampleApplication</span> <span class="token punctuation">{</span>
+
+    <span class="token annotation punctuation">@Value</span><span class="token punctuation">(</span><span class="token string">"${remote.home}"</span><span class="token punctuation">)</span>
+    <span class="token keyword">private</span> URI home<span class="token punctuation">;</span>
+
+    <span class="token annotation punctuation">@GetMapping</span><span class="token punctuation">(</span><span class="token string">"/test"</span><span class="token punctuation">)</span>
+    <span class="token keyword">public</span> Mono<span class="token operator">&lt;</span>ResponseEntity<span class="token operator">&lt;</span><span class="token operator">?</span><span class="token operator">>></span> <span class="token function">proxy</span><span class="token punctuation">(</span>ProxyExchange<span class="token operator">&lt;</span><span class="token keyword">byte</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token operator">></span> proxy<span class="token punctuation">)</span> <span class="token keyword">throws</span> Exception <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> proxy<span class="token punctuation">.</span><span class="token function">uri</span><span class="token punctuation">(</span>home<span class="token punctuation">.</span><span class="token function">toString</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token string">"/image/png"</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+<span class="token punctuation">}</span></code></pre>
+<p>There are convenience methods on the <code>ProxyExchange</code> to enable the handler method to discover and enhance the URI path of the incoming request. For example you might want to extract the trailing elements of a path to pass them downstream:</p>
+<pre class=" language-java"><code class="language-java"><span class="token annotation punctuation">@GetMapping</span><span class="token punctuation">(</span><span class="token string">"/proxy/path/**"</span><span class="token punctuation">)</span>
+<span class="token keyword">public</span> ResponseEntity<span class="token operator">&lt;</span><span class="token operator">?</span><span class="token operator">></span> <span class="token function">proxyPath</span><span class="token punctuation">(</span>ProxyExchange<span class="token operator">&lt;</span><span class="token keyword">byte</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token operator">></span> proxy<span class="token punctuation">)</span> <span class="token keyword">throws</span> Exception <span class="token punctuation">{</span>
+  String path <span class="token operator">=</span> proxy<span class="token punctuation">.</span><span class="token function">path</span><span class="token punctuation">(</span><span class="token string">"/proxy/path/"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token keyword">return</span> proxy<span class="token punctuation">.</span><span class="token function">uri</span><span class="token punctuation">(</span>home<span class="token punctuation">.</span><span class="token function">toString</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token string">"/foos/"</span> <span class="token operator">+</span> path<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
+<p>All the features of Spring MVC or Webflux are available to Gateway handler methods. So you can inject request headers and query parameters, for instance, and you can constrain the incoming requests with declarations in the mapping annotation. See the documentation for <code>@RequestMapping</code> in Spring MVC for more details of those features.</p>
+<p>Headers can be added to the downstream response using the <code>header()</code> methods on <code>ProxyExchange</code>.</p>
+<p>You can also manipulate response headers (and anything else you like in the response) by adding a mapper to the <code>get()</code> etc. method. The mapper is a <code>Function</code> that takes the incoming <code>ResponseEntity</code> and converts it to an outgoing one.</p>
+<p>First class support is provided for “sensitive” headers (“cookie” and “authorization” by default) which are not passed downstream, and for “proxy” headers (<code>x-forwarded-*</code>).</p>
+
+            </div>
+            <hr/>
+
+            
+
+    <div class="reprint" id="reprint-statement">
+        
+            <div class="reprint__author">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-user">
+                        文章作者:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="https://www.asxing.com" rel="external nofollow noreferrer">Asxing</a>
+                </span>
+            </div>
+            <div class="reprint__type">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-link">
+                        文章链接:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="https://www.asxing.com/2018/07/08/springcloud-gateway-sao-mang/">https://www.asxing.com/2018/07/08/springcloud-gateway-sao-mang/</a>
+                </span>
+            </div>
+            <div class="reprint__notice">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-copyright">
+                        版权声明:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    本博客所有文章除特別声明外，均采用
+                    <a href="https://creativecommons.org/licenses/by/4.0/deed.zh" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>
+                    许可协议。转载请注明来源
+                    <a href="https://www.asxing.com" target="_blank">Asxing</a>
+                    !
+                </span>
+            </div>
+        
+    </div>
+
+    <script async defer>
+      document.addEventListener("copy", function (e) {
+        let toastHTML = '<span>复制成功，请遵循本文的转载规则</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">查看</a>';
+        M.toast({html: toastHTML})
+      });
+
+      function navToReprintStatement() {
+        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      }
+    </script>
+
+
+
+            <div class="tag_share" style="display: block;">
+                <div class="post-meta__tag-list" style="display: inline-block;">
+                    
+                        <div class="article-tag">
+                            
+                                <a href="/tags/SpringCloud/">
+                                    <span class="chip bg-color">SpringCloud</span>
+                                </a>
+                            
+                                <a href="/tags/Gateway/">
+                                    <span class="chip bg-color">Gateway</span>
+                                </a>
+                            
+                        </div>
+                    
+                </div>
+                <div class="post_share" style="zoom: 80%; width: fit-content; display: inline-block; float: right; margin: -0.15rem 0;">
+                    <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+
+<div id="article-share">
+    
+    
+    <div class="social-share" data-sites="twitter,facebook,google,qq,qzone,wechat,weibo,douban,linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
+    <script src="/libs/share/js/social-share.min.js"></script>
+    
+
+    
+
+</div>
+
+                </div>
+            </div>
+            
+                <style>
+    #reward {
+        margin: 40px 0;
+        text-align: center;
+    }
+
+    #reward .reward-link {
+        font-size: 1.4rem;
+        line-height: 38px;
+    }
+
+    #reward .btn-floating:hover {
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2), 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    #rewardModal {
+        width: 320px;
+        height: 350px;
+    }
+
+    #rewardModal .reward-title {
+        margin: 15px auto;
+        padding-bottom: 5px;
+    }
+
+    #rewardModal .modal-content {
+        padding: 10px;
+    }
+
+    #rewardModal .close {
+        position: absolute;
+        right: 15px;
+        top: 15px;
+        color: rgba(0, 0, 0, 0.5);
+        font-size: 1.3rem;
+        line-height: 20px;
+        cursor: pointer;
+    }
+
+    #rewardModal .close:hover {
+        color: #ef5350;
+        transform: scale(1.3);
+        -moz-transform:scale(1.3);
+        -webkit-transform:scale(1.3);
+        -o-transform:scale(1.3);
+    }
+
+    #rewardModal .reward-tabs {
+        margin: 0 auto;
+        width: 210px;
+    }
+
+    .reward-tabs .tabs {
+        height: 38px;
+        margin: 10px auto;
+        padding-left: 0;
+    }
+
+    .reward-content ul {
+        padding-left: 0 !important;
+    }
+
+    .reward-tabs .tabs .tab {
+        height: 38px;
+        line-height: 38px;
+    }
+
+    .reward-tabs .tab a {
+        color: #fff;
+        background-color: #ccc;
+    }
+
+    .reward-tabs .tab a:hover {
+        background-color: #ccc;
+        color: #fff;
+    }
+
+    .reward-tabs .wechat-tab .active {
+        color: #fff !important;
+        background-color: #22AB38 !important;
+    }
+
+    .reward-tabs .alipay-tab .active {
+        color: #fff !important;
+        background-color: #019FE8 !important;
+    }
+
+    .reward-tabs .reward-img {
+        width: 210px;
+        height: 210px;
+    }
+</style>
+
+<div id="reward">
+    <a href="#rewardModal" class="reward-link modal-trigger btn-floating btn-medium waves-effect waves-light red">赏</a>
+
+    <!-- Modal Structure -->
+    <div id="rewardModal" class="modal">
+        <div class="modal-content">
+            <a class="close modal-close"><i class="fas fa-times"></i></a>
+            <h4 class="reward-title">你的赏识是我前进的动力</h4>
+            <div class="reward-content">
+                <div class="reward-tabs">
+                    <ul class="tabs row">
+                        <li class="tab col s6 alipay-tab waves-effect waves-light"><a href="#alipay">支付宝</a></li>
+                        <li class="tab col s6 wechat-tab waves-effect waves-light"><a href="#wechat">微 信</a></li>
+                    </ul>
+                    <div id="alipay">
+                        <img src="/medias/reward/alipay.jpg" class="reward-img" alt="支付宝打赏二维码">
+                    </div>
+                    <div id="wechat">
+                        <img src="/medias/reward/wechat.png" class="reward-img" alt="微信打赏二维码">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $('.tabs').tabs();
+    });
+</script>
+            
+        </div>
+    </div>
+
+    
+        <link rel="stylesheet" href="/libs/gitalk/gitalk.css">
+<link rel="stylesheet" href="/css/my-gitalk.css">
+
+<div class="card gitalk-card" data-aos="fade-up">
+    <div class="comment_headling" style="font-size: 20px; font-weight: 700; position: relative; left: 20px; top: 15px; padding-bottom: 5px;">
+        <i class="fas fa-comments fa-fw" aria-hidden="true"></i>
+        <span>评论</span>
+    </div>
+    <div id="gitalk-container" class="card-content"></div>
+</div>
+
+<script src="/libs/gitalk/gitalk.min.js"></script>
+<script>
+    let gitalk = new Gitalk({
+        clientID: 'c4e18e113d94091c8828',
+        clientSecret: '891f04d80de6a77fd6eb60d1cbe792e916cde3ff',
+        repo: 'asxing.github.io',
+        owner: 'Asxing',
+        admin: "asxing",
+        id: '2018-07-08T14-37-01',
+        distractionFreeMode: false  // Facebook-like distraction free mode
+    });
+
+    gitalk.render('gitalk-container');
+</script>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+            <div class="card">
+                <a href="/2018/07/10/k8s-shi-jian-shi/">
+                    <div class="card-image">
+                        
+                        <img src="https://www.holddie.com/img/20200105161431.jpg" class="responsive-img" alt="k8s-实践（十）">
+                        
+                        <span class="card-title">k8s-实践（十）</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            真正的剑，诉求的不只是剑刃锋芒，我希望这光能照亮苍生心底的废墟。                                            ——石家村旭
+
+梳理平时上线中的打包和部署的流程，最终的目的就是自己使用maven插件完
+                        
+                    </div>
+                    <div class="publish-info">
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2018-07-10
+                        </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/k8s/" class="post-category">
+                                    k8s
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/SpringBoot/">
+                        <span class="chip bg-color">SpringBoot</span>
+                    </a>
+                    
+                    <a href="/tags/k8s/">
+                        <span class="chip bg-color">k8s</span>
+                    </a>
+                    
+                    <a href="/tags/Docker/">
+                        <span class="chip bg-color">Docker</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2018/07/03/k8s-shi-jian-jiu/">
+                    <div class="card-image">
+                        
+                        <img src="https://www.holddie.com/img/20200105161337.jpg" class="responsive-img" alt="k8s-实践（九）">
+                        
+                        <span class="card-title">k8s-实践（九）</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            在无路的旅途上奔跑，将流光抛至身后。                                                                        ——陈非烟
+问题描述：那是一个晴朗的周六，在公司急速上线一个
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2018-07-03
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/k8s/" class="post-category">
+                                    k8s
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/k8s/">
+                        <span class="chip bg-color">k8s</span>
+                    </a>
+                    
+                    <a href="/tags/Docker/">
+                        <span class="chip bg-color">Docker</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+
+</div>
+
+
+
+<!-- 代码块功能依赖 -->
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+
+<!-- 代码语言 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+
+    
+<!-- 代码块复制 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+
+
+<!-- 代码块收缩 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script>
+
+
+<!-- 代码块折行 -->
+
+<style type="text/css">
+code[class*="language-"], pre[class*="language-"] { white-space: pre !important; }
+</style>
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget">
+            <div class="toc-title"><i class="far fa-list-alt"></i>&nbsp;&nbsp;目录</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fas fa-list-ul"></i>
+    </a>
+</div>
+
+
+<script src="/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            // headingsOffset: -205,
+            headingSelector: 'h2, h3, h4'
+        });
+
+        // modify the toc link href to support Chinese.
+        let i = 0;
+        let tocHeading = 'toc-heading-';
+        $('#toc-content a').each(function () {
+            $(this).attr('href', '#' + tocHeading + (++i));
+        });
+
+        // modify the heading title id to support Chinese.
+        i = 0;
+        $('#articleContent').children('h2, h3, h4').each(function () {
+            $(this).attr('id', tocHeading + (++i));
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).hide();
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).show();
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+        });
+        
+    });
+</script>
+
+    
+
+</main>
+
+
+
+    <footer class="page-footer bg-color">
+    <div class="container row center-align">
+        <div class="col s12 m8 l8 copy-right">
+            Copyright&nbsp;&copy;
+            <span id="year">年份</span>
+            <a href="https://www.asxing.com" target="_blank">Asxing</a>
+            |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
+            |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
+            <br>
+            
+            &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
+                class="white-color">479k</span>&nbsp;字
+            
+            
+            
+            
+            <span id="busuanzi_container_site_pv">
+                |&nbsp;<i class="far fa-eye"></i>&nbsp;总访问量:&nbsp;<span id="busuanzi_value_site_pv"
+                    class="white-color"></span>&nbsp;次
+            </span>
+            
+            
+            <span id="busuanzi_container_site_uv">
+                |&nbsp;<i class="fas fa-users"></i>&nbsp;总访问人数:&nbsp;<span id="busuanzi_value_site_uv"
+                    class="white-color"></span>&nbsp;人
+            </span>
+            
+            <br>
+            
+            <span id="sitetime">载入运行时间...</span>
+            <script>
+                function siteTime() {
+                    window.setTimeout("siteTime()", 1000);
+                    var seconds = 1000;
+                    var minutes = seconds * 60;
+                    var hours = minutes * 60;
+                    var days = hours * 24;
+                    var years = days * 365;
+                    var today = new Date();
+                    var startYear = "2019";
+                    var startMonth = "10";
+                    var startDate = "30";
+                    var startHour = "22";
+                    var startMinute = "30";
+                    var startSecond = "0";
+                    var todayYear = today.getFullYear();
+                    var todayMonth = today.getMonth() + 1;
+                    var todayDate = today.getDate();
+                    var todayHour = today.getHours();
+                    var todayMinute = today.getMinutes();
+                    var todaySecond = today.getSeconds();
+                    var t1 = Date.UTC(startYear, startMonth, startDate, startHour, startMinute, startSecond);
+                    var t2 = Date.UTC(todayYear, todayMonth, todayDate, todayHour, todayMinute, todaySecond);
+                    var diff = t2 - t1;
+                    var diffYears = Math.floor(diff / years);
+                    var diffDays = Math.floor((diff / days) - diffYears * 365);
+                    var diffHours = Math.floor((diff - (diffYears * 365 + diffDays) * days) / hours);
+                    var diffMinutes = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours) /
+                        minutes);
+                    var diffSeconds = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours -
+                        diffMinutes * minutes) / seconds);
+                    if (startYear == todayYear) {
+                        document.getElementById("year").innerHTML = todayYear;
+                        document.getElementById("sitetime").innerHTML = "本站已安全运行 " + diffDays + " 天 " + diffHours +
+                            " 小时 " + diffMinutes + " 分钟 " + diffSeconds + " 秒";
+                    } else {
+                        document.getElementById("year").innerHTML = startYear + " - " + todayYear;
+                        document.getElementById("sitetime").innerHTML = "本站已安全运行 " + diffYears + " 年 " + diffDays +
+                            " 天 " + diffHours + " 小时 " + diffMinutes + " 分钟 " + diffSeconds + " 秒";
+                    }
+                }
+                setInterval(siteTime, 1000);
+            </script>
+            
+            <br>
+            
+        </div>
+        <div class="col s12 m4 l4 social-link ">
+    <a href="https://github.com/asxing" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+        <i class="fab fa-github"></i>
+    </a>
+
+
+
+    <a href="mailto:asxingking@gmail.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fas fa-envelope-open"></i>
+    </a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <a href="/atom.xml" class="tooltipped" target="_blank" data-tooltip="RSS 订阅" data-position="top" data-delay="50">
+        <i class="fas fa-rss"></i>
+    </a>
+
+</div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+
+    <!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fas fa-search"></i>&nbsp;&nbsp;搜索</span>
+            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script src="/js/search.js"></script>
+<script type="text/javascript">
+$(function () {
+    searchFunc("/" + "search.xml", 'searchInput', 'searchResult');
+});
+</script>
+    <!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+</div>
+
+
+    <script src="/libs/materialize/materialize.min.js"></script>
+    <script src="/libs/masonry/masonry.pkgd.min.js"></script>
+    <script src="/libs/aos/aos.js"></script>
+    <script src="/libs/scrollprogress/scrollProgress.min.js"></script>
+    <script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+    <script src="/js/matery.js"></script>
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+    <!-- Baidu Analytics -->
+
+    <!-- Baidu Push -->
+
+    
+    <script src="/libs/others/clicklove.js" async="async"></script>
+    
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <script type="text/javascript" src="/libs/background/ribbon-dynamic.js" async="async"></script>
+    
+    
+    
+
+</body>
+
+</html>

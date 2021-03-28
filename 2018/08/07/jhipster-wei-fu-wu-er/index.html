@@ -1,0 +1,1417 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="keywords" content="Jhipster-微服务（二）, 编程 读书 生活">
+    <meta name="description" content="乐土掩藏在每个人心底深处，犹如一场镜花水月。                                                        ——泪落秦觞
+API 网关网关架构
+
+使用GateWay网关进行管理，主要使用了Zu">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>Jhipster-微服务（二） | Asxing-阿行</title>
+    <link rel="icon" type="image/png" href="/favicon.png">
+
+    <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
+    <link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
+    <link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/matery.css">
+    <link rel="stylesheet" type="text/css" href="/css/my.css">
+    
+    <script src="/libs/jquery/jquery.min.js"></script>
+    
+<meta name="generator" content="Hexo 4.2.1"><link rel="alternate" href="/atom.xml" title="Asxing-阿行" type="application/atom+xml">
+<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+
+
+<body>
+    <header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper head-container">
+            <div class="brand-logo">
+                <a href="/" class="waves-effect waves-light">
+                    
+                    <img src="/medias/logo.png" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">Asxing-阿行</span>
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
+<ul class="right nav-menu">
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/" class="waves-effect waves-light">
+      
+      <i class="fas fa-home" style="zoom: 0.6;"></i>
+      
+      <span>首页</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/tags" class="waves-effect waves-light">
+      
+      <i class="fas fa-tags" style="zoom: 0.6;"></i>
+      
+      <span>标签</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/categories" class="waves-effect waves-light">
+      
+      <i class="fas fa-bookmark" style="zoom: 0.6;"></i>
+      
+      <span>分类</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/archives" class="waves-effect waves-light">
+      
+      <i class="fas fa-archive" style="zoom: 0.6;"></i>
+      
+      <span>归档</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/about" class="waves-effect waves-light">
+      
+      <i class="fas fa-user-circle" style="zoom: 0.6;"></i>
+      
+      <span>关于</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/contact" class="waves-effect waves-light">
+      
+      <i class="fas fa-comments" style="zoom: 0.6;"></i>
+      
+      <span>留言板</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/friends" class="waves-effect waves-light">
+      
+      <i class="fas fa-address-book" style="zoom: 0.6;"></i>
+      
+      <span>友情链接</span>
+    </a>
+    
+  </li>
+  
+  <li>
+    <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+      <i id="searchIcon" class="fas fa-search" title="搜索" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+</ul>
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="/medias/logo.png" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">Asxing-阿行</div>
+        <div class="logo-desc">
+            
+            Never really desperate, only the lost of the soul.
+            
+        </div>
+    </div>
+
+    
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li class="m-nav-item">
+	  
+		<a href="/" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-home"></i>
+			
+			首页
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/tags" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-tags"></i>
+			
+			标签
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/categories" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-bookmark"></i>
+			
+			分类
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/archives" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-archive"></i>
+			
+			归档
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/about" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-user-circle"></i>
+			
+			关于
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/contact" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-comments"></i>
+			
+			Contact
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/friends" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-address-book"></i>
+			
+			友情链接
+		</a>
+          
+        </li>
+        
+        
+        <li><div class="divider"></div></li>
+        <li>
+            <a href="https://github.com/asxing" class="waves-effect waves-light" target="_blank">
+                <i class="fab fa-github-square fa-fw"></i>Fork Me
+            </a>
+        </li>
+        
+    </ul>
+</div>
+
+        </div>
+
+        
+            <style>
+    .nav-transparent .github-corner {
+        display: none !important;
+    }
+
+    .github-corner {
+        position: absolute;
+        z-index: 10;
+        top: 0;
+        right: 0;
+        border: 0;
+        transform: scale(1.1);
+    }
+
+    .github-corner svg {
+        color: #0f9d58;
+        fill: #fff;
+        height: 64px;
+        width: 64px;
+    }
+
+    .github-corner:hover .octo-arm {
+        animation: a 0.56s ease-in-out;
+    }
+
+    .github-corner .octo-arm {
+        animation: none;
+    }
+
+    @keyframes a {
+        0%,
+        to {
+            transform: rotate(0);
+        }
+        20%,
+        60% {
+            transform: rotate(-25deg);
+        }
+        40%,
+        80% {
+            transform: rotate(10deg);
+        }
+    }
+</style>
+
+<a href="https://github.com/asxing" class="github-corner tooltipped hide-on-med-and-down" target="_blank"
+   data-tooltip="Fork Me" data-position="left" data-delay="50">
+    <svg viewBox="0 0 250 250" aria-hidden="true">
+        <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
+        <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2"
+              fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path>
+        <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z"
+              fill="currentColor" class="octo-body"></path>
+    </svg>
+</a>
+        
+    </nav>
+
+</header>
+
+    
+<script src="/libs/cryptojs/crypto-js.min.js"></script>
+<script>
+    (function() {
+        let pwd = '';
+        if (pwd && pwd.length > 0) {
+            if (pwd !== CryptoJS.SHA256(prompt('请输入访问本文章的密码')).toString(CryptoJS.enc.Hex)) {
+                alert('密码错误，将返回主页！');
+                location.href = '/';
+            }
+        }
+    })();
+</script>
+
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('https://www.holddie.com/img/20200105162119.jpg')">
+    <div class="container" style="right: 0px;left: 0px;">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <div class="description center-align post-title">
+                        Jhipster-微服务（二）
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<main class="post-container content">
+
+    
+    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
+<style>
+    #articleContent h1::before,
+    #articleContent h2::before,
+    #articleContent h3::before,
+    #articleContent h4::before,
+    #articleContent h5::before,
+    #articleContent h6::before {
+        display: block;
+        content: " ";
+        height: 100px;
+        margin-top: -100px;
+        visibility: hidden;
+    }
+
+    #articleContent :focus {
+        outline: none;
+    }
+
+    .toc-fixed {
+        position: fixed;
+        top: 64px;
+    }
+
+    .toc-widget {
+        padding-left: 20px;
+    }
+
+    .toc-widget .toc-title {
+        margin: 35px 0 15px 0;
+        padding-left: 17px;
+        font-size: 1.5rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    .toc-widget ol {
+        padding: 0;
+        list-style: none;
+    }
+
+    #toc-content ol {
+        padding-left: 10px;
+    }
+
+    #toc-content ol li {
+        padding-left: 10px;
+    }
+
+    #toc-content .toc-link:hover {
+        color: #42b983;
+        font-weight: 700;
+        text-decoration: underline;
+    }
+
+    #toc-content .toc-link::before {
+        background-color: transparent;
+        max-height: 25px;
+    }
+
+    #toc-content .is-active-link {
+        color: #42b983;
+    }
+
+    #toc-content .is-active-link::before {
+        background-color: #42b983;
+    }
+
+    #floating-toc-btn {
+        position: fixed;
+        right: 15px;
+        bottom: 76px;
+        padding-top: 15px;
+        margin-bottom: 0;
+        z-index: 998;
+    }
+
+    #floating-toc-btn .btn-floating {
+        width: 48px;
+        height: 48px;
+    }
+
+    #floating-toc-btn .btn-floating i {
+        line-height: 48px;
+        font-size: 1.4rem;
+    }
+</style>
+<div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                            <a href="/tags/SpringBoot/">
+                                <span class="chip bg-color">SpringBoot</span>
+                            </a>
+                        
+                            <a href="/tags/Jhipster/">
+                                <span class="chip bg-color">Jhipster</span>
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fas fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/categories/Jhipster/" class="post-category">
+                                Jhipster
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
+                    2018-08-07
+                </div>
+                
+
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
+                    4k
+                </div>
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
+                    14 分
+                </div>
+                
+				
+                
+            </div>
+            
+        </div>
+        <hr class="clearfix">
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <p>乐土掩藏在每个人心底深处，犹如一场镜花水月。                                                        ——泪落秦觞</p>
+<h3 id="API-网关"><a href="#API-网关" class="headerlink" title="API 网关"></a>API 网关</h3><p>网关架构</p>
+<p><img src="https://www.holddie.com/img/20200105162132.png" alt=""></p>
+<p>使用GateWay网关进行管理，主要使用了Zuul代理、安全认证、访问速率限制。</p>
+<h4 id="针对于HTTP访问"><a href="#针对于HTTP访问" class="headerlink" title="针对于HTTP访问"></a>针对于HTTP访问</h4><p>我们可以进行通过代理，将打到网关的流量根据规则进行匹配，分发到不同的EndPoint，其中我们熟知的有进行负载均衡的 Ribbon 和 进行熔断处理的 Hystrix可以快速响应。</p>
+<h4 id="安全"><a href="#安全" class="headerlink" title="安全"></a>安全</h4><h5 id="JWT"><a href="#JWT" class="headerlink" title="JWT"></a>JWT</h5><ul>
+<li><p>JWT是行业标准，非常简单的通用在微服务架构中。</p>
+</li>
+<li><p>Token 是被网关颁发，发送给底层服务。当他们共享相同的私钥就可以对Token进行校验，并且通过Token授权给用户。</p>
+</li>
+<li><p>Token 本身就是自给自足的，这样达到的目的就是微服务不需要再进行额外的服务查询，这一点对于微服务的扩容是非常重要的。</p>
+</li>
+</ul>
+<p>为了能够让Token生效，私钥必须被所有的应用终端所共享。</p>
+<ul>
+<li>对于每个应用默认Token是独一无二的，它被Jhipster初始化，保存在 <code>.yo-rc.json</code> 文件中</li>
+<li>Token 被配置 <code>jhipster.security.authentication.jwt.secret</code> 在 <code>src/main/resources/config/application.yml</code>文件中</li>
+<li>为了分享这个Key，可以手动的拷贝这个key到所有的微服务中，同时也可以使用注册中心，配置中心进行配置统一配置管理分发。</li>
+<li>一个好的习惯就是开发环境和生产环境使用不同的key</li>
+</ul>
+<h5 id="OpenID-Connect"><a href="#OpenID-Connect" class="headerlink" title="OpenID Connect"></a>OpenID Connect</h5><ul>
+<li>是一种建立在Auth2.0之上的一种认证方式，</li>
+<li>从官方文档中看出还是有一些主要的问题<ul>
+<li>对于用户信息的非自给自足</li>
+<li>以及认证过程中的用户登录session失效不及时，使用 Keycloak </li>
+</ul>
+</li>
+</ul>
+<h5 id="JHipster-UAA"><a href="#JHipster-UAA" class="headerlink" title="JHipster UAA"></a>JHipster UAA</h5><ul>
+<li>使用Spring Security，服务端提供 OAuth2 Token 确保网关安全</li>
+<li>在服务内部使用JWT进行，所以使用的JWT配置和上述相同</li>
+</ul>
+<h5 id="限流"><a href="#限流" class="headerlink" title="限流"></a>限流</h5><p>这是一个先进的特性通过使用 <code>Bucket4j</code> 和 <code>Hazelcast</code> 提供质量服务基于微服务</p>
+<p>网关提供限流的特性，因此对于 Rest 请求将会被限制：</p>
+<ul>
+<li>通过IP地址（对于匿名用户）</li>
+<li>通过用户信息（对于登录用户）</li>
+</ul>
+<p>JHipster 将会使用 Bucket4j 和 Hazelcast 来对请求计数，将会发送 429 代表访问已经超过了上线，默认的限制是每小时10w访问量调用。</p>
+<p>这个非常重要防止后端的微服务被一个指定的用户请求洪流攻击。</p>
+<p>为了确保服务的正常可用，我们配置：</p>
+<pre class=" language-yaml"><code class="language-yaml"><span class="token key atrule">jhipster</span><span class="token punctuation">:</span>
+    <span class="token key atrule">gateway</span><span class="token punctuation">:</span>
+        <span class="token key atrule">rate-limiting</span><span class="token punctuation">:</span>
+            <span class="token key atrule">enabled</span><span class="token punctuation">:</span> <span class="token boolean important">true</span></code></pre>
+<p>数据被保存在Hazelcast中，只要Hazelcast缓存是分布式配置，就可以支持横向扩展。</p>
+<ul>
+<li>所有的网关默认都有Hazelcast配置</li>
+<li>如果你使用JHipster 注册中心，默认所有的实例都会自动注册到网关上使用分布式缓存</li>
+</ul>
+<h5 id="访问控制策略"><a href="#访问控制策略" class="headerlink" title="访问控制策略"></a>访问控制策略</h5><ul>
+<li>默认情况下所有注册的微服务通过网关都是可以被访问到的，但是如果想排除一个具体的API，避免暴露到网关，此时可以使用网关的控制策略过滤器。</li>
+<li>它被配置在 <code>jhipster.gateway.authorized-microservices-endpoints</code> 属性下，此时最常用的就是对于Swagger的使用，开发环境暴露出来，等到生产环境就要隐藏。</li>
+</ul>
+<h3 id="Traefik"><a href="#Traefik" class="headerlink" title="Traefik"></a>Traefik</h3><p>Traefik 是一个现代的反向代理和负载均衡使得后端微服务的发布更加容易。</p>
+<p>它可以提供HTTP请求的路由类似 Zuul，基本功能和 网关有一些重合，相比较<code>API Gateway</code>工作在一个更加底层的，并且不提供限流、安全以及Swagger文档的限流。</p>
+<p>默认情况下是和 Consul 搭配使用。</p>
+<p>两种架构设计：</p>
+<p><img src="https://www.holddie.com/img/20200105162205.png" alt=""></p>
+<p>这样架构下网关不在是严格意义上的网关，只存储了静态的文件。</p>
+<p><img src="https://www.holddie.com/img/20200105162213.png" alt=""></p>
+<p>在这种方式下，会有更多次的请求，导致效率很低，这种方式既可以限流、安全。</p>
+<h3 id="JHipster-UAA-1"><a href="#JHipster-UAA-1" class="headerlink" title="JHipster UAA"></a>JHipster UAA</h3><p><img src="https://www.holddie.com/img/20200105162221.png" alt=""></p>
+<h5 id="微服务架构的安全声明"><a href="#微服务架构的安全声明" class="headerlink" title="微服务架构的安全声明"></a>微服务架构的安全声明</h5><p>在我们深入探讨OAuth2.0之前，重要的是澄清对于可靠安全解决方案的主张。</p>
+<h6 id="中央认证"><a href="#中央认证" class="headerlink" title="中央认证"></a>中央认证</h6><p>因为微服务一般都是独立和自主的应用，因此我们必须有一个地方对用户的信息进行持久化，并且在用户持有一个相同的用户信息，请求访问到不同的应用，用户没有感知。</p>
+<h6 id="无状态"><a href="#无状态" class="headerlink" title="无状态"></a>无状态</h6><p>微服务的核心优势就是扩容，因此对于安全认证不能影响这点，因此保持用户回话是一个难题，此时使用无状态的成为首选。</p>
+<h6 id="用户、机器到达目的地"><a href="#用户、机器到达目的地" class="headerlink" title="用户、机器到达目的地"></a>用户、机器到达目的地</h6><p>需要有一个清晰的区分针对于不同的用户和不同的机器。使用微服务架构主导构建一个多用途、多数据中心不同的域和资源，因此需要严格限制客户端，比如原生APP，多功能页面。</p>
+<h6 id="细粒度权限控制"><a href="#细粒度权限控制" class="headerlink" title="细粒度权限控制"></a>细粒度权限控制</h6><p>当保持集中角色，就需要配置具体的权限粒度针对于每个微服务，微服务应该不关心用户，而仅仅是针对请求认证。</p>
+<h6 id="防止攻击"><a href="#防止攻击" class="headerlink" title="防止攻击"></a>防止攻击</h6><p>无论安全框架解决多少问题，首当其冲的就是防止漏洞攻击</p>
+<h6 id="动态扩容"><a href="#动态扩容" class="headerlink" title="动态扩容"></a>动态扩容</h6><p>使用状态的协议并不能解决安全问题的可靠性，我们避免出现单点故障，反例就是对于用户认证若是单个实例，则每次访问都会命中。</p>
+<h4 id="上下文中使用-OAuth2"><a href="#上下文中使用-OAuth2" class="headerlink" title="上下文中使用 OAuth2"></a>上下文中使用 OAuth2</h4><p>架构图</p>
+<p><img src="https://www.holddie.com/img/20200105162233.png" alt=""></p>
+<p>其中有几个关键点：</p>
+<ul>
+<li>每一个请求到达任何一个终端，表现形式都是通过一个 “client”来访问的</li>
+<li>对于 “client” 是一个抽象的概念，他可能是前端 <code>Angular $http client</code> 可能是 <code>REST-Client</code> 、<code>curl</code>  或者任何可以执行请求的request。</li>
+<li>客户端也可以和用户认证一起使用，例如前端的 <code>Angular $http client</code></li>
+<li>每一个提供服务的终端（包括UAA），都是资源服务器</li>
+<li>蓝色箭头表示客户端到认证服务器进行认证</li>
+<li>绿色箭头代表通过请求在资源服务器被执行通过客户端</li>
+<li>UAA 服务包括了授权服务器和资源服务器</li>
+<li>UAA 服务器实在微服务中所有内部数据的前提（它提供所有的权限的对于资源服务器）</li>
+<li>客户端访问资源通过用户认证，通过使用 密码代理授权，其中主要是在网关中配置。</li>
+<li>客户端访问资源不需要用户，只需要被授权的客户端票据</li>
+<li>每一个客户端都被定在UAA内部</li>
+</ul>
+<p>这个设计被应用在任何微服务架构，独立于语言和架构。</p>
+<p>作为一个补充，以下几点建议将被应用于权限控制：</p>
+<ul>
+<li>针对于用户的权限控制使用“roles”和RBAC</li>
+<li>针对于机器的权限控制使用“scopes”和RBAC</li>
+<li>复杂的权限配置将被配置在 ABAC，使用Boolean表达式通过 roles 和  scopes 就是混合使用<ul>
+<li>举个栗子：hasRole(“ADMIN”) and hasScope(“shop-manager.read”,”shop-manager.write”)</li>
+</ul>
+</li>
+</ul>
+<h4 id="使用-UAA"><a href="#使用-UAA" class="headerlink" title="使用 UAA"></a>使用 UAA</h4><p>当使用JHipster脚手架的时候，默认会提示你使用JWT还是UAA认证。</p>
+<p>在UAA内部还是使用JWT的方式，它可以自定义配置，默认使用SpringCloudSecurity</p>
+<h5 id="基础步骤："><a href="#基础步骤：" class="headerlink" title="基础步骤："></a>基础步骤：</h5><ul>
+<li>一个 JHipster UAA 服务器</li>
+<li>至少一个微服务</li>
+<li>一个JHipster网关</li>
+</ul>
+<p>除了身份认证之外，还必须提供UAA的服务地址，对于基本的服务此设置于基本的JWT相同，但是至少还有一个或多个Service</p>
+<h5 id="理解组件"><a href="#理解组件" class="headerlink" title="理解组件"></a>理解组件</h5><p>对于JHipster-UAA服务器做三件事情：</p>
+<ul>
+<li>服务默认提供域、包含用户、和账号资源（这些都被网关的JWT认证）</li>
+<li>它使用了  <code>AuthorizationServerConfigurerAdapter</code> 适配OAuth2.0对于不同的客户端（<code>web_app</code> 和 <code>internal</code>）</li>
+<li>服务的JWT的<code>public Key</code>存放在 <code>/oauth/token_key</code> ，它可以被其他的服务消费</li>
+</ul>
+<p>微服务启动的时候会去配置中心拉取<code>token_key</code>字段，然后最终调用自己的 <code>JwtAccessTokenConverter</code></p>
+<p>如果 UAA 服务器没有启动，那么应用将会继续开始和拉取最后一次。此时会涉及到两个配置：</p>
+<ul>
+<li><code>uaa.signature-verification.ttl</code> ：控制在距离上次拉取配置存活的时间</li>
+<li><code>uaa.signature-verification.public-key-refresh-rate-limit</code>：对UAA 的请求的限制，避免发送垃圾邮件</li>
+</ul>
+<p>这些配置通常作为默认值，但是，如果认证失败，后端服务将检测是否需要一个新的值，这样的新的key将在UAA服务器生成，然后服务端去拉取更新。</p>
+<p>从基础的步骤来看有两种方式会触发调用：<code>用户调用</code> 和 <code>机器调用</code></p>
+<p>对于用户调用：一个登录请求首先会被发送到 <code>/auth/login</code> 网关，这个终端使用 通过 <code>OAuth2TokenEndpointClientAdapter</code>   适配并且通过<code>密码模式</code>进行授权。因为这个方式的请求首先发生在网关，客户端ID和秘钥不存在任何一个客户端代码中并且用户是不知道的。网关返回了一个新的Cookie包含了Token，然后这个<code>Cookie</code>将被发送给每一个要执行的后端中。</p>
+<h5 id="刷新Token"><a href="#刷新Token" class="headerlink" title="刷新Token"></a>刷新Token</h5><p>Token刷新这个流程一般发生在网关，并有如下流程：</p>
+<ul>
+<li>认证是通过 AuthResource调用 OAuth2AuthenticationService’s 认证，然后设置Cookie</li>
+<li>对于每一个请求，<code>RefreshTokenFilter</code> （而不是RefreshTokenFilterConfigurer）检测Token是否过期，是否是一个有效的刷新令牌。</li>
+<li>如果过期，则通过 OAuth2AthenticationService 刷新Token</li>
+<li>使用 OAuth2TokenEndpointClient 接口来向OAuth2 服务器发送刷新令牌授权，在我们的案例中为UAA（通过 UAATokenEndpointClient）</li>
+<li>刷新的结果就是对于后端前段浏览器设置一个新的Cookie</li>
+</ul>
+<h5 id="一些常见的错误"><a href="#一些常见的错误" class="headerlink" title="一些常见的错误"></a>一些常见的错误</h5><ul>
+<li>使用相同的SignKey对于生产的各个阶段<ul>
+<li>强烈建议尽可能使用不同的signkey，一旦一个key进入坏人的手里，可以在不知道用户登录凭证的情况下授权访问。</li>
+</ul>
+</li>
+<li>不使用TLS<ul>
+<li>如果一个攻击者拦截了授权Token，他将会获取这个Token所拥有的所有授权，直到Token失效。</li>
+<li>如果没有使用TLS加密，那会有很多种方式来实现上述操作。</li>
+<li>在 OAuth 1中不会出现这类问题，因为在底层被强制协议加密。</li>
+</ul>
+</li>
+<li>在URL中使用<code>访问Token</code><ul>
+<li>作为一个标准，访问Token 可以通过URL、Header、cookie传输，从TLS的角度来看，三种方式都是安全的</li>
+<li>在实际过程中，在URL中传递 Token 是不安全的，因为存在有好多方式从浏览器的记录中获取URL。</li>
+</ul>
+</li>
+<li>使用对称的SignKey<ul>
+<li>JWT的sign加密方式不需要RSA，同时SpringSecurity也提供了一个对称token加密，因此解决了开发者的一些问题。</li>
+<li>但是这是不安全的，因为一个攻击者只需要进入一个微服务就可以获得自己JWT的Token</li>
+</ul>
+</li>
+</ul>
+<h4 id="使用-Feign-client-来确保内部服务之间交流安全"><a href="#使用-Feign-client-来确保内部服务之间交流安全" class="headerlink" title="使用 Feign client 来确保内部服务之间交流安全"></a>使用 Feign client 来确保内部服务之间交流安全</h4><ul>
+<li><p>当前使用UAA提供了一个高可用发方式来确保内部服务之间的调用</p>
+</li>
+<li><p>使用JWT认证，使得内部服务之间的调用不需要再次经过网关，这其中解决了一些内部访问的额外请求。</p>
+</li>
+<li><p>因为即使使用转发，也不能清晰的区分出是用户访问还是机器认证</p>
+</li>
+<li><p><code>UAA</code> 是基于OAuth2开发的，所有的问题都被在协议层定义</p>
+</li>
+</ul>
+<p>这一章只是介绍如何简单的使用</p>
+<h5 id="使用-Eureka、Ribbon、Hystrix-和-Feign"><a href="#使用-Eureka、Ribbon、Hystrix-和-Feign" class="headerlink" title="使用 Eureka、Ribbon、Hystrix 和 Feign"></a>使用 Eureka、Ribbon、Hystrix 和 Feign</h5><p>当一个服务需要请求其他服务数据的时候，最终所有的上述四种都需要发挥作用，因此，简要的了解他们每个作用是必要的。</p>
+<ul>
+<li>Eureka：这个是服务注册，通过它，当你访问“foo-service”服务的时候，会获得到关于<code>foo-service</code> 实例的一系列（注册在Eureka中）实例的IP。</li>
+<li>Ribbon：当其中某个服务调用另一个服务的时候，Ribbon 做负载均衡请求不通的服务</li>
+</ul>
+<p>总的来说，当我们访问一个URL例如： <code>http://uaa/oauth/token</code>，后端会有Uaa有 <code>10.10.10.1:9999</code> 和 <code>10.10.10.2:9999</code>，我们使用Eureka和Ribbon快速的转换URL到对应的后端服务为： <a href="http://10.10.10.1:9999/oauth/token" target="_blank" rel="noopener">http://10.10.10.1:9999/oauth/token</a> 或 <a href="http://10.10.10.2:9999/oauth/token" target="_blank" rel="noopener">http://10.10.10.2:9999/oauth/token</a> 使用随机的Robin算法</p>
+<ul>
+<li>Hystrix：一个断路器系统解决服务的后腿情况失败</li>
+<li>Feign：所有的服务访问使用<code>声明式</code></li>
+</ul>
+<p>因为实际生产中，不能保证所有的服务都能保证随时正常，此时对于一个系统的熔断，来处理失败的场景是一个非常好的方式，最会回调。</p>
+<p>但是手动连接和编码所有的事情是很繁琐的一件事，Feign 提供了一个使用 Ribbon进行负载均衡调用注册在Eureka中的服务实例，并使用Hystrix来控制了回调接口，这一切仅仅使用了几个注解。</p>
+<p>所以内部服务的访问，Feign 客户端是十分有用的。当一个服务需要使用Rest客户端调用其他的服务的时候，使用如下声明：</p>
+<pre class=" language-java"><code class="language-java"><span class="token annotation punctuation">@FeignClient</span><span class="token punctuation">(</span>name <span class="token operator">=</span> <span class="token string">"other-service"</span><span class="token punctuation">)</span>
+<span class="token keyword">interface</span> <span class="token class-name">OtherServiceClient</span> <span class="token punctuation">{</span>
+  <span class="token annotation punctuation">@RequestMapping</span><span class="token punctuation">(</span>value <span class="token operator">=</span> <span class="token string">"/api/other-resources"</span><span class="token punctuation">)</span>
+  List<span class="token operator">&lt;</span>OtherResource<span class="token operator">></span> <span class="token function">getResourcesFromOtherService</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
+<p>然后，通过注入就可以使用了</p>
+<pre class=" language-java"><code class="language-java"><span class="token annotation punctuation">@Service</span>
+<span class="token keyword">class</span> <span class="token class-name">SomeService</span> <span class="token punctuation">{</span>
+  <span class="token keyword">private</span> OtherServiceClient otherServiceClient<span class="token punctuation">;</span>
+
+  <span class="token annotation punctuation">@Inject</span>
+  <span class="token keyword">public</span> <span class="token function">SomeService</span><span class="token punctuation">(</span>OtherServiceClient otherServiceClient<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>otherServiceClient <span class="token operator">=</span> otherServiceClient<span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<p>和 Spring Data JPA十分相似，不需要实现接口。但是你要使用 Hystrix，Feign 客户端接口也要作为回调的一个接口。</p>
+<p>一个明显的问题就是，通过UAA确保内部服务安全访问。为了实现这些，我们需要对Feign的一些请求进行拦截，它实现来自OAuth的客户端凭证流，以授权当前服务请求其他服务。</p>
+<p>在 JHipster 中，我们使用 <code>@AuthorizedFeignClients</code>，这是一个特殊的注解，来实现这些。</p>
+<h5 id="使用-AuthorizedFeignClients-注解"><a href="#使用-AuthorizedFeignClients-注解" class="headerlink" title="使用 @AuthorizedFeignClients 注解"></a>使用 <code>@AuthorizedFeignClients</code> 注解</h5><p>当我们上述访问的服务进行了的权限控制，此时我们访问就必须如下使用方式：</p>
+<pre class=" language-java"><code class="language-java"><span class="token annotation punctuation">@AuthorizedFeignClient</span><span class="token punctuation">(</span>name <span class="token operator">=</span> <span class="token string">"other-service"</span><span class="token punctuation">)</span>
+<span class="token keyword">interface</span> <span class="token class-name">OtherServiceClient</span> <span class="token punctuation">{</span>
+  <span class="token annotation punctuation">@RequestMapping</span><span class="token punctuation">(</span>value <span class="token operator">=</span> <span class="token string">"/api/other-resources"</span><span class="token punctuation">)</span>
+  List<span class="token operator">&lt;</span>OtherResource<span class="token operator">></span> <span class="token function">getResourcesFromOtherService</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
+<p>备注：由于Spring Cloud的BUG，目前以下两种凡是不支持</p>
+<pre class=" language-java"><code class="language-java"><span class="token annotation punctuation">@AuthorizedFeignClient</span><span class="token punctuation">(</span><span class="token string">"other-service"</span><span class="token punctuation">)</span>
+和
+<span class="token annotation punctuation">@AuthorizedFeignClient</span><span class="token punctuation">(</span>value <span class="token operator">=</span> <span class="token string">"other-service"</span><span class="token punctuation">)</span></code></pre>
+<p>REST 客户端自动获得授权从UAA服务器，当内存中没有存储一个可用的通行Token时。</p>
+<h4 id="测试-UAA-应用"><a href="#测试-UAA-应用" class="headerlink" title="测试 UAA 应用"></a>测试 UAA 应用</h4><h5 id="Mocking-Feign-客户端"><a href="#Mocking-Feign-客户端" class="headerlink" title="Mocking Feign 客户端"></a>Mocking Feign 客户端</h5><p>Feign 客户端组件应该是被测试的，使用Feign测试的时候，默认 JHipster Registry 和 UAA 服务都应该是启动的并且服务可达的情况。但是大多情况下，您不想测试Feign本身时候好用，但是你的组件使用了Feign。</p>
+<p>接下来展示一个如何使用：</p>
+<pre class=" language-java"><code class="language-java"><span class="token annotation punctuation">@RunWith</span><span class="token punctuation">(</span>SpringRunner<span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">)</span>
+<span class="token annotation punctuation">@SpringBootTest</span><span class="token punctuation">(</span>App<span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">)</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">SomeServiceTest</span> <span class="token punctuation">{</span>
+
+    <span class="token annotation punctuation">@MockBean</span>
+    <span class="token keyword">private</span> OtherServiceClient otherServiceClient<span class="token punctuation">;</span>
+
+    <span class="token annotation punctuation">@Inject</span>
+    <span class="token keyword">private</span> SomeService someService<span class="token punctuation">;</span>
+
+    <span class="token annotation punctuation">@Test</span>
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">testSomeService</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token function">given</span><span class="token punctuation">(</span>otherServiceClient<span class="token punctuation">.</span><span class="token function">getResourcesFromOtherService</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+            <span class="token punctuation">.</span><span class="token function">willReturn</span><span class="token punctuation">(</span>Arrays<span class="token punctuation">.</span><span class="token function">asList</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">OtherResource</span><span class="token punctuation">(</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+                        someService<span class="token punctuation">.</span><span class="token function">performActionWhichInkvokesTheAboveMentionedMethod</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+                        <span class="token comment" spellcheck="true">//assert that your application is in the desired state</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<h5 id="模拟OAuth身份验证"><a href="#模拟OAuth身份验证" class="headerlink" title="模拟OAuth身份验证"></a>模拟OAuth身份验证</h5><p>使用Spring 针对Reset的集成测试一般都会跳过了安全认证，这会导致测试十分的复杂，这导致唯一可以证明的就是当前这个Controller还是存货的。但是，有时候测试Controller也是测试的一部分。</p>
+<p>对于这种情况来说，JHipster 提供了一个组件叫做 <code>OAuth2TokenMockUtil</code>，它就可以模拟一个可用的用户认证而并不需要客户端和用户存在。</p>
+<h6 id="在模拟SpringMVC上下文的使用注入"><a href="#在模拟SpringMVC上下文的使用注入" class="headerlink" title="在模拟SpringMVC上下文的使用注入"></a>在模拟SpringMVC上下文的使用注入</h6><pre class=" language-java"><code class="language-java"><span class="token annotation punctuation">@Inject</span>
+<span class="token keyword">private</span> OAuth2TokenMockUtil tokenUtil<span class="token punctuation">;</span>
+
+<span class="token annotation punctuation">@PostConstruct</span>
+<span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">setup</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>restMockMvc <span class="token operator">=</span> MockMvcBuilders
+        <span class="token punctuation">.</span><span class="token function">webAppContextSetup</span><span class="token punctuation">(</span>context<span class="token punctuation">)</span>
+        <span class="token punctuation">.</span><span class="token function">apply</span><span class="token punctuation">(</span><span class="token function">springSecurity</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+        <span class="token punctuation">.</span><span class="token function">build</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
+<h6 id="使用-OAuth2TokenMockUtil-工具"><a href="#使用-OAuth2TokenMockUtil-工具" class="headerlink" title="使用 OAuth2TokenMockUtil 工具"></a>使用 <code>OAuth2TokenMockUtil</code> 工具</h6><p>目前可以通过注解注入：</p>
+<ul>
+<li>username</li>
+<li>roles(set)</li>
+<li>scope(set)</li>
+</ul>
+<pre class=" language-java"><code class="language-java"><span class="token annotation punctuation">@Test</span>
+<span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">testInsufficientRoles</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    restMockMvc<span class="token punctuation">.</span><span class="token function">peform</span><span class="token punctuation">(</span>
+        <span class="token function">get</span><span class="token punctuation">(</span><span class="token string">"url/requiring/ADMIN/role"</span><span class="token punctuation">)</span>
+        <span class="token punctuation">.</span><span class="token function">with</span><span class="token punctuation">(</span>tokenUtil<span class="token punctuation">.</span><span class="token function">oauth2Authentication</span><span class="token punctuation">(</span><span class="token string">"unpriveleged.user@example.com"</span><span class="token punctuation">,</span> Sets<span class="token punctuation">.</span><span class="token function">newSet</span><span class="token punctuation">(</span><span class="token string">"some-scope"</span><span class="token punctuation">)</span><span class="token punctuation">,</span> Sets<span class="token punctuation">.</span><span class="token function">newSet</span><span class="token punctuation">(</span><span class="token string">"ROLE_USER"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+    <span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">andExpect</span><span class="token punctuation">(</span><span class="token function">status</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">isForbidden</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
+<h3 id="创建微服务"><a href="#创建微服务" class="headerlink" title="创建微服务"></a>创建微服务</h3><p>微服务 是一种应用类型，没有前端之后后台功能，并且之后配合注册中心，服务发现和管理使用。</p>
+<p>使用Docker compose 来开发服务是十分划算的一种方式。</p>
+
+            </div>
+            <hr/>
+
+            
+
+    <div class="reprint" id="reprint-statement">
+        
+            <div class="reprint__author">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-user">
+                        文章作者:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="https://www.asxing.com" rel="external nofollow noreferrer">Asxing</a>
+                </span>
+            </div>
+            <div class="reprint__type">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-link">
+                        文章链接:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="https://www.asxing.com/2018/08/07/jhipster-wei-fu-wu-er/">https://www.asxing.com/2018/08/07/jhipster-wei-fu-wu-er/</a>
+                </span>
+            </div>
+            <div class="reprint__notice">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-copyright">
+                        版权声明:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    本博客所有文章除特別声明外，均采用
+                    <a href="https://creativecommons.org/licenses/by/4.0/deed.zh" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>
+                    许可协议。转载请注明来源
+                    <a href="https://www.asxing.com" target="_blank">Asxing</a>
+                    !
+                </span>
+            </div>
+        
+    </div>
+
+    <script async defer>
+      document.addEventListener("copy", function (e) {
+        let toastHTML = '<span>复制成功，请遵循本文的转载规则</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">查看</a>';
+        M.toast({html: toastHTML})
+      });
+
+      function navToReprintStatement() {
+        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      }
+    </script>
+
+
+
+            <div class="tag_share" style="display: block;">
+                <div class="post-meta__tag-list" style="display: inline-block;">
+                    
+                        <div class="article-tag">
+                            
+                                <a href="/tags/SpringBoot/">
+                                    <span class="chip bg-color">SpringBoot</span>
+                                </a>
+                            
+                                <a href="/tags/Jhipster/">
+                                    <span class="chip bg-color">Jhipster</span>
+                                </a>
+                            
+                        </div>
+                    
+                </div>
+                <div class="post_share" style="zoom: 80%; width: fit-content; display: inline-block; float: right; margin: -0.15rem 0;">
+                    <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+
+<div id="article-share">
+    
+    
+    <div class="social-share" data-sites="twitter,facebook,google,qq,qzone,wechat,weibo,douban,linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
+    <script src="/libs/share/js/social-share.min.js"></script>
+    
+
+    
+
+</div>
+
+                </div>
+            </div>
+            
+                <style>
+    #reward {
+        margin: 40px 0;
+        text-align: center;
+    }
+
+    #reward .reward-link {
+        font-size: 1.4rem;
+        line-height: 38px;
+    }
+
+    #reward .btn-floating:hover {
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2), 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    #rewardModal {
+        width: 320px;
+        height: 350px;
+    }
+
+    #rewardModal .reward-title {
+        margin: 15px auto;
+        padding-bottom: 5px;
+    }
+
+    #rewardModal .modal-content {
+        padding: 10px;
+    }
+
+    #rewardModal .close {
+        position: absolute;
+        right: 15px;
+        top: 15px;
+        color: rgba(0, 0, 0, 0.5);
+        font-size: 1.3rem;
+        line-height: 20px;
+        cursor: pointer;
+    }
+
+    #rewardModal .close:hover {
+        color: #ef5350;
+        transform: scale(1.3);
+        -moz-transform:scale(1.3);
+        -webkit-transform:scale(1.3);
+        -o-transform:scale(1.3);
+    }
+
+    #rewardModal .reward-tabs {
+        margin: 0 auto;
+        width: 210px;
+    }
+
+    .reward-tabs .tabs {
+        height: 38px;
+        margin: 10px auto;
+        padding-left: 0;
+    }
+
+    .reward-content ul {
+        padding-left: 0 !important;
+    }
+
+    .reward-tabs .tabs .tab {
+        height: 38px;
+        line-height: 38px;
+    }
+
+    .reward-tabs .tab a {
+        color: #fff;
+        background-color: #ccc;
+    }
+
+    .reward-tabs .tab a:hover {
+        background-color: #ccc;
+        color: #fff;
+    }
+
+    .reward-tabs .wechat-tab .active {
+        color: #fff !important;
+        background-color: #22AB38 !important;
+    }
+
+    .reward-tabs .alipay-tab .active {
+        color: #fff !important;
+        background-color: #019FE8 !important;
+    }
+
+    .reward-tabs .reward-img {
+        width: 210px;
+        height: 210px;
+    }
+</style>
+
+<div id="reward">
+    <a href="#rewardModal" class="reward-link modal-trigger btn-floating btn-medium waves-effect waves-light red">赏</a>
+
+    <!-- Modal Structure -->
+    <div id="rewardModal" class="modal">
+        <div class="modal-content">
+            <a class="close modal-close"><i class="fas fa-times"></i></a>
+            <h4 class="reward-title">你的赏识是我前进的动力</h4>
+            <div class="reward-content">
+                <div class="reward-tabs">
+                    <ul class="tabs row">
+                        <li class="tab col s6 alipay-tab waves-effect waves-light"><a href="#alipay">支付宝</a></li>
+                        <li class="tab col s6 wechat-tab waves-effect waves-light"><a href="#wechat">微 信</a></li>
+                    </ul>
+                    <div id="alipay">
+                        <img src="/medias/reward/alipay.jpg" class="reward-img" alt="支付宝打赏二维码">
+                    </div>
+                    <div id="wechat">
+                        <img src="/medias/reward/wechat.png" class="reward-img" alt="微信打赏二维码">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $('.tabs').tabs();
+    });
+</script>
+            
+        </div>
+    </div>
+
+    
+        <link rel="stylesheet" href="/libs/gitalk/gitalk.css">
+<link rel="stylesheet" href="/css/my-gitalk.css">
+
+<div class="card gitalk-card" data-aos="fade-up">
+    <div class="comment_headling" style="font-size: 20px; font-weight: 700; position: relative; left: 20px; top: 15px; padding-bottom: 5px;">
+        <i class="fas fa-comments fa-fw" aria-hidden="true"></i>
+        <span>评论</span>
+    </div>
+    <div id="gitalk-container" class="card-content"></div>
+</div>
+
+<script src="/libs/gitalk/gitalk.min.js"></script>
+<script>
+    let gitalk = new Gitalk({
+        clientID: 'c4e18e113d94091c8828',
+        clientSecret: '891f04d80de6a77fd6eb60d1cbe792e916cde3ff',
+        repo: 'asxing.github.io',
+        owner: 'Asxing',
+        admin: "asxing",
+        id: '2018-08-07T21-15-39',
+        distractionFreeMode: false  // Facebook-like distraction free mode
+    });
+
+    gitalk.render('gitalk-container');
+</script>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+            <div class="card">
+                <a href="/2018/08/08/jhipster-yao-dian-san/">
+                    <div class="card-image">
+                        
+                        <img src="https://www.holddie.com/img/20200105162301.jpg" class="responsive-img" alt="Jhipster-要点（三）">
+                        
+                        <span class="card-title">Jhipster-要点（三）</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            梦想会指引我们，从伤疤里绽放光芒，长出翅膀。即使流尽鲜血，也再所不惜。                    ——我就是一个虚
+保护应用为了保护单页面应用权限，在Jhipster中需要登录和注销页面，我们会配置权限进行页面正确显示，当然这部
+                        
+                    </div>
+                    <div class="publish-info">
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2018-08-08
+                        </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/Jhipster/" class="post-category">
+                                    Jhipster
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/SpringBoot/">
+                        <span class="chip bg-color">SpringBoot</span>
+                    </a>
+                    
+                    <a href="/tags/Jhipster/">
+                        <span class="chip bg-color">Jhipster</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2018/08/05/jhipster-he-xin-yi/">
+                    <div class="card-image">
+                        
+                        <img src="https://www.holddie.com/img/20200105162041.jpg" class="responsive-img" alt="Jhipster-核心（一）">
+                        
+                        <span class="card-title">Jhipster-核心（一）</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            试着相信梦吧！或许，当你为之开始努力，便无所谓不可能了。                                            ——祯旎
+JDL实体类型的转换Filed Type：
+
+同样是String类型，针对Oracle
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2018-08-05
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/Jhipster/" class="post-category">
+                                    Jhipster
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/SpringBoot/">
+                        <span class="chip bg-color">SpringBoot</span>
+                    </a>
+                    
+                    <a href="/tags/Jhipster/">
+                        <span class="chip bg-color">Jhipster</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+
+</div>
+
+
+
+<!-- 代码块功能依赖 -->
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+
+<!-- 代码语言 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+
+    
+<!-- 代码块复制 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+
+
+<!-- 代码块收缩 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script>
+
+
+<!-- 代码块折行 -->
+
+<style type="text/css">
+code[class*="language-"], pre[class*="language-"] { white-space: pre !important; }
+</style>
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget">
+            <div class="toc-title"><i class="far fa-list-alt"></i>&nbsp;&nbsp;目录</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fas fa-list-ul"></i>
+    </a>
+</div>
+
+
+<script src="/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            // headingsOffset: -205,
+            headingSelector: 'h2, h3, h4'
+        });
+
+        // modify the toc link href to support Chinese.
+        let i = 0;
+        let tocHeading = 'toc-heading-';
+        $('#toc-content a').each(function () {
+            $(this).attr('href', '#' + tocHeading + (++i));
+        });
+
+        // modify the heading title id to support Chinese.
+        i = 0;
+        $('#articleContent').children('h2, h3, h4').each(function () {
+            $(this).attr('id', tocHeading + (++i));
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).hide();
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).show();
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+        });
+        
+    });
+</script>
+
+    
+
+</main>
+
+
+
+    <footer class="page-footer bg-color">
+    <div class="container row center-align">
+        <div class="col s12 m8 l8 copy-right">
+            Copyright&nbsp;&copy;
+            <span id="year">年份</span>
+            <a href="https://www.asxing.com" target="_blank">Asxing</a>
+            |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
+            |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
+            <br>
+            
+            &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
+                class="white-color">479k</span>&nbsp;字
+            
+            
+            
+            
+            <span id="busuanzi_container_site_pv">
+                |&nbsp;<i class="far fa-eye"></i>&nbsp;总访问量:&nbsp;<span id="busuanzi_value_site_pv"
+                    class="white-color"></span>&nbsp;次
+            </span>
+            
+            
+            <span id="busuanzi_container_site_uv">
+                |&nbsp;<i class="fas fa-users"></i>&nbsp;总访问人数:&nbsp;<span id="busuanzi_value_site_uv"
+                    class="white-color"></span>&nbsp;人
+            </span>
+            
+            <br>
+            
+            <span id="sitetime">载入运行时间...</span>
+            <script>
+                function siteTime() {
+                    window.setTimeout("siteTime()", 1000);
+                    var seconds = 1000;
+                    var minutes = seconds * 60;
+                    var hours = minutes * 60;
+                    var days = hours * 24;
+                    var years = days * 365;
+                    var today = new Date();
+                    var startYear = "2019";
+                    var startMonth = "10";
+                    var startDate = "30";
+                    var startHour = "22";
+                    var startMinute = "30";
+                    var startSecond = "0";
+                    var todayYear = today.getFullYear();
+                    var todayMonth = today.getMonth() + 1;
+                    var todayDate = today.getDate();
+                    var todayHour = today.getHours();
+                    var todayMinute = today.getMinutes();
+                    var todaySecond = today.getSeconds();
+                    var t1 = Date.UTC(startYear, startMonth, startDate, startHour, startMinute, startSecond);
+                    var t2 = Date.UTC(todayYear, todayMonth, todayDate, todayHour, todayMinute, todaySecond);
+                    var diff = t2 - t1;
+                    var diffYears = Math.floor(diff / years);
+                    var diffDays = Math.floor((diff / days) - diffYears * 365);
+                    var diffHours = Math.floor((diff - (diffYears * 365 + diffDays) * days) / hours);
+                    var diffMinutes = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours) /
+                        minutes);
+                    var diffSeconds = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours -
+                        diffMinutes * minutes) / seconds);
+                    if (startYear == todayYear) {
+                        document.getElementById("year").innerHTML = todayYear;
+                        document.getElementById("sitetime").innerHTML = "本站已安全运行 " + diffDays + " 天 " + diffHours +
+                            " 小时 " + diffMinutes + " 分钟 " + diffSeconds + " 秒";
+                    } else {
+                        document.getElementById("year").innerHTML = startYear + " - " + todayYear;
+                        document.getElementById("sitetime").innerHTML = "本站已安全运行 " + diffYears + " 年 " + diffDays +
+                            " 天 " + diffHours + " 小时 " + diffMinutes + " 分钟 " + diffSeconds + " 秒";
+                    }
+                }
+                setInterval(siteTime, 1000);
+            </script>
+            
+            <br>
+            
+        </div>
+        <div class="col s12 m4 l4 social-link ">
+    <a href="https://github.com/asxing" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+        <i class="fab fa-github"></i>
+    </a>
+
+
+
+    <a href="mailto:asxingking@gmail.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fas fa-envelope-open"></i>
+    </a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <a href="/atom.xml" class="tooltipped" target="_blank" data-tooltip="RSS 订阅" data-position="top" data-delay="50">
+        <i class="fas fa-rss"></i>
+    </a>
+
+</div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+
+    <!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fas fa-search"></i>&nbsp;&nbsp;搜索</span>
+            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script src="/js/search.js"></script>
+<script type="text/javascript">
+$(function () {
+    searchFunc("/" + "search.xml", 'searchInput', 'searchResult');
+});
+</script>
+    <!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+</div>
+
+
+    <script src="/libs/materialize/materialize.min.js"></script>
+    <script src="/libs/masonry/masonry.pkgd.min.js"></script>
+    <script src="/libs/aos/aos.js"></script>
+    <script src="/libs/scrollprogress/scrollProgress.min.js"></script>
+    <script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+    <script src="/js/matery.js"></script>
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+    <!-- Baidu Analytics -->
+
+    <!-- Baidu Push -->
+
+    
+    <script src="/libs/others/clicklove.js" async="async"></script>
+    
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <script type="text/javascript" src="/libs/background/ribbon-dynamic.js" async="async"></script>
+    
+    
+    
+
+</body>
+
+</html>

@@ -1,0 +1,1929 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="keywords" content="Zookeeper扫盲, 编程 读书 生活">
+    <meta name="description" content="Zookeeper 扫盲 :disappointed_relieved:配置文件详解：
+tickTime：基本事件单元，以毫秒为单位，这个时间作为 Zookeeper 服务器之间或客户端之间维持心跳的时间间隔
+dataDir：存储内存中数据">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>Zookeeper扫盲 | Asxing-阿行</title>
+    <link rel="icon" type="image/png" href="/favicon.png">
+
+    <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
+    <link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
+    <link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/matery.css">
+    <link rel="stylesheet" type="text/css" href="/css/my.css">
+    
+    <script src="/libs/jquery/jquery.min.js"></script>
+    
+<meta name="generator" content="Hexo 4.2.1"><link rel="alternate" href="/atom.xml" title="Asxing-阿行" type="application/atom+xml">
+<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+
+
+<body>
+    <header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper head-container">
+            <div class="brand-logo">
+                <a href="/" class="waves-effect waves-light">
+                    
+                    <img src="/medias/logo.png" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">Asxing-阿行</span>
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
+<ul class="right nav-menu">
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/" class="waves-effect waves-light">
+      
+      <i class="fas fa-home" style="zoom: 0.6;"></i>
+      
+      <span>首页</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/tags" class="waves-effect waves-light">
+      
+      <i class="fas fa-tags" style="zoom: 0.6;"></i>
+      
+      <span>标签</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/categories" class="waves-effect waves-light">
+      
+      <i class="fas fa-bookmark" style="zoom: 0.6;"></i>
+      
+      <span>分类</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/archives" class="waves-effect waves-light">
+      
+      <i class="fas fa-archive" style="zoom: 0.6;"></i>
+      
+      <span>归档</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/about" class="waves-effect waves-light">
+      
+      <i class="fas fa-user-circle" style="zoom: 0.6;"></i>
+      
+      <span>关于</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/contact" class="waves-effect waves-light">
+      
+      <i class="fas fa-comments" style="zoom: 0.6;"></i>
+      
+      <span>留言板</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/friends" class="waves-effect waves-light">
+      
+      <i class="fas fa-address-book" style="zoom: 0.6;"></i>
+      
+      <span>友情链接</span>
+    </a>
+    
+  </li>
+  
+  <li>
+    <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+      <i id="searchIcon" class="fas fa-search" title="搜索" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+</ul>
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="/medias/logo.png" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">Asxing-阿行</div>
+        <div class="logo-desc">
+            
+            Never really desperate, only the lost of the soul.
+            
+        </div>
+    </div>
+
+    
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li class="m-nav-item">
+	  
+		<a href="/" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-home"></i>
+			
+			首页
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/tags" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-tags"></i>
+			
+			标签
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/categories" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-bookmark"></i>
+			
+			分类
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/archives" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-archive"></i>
+			
+			归档
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/about" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-user-circle"></i>
+			
+			关于
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/contact" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-comments"></i>
+			
+			Contact
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/friends" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-address-book"></i>
+			
+			友情链接
+		</a>
+          
+        </li>
+        
+        
+        <li><div class="divider"></div></li>
+        <li>
+            <a href="https://github.com/asxing" class="waves-effect waves-light" target="_blank">
+                <i class="fab fa-github-square fa-fw"></i>Fork Me
+            </a>
+        </li>
+        
+    </ul>
+</div>
+
+        </div>
+
+        
+            <style>
+    .nav-transparent .github-corner {
+        display: none !important;
+    }
+
+    .github-corner {
+        position: absolute;
+        z-index: 10;
+        top: 0;
+        right: 0;
+        border: 0;
+        transform: scale(1.1);
+    }
+
+    .github-corner svg {
+        color: #0f9d58;
+        fill: #fff;
+        height: 64px;
+        width: 64px;
+    }
+
+    .github-corner:hover .octo-arm {
+        animation: a 0.56s ease-in-out;
+    }
+
+    .github-corner .octo-arm {
+        animation: none;
+    }
+
+    @keyframes a {
+        0%,
+        to {
+            transform: rotate(0);
+        }
+        20%,
+        60% {
+            transform: rotate(-25deg);
+        }
+        40%,
+        80% {
+            transform: rotate(10deg);
+        }
+    }
+</style>
+
+<a href="https://github.com/asxing" class="github-corner tooltipped hide-on-med-and-down" target="_blank"
+   data-tooltip="Fork Me" data-position="left" data-delay="50">
+    <svg viewBox="0 0 250 250" aria-hidden="true">
+        <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
+        <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2"
+              fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path>
+        <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z"
+              fill="currentColor" class="octo-body"></path>
+    </svg>
+</a>
+        
+    </nav>
+
+</header>
+
+    
+<script src="/libs/cryptojs/crypto-js.min.js"></script>
+<script>
+    (function() {
+        let pwd = '';
+        if (pwd && pwd.length > 0) {
+            if (pwd !== CryptoJS.SHA256(prompt('请输入访问本文章的密码')).toString(CryptoJS.enc.Hex)) {
+                alert('密码错误，将返回主页！');
+                location.href = '/';
+            }
+        }
+    })();
+</script>
+
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/5.jpg')">
+    <div class="container" style="right: 0px;left: 0px;">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <div class="description center-align post-title">
+                        Zookeeper扫盲
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<main class="post-container content">
+
+    
+    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
+<style>
+    #articleContent h1::before,
+    #articleContent h2::before,
+    #articleContent h3::before,
+    #articleContent h4::before,
+    #articleContent h5::before,
+    #articleContent h6::before {
+        display: block;
+        content: " ";
+        height: 100px;
+        margin-top: -100px;
+        visibility: hidden;
+    }
+
+    #articleContent :focus {
+        outline: none;
+    }
+
+    .toc-fixed {
+        position: fixed;
+        top: 64px;
+    }
+
+    .toc-widget {
+        padding-left: 20px;
+    }
+
+    .toc-widget .toc-title {
+        margin: 35px 0 15px 0;
+        padding-left: 17px;
+        font-size: 1.5rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    .toc-widget ol {
+        padding: 0;
+        list-style: none;
+    }
+
+    #toc-content ol {
+        padding-left: 10px;
+    }
+
+    #toc-content ol li {
+        padding-left: 10px;
+    }
+
+    #toc-content .toc-link:hover {
+        color: #42b983;
+        font-weight: 700;
+        text-decoration: underline;
+    }
+
+    #toc-content .toc-link::before {
+        background-color: transparent;
+        max-height: 25px;
+    }
+
+    #toc-content .is-active-link {
+        color: #42b983;
+    }
+
+    #toc-content .is-active-link::before {
+        background-color: #42b983;
+    }
+
+    #floating-toc-btn {
+        position: fixed;
+        right: 15px;
+        bottom: 76px;
+        padding-top: 15px;
+        margin-bottom: 0;
+        z-index: 998;
+    }
+
+    #floating-toc-btn .btn-floating {
+        width: 48px;
+        height: 48px;
+    }
+
+    #floating-toc-btn .btn-floating i {
+        line-height: 48px;
+        font-size: 1.4rem;
+    }
+</style>
+<div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                            <a href="/tags/CentOS/">
+                                <span class="chip bg-color">CentOS</span>
+                            </a>
+                        
+                            <a href="/tags/Zookeeper/">
+                                <span class="chip bg-color">Zookeeper</span>
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fas fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/categories/Zookeeper/" class="post-category">
+                                Zookeeper
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
+                    2017-10-04
+                </div>
+                
+
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
+                    5.8k
+                </div>
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
+                    23 分
+                </div>
+                
+				
+                
+            </div>
+            
+        </div>
+        <hr class="clearfix">
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <h1 id="Zookeeper-扫盲-disappointed-relieved"><a href="#Zookeeper-扫盲-disappointed-relieved" class="headerlink" title="Zookeeper 扫盲 :disappointed_relieved:"></a>Zookeeper 扫盲 :disappointed_relieved:</h1><h3 id="配置文件详解："><a href="#配置文件详解：" class="headerlink" title="配置文件详解："></a>配置文件详解：</h3><ul>
+<li>tickTime：基本事件单元，以毫秒为单位，这个时间作为 Zookeeper 服务器之间或客户端之间维持心跳的时间间隔</li>
+<li>dataDir：存储内存中数据库快照的位置，顾名思义就是 Zookeeper 保存数据的目录，默认情况下，Zookeeper 将写数据的日志文件也保存到这个目录里</li>
+<li>clientPort：这个端口就是客户端连接 Zookeeper 服务器的端口，Zookeeper 会监听这个端口，接受客户端的访问请求</li>
+<li>initLimit：这个配置项是用来配置 Zookeeper 接受客户端初始化连接时最长能忍受多少个心跳时间间隔<ul>
+<li>当已经超过 10 个心跳的时间也就是（ticktime）长度后 Zookeeper 服务器还没有收到客户端的返回信息，那么表明这个客户端连接失败，总的时间长度就是：10*2000 = 20s</li>
+</ul>
+</li>
+<li>syncLimit：这个配置项表示 Leader 与 Follower 之间发送消息，请求和应答时间长度，最长不能超过多少个 tickTime 的时间长度，总的时间长度就是：5*2000 = 10s</li>
+<li>server.A = B:C:D<ul>
+<li>A：表示这是第几号服务器</li>
+<li>B：服务器的 IP 地址</li>
+<li>C：服务器与集群中的 Leader 服务器交换信息的端口</li>
+<li>D：一旦集群中的 Leader 服务器挂了，需要一个端口重新进行选举，选出一个新的 Leader</li>
+<li>2181：对外提供端口</li>
+<li>2888：内部同步端口</li>
+<li>3888：节点挂了，选举端口</li>
+</ul>
+</li>
+</ul>
+<h3 id="ZK-设计目标"><a href="#ZK-设计目标" class="headerlink" title="ZK 设计目标"></a>ZK 设计目标</h3><ul>
+<li>简单的数据结构（树形名字空间）</li>
+<li>构建集群（一般奇数，超过半数以上就可以正常访问）</li>
+<li>顺序访问</li>
+<li>高性能（12w QPS）</li>
+</ul>
+<h3 id="集群搭建"><a href="#集群搭建" class="headerlink" title="集群搭建"></a>集群搭建</h3><p><img src="https://www.holddie.com/img/20200105141731.png" alt=""></p>
+<h3 id="Java-连接-ZK"><a href="#Java-连接-ZK" class="headerlink" title="Java 连接 ZK"></a>Java 连接 ZK</h3><ul>
+<li>客户端通过创建一个 ZK 实例来连接 ZK 服务器</li>
+</ul>
+<ul>
+<li>Zookeeper(Arguments) 方法<ul>
+<li>connectString：连接服务器列表，用“，”分隔</li>
+<li>sessionTimeout：心跳检测时间周期（毫秒）</li>
+<li>wather：时间处理通知器</li>
+<li>canBeReadOnly：标识当前会话是否支持只读</li>
+<li>SessionId 和 SessionPasswd：提供连接 Zookeeper 的sessionId 和 密码，通过这俩个确定唯一一台客户端，目的是可以提供重复会话</li>
+</ul>
+</li>
+<li>ZK 客户端和服务器会话的建立是一个异步的过程，我们程序方法在处理完客户端初始化后立即返回，<ul>
+<li>也就是程序往下执行代码，这样，大多数情况下我们并没有真正构建好一个可用会话，在会话生命周期处于“CONNECTING”时，才算建立完毕</li>
+</ul>
+</li>
+</ul>
+<h3 id="Zookeeper-组成"><a href="#Zookeeper-组成" class="headerlink" title="Zookeeper 组成"></a>Zookeeper 组成</h3><ul>
+<li>根据其身份的特征分为三种：Leader、Follower、Observer，其中 Follower 和 Observer 统称为 Learner （学习者）</li>
+<li>leader：负责客户端的 writer 类型请求</li>
+<li>Follower：负责客户端 reader 类型请求，参与 leader 选举</li>
+<li>Observer：特殊的“Follower”，其可以接收客户端 reader 请求，但不参与选举。（扩容系统支撑能力，提高读取速度）因为他不接受任何同步的写入请求，只负责 leader 同步数据</li>
+</ul>
+<h3 id="Java-操作方法"><a href="#Java-操作方法" class="headerlink" title="Java 操作方法"></a>Java 操作方法</h3><ul>
+<li>创建节点（znode）方法：create<ul>
+<li>提供了两套创建节点的方法，同步和异步创建节点方法</li>
+<li>参数1：节点路径：/nodeName （不允许递归创建节点，也就是在父节点不存在的情况下，不允许创建子节点）</li>
+<li>参数2：节点内容：要求类型是字节数组（不支持序列化方式，如果需要实现程序化，可使用 Java 相关序列化框架，如 Hession、Kryo 框架）</li>
+<li>参数3：节点权限：使用 Ids.OPEN_ACL_UNSAFE 开放权限</li>
+<li>参数4：节点类型：创建节点的类型： CreateMode.*<ul>
+<li>persistent（持久节点）</li>
+<li>persistent_sequential（持久顺序节点）</li>
+<li>ephemeral（临时节点）</li>
+<li>ephemeral_sequential（临时顺序节点）</li>
+</ul>
+</li>
+<li>参数5：注册一个异步回调函数，要实现 AsynCallBack.StringCallBack 接口，重写 processResult(int rc, String path, Object ctx, String name) 方法，当节点创建完毕后执行此方法。<ul>
+<li>rc：为服务端相应码 0 表示调用成功、-4 表示端口连接、-110 表示指定节点存在、-112 表示会话已经过期</li>
+<li>path：接口调用时传入 API 的数据节点的路径参数</li>
+<li>ctx：为调用接口传入 API 的 ctx 值</li>
+<li>name：实际在服务器端创建节点的名称</li>
+</ul>
+</li>
+<li>参数6：传递给回调函数的参数，一般为上下文（Context）信息</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>使用了 CountDownLatch 中的 countDown 只要是要确保我们的zk 连接成功再继续往下进行。</li>
+</ul>
+<ul>
+<li>对于 Zookeeper 中存在节点时，我们添加相同节点时，我们不能创建成功。</li>
+</ul>
+<p>在创建临时节点时，在本次回话有效，当本次回话结束时，我们的临时节点就会失效</p>
+<p>单一视图，三个节点上数据是一致的，消息广播，临时的 temp</p>
+<p>分布式锁原理：对于临时节点，同一时间只能有一个 Client 操作一个节点，同时貌似加了一把锁的形式，可以对于相同的业务逻辑，不同的 Tomcat 操作，就确保了操作的唯一性。存在内存中，效率高 12WQPS</p>
+<pre><code>zk.create(&quot;/app/c1&quot;, &quot;c1&quot;.getBytes(), Ids.OPEN_ACL_UNSAFE, CreateMode.PERSISTENT);</code></pre><p>原生的API中 Zookeeper 不允许递归创建节点</p>
+<pre class=" language-java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">ZookeeperBase</span> <span class="token punctuation">{</span>
+
+    <span class="token comment" spellcheck="true">/** zookeeper地址 */</span>
+    <span class="token keyword">static</span> <span class="token keyword">final</span> String CONNECT_ADDR <span class="token operator">=</span> <span class="token string">"192.168.80.88:2181,192.168.80.87:2181,192.168.80.86:2181"</span><span class="token punctuation">;</span>
+    <span class="token comment" spellcheck="true">/** session超时时间 */</span>
+    <span class="token keyword">static</span> <span class="token keyword">final</span> <span class="token keyword">int</span> SESSION_OUTTIME <span class="token operator">=</span> <span class="token number">2000</span><span class="token punctuation">;</span><span class="token comment" spellcheck="true">//ms</span>
+    <span class="token comment" spellcheck="true">/** 信号量，阻塞程序执行，用于等待zookeeper连接成功，发送成功信号 */</span>
+    <span class="token keyword">static</span> <span class="token keyword">final</span> CountDownLatch connectedSemaphore <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">CountDownLatch</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">main</span><span class="token punctuation">(</span>String<span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span> <span class="token keyword">throws</span> Exception<span class="token punctuation">{</span>
+
+        ZooKeeper zk <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">ZooKeeper</span><span class="token punctuation">(</span>CONNECT_ADDR<span class="token punctuation">,</span> SESSION_OUTTIME<span class="token punctuation">,</span> <span class="token keyword">new</span> <span class="token class-name">Watcher</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+            <span class="token annotation punctuation">@Override</span>
+            <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">process</span><span class="token punctuation">(</span>WatchedEvent event<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                <span class="token comment" spellcheck="true">//获取事件的状态</span>
+                KeeperState keeperState <span class="token operator">=</span> event<span class="token punctuation">.</span><span class="token function">getState</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                EventType eventType <span class="token operator">=</span> event<span class="token punctuation">.</span><span class="token function">getType</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token comment" spellcheck="true">//如果是建立连接</span>
+                <span class="token keyword">if</span><span class="token punctuation">(</span>KeeperState<span class="token punctuation">.</span>SyncConnected <span class="token operator">==</span> keeperState<span class="token punctuation">)</span><span class="token punctuation">{</span>
+                    <span class="token keyword">if</span><span class="token punctuation">(</span>EventType<span class="token punctuation">.</span>None <span class="token operator">==</span> eventType<span class="token punctuation">)</span><span class="token punctuation">{</span>
+                        <span class="token comment" spellcheck="true">//如果建立连接成功，则发送信号量，让后续阻塞程序向下执行</span>
+                        connectedSemaphore<span class="token punctuation">.</span><span class="token function">countDown</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                        System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"zk 建立连接"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                    <span class="token punctuation">}</span>
+                <span class="token punctuation">}</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        <span class="token comment" spellcheck="true">//进行阻塞</span>
+        connectedSemaphore<span class="token punctuation">.</span><span class="token function">await</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">".."</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token comment" spellcheck="true">//创建父节点</span>
+<span class="token comment" spellcheck="true">//        zk.create("/testRoot", "testRoot".getBytes(), Ids.OPEN_ACL_UNSAFE, CreateMode.PERSISTENT);</span>
+
+        <span class="token comment" spellcheck="true">//创建子节点</span>
+<span class="token comment" spellcheck="true">//        zk.create("/testRoot/children", "children data".getBytes(), Ids.OPEN_ACL_UNSAFE, CreateMode.PERSISTENT);</span>
+
+        <span class="token comment" spellcheck="true">//获取节点洗信息</span>
+<span class="token comment" spellcheck="true">//        byte[] data = zk.getData("/testRoot", false, null);</span>
+<span class="token comment" spellcheck="true">//        System.out.println(new String(data));</span>
+<span class="token comment" spellcheck="true">//        System.out.println(zk.getChildren("/testRoot", false));</span>
+
+        <span class="token comment" spellcheck="true">//修改节点的值</span>
+<span class="token comment" spellcheck="true">//        zk.setData("/testRoot", "modify data root".getBytes(), -1);</span>
+<span class="token comment" spellcheck="true">//        byte[] data = zk.getData("/testRoot", false, null);</span>
+<span class="token comment" spellcheck="true">//        System.out.println(new String(data));    </span>
+
+        <span class="token comment" spellcheck="true">//判断节点是否存在</span>
+<span class="token comment" spellcheck="true">//        System.out.println(zk.exists("/testRoot/children", false));</span>
+        <span class="token comment" spellcheck="true">//删除节点</span>
+<span class="token comment" spellcheck="true">//        zk.delete("/testRoot/children", -1);</span>
+<span class="token comment" spellcheck="true">//        System.out.println(zk.exists("/testRoot/children", false));</span>
+
+        zk<span class="token punctuation">.</span><span class="token function">close</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+<span class="token punctuation">}</span></code></pre>
+<p>getChildren 只可以取下面直接的一层，</p>
+<p>使用 -1 是跳过版本检查，如果再删除的时候，会检查本地版本和远程版本若相同则会删除，否则不删除。同时不支持递归的删除</p>
+<p>getChildren 读取数据方法：包括子节点列表的获取和子节点数据的获取</p>
+<ul>
+<li>参数1：path：获取指定节点的下的数据（获取子节点列表）</li>
+<li>参数2：watcher：注册的 watcher ，一旦在本次子节点获取后，子节点列表发生变化的话，那么就会向客户端发送通知，该参数允许为 null。</li>
+<li>参数3：表明是否需要注册一个 watcher：如果为 true，则会使用到 zookeeper 客户端上下文中提到的那个默认 watcher ，如果为 false，则表明不需要注册 watcher。</li>
+<li>参数4：cb：回调函数</li>
+<li>参数5：ctx：上下文信息对象</li>
+<li>参数6：stat：指定数据节点的节点状态信息</li>
+</ul>
+<p>注意：</p>
+<ul>
+<li>当我们获取指定节点的子节点列表后，还需要订阅这个子节点列表的变化通知，这时候就可以注册一个 watcher 来实现</li>
+<li>当子节点被添加或删除时，服务器端就会触发一个“NodeChildrenChanged“类型的时间通知，</li>
+<li>服务器端发送给客户端收到这个事件通知中，是不包含最新的节点列表的，客户端必须主动从新进行获取，通常在客户端收到这个事件通知后，就可以再次主动获取最新的子节点列表了</li>
+<li>ZK 服务端在向客户端发送 watcher “NodeChildrenChanged”事件通知的时候，仅仅只发了一个通知，不会节点把节点的节点的变化情况发送给客户端，需要客户端自己重新获取</li>
+<li>watcher 通知是一次性的，即触发后失效，因此客户端需要反复注册 watcher 才行。</li>
+</ul>
+<p>getData 方法：获取指定节点的数据内容</p>
+<ul>
+<li>path：路径</li>
+<li>watcher：注册的 watcher 对象，一旦之后节点内容有变更，则会向客户端发送通知，该参数允许为 null，触发事件为“NodeDataChanged”事件通知</li>
+<li>stat：指定节点的状态信息</li>
+<li>watch：是否使用 watcher，如果为 true 则使用默认上下文中的 watcher， false 则不使用 watcher</li>
+<li>cb：回调函数</li>
+<li>ctx：传递上下文信息对象</li>
+</ul>
+<p>setData 方法：修改指定节点的数据内容</p>
+<ul>
+<li>path：路径</li>
+<li>data：数据内容</li>
+<li>版本号：（-1 覆盖之前的所有的版本）</li>
+<li>cb：回调函数</li>
+<li>ctx：用于传递的下文信息对象</li>
+</ul>
+<p>exists 方法：检测节点是否存在</p>
+<ul>
+<li>path：路径</li>
+<li>watcher：注册的 watcher 对象，用于三类时间监听（节点的创建，删除，更新）</li>
+<li>cb：回调函数</li>
+<li>ctx：传递的上下文信息对象</li>
+<li>exits 方法的意义在于无论节点是否存在，都可以进行注册 watcher，能够对节点的创建，删除和修改进行监听，但是其子节点发送各种变化，都不会通知客户端。</li>
+</ul>
+<h3 id="事件类型"><a href="#事件类型" class="headerlink" title="事件类型"></a>事件类型</h3><ul>
+<li>ZK 有 watch 事件，是一次性触发的，当 watch 监视的数据发生变化时，通知设置了该watch 的 client ，即 watcher</li>
+</ul>
+<ul>
+<li>watcher 是监听数据发送了某些变化，那就一定会有对应的事件类型和状态类型</li>
+<li>事件类型：（znode节点相关）<ul>
+<li>EventType.NodeCreated</li>
+<li>EventType.NodeDataChanged</li>
+<li>EventType.NodeChildrenChaged</li>
+<li>EventType.NodeDeleted</li>
+</ul>
+</li>
+<li>状态类型：（客户端实例相关）<ul>
+<li>KeeperState.Disconnected</li>
+<li>KeeperState.SyncConnected</li>
+<li>KeeperState.AuthFailed</li>
+<li>KeeperState.Expired</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>watch事件是一次性的，watcher 表示 client</li>
+</ul>
+<pre class=" language-java"><code class="language-java"><span class="token keyword">package</span> bjsxt<span class="token punctuation">.</span>zookeeper<span class="token punctuation">.</span>watcher<span class="token punctuation">;</span>
+
+<span class="token keyword">import</span> java<span class="token punctuation">.</span>util<span class="token punctuation">.</span>List<span class="token punctuation">;</span>
+<span class="token keyword">import</span> java<span class="token punctuation">.</span>util<span class="token punctuation">.</span>concurrent<span class="token punctuation">.</span>CountDownLatch<span class="token punctuation">;</span>
+<span class="token keyword">import</span> java<span class="token punctuation">.</span>util<span class="token punctuation">.</span>concurrent<span class="token punctuation">.</span>atomic<span class="token punctuation">.</span>AtomicInteger<span class="token punctuation">;</span>
+
+<span class="token keyword">import</span> org<span class="token punctuation">.</span>apache<span class="token punctuation">.</span>zookeeper<span class="token punctuation">.</span>CreateMode<span class="token punctuation">;</span>
+<span class="token keyword">import</span> org<span class="token punctuation">.</span>apache<span class="token punctuation">.</span>zookeeper<span class="token punctuation">.</span>WatchedEvent<span class="token punctuation">;</span>
+<span class="token keyword">import</span> org<span class="token punctuation">.</span>apache<span class="token punctuation">.</span>zookeeper<span class="token punctuation">.</span>Watcher<span class="token punctuation">;</span>
+<span class="token keyword">import</span> org<span class="token punctuation">.</span>apache<span class="token punctuation">.</span>zookeeper<span class="token punctuation">.</span>Watcher<span class="token punctuation">.</span>Event<span class="token punctuation">.</span>EventType<span class="token punctuation">;</span>
+<span class="token keyword">import</span> org<span class="token punctuation">.</span>apache<span class="token punctuation">.</span>zookeeper<span class="token punctuation">.</span>Watcher<span class="token punctuation">.</span>Event<span class="token punctuation">.</span>KeeperState<span class="token punctuation">;</span>
+<span class="token keyword">import</span> org<span class="token punctuation">.</span>apache<span class="token punctuation">.</span>zookeeper<span class="token punctuation">.</span>ZooDefs<span class="token punctuation">.</span>Ids<span class="token punctuation">;</span>
+<span class="token keyword">import</span> org<span class="token punctuation">.</span>apache<span class="token punctuation">.</span>zookeeper<span class="token punctuation">.</span>ZooKeeper<span class="token punctuation">;</span>
+<span class="token keyword">import</span> org<span class="token punctuation">.</span>apache<span class="token punctuation">.</span>zookeeper<span class="token punctuation">.</span>data<span class="token punctuation">.</span>Stat<span class="token punctuation">;</span>
+
+<span class="token comment" spellcheck="true">/**
+* Zookeeper Wathcher
+* 本类就是一个Watcher类（实现了org.apache.zookeeper.Watcher类）
+* @author（alienware）
+* @since 2015-6-14
+*/</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">ZooKeeperWatcher</span> <span class="token keyword">implements</span> <span class="token class-name">Watcher</span> <span class="token punctuation">{</span>
+
+    <span class="token comment" spellcheck="true">/** 定义原子变量 */</span>
+    AtomicInteger seq <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">AtomicInteger</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment" spellcheck="true">/** 定义session失效时间 */</span>
+    <span class="token keyword">private</span> <span class="token keyword">static</span> <span class="token keyword">final</span> <span class="token keyword">int</span> SESSION_TIMEOUT <span class="token operator">=</span> <span class="token number">10000</span><span class="token punctuation">;</span>
+    <span class="token comment" spellcheck="true">/** zookeeper服务器地址 */</span>
+    <span class="token keyword">private</span> <span class="token keyword">static</span> <span class="token keyword">final</span> String CONNECTION_ADDR <span class="token operator">=</span> <span class="token string">"192.168.80.88:2181"</span><span class="token punctuation">;</span>
+    <span class="token comment" spellcheck="true">/** zk父路径设置 */</span>
+    <span class="token keyword">private</span> <span class="token keyword">static</span> <span class="token keyword">final</span> String PARENT_PATH <span class="token operator">=</span> <span class="token string">"/testWatch"</span><span class="token punctuation">;</span>
+    <span class="token comment" spellcheck="true">/** zk子路径设置 */</span>
+    <span class="token keyword">private</span> <span class="token keyword">static</span> <span class="token keyword">final</span> String CHILDREN_PATH <span class="token operator">=</span> <span class="token string">"/testWatch/children"</span><span class="token punctuation">;</span>
+    <span class="token comment" spellcheck="true">/** 进入标识 */</span>
+    <span class="token keyword">private</span> <span class="token keyword">static</span> <span class="token keyword">final</span> String LOG_PREFIX_OF_MAIN <span class="token operator">=</span> <span class="token string">"【Main】"</span><span class="token punctuation">;</span>
+    <span class="token comment" spellcheck="true">/** zk变量 */</span>
+    <span class="token keyword">private</span> ZooKeeper zk <span class="token operator">=</span> null<span class="token punctuation">;</span>
+    <span class="token comment" spellcheck="true">/** 信号量设置，用于等待zookeeper连接建立之后 通知阻塞程序继续向下执行 */</span>
+    <span class="token keyword">private</span> CountDownLatch connectedSemaphore <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">CountDownLatch</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token comment" spellcheck="true">/**
+     * 创建ZK连接
+     * @param connectAddr ZK服务器地址列表
+     * @param sessionTimeout Session超时时间
+     */</span>
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">createConnection</span><span class="token punctuation">(</span>String connectAddr<span class="token punctuation">,</span> <span class="token keyword">int</span> sessionTimeout<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">releaseConnection</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">try</span> <span class="token punctuation">{</span>
+            zk <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">ZooKeeper</span><span class="token punctuation">(</span>connectAddr<span class="token punctuation">,</span> sessionTimeout<span class="token punctuation">,</span> <span class="token keyword">this</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>LOG_PREFIX_OF_MAIN <span class="token operator">+</span> <span class="token string">"开始连接ZK服务器"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            connectedSemaphore<span class="token punctuation">.</span><span class="token function">await</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">Exception</span> e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            e<span class="token punctuation">.</span><span class="token function">printStackTrace</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment" spellcheck="true">/**
+     * 关闭ZK连接
+     */</span>
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">releaseConnection</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>zk <span class="token operator">!=</span> null<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">try</span> <span class="token punctuation">{</span>
+                <span class="token keyword">this</span><span class="token punctuation">.</span>zk<span class="token punctuation">.</span><span class="token function">close</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">InterruptedException</span> e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                e<span class="token punctuation">.</span><span class="token function">printStackTrace</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment" spellcheck="true">/**
+     * 创建节点
+     * @param path 节点路径
+     * @param data 数据内容
+     * @return
+     */</span>
+    <span class="token keyword">public</span> <span class="token keyword">boolean</span> <span class="token function">createPath</span><span class="token punctuation">(</span>String path<span class="token punctuation">,</span> String data<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">try</span> <span class="token punctuation">{</span>
+            <span class="token comment" spellcheck="true">//设置监控(由于zookeeper的监控都是一次性的所以 每次必须设置监控)</span>
+            <span class="token keyword">this</span><span class="token punctuation">.</span>zk<span class="token punctuation">.</span><span class="token function">exists</span><span class="token punctuation">(</span>path<span class="token punctuation">,</span> <span class="token boolean">true</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>LOG_PREFIX_OF_MAIN <span class="token operator">+</span> <span class="token string">"节点创建成功, Path: "</span> <span class="token operator">+</span>
+                               <span class="token keyword">this</span><span class="token punctuation">.</span>zk<span class="token punctuation">.</span><span class="token function">create</span><span class="token punctuation">(</span>    <span class="token comment" spellcheck="true">/**路径*/</span>
+                                                   path<span class="token punctuation">,</span>
+                                                   <span class="token comment" spellcheck="true">/**数据*/</span>
+                                                   data<span class="token punctuation">.</span><span class="token function">getBytes</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+                                                   <span class="token comment" spellcheck="true">/**所有可见*/</span>
+                                                   Ids<span class="token punctuation">.</span>OPEN_ACL_UNSAFE<span class="token punctuation">,</span>
+                                                   <span class="token comment" spellcheck="true">/**永久存储*/</span>
+                                                   CreateMode<span class="token punctuation">.</span>PERSISTENT <span class="token punctuation">)</span> <span class="token operator">+</span> 
+                               <span class="token string">", content: "</span> <span class="token operator">+</span> data<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">Exception</span> e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            e<span class="token punctuation">.</span><span class="token function">printStackTrace</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">return</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">return</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment" spellcheck="true">/**
+     * 读取指定节点数据内容
+     * @param path 节点路径
+     * @return
+     */</span>
+    <span class="token keyword">public</span> String <span class="token function">readData</span><span class="token punctuation">(</span>String path<span class="token punctuation">,</span> <span class="token keyword">boolean</span> needWatch<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">try</span> <span class="token punctuation">{</span>
+            <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">String</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>zk<span class="token punctuation">.</span><span class="token function">getData</span><span class="token punctuation">(</span>path<span class="token punctuation">,</span> needWatch<span class="token punctuation">,</span> null<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">Exception</span> e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            e<span class="token punctuation">.</span><span class="token function">printStackTrace</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">return</span> <span class="token string">""</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment" spellcheck="true">/**
+     * 更新指定节点数据内容
+     * @param path 节点路径
+     * @param data 数据内容
+     * @return
+     */</span>
+    <span class="token keyword">public</span> <span class="token keyword">boolean</span> <span class="token function">writeData</span><span class="token punctuation">(</span>String path<span class="token punctuation">,</span> String data<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">try</span> <span class="token punctuation">{</span>
+            System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>LOG_PREFIX_OF_MAIN <span class="token operator">+</span> <span class="token string">"更新数据成功，path："</span> <span class="token operator">+</span> path <span class="token operator">+</span> <span class="token string">", stat: "</span> <span class="token operator">+</span>
+                                <span class="token keyword">this</span><span class="token punctuation">.</span>zk<span class="token punctuation">.</span><span class="token function">setData</span><span class="token punctuation">(</span>path<span class="token punctuation">,</span> data<span class="token punctuation">.</span><span class="token function">getBytes</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">Exception</span> e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            e<span class="token punctuation">.</span><span class="token function">printStackTrace</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">return</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment" spellcheck="true">/**
+     * 删除指定节点
+     *
+     * @param path
+     *            节点path
+     */</span>
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">deleteNode</span><span class="token punctuation">(</span>String path<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">try</span> <span class="token punctuation">{</span>
+            <span class="token keyword">this</span><span class="token punctuation">.</span>zk<span class="token punctuation">.</span><span class="token function">delete</span><span class="token punctuation">(</span>path<span class="token punctuation">,</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>LOG_PREFIX_OF_MAIN <span class="token operator">+</span> <span class="token string">"删除节点成功，path："</span> <span class="token operator">+</span> path<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">Exception</span> e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            e<span class="token punctuation">.</span><span class="token function">printStackTrace</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment" spellcheck="true">/**
+     * 判断指定节点是否存在
+     * @param path 节点路径
+     */</span>
+    <span class="token keyword">public</span> Stat <span class="token function">exists</span><span class="token punctuation">(</span>String path<span class="token punctuation">,</span> <span class="token keyword">boolean</span> needWatch<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">try</span> <span class="token punctuation">{</span>
+            <span class="token keyword">return</span> <span class="token keyword">this</span><span class="token punctuation">.</span>zk<span class="token punctuation">.</span><span class="token function">exists</span><span class="token punctuation">(</span>path<span class="token punctuation">,</span> needWatch<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">Exception</span> e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            e<span class="token punctuation">.</span><span class="token function">printStackTrace</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">return</span> null<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment" spellcheck="true">/**
+     * 获取子节点
+     * @param path 节点路径
+     */</span>
+    <span class="token keyword">private</span> List<span class="token operator">&lt;</span>String<span class="token operator">></span> <span class="token function">getChildren</span><span class="token punctuation">(</span>String path<span class="token punctuation">,</span> <span class="token keyword">boolean</span> needWatch<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">try</span> <span class="token punctuation">{</span>
+            <span class="token keyword">return</span> <span class="token keyword">this</span><span class="token punctuation">.</span>zk<span class="token punctuation">.</span><span class="token function">getChildren</span><span class="token punctuation">(</span>path<span class="token punctuation">,</span> needWatch<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">Exception</span> e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            e<span class="token punctuation">.</span><span class="token function">printStackTrace</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">return</span> null<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment" spellcheck="true">/**
+     * 删除所有节点
+     */</span>
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">deleteAllTestPath</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">if</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">exists</span><span class="token punctuation">(</span>CHILDREN_PATH<span class="token punctuation">,</span> <span class="token boolean">false</span><span class="token punctuation">)</span> <span class="token operator">!=</span> null<span class="token punctuation">)</span><span class="token punctuation">{</span>
+            <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">deleteNode</span><span class="token punctuation">(</span>CHILDREN_PATH<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">if</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">exists</span><span class="token punctuation">(</span>PARENT_PATH<span class="token punctuation">,</span> <span class="token boolean">false</span><span class="token punctuation">)</span> <span class="token operator">!=</span> null<span class="token punctuation">)</span><span class="token punctuation">{</span>
+            <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">deleteNode</span><span class="token punctuation">(</span>PARENT_PATH<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>    
+    <span class="token punctuation">}</span>
+
+    <span class="token comment" spellcheck="true">/**
+     * 收到来自Server的Watcher通知后的处理。
+     */</span>
+    <span class="token annotation punctuation">@Override</span>
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">process</span><span class="token punctuation">(</span>WatchedEvent event<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+
+        System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"进入 process 。。。。。event = "</span> <span class="token operator">+</span> event<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        <span class="token keyword">try</span> <span class="token punctuation">{</span>
+            Thread<span class="token punctuation">.</span><span class="token function">sleep</span><span class="token punctuation">(</span><span class="token number">200</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">InterruptedException</span> e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            e<span class="token punctuation">.</span><span class="token function">printStackTrace</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>event <span class="token operator">==</span> null<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">return</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+
+        <span class="token comment" spellcheck="true">// 连接状态</span>
+        KeeperState keeperState <span class="token operator">=</span> event<span class="token punctuation">.</span><span class="token function">getState</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token comment" spellcheck="true">// 事件类型</span>
+        EventType eventType <span class="token operator">=</span> event<span class="token punctuation">.</span><span class="token function">getType</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token comment" spellcheck="true">// 受影响的path</span>
+        String path <span class="token operator">=</span> event<span class="token punctuation">.</span><span class="token function">getPath</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        String logPrefix <span class="token operator">=</span> <span class="token string">"【Watcher-"</span> <span class="token operator">+</span> <span class="token keyword">this</span><span class="token punctuation">.</span>seq<span class="token punctuation">.</span><span class="token function">incrementAndGet</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token string">"】"</span><span class="token punctuation">;</span>
+
+        System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>logPrefix <span class="token operator">+</span> <span class="token string">"收到Watcher通知"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>logPrefix <span class="token operator">+</span> <span class="token string">"连接状态:\t"</span> <span class="token operator">+</span> keeperState<span class="token punctuation">.</span><span class="token function">toString</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>logPrefix <span class="token operator">+</span> <span class="token string">"事件类型:\t"</span> <span class="token operator">+</span> eventType<span class="token punctuation">.</span><span class="token function">toString</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>KeeperState<span class="token punctuation">.</span>SyncConnected <span class="token operator">==</span> keeperState<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token comment" spellcheck="true">// 成功连接上ZK服务器</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>EventType<span class="token punctuation">.</span>None <span class="token operator">==</span> eventType<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>logPrefix <span class="token operator">+</span> <span class="token string">"成功连接上ZK服务器"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                connectedSemaphore<span class="token punctuation">.</span><span class="token function">countDown</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+            <span class="token comment" spellcheck="true">//创建节点</span>
+            <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>EventType<span class="token punctuation">.</span>NodeCreated <span class="token operator">==</span> eventType<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>logPrefix <span class="token operator">+</span> <span class="token string">"节点创建"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token keyword">try</span> <span class="token punctuation">{</span>
+                    Thread<span class="token punctuation">.</span><span class="token function">sleep</span><span class="token punctuation">(</span><span class="token number">100</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">InterruptedException</span> e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                    e<span class="token punctuation">.</span><span class="token function">printStackTrace</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token punctuation">}</span>
+                <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">exists</span><span class="token punctuation">(</span>path<span class="token punctuation">,</span> <span class="token boolean">true</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+            <span class="token comment" spellcheck="true">//更新节点</span>
+            <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>EventType<span class="token punctuation">.</span>NodeDataChanged <span class="token operator">==</span> eventType<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>logPrefix <span class="token operator">+</span> <span class="token string">"节点数据更新"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"我看看走不走这里........"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token keyword">try</span> <span class="token punctuation">{</span>
+                    Thread<span class="token punctuation">.</span><span class="token function">sleep</span><span class="token punctuation">(</span><span class="token number">100</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">InterruptedException</span> e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                    e<span class="token punctuation">.</span><span class="token function">printStackTrace</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token punctuation">}</span>
+                System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>logPrefix <span class="token operator">+</span> <span class="token string">"数据内容: "</span> <span class="token operator">+</span> <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">readData</span><span class="token punctuation">(</span>PARENT_PATH<span class="token punctuation">,</span> <span class="token boolean">true</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+            <span class="token comment" spellcheck="true">//更新子节点</span>
+            <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>EventType<span class="token punctuation">.</span>NodeChildrenChanged <span class="token operator">==</span> eventType<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>logPrefix <span class="token operator">+</span> <span class="token string">"子节点变更"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token keyword">try</span> <span class="token punctuation">{</span>
+                    Thread<span class="token punctuation">.</span><span class="token function">sleep</span><span class="token punctuation">(</span><span class="token number">3000</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">InterruptedException</span> e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                    e<span class="token punctuation">.</span><span class="token function">printStackTrace</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token punctuation">}</span>
+                System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>logPrefix <span class="token operator">+</span> <span class="token string">"子节点列表："</span> <span class="token operator">+</span> <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">getChildren</span><span class="token punctuation">(</span>PARENT_PATH<span class="token punctuation">,</span> <span class="token boolean">true</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+            <span class="token comment" spellcheck="true">//删除节点</span>
+            <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>EventType<span class="token punctuation">.</span>NodeDeleted <span class="token operator">==</span> eventType<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>logPrefix <span class="token operator">+</span> <span class="token string">"节点 "</span> <span class="token operator">+</span> path <span class="token operator">+</span> <span class="token string">" 被删除"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+            <span class="token keyword">else</span> <span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>KeeperState<span class="token punctuation">.</span>Disconnected <span class="token operator">==</span> keeperState<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>logPrefix <span class="token operator">+</span> <span class="token string">"与ZK服务器断开连接"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>KeeperState<span class="token punctuation">.</span>AuthFailed <span class="token operator">==</span> keeperState<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>logPrefix <span class="token operator">+</span> <span class="token string">"权限检查失败"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>KeeperState<span class="token punctuation">.</span>Expired <span class="token operator">==</span> keeperState<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>logPrefix <span class="token operator">+</span> <span class="token string">"会话失效"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">else</span> <span class="token punctuation">;</span>
+
+        System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"--------------------------------------------"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token punctuation">}</span>
+
+    <span class="token comment" spellcheck="true">/**
+     * &lt;B>方法名称：&lt;/B>测试zookeeper监控&lt;BR>
+     * &lt;B>概要说明：&lt;/B>主要测试watch功能&lt;BR>
+     * @param args
+     * @throws Exception
+     */</span>
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">main</span><span class="token punctuation">(</span>String<span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span> <span class="token keyword">throws</span> Exception <span class="token punctuation">{</span>
+
+        <span class="token comment" spellcheck="true">//建立watcher</span>
+        ZooKeeperWatcher zkWatch <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">ZooKeeperWatcher</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token comment" spellcheck="true">//创建连接</span>
+        zkWatch<span class="token punctuation">.</span><span class="token function">createConnection</span><span class="token punctuation">(</span>CONNECTION_ADDR<span class="token punctuation">,</span> SESSION_TIMEOUT<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token comment" spellcheck="true">//System.out.println(zkWatch.zk.toString());</span>
+
+        Thread<span class="token punctuation">.</span><span class="token function">sleep</span><span class="token punctuation">(</span><span class="token number">1000</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        <span class="token comment" spellcheck="true">// 清理节点</span>
+        zkWatch<span class="token punctuation">.</span><span class="token function">deleteAllTestPath</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>zkWatch<span class="token punctuation">.</span><span class="token function">createPath</span><span class="token punctuation">(</span>PARENT_PATH<span class="token punctuation">,</span> System<span class="token punctuation">.</span><span class="token function">currentTimeMillis</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token string">""</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+
+            Thread<span class="token punctuation">.</span><span class="token function">sleep</span><span class="token punctuation">(</span><span class="token number">1000</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+
+            <span class="token comment" spellcheck="true">// 读取数据</span>
+            System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"---------------------- read parent ----------------------------"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token comment" spellcheck="true">//zkWatch.readData(PARENT_PATH, true);</span>
+
+            <span class="token comment" spellcheck="true">// 读取子节点</span>
+            System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"---------------------- read children path ----------------------------"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            zkWatch<span class="token punctuation">.</span><span class="token function">getChildren</span><span class="token punctuation">(</span>PARENT_PATH<span class="token punctuation">,</span> <span class="token boolean">true</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+            <span class="token comment" spellcheck="true">// 更新数据</span>
+            zkWatch<span class="token punctuation">.</span><span class="token function">writeData</span><span class="token punctuation">(</span>PARENT_PATH<span class="token punctuation">,</span> System<span class="token punctuation">.</span><span class="token function">currentTimeMillis</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token string">""</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+            Thread<span class="token punctuation">.</span><span class="token function">sleep</span><span class="token punctuation">(</span><span class="token number">1000</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+            <span class="token comment" spellcheck="true">// 创建子节点</span>
+            zkWatch<span class="token punctuation">.</span><span class="token function">createPath</span><span class="token punctuation">(</span>CHILDREN_PATH<span class="token punctuation">,</span> System<span class="token punctuation">.</span><span class="token function">currentTimeMillis</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token string">""</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+            Thread<span class="token punctuation">.</span><span class="token function">sleep</span><span class="token punctuation">(</span><span class="token number">1000</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+            zkWatch<span class="token punctuation">.</span><span class="token function">writeData</span><span class="token punctuation">(</span>CHILDREN_PATH<span class="token punctuation">,</span> System<span class="token punctuation">.</span><span class="token function">currentTimeMillis</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token string">""</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+
+        Thread<span class="token punctuation">.</span><span class="token function">sleep</span><span class="token punctuation">(</span><span class="token number">50000</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token comment" spellcheck="true">// 清理节点</span>
+        zkWatch<span class="token punctuation">.</span><span class="token function">deleteAllTestPath</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        Thread<span class="token punctuation">.</span><span class="token function">sleep</span><span class="token punctuation">(</span><span class="token number">1000</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        zkWatch<span class="token punctuation">.</span><span class="token function">releaseConnection</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+<span class="token punctuation">}</span></code></pre>
+<h3 id="Zookeeper-的-ACL-（AUTH）"><a href="#Zookeeper-的-ACL-（AUTH）" class="headerlink" title="Zookeeper 的 ACL （AUTH）"></a>Zookeeper 的 ACL （AUTH）</h3><p>ACL（Access Control List），Zookeeper 作为一个分布式协调框架，其内部存储的都是一些关乎分布式系统运行时状态的元数据，尤其是涉及到一些分布式锁、Master选举和协调等应用场景。我们需要有效地保障 Zookeeper 中的数据安全，Zookeeper 提供一套完善的 ACL 权限控制机制来保障数据的安全。</p>
+<p>ZK 提供了三种模式：权限模式、授权对象、权限</p>
+<p>权限模式：Scheme 开发人员最多使用的如下四种权限模式：</p>
+<ul>
+<li>IP ：IP 模式通过 IP 地址粒度来进行控制权限，例如配置了：IP：192.168.1.107 即表示权限控制都是针对这个 IP 地址的，同时也支持按网段分配，比如 192.168.1.*</li>
+<li>Digest：digest 是最常用的权限控制模式，更符合我们对权限控制的认识，起类似于 username：password 形式的权限标识进行权限配置，ZK 会对形成的权限标识先后进行两次编码处理，分别是 SHA-1 加密算法、BASE64 编码</li>
+<li>world：world 是一直最开放的权限控制模式，这种模式可以看做为特殊的 Disgest，它仅仅是一个标识而已</li>
+<li>Super：超级用户模式，在超级用户模式下可以对 ZK 任意进行控制</li>
+</ul>
+<p>权限对象：指的是权限赋予用户或者一个指定的实体，例如 IP 地址或机器等，在不同的模式下，授权对象是不同的，这种模式和权限对象一一对应。</p>
+<p>权限：权限就是指那些通过权限检测后可以被允许执行的操作，在 ZK 中，对数据的操作权限分为五大类：CREATE、DELETE、READ、WRITE、ADMIN</p>
+<p>认证只是针对某一个节点。</p>
+<h3 id="zkClient-的使用"><a href="#zkClient-的使用" class="headerlink" title="zkClient 的使用"></a>zkClient 的使用</h3><h4 id="创建客户端方法：ZKClient（Arguments）"><a href="#创建客户端方法：ZKClient（Arguments）" class="headerlink" title="创建客户端方法：ZKClient（Arguments）"></a>创建客户端方法：ZKClient（Arguments）</h4><ul>
+<li>arg1：zkServers zookeeper服务器的地址，用“，”分隔</li>
+<li>arg2：sessionTimeout 超时会话，为毫秒，默认为 30 000ms</li>
+<li>arg3：connectionTimeout 连接超时会话</li>
+<li>arg4：IZkConnection 接口的实现类</li>
+<li>arg5：zkSerializer 自定义序列化实现</li>
+</ul>
+<p>可以使用递归创建，每个节点没法指定 value，可以递归删除</p>
+<p>zkclient 最大的一个<strong>优点</strong>就是： <strong>把重复watch的那个事情去掉，不需要再写数据时watch</strong></p>
+<p>readeata 时，直接读取的就是字符串，不是byte字节流</p>
+<h4 id="创建节点方法：create、createEphemeral、createEphemeralSequential、createPersistent、createPersistentSequential"><a href="#创建节点方法：create、createEphemeral、createEphemeralSequential、createPersistent、createPersistentSequential" class="headerlink" title="创建节点方法：create、createEphemeral、createEphemeralSequential、createPersistent、createPersistentSequential"></a>创建节点方法：create、createEphemeral、createEphemeralSequential、createPersistent、createPersistentSequential</h4><ul>
+<li>arg1：path，路径</li>
+<li>arg2：data，数据内容，可以传入 null</li>
+<li>arg3：mode，节点类型，为一个枚举类型，四种形式</li>
+<li>arg4：acl 策略</li>
+<li>arg5：callback 回调函数</li>
+<li>arg6：context 上下文对象</li>
+<li>arg7：createParents 是否创建父节点</li>
+</ul>
+<h4 id="删除节点方法：delete、deleteRecursive"><a href="#删除节点方法：delete、deleteRecursive" class="headerlink" title="删除节点方法：delete、deleteRecursive"></a>删除节点方法：delete、deleteRecursive</h4><ul>
+<li>arg1：Path，路径</li>
+<li>arg2：callback，回调函数</li>
+<li>arg3：context，上下文对象</li>
+</ul>
+<h4 id="读取子节点数据方法：getChildren"><a href="#读取子节点数据方法：getChildren" class="headerlink" title="读取子节点数据方法：getChildren"></a>读取子节点数据方法：getChildren</h4><ul>
+<li>arg1：path，路径</li>
+</ul>
+<h4 id="读取节点数据方法：readData"><a href="#读取节点数据方法：readData" class="headerlink" title="读取节点数据方法：readData"></a>读取节点数据方法：readData</h4><ul>
+<li>arg1：path，路径</li>
+<li>arg2：returnNullIFPathNotExists （避免为空节点抛出异常，直接返回 null）</li>
+<li>arg3：节点状态</li>
+</ul>
+<h4 id="更新数据方法：writeData"><a href="#更新数据方法：writeData" class="headerlink" title="更新数据方法：writeData"></a>更新数据方法：writeData</h4><ul>
+<li>arg1：path，路径</li>
+<li>arg2：data，数据信息</li>
+<li>arg3：version 版本号</li>
+</ul>
+<h4 id="检测节点是否存在方法：exists"><a href="#检测节点是否存在方法：exists" class="headerlink" title="检测节点是否存在方法：exists"></a>检测节点是否存在方法：exists</h4><ul>
+<li>arg：path，路径</li>
+</ul>
+<p>我们发现，ZkClient 里面并没有类似的 watcher、watch 参数，这也就是我们说开发人员无需关心反复注册 Watcher 的问题，ZkClient 给我们提供了一套监听方式，我们可以使用监听节点的方式进行操作，剔除了繁琐的反复 watcher 操作，简化了代码复杂程度</p>
+<h4 id="subscribeChildChanges-方法"><a href="#subscribeChildChanges-方法" class="headerlink" title="subscribeChildChanges 方法"></a>subscribeChildChanges 方法</h4><ul>
+<li>arg1：path，路径</li>
+<li>实现 IZkChildListener 接口的类，只需要重写其 <code>handleChaildChanges（String parentPath，List&lt;String&gt; currentChilds）</code> 方法，其中参数 parentPath 为所监听节点全路径，currentChilds 为最新的子节点列表（相对路径）</li>
+<li>IZkChildListener 事件说明针对于下面三个事件触发：<ul>
+<li>新增子节点</li>
+<li>减少子节点</li>
+<li>删除节点</li>
+</ul>
+</li>
+</ul>
+<h4 id="IZkChildListener-有以下特点："><a href="#IZkChildListener-有以下特点：" class="headerlink" title="IZkChildListener 有以下特点："></a>IZkChildListener 有以下特点：</h4><ol>
+<li><p>客户端可以对一个不存在的节点进行变更的监听</p>
+</li>
+<li><p>一旦客户端对一个节点注册了子节点列表变更监听后，那么当前节点的子节点雷彪发送变更的时候，服务端都会通知客户端，并将最新的自己诶单列表发送给客户端</p>
+</li>
+<li><p>该节点本身创建或删除也会通知到客户端</p>
+</li>
+<li><p>另外最重要的是这个监听是一直存在的，不是单次监听，相比较原生 API 提供的要简单的多</p>
+</li>
+<li><p>subscribeChildChange（”/super”,new IZkChildListener() {}）</p>
+<ul>
+<li>对于 Zkclient 会告诉你变化之后的数据是多少，对于节点的当前和子级的状态</li>
+</ul>
+</li>
+</ol>
+<ul>
+<li>当对于一个节点的update 的时候，并不会监听，只会监听当前节点或子节点的添加和删除</li>
+</ul>
+<ol start="6">
+<li><p>subscribeDataChange（”/super”,new IZkDataListener() {}）</p>
+<ul>
+<li>对于变更的状态包括：删除和修改，其中的状态分开走</li>
+</ul>
+</li>
+</ol>
+<h4 id="原先zk设计的状况："><a href="#原先zk设计的状况：" class="headerlink" title="原先zk设计的状况："></a>原先zk设计的状况：</h4><ul>
+<li>event 只会告诉你变化的事件，触发什么事件，自己根据path，读取数据，并且还是一次，</li>
+</ul>
+<ul>
+<li>通知，状态，节点路径，对于变化的之后的数据没有告诉，设计的理念就是轻量，敏捷。</li>
+</ul>
+<h2 id="Curator-封装"><a href="#Curator-封装" class="headerlink" title="Curator 封装"></a>Curator 封装</h2><p>是否可以监控一个节点下面所有节点的状态，分布式锁，原子统计</p>
+<p>Curator 框架中使用了链式编程风格，易读性更强，使用工程方法创建连接对象</p>
+<h4 id="使用-CuratorFrameworkFactory-的两个静态工厂方法（参数不同）来实现"><a href="#使用-CuratorFrameworkFactory-的两个静态工厂方法（参数不同）来实现" class="headerlink" title="使用 CuratorFrameworkFactory 的两个静态工厂方法（参数不同）来实现"></a>使用 CuratorFrameworkFactory 的两个静态工厂方法（参数不同）来实现</h4><ul>
+<li>arg1：connectString，连接串</li>
+<li>arg2：retryPolicy，重试连接策略，有四种实现分别为：<ul>
+<li>ExponentialBackoffRetry</li>
+<li>RetryNTimes</li>
+<li>RetryOneTimes</li>
+<li>RetryUntilElapsed</li>
+</ul>
+</li>
+<li>arg3：sessionTimeoutMs 会话超时时间 默认为 60 000ms</li>
+<li>arg4：connectionTimeoutMs 连接超时时间，默认为15 000ms</li>
+<li>对于 retryPolicy 策略通过一个接口来让用户自定义实现</li>
+</ul>
+<h4 id="创建节点-create-方法，可选链式项："><a href="#创建节点-create-方法，可选链式项：" class="headerlink" title="创建节点 create 方法，可选链式项："></a>创建节点 create 方法，可选链式项：</h4><ul>
+<li>creatingParentsIfNeeded</li>
+<li>withMode</li>
+<li>forPath</li>
+<li>withACL</li>
+</ul>
+<h4 id="删除节点-delete-方法，可选链式项"><a href="#删除节点-delete-方法，可选链式项" class="headerlink" title="删除节点 delete 方法，可选链式项"></a>删除节点 delete 方法，可选链式项</h4><ul>
+<li>deletingChildrenIfNedded</li>
+<li>guaranteed</li>
+<li>withVersion</li>
+<li>forPath</li>
+</ul>
+<h4 id="读取和修改数据"><a href="#读取和修改数据" class="headerlink" title="读取和修改数据"></a>读取和修改数据</h4><ul>
+<li>getData</li>
+<li>setData</li>
+</ul>
+<h4 id="异步绑定回调方法"><a href="#异步绑定回调方法" class="headerlink" title="异步绑定回调方法"></a>异步绑定回调方法</h4><ul>
+<li>创建节点时绑定一个回调函数，该回调函数可以输出服务器的状态码以及服务器事件类型</li>
+<li>可以加入线程池进行优化</li>
+</ul>
+<h4 id="读取子节点方法"><a href="#读取子节点方法" class="headerlink" title="读取子节点方法"></a>读取子节点方法</h4><ul>
+<li>getChildren</li>
+</ul>
+<h4 id="判断子节点是否存在"><a href="#判断子节点是否存在" class="headerlink" title="判断子节点是否存在"></a>判断子节点是否存在</h4><ul>
+<li>checkExists</li>
+</ul>
+<h4 id="回调函数为什么会使用线程池："><a href="#回调函数为什么会使用线程池：" class="headerlink" title="回调函数为什么会使用线程池："></a>回调函数为什么会使用线程池：</h4><ul>
+<li>一次性批量创建多个节点，不必要每次都回调</li>
+<li>ThreadPoolExcutor 底层自定义线程</li>
+<li>批量节点操作，自己规划 callback ，多余的缓冲在队列中</li>
+</ul>
+<h4 id="Watcher-监听功能"><a href="#Watcher-监听功能" class="headerlink" title="Watcher 监听功能"></a>Watcher 监听功能</h4><ul>
+<li><p>依赖 maven jar包</p>
+<pre class=" language-xml"><code class="language-xml"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>dependency</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>groupid</span><span class="token punctuation">></span></span>org.apache.curator<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>groupid</span><span class="token punctuation">></span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>artifactid</span><span class="token punctuation">></span></span>curator-recipes<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>artifactid</span><span class="token punctuation">></span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>version</span><span class="token punctuation">></span></span>2.4.2<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>version</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>dependency</span><span class="token punctuation">></span></span></code></pre>
+</li>
+</ul>
+<ul>
+<li>我们使用 NodeCache 的方式去客户端实例中注册一个监听缓存，然后实现对应的监听方法即可，</li>
+<li>主要的监听方式：<ul>
+<li>NodeCacheListener：监听节点的新增，修改操作</li>
+<li>PathchildrenCacheListener：监听子节点的新增、修改、删除操作</li>
+</ul>
+</li>
+</ul>
+<p>在客户端使用缓存，在服务端进行变化时，和本地的进行对比，有差异数据同步，空间换取时间，替换了原来的注册的思路。</p>
+<p>只能监听一级节点，再下一级就不能实现，对于删除也不能迭代删除</p>
+<h3 id="分布式锁"><a href="#分布式锁" class="headerlink" title="分布式锁"></a>分布式锁</h3><p>分布式锁就是在共享的一段代码中，一个服务器使用，其他的服务器不允许访问，分布式锁</p>
+<p>实现分布式锁，对于Java程序写出花来也没用，就是只针对同一个JVM，当多个JVM如何同步</p>
+<h4 id="分布式计数器：DistributedAtomicInteger"><a href="#分布式计数器：DistributedAtomicInteger" class="headerlink" title="分布式计数器：DistributedAtomicInteger"></a>分布式计数器：DistributedAtomicInteger</h4><p>使用了distribute，</p>
+<p>重试的时间次数，</p>
+<p>barrier 同时开始，同时结束，代码，</p>
+<pre><code>DistributedDoubleBarrier barrier = new DistributedDoubleBarrier(cf, &quot;/super&quot;, 5);</code></pre><p>其中的 5 代表五个客户端的连接，当五个连接上就可以同时开始，我们使用</p>
+<pre><code>barrier.enter();</code></pre><p>此时就同时开始，</p>
+<pre><code>barrier.leave();</code></pre><p>同时结束</p>
+<p>在声明 Barrier 的时候也可以不设置程序的数量</p>
+<p>同时还有另外一种写法：</p>
+<p>实现声明 barrier</p>
+<pre class=" language-java"><code class="language-java"><span class="token comment" spellcheck="true">/** zookeeper地址 */</span>
+    <span class="token keyword">static</span> <span class="token keyword">final</span> String CONNECT_ADDR <span class="token operator">=</span> <span class="token string">"192.168.1.171:2181,192.168.1.172:2181,192.168.1.173:2181"</span><span class="token punctuation">;</span>
+    <span class="token comment" spellcheck="true">/** session超时时间 */</span>
+    <span class="token keyword">static</span> <span class="token keyword">final</span> <span class="token keyword">int</span> SESSION_OUTTIME <span class="token operator">=</span> <span class="token number">5000</span><span class="token punctuation">;</span><span class="token comment" spellcheck="true">//ms</span>
+
+    <span class="token keyword">static</span> DistributedBarrier barrier <span class="token operator">=</span> null<span class="token punctuation">;</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">main</span><span class="token punctuation">(</span>String<span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span> <span class="token keyword">throws</span> Exception <span class="token punctuation">{</span>
+
+
+
+        <span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> <span class="token number">5</span><span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+            <span class="token keyword">new</span> <span class="token class-name">Thread</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">Runnable</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                <span class="token annotation punctuation">@Override</span>
+                <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">run</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                    <span class="token keyword">try</span> <span class="token punctuation">{</span>
+                        RetryPolicy retryPolicy <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">ExponentialBackoffRetry</span><span class="token punctuation">(</span><span class="token number">1000</span><span class="token punctuation">,</span> <span class="token number">10</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                        CuratorFramework cf <span class="token operator">=</span> CuratorFrameworkFactory<span class="token punctuation">.</span><span class="token function">builder</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+                                    <span class="token punctuation">.</span><span class="token function">connectString</span><span class="token punctuation">(</span>CONNECT_ADDR<span class="token punctuation">)</span>
+                                    <span class="token punctuation">.</span><span class="token function">sessionTimeoutMs</span><span class="token punctuation">(</span>SESSION_OUTTIME<span class="token punctuation">)</span>
+                                    <span class="token punctuation">.</span><span class="token function">retryPolicy</span><span class="token punctuation">(</span>retryPolicy<span class="token punctuation">)</span>
+                                    <span class="token punctuation">.</span><span class="token function">build</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                        cf<span class="token punctuation">.</span><span class="token function">start</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                        barrier <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">DistributedBarrier</span><span class="token punctuation">(</span>cf<span class="token punctuation">,</span> <span class="token string">"/super"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                        System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>Thread<span class="token punctuation">.</span><span class="token function">currentThread</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">getName</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token string">"设置barrier!"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                        barrier<span class="token punctuation">.</span><span class="token function">setBarrier</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>    <span class="token comment" spellcheck="true">//设置</span>
+                        barrier<span class="token punctuation">.</span><span class="token function">waitOnBarrier</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>    <span class="token comment" spellcheck="true">//等待</span>
+                        System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"---------开始执行程序----------"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                    <span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">Exception</span> e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                        e<span class="token punctuation">.</span><span class="token function">printStackTrace</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                    <span class="token punctuation">}</span>
+                <span class="token punctuation">}</span>
+            <span class="token punctuation">}</span><span class="token punctuation">,</span><span class="token string">"t"</span> <span class="token operator">+</span> i<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">start</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+
+        Thread<span class="token punctuation">.</span><span class="token function">sleep</span><span class="token punctuation">(</span><span class="token number">5000</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        barrier<span class="token punctuation">.</span><span class="token function">removeBarrier</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>    <span class="token comment" spellcheck="true">//释放</span>
+
+
+    <span class="token punctuation">}</span></code></pre>
+<p>其中 barrier 作为第六人就是吹哨的人，一般我们自己设定的 const 包，用于设置的吹哨的公共</p>
+<p>使用 curator 的分布式锁，对于监听的相同节点，若之前发生了变更，之后连接还会貌似数据恢复一点，数据同步，相当于重复注册，当前 /super 节点，持续订阅服务，</p>
+<p>curator 人性化操作：</p>
+<ul>
+<li>对于一个节点的CRUD监控</li>
+<li>实现分布式锁</li>
+<li>实现barrier、原子计数器</li>
+<li>实现队列</li>
+</ul>
+
+            </div>
+            <hr/>
+
+            
+
+    <div class="reprint" id="reprint-statement">
+        
+            <div class="reprint__author">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-user">
+                        文章作者:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="https://www.asxing.com" rel="external nofollow noreferrer">HoldDie</a>
+                </span>
+            </div>
+            <div class="reprint__type">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-link">
+                        文章链接:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="https://www.asxing.com/2017/10/04/zookeeper-xiang-jie-java-cao-zuo/">https://www.asxing.com/2017/10/04/zookeeper-xiang-jie-java-cao-zuo/</a>
+                </span>
+            </div>
+            <div class="reprint__notice">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-copyright">
+                        版权声明:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    本博客所有文章除特別声明外，均采用
+                    <a href="https://creativecommons.org/licenses/by/4.0/deed.zh" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>
+                    许可协议。转载请注明来源
+                    <a href="https://www.asxing.com" target="_blank">HoldDie</a>
+                    !
+                </span>
+            </div>
+        
+    </div>
+
+    <script async defer>
+      document.addEventListener("copy", function (e) {
+        let toastHTML = '<span>复制成功，请遵循本文的转载规则</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">查看</a>';
+        M.toast({html: toastHTML})
+      });
+
+      function navToReprintStatement() {
+        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      }
+    </script>
+
+
+
+            <div class="tag_share" style="display: block;">
+                <div class="post-meta__tag-list" style="display: inline-block;">
+                    
+                        <div class="article-tag">
+                            
+                                <a href="/tags/CentOS/">
+                                    <span class="chip bg-color">CentOS</span>
+                                </a>
+                            
+                                <a href="/tags/Zookeeper/">
+                                    <span class="chip bg-color">Zookeeper</span>
+                                </a>
+                            
+                        </div>
+                    
+                </div>
+                <div class="post_share" style="zoom: 80%; width: fit-content; display: inline-block; float: right; margin: -0.15rem 0;">
+                    <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+
+<div id="article-share">
+    
+    
+    <div class="social-share" data-sites="twitter,facebook,google,qq,qzone,wechat,weibo,douban,linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
+    <script src="/libs/share/js/social-share.min.js"></script>
+    
+
+    
+
+</div>
+
+                </div>
+            </div>
+            
+                <style>
+    #reward {
+        margin: 40px 0;
+        text-align: center;
+    }
+
+    #reward .reward-link {
+        font-size: 1.4rem;
+        line-height: 38px;
+    }
+
+    #reward .btn-floating:hover {
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2), 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    #rewardModal {
+        width: 320px;
+        height: 350px;
+    }
+
+    #rewardModal .reward-title {
+        margin: 15px auto;
+        padding-bottom: 5px;
+    }
+
+    #rewardModal .modal-content {
+        padding: 10px;
+    }
+
+    #rewardModal .close {
+        position: absolute;
+        right: 15px;
+        top: 15px;
+        color: rgba(0, 0, 0, 0.5);
+        font-size: 1.3rem;
+        line-height: 20px;
+        cursor: pointer;
+    }
+
+    #rewardModal .close:hover {
+        color: #ef5350;
+        transform: scale(1.3);
+        -moz-transform:scale(1.3);
+        -webkit-transform:scale(1.3);
+        -o-transform:scale(1.3);
+    }
+
+    #rewardModal .reward-tabs {
+        margin: 0 auto;
+        width: 210px;
+    }
+
+    .reward-tabs .tabs {
+        height: 38px;
+        margin: 10px auto;
+        padding-left: 0;
+    }
+
+    .reward-content ul {
+        padding-left: 0 !important;
+    }
+
+    .reward-tabs .tabs .tab {
+        height: 38px;
+        line-height: 38px;
+    }
+
+    .reward-tabs .tab a {
+        color: #fff;
+        background-color: #ccc;
+    }
+
+    .reward-tabs .tab a:hover {
+        background-color: #ccc;
+        color: #fff;
+    }
+
+    .reward-tabs .wechat-tab .active {
+        color: #fff !important;
+        background-color: #22AB38 !important;
+    }
+
+    .reward-tabs .alipay-tab .active {
+        color: #fff !important;
+        background-color: #019FE8 !important;
+    }
+
+    .reward-tabs .reward-img {
+        width: 210px;
+        height: 210px;
+    }
+</style>
+
+<div id="reward">
+    <a href="#rewardModal" class="reward-link modal-trigger btn-floating btn-medium waves-effect waves-light red">赏</a>
+
+    <!-- Modal Structure -->
+    <div id="rewardModal" class="modal">
+        <div class="modal-content">
+            <a class="close modal-close"><i class="fas fa-times"></i></a>
+            <h4 class="reward-title">你的赏识是我前进的动力</h4>
+            <div class="reward-content">
+                <div class="reward-tabs">
+                    <ul class="tabs row">
+                        <li class="tab col s6 alipay-tab waves-effect waves-light"><a href="#alipay">支付宝</a></li>
+                        <li class="tab col s6 wechat-tab waves-effect waves-light"><a href="#wechat">微 信</a></li>
+                    </ul>
+                    <div id="alipay">
+                        <img src="/medias/reward/alipay.jpg" class="reward-img" alt="支付宝打赏二维码">
+                    </div>
+                    <div id="wechat">
+                        <img src="/medias/reward/wechat.png" class="reward-img" alt="微信打赏二维码">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $('.tabs').tabs();
+    });
+</script>
+            
+        </div>
+    </div>
+
+    
+        <link rel="stylesheet" href="/libs/gitalk/gitalk.css">
+<link rel="stylesheet" href="/css/my-gitalk.css">
+
+<div class="card gitalk-card" data-aos="fade-up">
+    <div class="comment_headling" style="font-size: 20px; font-weight: 700; position: relative; left: 20px; top: 15px; padding-bottom: 5px;">
+        <i class="fas fa-comments fa-fw" aria-hidden="true"></i>
+        <span>评论</span>
+    </div>
+    <div id="gitalk-container" class="card-content"></div>
+</div>
+
+<script src="/libs/gitalk/gitalk.min.js"></script>
+<script>
+    let gitalk = new Gitalk({
+        clientID: 'c4e18e113d94091c8828',
+        clientSecret: '891f04d80de6a77fd6eb60d1cbe792e916cde3ff',
+        repo: 'asxing.github.io',
+        owner: 'Asxing',
+        admin: "asxing",
+        id: '2017-10-04T21-32-16',
+        distractionFreeMode: false  // Facebook-like distraction free mode
+    });
+
+    gitalk.render('gitalk-container');
+</script>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+            <div class="card">
+                <a href="/2017/10/09/properties-pei-zhi-xiang-jie/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/16.jpg" class="responsive-img" alt="Properties文件常识">
+                        
+                        <span class="card-title">Properties文件常识</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            Properties 文件常见配置#Driver
+jdbc.driverClassName=com.mysql.jdbc.Driver
+#数据库链接，
+jdbc.url=jdbc:mysql://192.168.0.37:3306/proj
+                        
+                    </div>
+                    <div class="publish-info">
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2017-10-09
+                        </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/Properties/" class="post-category">
+                                    Properties
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/Spring/">
+                        <span class="chip bg-color">Spring</span>
+                    </a>
+                    
+                    <a href="/tags/Properties/">
+                        <span class="chip bg-color">Properties</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2017/10/03/zookeeper-huan-jing-da-jian/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/5.jpg" class="responsive-img" alt="Zookeeper环境搭建">
+                        
+                        <span class="card-title">Zookeeper环境搭建</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            Zookeeper 环境搭建1、上传文件并解压 
+2、修改环境变量 
+更新配置文件
+
+3、修改 zk 的配置文件vim /usr/local/zookeeper/conf/zoo.cfg
+
+主要修改数据文件的地址
+4、设置 Path 否则不
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2017-10-03
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/Zookeeper/" class="post-category">
+                                    Zookeeper
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/CentOS/">
+                        <span class="chip bg-color">CentOS</span>
+                    </a>
+                    
+                    <a href="/tags/Zookeeper/">
+                        <span class="chip bg-color">Zookeeper</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+
+</div>
+
+
+
+<!-- 代码块功能依赖 -->
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+
+<!-- 代码语言 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+
+    
+<!-- 代码块复制 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+
+
+<!-- 代码块收缩 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script>
+
+
+<!-- 代码块折行 -->
+
+<style type="text/css">
+code[class*="language-"], pre[class*="language-"] { white-space: pre !important; }
+</style>
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget">
+            <div class="toc-title"><i class="far fa-list-alt"></i>&nbsp;&nbsp;目录</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fas fa-list-ul"></i>
+    </a>
+</div>
+
+
+<script src="/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            // headingsOffset: -205,
+            headingSelector: 'h2, h3, h4'
+        });
+
+        // modify the toc link href to support Chinese.
+        let i = 0;
+        let tocHeading = 'toc-heading-';
+        $('#toc-content a').each(function () {
+            $(this).attr('href', '#' + tocHeading + (++i));
+        });
+
+        // modify the heading title id to support Chinese.
+        i = 0;
+        $('#articleContent').children('h2, h3, h4').each(function () {
+            $(this).attr('id', tocHeading + (++i));
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).hide();
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).show();
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+        });
+        
+    });
+</script>
+
+    
+
+</main>
+
+
+<script src="https://cdn.bootcss.com/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script>
+    MathJax.Hub.Config({
+        tex2jax: {inlineMath: [['$', '$'], ['\(', '\)']]}
+    });
+</script>
+
+
+    <footer class="page-footer bg-color">
+    <div class="container row center-align">
+        <div class="col s12 m8 l8 copy-right">
+            Copyright&nbsp;&copy;
+            <span id="year">年份</span>
+            <a href="https://www.asxing.com" target="_blank">Asxing</a>
+            |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
+            |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
+            <br>
+            
+            &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
+                class="white-color">479k</span>&nbsp;字
+            
+            
+            
+            
+            <span id="busuanzi_container_site_pv">
+                |&nbsp;<i class="far fa-eye"></i>&nbsp;总访问量:&nbsp;<span id="busuanzi_value_site_pv"
+                    class="white-color"></span>&nbsp;次
+            </span>
+            
+            
+            <span id="busuanzi_container_site_uv">
+                |&nbsp;<i class="fas fa-users"></i>&nbsp;总访问人数:&nbsp;<span id="busuanzi_value_site_uv"
+                    class="white-color"></span>&nbsp;人
+            </span>
+            
+            <br>
+            
+            <span id="sitetime">载入运行时间...</span>
+            <script>
+                function siteTime() {
+                    window.setTimeout("siteTime()", 1000);
+                    var seconds = 1000;
+                    var minutes = seconds * 60;
+                    var hours = minutes * 60;
+                    var days = hours * 24;
+                    var years = days * 365;
+                    var today = new Date();
+                    var startYear = "2019";
+                    var startMonth = "10";
+                    var startDate = "30";
+                    var startHour = "22";
+                    var startMinute = "30";
+                    var startSecond = "0";
+                    var todayYear = today.getFullYear();
+                    var todayMonth = today.getMonth() + 1;
+                    var todayDate = today.getDate();
+                    var todayHour = today.getHours();
+                    var todayMinute = today.getMinutes();
+                    var todaySecond = today.getSeconds();
+                    var t1 = Date.UTC(startYear, startMonth, startDate, startHour, startMinute, startSecond);
+                    var t2 = Date.UTC(todayYear, todayMonth, todayDate, todayHour, todayMinute, todaySecond);
+                    var diff = t2 - t1;
+                    var diffYears = Math.floor(diff / years);
+                    var diffDays = Math.floor((diff / days) - diffYears * 365);
+                    var diffHours = Math.floor((diff - (diffYears * 365 + diffDays) * days) / hours);
+                    var diffMinutes = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours) /
+                        minutes);
+                    var diffSeconds = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours -
+                        diffMinutes * minutes) / seconds);
+                    if (startYear == todayYear) {
+                        document.getElementById("year").innerHTML = todayYear;
+                        document.getElementById("sitetime").innerHTML = "本站已安全运行 " + diffDays + " 天 " + diffHours +
+                            " 小时 " + diffMinutes + " 分钟 " + diffSeconds + " 秒";
+                    } else {
+                        document.getElementById("year").innerHTML = startYear + " - " + todayYear;
+                        document.getElementById("sitetime").innerHTML = "本站已安全运行 " + diffYears + " 年 " + diffDays +
+                            " 天 " + diffHours + " 小时 " + diffMinutes + " 分钟 " + diffSeconds + " 秒";
+                    }
+                }
+                setInterval(siteTime, 1000);
+            </script>
+            
+            <br>
+            
+        </div>
+        <div class="col s12 m4 l4 social-link ">
+    <a href="https://github.com/asxing" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+        <i class="fab fa-github"></i>
+    </a>
+
+
+
+    <a href="mailto:asxingking@gmail.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fas fa-envelope-open"></i>
+    </a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <a href="/atom.xml" class="tooltipped" target="_blank" data-tooltip="RSS 订阅" data-position="top" data-delay="50">
+        <i class="fas fa-rss"></i>
+    </a>
+
+</div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+
+    <!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fas fa-search"></i>&nbsp;&nbsp;搜索</span>
+            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script src="/js/search.js"></script>
+<script type="text/javascript">
+$(function () {
+    searchFunc("/" + "search.xml", 'searchInput', 'searchResult');
+});
+</script>
+    <!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+</div>
+
+
+    <script src="/libs/materialize/materialize.min.js"></script>
+    <script src="/libs/masonry/masonry.pkgd.min.js"></script>
+    <script src="/libs/aos/aos.js"></script>
+    <script src="/libs/scrollprogress/scrollProgress.min.js"></script>
+    <script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+    <script src="/js/matery.js"></script>
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+    <!-- Baidu Analytics -->
+
+    <!-- Baidu Push -->
+
+    
+    <script src="/libs/others/clicklove.js" async="async"></script>
+    
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <script type="text/javascript" src="/libs/background/ribbon-dynamic.js" async="async"></script>
+    
+    
+    
+
+</body>
+
+</html>

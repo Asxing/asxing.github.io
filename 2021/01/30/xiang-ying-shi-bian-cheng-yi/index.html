@@ -1,0 +1,1339 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="keywords" content="响应式编程（一）, 编程 读书 生活">
+    <meta name="description" content="1. 响应式编程Reactor是反应式编程范例的实现，可以总结如下：反应式编程是一种异步编程范式，涉及数据流和变化的传播。这意味着可以通过所采用的编程语言轻松地表达静态（例如数组）或动态（例如事件发射器）数据流。
+作为响应式编程方向的第一步">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>响应式编程（一） | Asxing-阿行</title>
+    <link rel="icon" type="image/png" href="/favicon.png">
+
+    <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
+    <link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
+    <link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/matery.css">
+    <link rel="stylesheet" type="text/css" href="/css/my.css">
+    
+    <script src="/libs/jquery/jquery.min.js"></script>
+    
+<meta name="generator" content="Hexo 4.2.1"><link rel="alternate" href="/atom.xml" title="Asxing-阿行" type="application/atom+xml">
+<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+
+
+<body>
+    <header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper head-container">
+            <div class="brand-logo">
+                <a href="/" class="waves-effect waves-light">
+                    
+                    <img src="/medias/logo.png" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">Asxing-阿行</span>
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
+<ul class="right nav-menu">
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/" class="waves-effect waves-light">
+      
+      <i class="fas fa-home" style="zoom: 0.6;"></i>
+      
+      <span>首页</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/tags" class="waves-effect waves-light">
+      
+      <i class="fas fa-tags" style="zoom: 0.6;"></i>
+      
+      <span>标签</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/categories" class="waves-effect waves-light">
+      
+      <i class="fas fa-bookmark" style="zoom: 0.6;"></i>
+      
+      <span>分类</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/archives" class="waves-effect waves-light">
+      
+      <i class="fas fa-archive" style="zoom: 0.6;"></i>
+      
+      <span>归档</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/about" class="waves-effect waves-light">
+      
+      <i class="fas fa-user-circle" style="zoom: 0.6;"></i>
+      
+      <span>关于</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/contact" class="waves-effect waves-light">
+      
+      <i class="fas fa-comments" style="zoom: 0.6;"></i>
+      
+      <span>留言板</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/friends" class="waves-effect waves-light">
+      
+      <i class="fas fa-address-book" style="zoom: 0.6;"></i>
+      
+      <span>友情链接</span>
+    </a>
+    
+  </li>
+  
+  <li>
+    <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+      <i id="searchIcon" class="fas fa-search" title="搜索" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+</ul>
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="/medias/logo.png" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">Asxing-阿行</div>
+        <div class="logo-desc">
+            
+            Never really desperate, only the lost of the soul.
+            
+        </div>
+    </div>
+
+    
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li class="m-nav-item">
+	  
+		<a href="/" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-home"></i>
+			
+			首页
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/tags" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-tags"></i>
+			
+			标签
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/categories" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-bookmark"></i>
+			
+			分类
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/archives" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-archive"></i>
+			
+			归档
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/about" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-user-circle"></i>
+			
+			关于
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/contact" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-comments"></i>
+			
+			Contact
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/friends" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-address-book"></i>
+			
+			友情链接
+		</a>
+          
+        </li>
+        
+        
+        <li><div class="divider"></div></li>
+        <li>
+            <a href="https://github.com/asxing" class="waves-effect waves-light" target="_blank">
+                <i class="fab fa-github-square fa-fw"></i>Fork Me
+            </a>
+        </li>
+        
+    </ul>
+</div>
+
+        </div>
+
+        
+            <style>
+    .nav-transparent .github-corner {
+        display: none !important;
+    }
+
+    .github-corner {
+        position: absolute;
+        z-index: 10;
+        top: 0;
+        right: 0;
+        border: 0;
+        transform: scale(1.1);
+    }
+
+    .github-corner svg {
+        color: #0f9d58;
+        fill: #fff;
+        height: 64px;
+        width: 64px;
+    }
+
+    .github-corner:hover .octo-arm {
+        animation: a 0.56s ease-in-out;
+    }
+
+    .github-corner .octo-arm {
+        animation: none;
+    }
+
+    @keyframes a {
+        0%,
+        to {
+            transform: rotate(0);
+        }
+        20%,
+        60% {
+            transform: rotate(-25deg);
+        }
+        40%,
+        80% {
+            transform: rotate(10deg);
+        }
+    }
+</style>
+
+<a href="https://github.com/asxing" class="github-corner tooltipped hide-on-med-and-down" target="_blank"
+   data-tooltip="Fork Me" data-position="left" data-delay="50">
+    <svg viewBox="0 0 250 250" aria-hidden="true">
+        <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
+        <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2"
+              fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path>
+        <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z"
+              fill="currentColor" class="octo-body"></path>
+    </svg>
+</a>
+        
+    </nav>
+
+</header>
+
+    
+<script src="/libs/cryptojs/crypto-js.min.js"></script>
+<script>
+    (function() {
+        let pwd = '';
+        if (pwd && pwd.length > 0) {
+            if (pwd !== CryptoJS.SHA256(prompt('请输入访问本文章的密码')).toString(CryptoJS.enc.Hex)) {
+                alert('密码错误，将返回主页！');
+                location.href = '/';
+            }
+        }
+    })();
+</script>
+
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/4.jpg')">
+    <div class="container" style="right: 0px;left: 0px;">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <div class="description center-align post-title">
+                        响应式编程（一）
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<main class="post-container content">
+
+    
+    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
+<style>
+    #articleContent h1::before,
+    #articleContent h2::before,
+    #articleContent h3::before,
+    #articleContent h4::before,
+    #articleContent h5::before,
+    #articleContent h6::before {
+        display: block;
+        content: " ";
+        height: 100px;
+        margin-top: -100px;
+        visibility: hidden;
+    }
+
+    #articleContent :focus {
+        outline: none;
+    }
+
+    .toc-fixed {
+        position: fixed;
+        top: 64px;
+    }
+
+    .toc-widget {
+        padding-left: 20px;
+    }
+
+    .toc-widget .toc-title {
+        margin: 35px 0 15px 0;
+        padding-left: 17px;
+        font-size: 1.5rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    .toc-widget ol {
+        padding: 0;
+        list-style: none;
+    }
+
+    #toc-content ol {
+        padding-left: 10px;
+    }
+
+    #toc-content ol li {
+        padding-left: 10px;
+    }
+
+    #toc-content .toc-link:hover {
+        color: #42b983;
+        font-weight: 700;
+        text-decoration: underline;
+    }
+
+    #toc-content .toc-link::before {
+        background-color: transparent;
+        max-height: 25px;
+    }
+
+    #toc-content .is-active-link {
+        color: #42b983;
+    }
+
+    #toc-content .is-active-link::before {
+        background-color: #42b983;
+    }
+
+    #floating-toc-btn {
+        position: fixed;
+        right: 15px;
+        bottom: 76px;
+        padding-top: 15px;
+        margin-bottom: 0;
+        z-index: 998;
+    }
+
+    #floating-toc-btn .btn-floating {
+        width: 48px;
+        height: 48px;
+    }
+
+    #floating-toc-btn .btn-floating i {
+        line-height: 48px;
+        font-size: 1.4rem;
+    }
+</style>
+<div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                            <a href="/tags/%E5%93%8D%E5%BA%94%E5%BC%8F/">
+                                <span class="chip bg-color">响应式</span>
+                            </a>
+                        
+                            <a href="/tags/%E7%90%86%E5%BF%B5/">
+                                <span class="chip bg-color">理念</span>
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fas fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/categories/%E5%93%8D%E5%BA%94%E5%BC%8F%E7%BC%96%E7%A8%8B/" class="post-category">
+                                响应式编程
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
+                    2021-01-30
+                </div>
+                
+
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
+                    3.3k
+                </div>
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
+                    12 分
+                </div>
+                
+				
+                
+            </div>
+            
+        </div>
+        <hr class="clearfix">
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <h2 id="1-响应式编程"><a href="#1-响应式编程" class="headerlink" title="1. 响应式编程"></a>1. 响应式编程</h2><p>Reactor是反应式编程范例的实现，可以总结如下：反应式编程是一种异步编程范式，涉及数据流和变化的传播。这意味着可以通过所采用的编程语言轻松地表达静态（例如数组）或动态（例如事件发射器）数据流。</p>
+<p>作为响应式编程方向的第一步，Microsoft在.NET生态系统中创建了响应式扩展（Rx）库。然后RxJava在JVM上实现了反应式编程。随着时间的流逝，通过Reactive Streams的努力出现了Java的标准化，该规范定义了JVM上的响应库的一组接口和交互规则。它的接口已在Flow类下集成到Java 9中。</p>
+<p>反应式编程范例通常以面向对象的语言表示，作为Observer设计模式的扩展。您还可以将主要的反应流模式与熟悉的Iterator设计模式进行比较，因为所有这些库中的Iterable-Iterator对都有双重性。一个主要的区别是，虽然Iterator是基于pull的，但是反应流却是基于push的。</p>
+<p>使用迭代器是命令式编程模式，即使访问值的方法仅由Iterable负责。实际上，由开发人员决定何时选择序列中的next（）项。在反应式流中，上述一对等效于Publisher-Subscriber。但是是发布者在新可用值到来时通知订阅者，而此推送方面是做出反应的关键。同样，应用于推入值的操作以声明方式而不是命令方式表示：程序员表示计算的逻辑，而不是描述其确切的控制流程。</p>
+<p>除了推送值之外，还以明确定义的方式涵盖了错误处理和完成方面。发布者可以将新值推送到其订阅服务器（通过调用onNext），但也可以发出错误信号（通过调用onError）或完成（通过调用onComplete）。错误和完成都会终止序列。可以总结如下：<code>onNext x 0..N [onError | onComplete]</code>；</p>
+<p>这种方法非常灵活。该模式支持没有值，一个值或n个值（包括无限的值序列，例如时钟的连续滴答声）的用例。</p>
+<h3 id="1-1-阻塞"><a href="#1-1-阻塞" class="headerlink" title="1.1 阻塞"></a>1.1 阻塞</h3><p>现代应用程序可以吸引大量并发用户，即使现代硬件的功能不断提高，现代软件的性能仍然是关键问题。</p>
+<p>广义上讲，有两种方法可以提高程序的性能：</p>
+<ul>
+<li>并行使用更多线程和更多硬件资源。</li>
+<li>在使用现有资源方面寻求更高的效率。</li>
+</ul>
+<p>通常，Java开发人员通过使用阻塞代码来编写程序。除非存在性能瓶颈，否则这种做法很好。然后是时候引入其他线程，运行类似的阻塞代码了。但是，资源利用的这种扩展会迅速引入争用和并发问题。</p>
+<p>更糟糕的是，阻塞会浪费资源。如果仔细观察，程序一旦遇到一些延迟（特别是I / O，例如数据库请求或网络调用），就会浪费资源，因为线程（可能有很多线程）现在处于空闲状态，等待数据。</p>
+<p>因此，并行化方法不是灵丹妙药。有必要访问硬件的全部功能，但是推理和资源浪费也很复杂。</p>
+<h3 id="1-2-异步"><a href="#1-2-异步" class="headerlink" title="1.2 异步"></a>1.2 异步</h3><p>前面提到的第二种方法，寻求更高的效率，可以解决资源浪费的问题。通过编写异步的非阻塞代码，您可以将执行切换到使用相同基础资源的另一个活动任务，并在异步处理完成后返回到当前进程。</p>
+<p>但是如何在JVM上生成异步代码？ Java提供了两种异步编程模型：</p>
+<ul>
+<li><strong>Callbacks</strong>：异步方法没有返回值，但是带有一个额外的回调参数（lambda或匿名类），该参数在结果可用时被调用。一个著名的例子是Swing的EventListener层次结构。</li>
+<li><strong>Futures</strong>：异步方法立即返回Future 。异步过程计算T值，但是Future对象包装对其的访问。该值不是立即可用的，并且可以轮询该对象，直到该值可用为止。例如，运行Callable 任务的ExecutorService使用Future对象。</li>
+</ul>
+<p>这些技术够好吗？并非针对每个用例，这两种方法都有局限性。</p>
+<p>Callbacks 很难组合在一起，很快导致难以阅读和维护的代码（称为“回调地狱”）。</p>
+<p>考虑一个示例：在用户界面上显示用户的前五个收藏夹，如果没有收藏夹则显示建议。这需要三项服务（一项提供最爱ID，第二项获取最喜欢的详细信息，第三项提供带有详细信息的建议），如下所示：</p>
+<pre class=" language-java"><code class="language-java">userService<span class="token punctuation">.</span><span class="token function">getFavorites</span><span class="token punctuation">(</span>userId<span class="token punctuation">,</span> <span class="token keyword">new</span> <span class="token class-name">Callback</span><span class="token operator">&lt;</span>List<span class="token operator">&lt;</span>String<span class="token operator">>></span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> 
+  <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">onSuccess</span><span class="token punctuation">(</span>List<span class="token operator">&lt;</span>String<span class="token operator">></span> list<span class="token punctuation">)</span> <span class="token punctuation">{</span> 
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>list<span class="token punctuation">.</span><span class="token function">isEmpty</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> 
+      suggestionService<span class="token punctuation">.</span><span class="token function">getSuggestions</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">Callback</span><span class="token operator">&lt;</span>List<span class="token operator">&lt;</span>Favorite<span class="token operator">>></span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">onSuccess</span><span class="token punctuation">(</span>List<span class="token operator">&lt;</span>Favorite<span class="token operator">></span> list<span class="token punctuation">)</span> <span class="token punctuation">{</span> 
+          UiUtils<span class="token punctuation">.</span><span class="token function">submitOnUiThread</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">></span> <span class="token punctuation">{</span> 
+            list<span class="token punctuation">.</span><span class="token function">stream</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+                <span class="token punctuation">.</span><span class="token function">limit</span><span class="token punctuation">(</span><span class="token number">5</span><span class="token punctuation">)</span>
+                <span class="token punctuation">.</span><span class="token function">forEach</span><span class="token punctuation">(</span>uiList<span class="token operator">:</span><span class="token operator">:</span>show<span class="token punctuation">)</span><span class="token punctuation">;</span> 
+            <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">onError</span><span class="token punctuation">(</span>Throwable error<span class="token punctuation">)</span> <span class="token punctuation">{</span> 
+          UiUtils<span class="token punctuation">.</span><span class="token function">errorPopup</span><span class="token punctuation">(</span>error<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+      <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+      list<span class="token punctuation">.</span><span class="token function">stream</span><span class="token punctuation">(</span><span class="token punctuation">)</span> 
+          <span class="token punctuation">.</span><span class="token function">limit</span><span class="token punctuation">(</span><span class="token number">5</span><span class="token punctuation">)</span>
+          <span class="token punctuation">.</span><span class="token function">forEach</span><span class="token punctuation">(</span>favId <span class="token operator">-</span><span class="token operator">></span> favoriteService<span class="token punctuation">.</span><span class="token function">getDetails</span><span class="token punctuation">(</span>favId<span class="token punctuation">,</span> 
+            <span class="token keyword">new</span> <span class="token class-name">Callback</span><span class="token operator">&lt;</span>Favorite<span class="token operator">></span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+              <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">onSuccess</span><span class="token punctuation">(</span>Favorite details<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                UiUtils<span class="token punctuation">.</span><span class="token function">submitOnUiThread</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">></span> uiList<span class="token punctuation">.</span><span class="token function">show</span><span class="token punctuation">(</span>details<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+              <span class="token punctuation">}</span>
+
+              <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">onError</span><span class="token punctuation">(</span>Throwable error<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                UiUtils<span class="token punctuation">.</span><span class="token function">errorPopup</span><span class="token punctuation">(</span>error<span class="token punctuation">)</span><span class="token punctuation">;</span>
+              <span class="token punctuation">}</span>
+            <span class="token punctuation">}</span>
+          <span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span>
+
+  <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">onError</span><span class="token punctuation">(</span>Throwable error<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    UiUtils<span class="token punctuation">.</span><span class="token function">errorPopup</span><span class="token punctuation">(</span>error<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<p>使用响应式编程：</p>
+<pre class=" language-java"><code class="language-java">userService<span class="token punctuation">.</span><span class="token function">getFavorites</span><span class="token punctuation">(</span>userId<span class="token punctuation">)</span> 
+           <span class="token punctuation">.</span><span class="token function">flatMap</span><span class="token punctuation">(</span>favoriteService<span class="token operator">:</span><span class="token operator">:</span>getDetails<span class="token punctuation">)</span> 
+           <span class="token punctuation">.</span><span class="token function">switchIfEmpty</span><span class="token punctuation">(</span>suggestionService<span class="token punctuation">.</span><span class="token function">getSuggestions</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> 
+           <span class="token punctuation">.</span><span class="token function">take</span><span class="token punctuation">(</span><span class="token number">5</span><span class="token punctuation">)</span> 
+           <span class="token punctuation">.</span><span class="token function">publishOn</span><span class="token punctuation">(</span>UiUtils<span class="token punctuation">.</span><span class="token function">uiThreadScheduler</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> 
+           <span class="token punctuation">.</span><span class="token function">subscribe</span><span class="token punctuation">(</span>uiList<span class="token operator">:</span><span class="token operator">:</span>show<span class="token punctuation">,</span> UiUtils<span class="token operator">:</span><span class="token operator">:</span>errorPopup<span class="token punctuation">)</span><span class="token punctuation">;</span> </code></pre>
+<p>如果您想确保在少于800毫秒的时间内检索到喜欢的ID，或者如果花费更长的时间从缓存中获取它们，该怎么办？在基于回调的代码中，这是一项复杂的任务。在Reactor中，就像在链中添加超时操作符一样容易，如下所示：</p>
+<pre class=" language-java"><code class="language-java">userService<span class="token punctuation">.</span><span class="token function">getFavorites</span><span class="token punctuation">(</span>userId<span class="token punctuation">)</span>
+           <span class="token punctuation">.</span><span class="token function">timeout</span><span class="token punctuation">(</span>Duration<span class="token punctuation">.</span><span class="token function">ofMillis</span><span class="token punctuation">(</span><span class="token number">800</span><span class="token punctuation">)</span><span class="token punctuation">)</span> 
+           <span class="token punctuation">.</span><span class="token function">onErrorResume</span><span class="token punctuation">(</span>cacheService<span class="token punctuation">.</span><span class="token function">cachedFavoritesFor</span><span class="token punctuation">(</span>userId<span class="token punctuation">)</span><span class="token punctuation">)</span> 
+           <span class="token punctuation">.</span><span class="token function">flatMap</span><span class="token punctuation">(</span>favoriteService<span class="token operator">:</span><span class="token operator">:</span>getDetails<span class="token punctuation">)</span> 
+           <span class="token punctuation">.</span><span class="token function">switchIfEmpty</span><span class="token punctuation">(</span>suggestionService<span class="token punctuation">.</span><span class="token function">getSuggestions</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+           <span class="token punctuation">.</span><span class="token function">take</span><span class="token punctuation">(</span><span class="token number">5</span><span class="token punctuation">)</span>
+           <span class="token punctuation">.</span><span class="token function">publishOn</span><span class="token punctuation">(</span>UiUtils<span class="token punctuation">.</span><span class="token function">uiThreadScheduler</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+           <span class="token punctuation">.</span><span class="token function">subscribe</span><span class="token punctuation">(</span>uiList<span class="token operator">:</span><span class="token operator">:</span>show<span class="token punctuation">,</span> UiUtils<span class="token operator">:</span><span class="token operator">:</span>errorPopup<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<p><strong>Future</strong> 对象比 <strong>Callbacks</strong> 要好一些，但是尽管CompletableFuture对Java 8进行了改进，但它们在组合方面仍然表现不佳。一起编排多个Future对象是可行的，但并不容易。另外，未来还有其他问题：</p>
+<ul>
+<li>通过调用get() 方法很容易以Future对象结束另一个阻塞情况。</li>
+<li>它们不支持惰性计算。</li>
+<li>他们缺乏对多个值和高级错误处理的支持。</li>
+</ul>
+<p>再看一个例子：我们得到一个ID列表，我们要从中获取一个名称和一个统计信息，并将它们成对组合，所有这些都是异步的。下面的示例使用CompletableFuture类型的列表执行此操作：</p>
+<pre class=" language-java"><code class="language-java">CompletableFuture<span class="token operator">&lt;</span>List<span class="token operator">&lt;</span>String<span class="token operator">>></span> ids <span class="token operator">=</span> <span class="token function">ifhIds</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> 
+
+CompletableFuture<span class="token operator">&lt;</span>List<span class="token operator">&lt;</span>String<span class="token operator">>></span> result <span class="token operator">=</span> ids<span class="token punctuation">.</span><span class="token function">thenComposeAsync</span><span class="token punctuation">(</span>l <span class="token operator">-</span><span class="token operator">></span> <span class="token punctuation">{</span> 
+    Stream<span class="token operator">&lt;</span>CompletableFuture<span class="token operator">&lt;</span>String<span class="token operator">>></span> zip <span class="token operator">=</span>
+            l<span class="token punctuation">.</span><span class="token function">stream</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">map</span><span class="token punctuation">(</span>i <span class="token operator">-</span><span class="token operator">></span> <span class="token punctuation">{</span> 
+                CompletableFuture<span class="token operator">&lt;</span>String<span class="token operator">></span> nameTask <span class="token operator">=</span> <span class="token function">ifhName</span><span class="token punctuation">(</span>i<span class="token punctuation">)</span><span class="token punctuation">;</span> 
+                CompletableFuture<span class="token operator">&lt;</span>Integer<span class="token operator">></span> statTask <span class="token operator">=</span> <span class="token function">ifhStat</span><span class="token punctuation">(</span>i<span class="token punctuation">)</span><span class="token punctuation">;</span> 
+
+                <span class="token keyword">return</span> nameTask<span class="token punctuation">.</span><span class="token function">thenCombineAsync</span><span class="token punctuation">(</span>statTask<span class="token punctuation">,</span> <span class="token punctuation">(</span>name<span class="token punctuation">,</span> stat<span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">></span> <span class="token string">"Name "</span> <span class="token operator">+</span> name <span class="token operator">+</span> <span class="token string">" has stats "</span> <span class="token operator">+</span> stat<span class="token punctuation">)</span><span class="token punctuation">;</span> 
+            <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    List<span class="token operator">&lt;</span>CompletableFuture<span class="token operator">&lt;</span>String<span class="token operator">>></span> combinationList <span class="token operator">=</span> zip<span class="token punctuation">.</span><span class="token function">collect</span><span class="token punctuation">(</span>Collectors<span class="token punctuation">.</span><span class="token function">toList</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span> 
+    CompletableFuture<span class="token operator">&lt;</span>String<span class="token operator">></span><span class="token punctuation">[</span><span class="token punctuation">]</span> combinationArray <span class="token operator">=</span> combinationList<span class="token punctuation">.</span><span class="token function">toArray</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">CompletableFuture</span><span class="token punctuation">[</span>combinationList<span class="token punctuation">.</span><span class="token function">size</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    CompletableFuture<span class="token operator">&lt;</span>Void<span class="token operator">></span> allDone <span class="token operator">=</span> CompletableFuture<span class="token punctuation">.</span><span class="token function">allOf</span><span class="token punctuation">(</span>combinationArray<span class="token punctuation">)</span><span class="token punctuation">;</span> 
+    <span class="token keyword">return</span> allDone<span class="token punctuation">.</span><span class="token function">thenApply</span><span class="token punctuation">(</span>v <span class="token operator">-</span><span class="token operator">></span> combinationList<span class="token punctuation">.</span><span class="token function">stream</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+            <span class="token punctuation">.</span><span class="token function">map</span><span class="token punctuation">(</span>CompletableFuture<span class="token operator">:</span><span class="token operator">:</span>join<span class="token punctuation">)</span> 
+            <span class="token punctuation">.</span><span class="token function">collect</span><span class="token punctuation">(</span>Collectors<span class="token punctuation">.</span><span class="token function">toList</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+List<span class="token operator">&lt;</span>String<span class="token operator">></span> results <span class="token operator">=</span> result<span class="token punctuation">.</span><span class="token function">join</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> 
+<span class="token function">assertThat</span><span class="token punctuation">(</span>results<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">contains</span><span class="token punctuation">(</span>
+        <span class="token string">"Name NameJoe has stats 103"</span><span class="token punctuation">,</span>
+        <span class="token string">"Name NameBart has stats 104"</span><span class="token punctuation">,</span>
+        <span class="token string">"Name NameHenry has stats 105"</span><span class="token punctuation">,</span>
+        <span class="token string">"Name NameNicole has stats 106"</span><span class="token punctuation">,</span>
+        <span class="token string">"Name NameABSLAJNFOAJNFOANFANSF has stats 121"</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<p>由于Reactor提供了更多的组合运算符，因此可以简化此过程，如下所示：</p>
+<pre class=" language-java"><code class="language-java">Flux<span class="token operator">&lt;</span>String<span class="token operator">></span> ids <span class="token operator">=</span> <span class="token function">ifhrIds</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> 
+
+Flux<span class="token operator">&lt;</span>String<span class="token operator">></span> combinations <span class="token operator">=</span>
+        ids<span class="token punctuation">.</span><span class="token function">flatMap</span><span class="token punctuation">(</span>id <span class="token operator">-</span><span class="token operator">></span> <span class="token punctuation">{</span> 
+            Mono<span class="token operator">&lt;</span>String<span class="token operator">></span> nameTask <span class="token operator">=</span> <span class="token function">ifhrName</span><span class="token punctuation">(</span>id<span class="token punctuation">)</span><span class="token punctuation">;</span> 
+            Mono<span class="token operator">&lt;</span>Integer<span class="token operator">></span> statTask <span class="token operator">=</span> <span class="token function">ifhrStat</span><span class="token punctuation">(</span>id<span class="token punctuation">)</span><span class="token punctuation">;</span> 
+
+            <span class="token keyword">return</span> nameTask<span class="token punctuation">.</span><span class="token function">zipWith</span><span class="token punctuation">(</span>statTask<span class="token punctuation">,</span> 
+                    <span class="token punctuation">(</span>name<span class="token punctuation">,</span> stat<span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">></span> <span class="token string">"Name "</span> <span class="token operator">+</span> name <span class="token operator">+</span> <span class="token string">" has stats "</span> <span class="token operator">+</span> stat<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+Mono<span class="token operator">&lt;</span>List<span class="token operator">&lt;</span>String<span class="token operator">>></span> result <span class="token operator">=</span> combinations<span class="token punctuation">.</span><span class="token function">collectList</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> 
+
+List<span class="token operator">&lt;</span>String<span class="token operator">></span> results <span class="token operator">=</span> result<span class="token punctuation">.</span><span class="token function">block</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> 
+<span class="token function">assertThat</span><span class="token punctuation">(</span>results<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">containsExactly</span><span class="token punctuation">(</span> 
+        <span class="token string">"Name NameJoe has stats 103"</span><span class="token punctuation">,</span>
+        <span class="token string">"Name NameBart has stats 104"</span><span class="token punctuation">,</span>
+        <span class="token string">"Name NameHenry has stats 105"</span><span class="token punctuation">,</span>
+        <span class="token string">"Name NameNicole has stats 106"</span><span class="token punctuation">,</span>
+        <span class="token string">"Name NameABSLAJNFOAJNFOANFANSF has stats 121"</span>
+<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<p>使用Callbacks和Future对象的风险是相似的，并且是响应式编程在Publisher-Subscriber对中的作用。</p>
+<h3 id="1-3-从命令式编程到反应式编程"><a href="#1-3-从命令式编程到反应式编程" class="headerlink" title="1.3 从命令式编程到反应式编程"></a>1.3 从命令式编程到反应式编程</h3><p>反应性库（例如Reactor）旨在解决JVM上“经典”异步方法的这些缺点，同时还着重于其他一些方面：</p>
+<ul>
+<li>可组合性和可读性</li>
+<li>以丰富的运算符词汇操纵数据流</li>
+<li>订阅之前没有任何反应</li>
+<li>背压或消费者向生产者发出排放速率过高信号的能力</li>
+<li>并发不可知的高级但高价值的抽象</li>
+</ul>
+<h4 id="1-3-1-可组合性和可读性"><a href="#1-3-1-可组合性和可读性" class="headerlink" title="1.3.1 可组合性和可读性"></a>1.3.1 可组合性和可读性</h4><p>所谓“可组合性”，是指协调多个异步任务的能力，其中我们使用先前任务的结果将输入反馈给后续任务。或者，我们可以以fork-join样式运行多个任务。另外，我们可以将异步任务重用为更高级别系统中的离散组件。</p>
+<p>编排任务的能力与代码的可读性和可维护性紧密相关。随着异步过程的层数和复杂度的增加，能够编写和读取代码变得越来越困难。如我们所见，回调模型很简单，但是它的主要缺点之一是，对于复杂的流程，您需要从一个回调中执行一个回调，它本身嵌套在另一个回调中，依此类推。这种混乱被称为“回调地狱”。您可以猜测（或从经验中学到），很难找到这样的代码并进行推理。</p>
+<p>Reactor提供了丰富的组合选项，其中代码反映了抽象过程的组织，并且通常将所有内容保持在同一级别（将嵌套最小化）。</p>
+<h4 id="1-3-2-流式风格"><a href="#1-3-2-流式风格" class="headerlink" title="1.3.2 流式风格"></a>1.3.2 流式风格</h4><p>您可以将反应式应用程序处理的数据视为在组装线中移动。反应堆既是传送带又是工作站。原材料从来源（原始发布者）倾泻而出，最终成为准备好推向消费者（或订阅者）的成品。</p>
+<p>原材料可以经过各种转换和其他中间步骤，也可以成为将中间零件聚集在一起的较大装配线的一部分。如果某一点出现故障或堵塞（也许装箱的产品花费的时间过长），那么受灾的工作站可以向上游发出信号，以限制原材料的流动。</p>
+<h4 id="1-3-3-Operators"><a href="#1-3-3-Operators" class="headerlink" title="1.3.3 Operators"></a>1.3.3 Operators</h4><p>在Reactor中，Operator是我们装配类比中的工作站。每个Operator都会向Publisher添加行为，并将上一步的Publisher包装到新实例中。因此，整个链被链接在一起，这样数据就从第一个发布者起源并向下移动，并由每个链接转换。最终，订户完成了该过程。请记住，直到订阅者订阅发布者为止，什么都不会发生，正如我们很快看到的那样。</p>
+<p>尽管反应式流规范根本没有指定运算符，但是反应式库的最佳附加值之一（例如Reactor）是它们提供的运算符的丰富词汇表。从简单的转换和过滤到复杂的编排和错误处理，这些内容涉及很多领域。</p>
+<h4 id="1-3-4-订阅之后才有数据"><a href="#1-3-4-订阅之后才有数据" class="headerlink" title="1.3.4 订阅之后才有数据"></a>1.3.4 订阅之后才有数据</h4><p>在Reactor中，当您编写发布者链时，默认情况下不会开始将数据泵入其中。相反，您将创建异步过程的抽象描述（这有助于重用和组合）。</p>
+<p>通过订阅，您将发布者与订阅者绑定在一起，从而触发了整个链中的数据流。这是通过从订阅服务器发出的单个请求信号在内部实现的，该请求信号一直向上游传播，一直返回到源Publisher。</p>
+<h4 id="1-3-5-背压"><a href="#1-3-5-背压" class="headerlink" title="1.3.5 背压"></a>1.3.5 背压</h4><p>上游传播的信号也用于实现背压，我们在组装流水线中将其描述为当工作站的处理速度比上游工作站慢时，沿生产线向上发送的反馈信号。</p>
+<p>Reactive Streams规范定义的实际机制非常类似于此类比：订户可以以无界模式工作，并让源以最快可获得的速率推送所有数据，或者可以使用请求机制向源发出信号，告知它准备处理最多n个元素。</p>
+<p>中级Operator还可以在途中更改请求。想象一下一个缓冲运算符，它以十个为一组对元素进行分组。如果订户请求一个缓冲区，则源产生十个元素是可以接受的。一些运算符还实现了预取策略，避免了request（1）往返，如果在请求之前生成元素的成本不太高的话，这将是有益的。</p>
+<p>这将推模型转换为推挽混合模型，如果下游元素很容易获得，下游可以从上游拉取n个元素。但是，如果元素尚未准备就绪，则每当它们被生产时就会被上游推。</p>
+<h4 id="1-3-6-冷热对比"><a href="#1-3-6-冷热对比" class="headerlink" title="1.3.6 冷热对比"></a>1.3.6 冷热对比</h4><p>Rx反应库的家族将反应序列分为两大类：热和冷。这种区别主要与反应流对订户的反应有关：</p>
+<ul>
+<li>对于每个订户，包括在数据源处，冷序列都会重新开始。例如，如果源包装了HTTP调用，则将为每个预订发出一个新的HTTP请求。</li>
+<li>并非每个订阅者都可以从头开始热序列。相反，迟到的订户会在订阅后接收发射的信号。但是请注意，某些热反应流可以全部或部分缓存或重放排放历史。从一般的角度来看，即使没有订阅者在收听，热序列甚至会发出（“订阅之前什么也没有发生”规则的例外）。</li>
+</ul>
+
+            </div>
+            <hr/>
+
+            
+
+    <div class="reprint" id="reprint-statement">
+        
+            <div class="reprint__author">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-user">
+                        文章作者:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="https://www.asxing.com" rel="external nofollow noreferrer">HoldDie</a>
+                </span>
+            </div>
+            <div class="reprint__type">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-link">
+                        文章链接:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="https://www.asxing.com/2021/01/30/xiang-ying-shi-bian-cheng-yi/">https://www.asxing.com/2021/01/30/xiang-ying-shi-bian-cheng-yi/</a>
+                </span>
+            </div>
+            <div class="reprint__notice">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-copyright">
+                        版权声明:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    本博客所有文章除特別声明外，均采用
+                    <a href="https://creativecommons.org/licenses/by/4.0/deed.zh" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>
+                    许可协议。转载请注明来源
+                    <a href="https://www.asxing.com" target="_blank">HoldDie</a>
+                    !
+                </span>
+            </div>
+        
+    </div>
+
+    <script async defer>
+      document.addEventListener("copy", function (e) {
+        let toastHTML = '<span>复制成功，请遵循本文的转载规则</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">查看</a>';
+        M.toast({html: toastHTML})
+      });
+
+      function navToReprintStatement() {
+        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      }
+    </script>
+
+
+
+            <div class="tag_share" style="display: block;">
+                <div class="post-meta__tag-list" style="display: inline-block;">
+                    
+                        <div class="article-tag">
+                            
+                                <a href="/tags/%E5%93%8D%E5%BA%94%E5%BC%8F/">
+                                    <span class="chip bg-color">响应式</span>
+                                </a>
+                            
+                                <a href="/tags/%E7%90%86%E5%BF%B5/">
+                                    <span class="chip bg-color">理念</span>
+                                </a>
+                            
+                        </div>
+                    
+                </div>
+                <div class="post_share" style="zoom: 80%; width: fit-content; display: inline-block; float: right; margin: -0.15rem 0;">
+                    <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+
+<div id="article-share">
+    
+    
+    <div class="social-share" data-sites="twitter,facebook,google,qq,qzone,wechat,weibo,douban,linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
+    <script src="/libs/share/js/social-share.min.js"></script>
+    
+
+    
+
+</div>
+
+                </div>
+            </div>
+            
+                <style>
+    #reward {
+        margin: 40px 0;
+        text-align: center;
+    }
+
+    #reward .reward-link {
+        font-size: 1.4rem;
+        line-height: 38px;
+    }
+
+    #reward .btn-floating:hover {
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2), 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    #rewardModal {
+        width: 320px;
+        height: 350px;
+    }
+
+    #rewardModal .reward-title {
+        margin: 15px auto;
+        padding-bottom: 5px;
+    }
+
+    #rewardModal .modal-content {
+        padding: 10px;
+    }
+
+    #rewardModal .close {
+        position: absolute;
+        right: 15px;
+        top: 15px;
+        color: rgba(0, 0, 0, 0.5);
+        font-size: 1.3rem;
+        line-height: 20px;
+        cursor: pointer;
+    }
+
+    #rewardModal .close:hover {
+        color: #ef5350;
+        transform: scale(1.3);
+        -moz-transform:scale(1.3);
+        -webkit-transform:scale(1.3);
+        -o-transform:scale(1.3);
+    }
+
+    #rewardModal .reward-tabs {
+        margin: 0 auto;
+        width: 210px;
+    }
+
+    .reward-tabs .tabs {
+        height: 38px;
+        margin: 10px auto;
+        padding-left: 0;
+    }
+
+    .reward-content ul {
+        padding-left: 0 !important;
+    }
+
+    .reward-tabs .tabs .tab {
+        height: 38px;
+        line-height: 38px;
+    }
+
+    .reward-tabs .tab a {
+        color: #fff;
+        background-color: #ccc;
+    }
+
+    .reward-tabs .tab a:hover {
+        background-color: #ccc;
+        color: #fff;
+    }
+
+    .reward-tabs .wechat-tab .active {
+        color: #fff !important;
+        background-color: #22AB38 !important;
+    }
+
+    .reward-tabs .alipay-tab .active {
+        color: #fff !important;
+        background-color: #019FE8 !important;
+    }
+
+    .reward-tabs .reward-img {
+        width: 210px;
+        height: 210px;
+    }
+</style>
+
+<div id="reward">
+    <a href="#rewardModal" class="reward-link modal-trigger btn-floating btn-medium waves-effect waves-light red">赏</a>
+
+    <!-- Modal Structure -->
+    <div id="rewardModal" class="modal">
+        <div class="modal-content">
+            <a class="close modal-close"><i class="fas fa-times"></i></a>
+            <h4 class="reward-title">你的赏识是我前进的动力</h4>
+            <div class="reward-content">
+                <div class="reward-tabs">
+                    <ul class="tabs row">
+                        <li class="tab col s6 alipay-tab waves-effect waves-light"><a href="#alipay">支付宝</a></li>
+                        <li class="tab col s6 wechat-tab waves-effect waves-light"><a href="#wechat">微 信</a></li>
+                    </ul>
+                    <div id="alipay">
+                        <img src="/medias/reward/alipay.jpg" class="reward-img" alt="支付宝打赏二维码">
+                    </div>
+                    <div id="wechat">
+                        <img src="/medias/reward/wechat.png" class="reward-img" alt="微信打赏二维码">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $('.tabs').tabs();
+    });
+</script>
+            
+        </div>
+    </div>
+
+    
+        <link rel="stylesheet" href="/libs/gitalk/gitalk.css">
+<link rel="stylesheet" href="/css/my-gitalk.css">
+
+<div class="card gitalk-card" data-aos="fade-up">
+    <div class="comment_headling" style="font-size: 20px; font-weight: 700; position: relative; left: 20px; top: 15px; padding-bottom: 5px;">
+        <i class="fas fa-comments fa-fw" aria-hidden="true"></i>
+        <span>评论</span>
+    </div>
+    <div id="gitalk-container" class="card-content"></div>
+</div>
+
+<script src="/libs/gitalk/gitalk.min.js"></script>
+<script>
+    let gitalk = new Gitalk({
+        clientID: 'c4e18e113d94091c8828',
+        clientSecret: '891f04d80de6a77fd6eb60d1cbe792e916cde3ff',
+        repo: 'asxing.github.io',
+        owner: 'Asxing',
+        admin: "asxing",
+        id: '2021-01-30T16-39-38',
+        distractionFreeMode: false  // Facebook-like distraction free mode
+    });
+
+    gitalk.render('gitalk-container');
+</script>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+            <div class="card">
+                <a href="/2021/02/06/soul-dan-ce-xiao-jie/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/20.jpg" class="responsive-img" alt="Soul-单测小结">
+                        
+                        <span class="card-title">Soul-单测小结</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+常用 UTProperties UTpublic final class NacosPropertiesTest extends AbstractConfigurationTest {
+
+  @Test
+  public void tes
+                        
+                    </div>
+                    <div class="publish-info">
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2021-02-06
+                        </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/Soul/" class="post-category">
+                                    Soul
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/Spring/">
+                        <span class="chip bg-color">Spring</span>
+                    </a>
+                    
+                    <a href="/tags/%E5%8D%95%E6%B5%8B/">
+                        <span class="chip bg-color">单测</span>
+                    </a>
+                    
+                    <a href="/tags/test/">
+                        <span class="chip bg-color">test</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2021/01/23/soul-quan-liu-cheng-fen-xi-jiu/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/14.jpg" class="responsive-img" alt="Soul-全流程分析（九）">
+                        
+                        <span class="card-title">Soul-全流程分析（九）</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            Nacos启动配置@EnableConfigurationProperties(NacosProperties.class)
+public class NacosConfiguration {
+
+    /**
+     * registe
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2021-01-23
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/Soul/" class="post-category">
+                                    Soul
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/Spring/">
+                        <span class="chip bg-color">Spring</span>
+                    </a>
+                    
+                    <a href="/tags/%E7%BD%91%E5%85%B3/">
+                        <span class="chip bg-color">网关</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+
+</div>
+
+
+
+<!-- 代码块功能依赖 -->
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+
+<!-- 代码语言 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+
+    
+<!-- 代码块复制 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+
+
+<!-- 代码块收缩 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script>
+
+
+<!-- 代码块折行 -->
+
+<style type="text/css">
+code[class*="language-"], pre[class*="language-"] { white-space: pre !important; }
+</style>
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget">
+            <div class="toc-title"><i class="far fa-list-alt"></i>&nbsp;&nbsp;目录</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fas fa-list-ul"></i>
+    </a>
+</div>
+
+
+<script src="/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            // headingsOffset: -205,
+            headingSelector: 'h2, h3, h4'
+        });
+
+        // modify the toc link href to support Chinese.
+        let i = 0;
+        let tocHeading = 'toc-heading-';
+        $('#toc-content a').each(function () {
+            $(this).attr('href', '#' + tocHeading + (++i));
+        });
+
+        // modify the heading title id to support Chinese.
+        i = 0;
+        $('#articleContent').children('h2, h3, h4').each(function () {
+            $(this).attr('id', tocHeading + (++i));
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).hide();
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).show();
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+        });
+        
+    });
+</script>
+
+    
+
+</main>
+
+
+<script src="https://cdn.bootcss.com/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script>
+    MathJax.Hub.Config({
+        tex2jax: {inlineMath: [['$', '$'], ['\(', '\)']]}
+    });
+</script>
+
+
+    <footer class="page-footer bg-color">
+    <div class="container row center-align">
+        <div class="col s12 m8 l8 copy-right">
+            Copyright&nbsp;&copy;
+            <span id="year">年份</span>
+            <a href="https://www.asxing.com" target="_blank">Asxing</a>
+            |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
+            |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
+            <br>
+            
+            &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
+                class="white-color">479k</span>&nbsp;字
+            
+            
+            
+            
+            <span id="busuanzi_container_site_pv">
+                |&nbsp;<i class="far fa-eye"></i>&nbsp;总访问量:&nbsp;<span id="busuanzi_value_site_pv"
+                    class="white-color"></span>&nbsp;次
+            </span>
+            
+            
+            <span id="busuanzi_container_site_uv">
+                |&nbsp;<i class="fas fa-users"></i>&nbsp;总访问人数:&nbsp;<span id="busuanzi_value_site_uv"
+                    class="white-color"></span>&nbsp;人
+            </span>
+            
+            <br>
+            
+            <span id="sitetime">载入运行时间...</span>
+            <script>
+                function siteTime() {
+                    window.setTimeout("siteTime()", 1000);
+                    var seconds = 1000;
+                    var minutes = seconds * 60;
+                    var hours = minutes * 60;
+                    var days = hours * 24;
+                    var years = days * 365;
+                    var today = new Date();
+                    var startYear = "2019";
+                    var startMonth = "10";
+                    var startDate = "30";
+                    var startHour = "22";
+                    var startMinute = "30";
+                    var startSecond = "0";
+                    var todayYear = today.getFullYear();
+                    var todayMonth = today.getMonth() + 1;
+                    var todayDate = today.getDate();
+                    var todayHour = today.getHours();
+                    var todayMinute = today.getMinutes();
+                    var todaySecond = today.getSeconds();
+                    var t1 = Date.UTC(startYear, startMonth, startDate, startHour, startMinute, startSecond);
+                    var t2 = Date.UTC(todayYear, todayMonth, todayDate, todayHour, todayMinute, todaySecond);
+                    var diff = t2 - t1;
+                    var diffYears = Math.floor(diff / years);
+                    var diffDays = Math.floor((diff / days) - diffYears * 365);
+                    var diffHours = Math.floor((diff - (diffYears * 365 + diffDays) * days) / hours);
+                    var diffMinutes = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours) /
+                        minutes);
+                    var diffSeconds = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours -
+                        diffMinutes * minutes) / seconds);
+                    if (startYear == todayYear) {
+                        document.getElementById("year").innerHTML = todayYear;
+                        document.getElementById("sitetime").innerHTML = "本站已安全运行 " + diffDays + " 天 " + diffHours +
+                            " 小时 " + diffMinutes + " 分钟 " + diffSeconds + " 秒";
+                    } else {
+                        document.getElementById("year").innerHTML = startYear + " - " + todayYear;
+                        document.getElementById("sitetime").innerHTML = "本站已安全运行 " + diffYears + " 年 " + diffDays +
+                            " 天 " + diffHours + " 小时 " + diffMinutes + " 分钟 " + diffSeconds + " 秒";
+                    }
+                }
+                setInterval(siteTime, 1000);
+            </script>
+            
+            <br>
+            
+        </div>
+        <div class="col s12 m4 l4 social-link ">
+    <a href="https://github.com/asxing" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+        <i class="fab fa-github"></i>
+    </a>
+
+
+
+    <a href="mailto:asxingking@gmail.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fas fa-envelope-open"></i>
+    </a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <a href="/atom.xml" class="tooltipped" target="_blank" data-tooltip="RSS 订阅" data-position="top" data-delay="50">
+        <i class="fas fa-rss"></i>
+    </a>
+
+</div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+
+    <!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fas fa-search"></i>&nbsp;&nbsp;搜索</span>
+            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script src="/js/search.js"></script>
+<script type="text/javascript">
+$(function () {
+    searchFunc("/" + "search.xml", 'searchInput', 'searchResult');
+});
+</script>
+    <!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+</div>
+
+
+    <script src="/libs/materialize/materialize.min.js"></script>
+    <script src="/libs/masonry/masonry.pkgd.min.js"></script>
+    <script src="/libs/aos/aos.js"></script>
+    <script src="/libs/scrollprogress/scrollProgress.min.js"></script>
+    <script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+    <script src="/js/matery.js"></script>
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+    <!-- Baidu Analytics -->
+
+    <!-- Baidu Push -->
+
+    
+    <script src="/libs/others/clicklove.js" async="async"></script>
+    
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <script type="text/javascript" src="/libs/background/ribbon-dynamic.js" async="async"></script>
+    
+    
+    
+
+</body>
+
+</html>

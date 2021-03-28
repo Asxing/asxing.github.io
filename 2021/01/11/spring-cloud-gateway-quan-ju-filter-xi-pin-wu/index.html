@@ -1,0 +1,1666 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="keywords" content="Spring-Cloud-Gateway-全局filter细品（五）, 编程 读书 生活">
+    <meta name="description" content="目标
+温故 Java8 常见函数式用法
+再过一下 lookupRoute 方法
+过一遍 9 默认全局 Filter
+
+Java 8 常见函数式用法Consumer 表达式一个消费型的接口，通过传入参数，然后输出值，无返回值。接连两个cons">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>Spring-Cloud-Gateway-全局filter细品（五） | Asxing-阿行</title>
+    <link rel="icon" type="image/png" href="/favicon.png">
+
+    <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
+    <link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
+    <link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/matery.css">
+    <link rel="stylesheet" type="text/css" href="/css/my.css">
+    
+    <script src="/libs/jquery/jquery.min.js"></script>
+    
+<meta name="generator" content="Hexo 4.2.1"><link rel="alternate" href="/atom.xml" title="Asxing-阿行" type="application/atom+xml">
+<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+
+
+<body>
+    <header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper head-container">
+            <div class="brand-logo">
+                <a href="/" class="waves-effect waves-light">
+                    
+                    <img src="/medias/logo.png" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">Asxing-阿行</span>
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
+<ul class="right nav-menu">
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/" class="waves-effect waves-light">
+      
+      <i class="fas fa-home" style="zoom: 0.6;"></i>
+      
+      <span>首页</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/tags" class="waves-effect waves-light">
+      
+      <i class="fas fa-tags" style="zoom: 0.6;"></i>
+      
+      <span>标签</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/categories" class="waves-effect waves-light">
+      
+      <i class="fas fa-bookmark" style="zoom: 0.6;"></i>
+      
+      <span>分类</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/archives" class="waves-effect waves-light">
+      
+      <i class="fas fa-archive" style="zoom: 0.6;"></i>
+      
+      <span>归档</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/about" class="waves-effect waves-light">
+      
+      <i class="fas fa-user-circle" style="zoom: 0.6;"></i>
+      
+      <span>关于</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/contact" class="waves-effect waves-light">
+      
+      <i class="fas fa-comments" style="zoom: 0.6;"></i>
+      
+      <span>留言板</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/friends" class="waves-effect waves-light">
+      
+      <i class="fas fa-address-book" style="zoom: 0.6;"></i>
+      
+      <span>友情链接</span>
+    </a>
+    
+  </li>
+  
+  <li>
+    <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+      <i id="searchIcon" class="fas fa-search" title="搜索" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+</ul>
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="/medias/logo.png" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">Asxing-阿行</div>
+        <div class="logo-desc">
+            
+            Never really desperate, only the lost of the soul.
+            
+        </div>
+    </div>
+
+    
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li class="m-nav-item">
+	  
+		<a href="/" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-home"></i>
+			
+			首页
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/tags" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-tags"></i>
+			
+			标签
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/categories" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-bookmark"></i>
+			
+			分类
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/archives" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-archive"></i>
+			
+			归档
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/about" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-user-circle"></i>
+			
+			关于
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/contact" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-comments"></i>
+			
+			Contact
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/friends" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-address-book"></i>
+			
+			友情链接
+		</a>
+          
+        </li>
+        
+        
+        <li><div class="divider"></div></li>
+        <li>
+            <a href="https://github.com/asxing" class="waves-effect waves-light" target="_blank">
+                <i class="fab fa-github-square fa-fw"></i>Fork Me
+            </a>
+        </li>
+        
+    </ul>
+</div>
+
+        </div>
+
+        
+            <style>
+    .nav-transparent .github-corner {
+        display: none !important;
+    }
+
+    .github-corner {
+        position: absolute;
+        z-index: 10;
+        top: 0;
+        right: 0;
+        border: 0;
+        transform: scale(1.1);
+    }
+
+    .github-corner svg {
+        color: #0f9d58;
+        fill: #fff;
+        height: 64px;
+        width: 64px;
+    }
+
+    .github-corner:hover .octo-arm {
+        animation: a 0.56s ease-in-out;
+    }
+
+    .github-corner .octo-arm {
+        animation: none;
+    }
+
+    @keyframes a {
+        0%,
+        to {
+            transform: rotate(0);
+        }
+        20%,
+        60% {
+            transform: rotate(-25deg);
+        }
+        40%,
+        80% {
+            transform: rotate(10deg);
+        }
+    }
+</style>
+
+<a href="https://github.com/asxing" class="github-corner tooltipped hide-on-med-and-down" target="_blank"
+   data-tooltip="Fork Me" data-position="left" data-delay="50">
+    <svg viewBox="0 0 250 250" aria-hidden="true">
+        <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
+        <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2"
+              fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path>
+        <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z"
+              fill="currentColor" class="octo-body"></path>
+    </svg>
+</a>
+        
+    </nav>
+
+</header>
+
+    
+<script src="/libs/cryptojs/crypto-js.min.js"></script>
+<script>
+    (function() {
+        let pwd = '';
+        if (pwd && pwd.length > 0) {
+            if (pwd !== CryptoJS.SHA256(prompt('请输入访问本文章的密码')).toString(CryptoJS.enc.Hex)) {
+                alert('密码错误，将返回主页！');
+                location.href = '/';
+            }
+        }
+    })();
+</script>
+
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/9.jpg')">
+    <div class="container" style="right: 0px;left: 0px;">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <div class="description center-align post-title">
+                        Spring-Cloud-Gateway-全局filter细品（五）
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<main class="post-container content">
+
+    
+    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
+<style>
+    #articleContent h1::before,
+    #articleContent h2::before,
+    #articleContent h3::before,
+    #articleContent h4::before,
+    #articleContent h5::before,
+    #articleContent h6::before {
+        display: block;
+        content: " ";
+        height: 100px;
+        margin-top: -100px;
+        visibility: hidden;
+    }
+
+    #articleContent :focus {
+        outline: none;
+    }
+
+    .toc-fixed {
+        position: fixed;
+        top: 64px;
+    }
+
+    .toc-widget {
+        padding-left: 20px;
+    }
+
+    .toc-widget .toc-title {
+        margin: 35px 0 15px 0;
+        padding-left: 17px;
+        font-size: 1.5rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    .toc-widget ol {
+        padding: 0;
+        list-style: none;
+    }
+
+    #toc-content ol {
+        padding-left: 10px;
+    }
+
+    #toc-content ol li {
+        padding-left: 10px;
+    }
+
+    #toc-content .toc-link:hover {
+        color: #42b983;
+        font-weight: 700;
+        text-decoration: underline;
+    }
+
+    #toc-content .toc-link::before {
+        background-color: transparent;
+        max-height: 25px;
+    }
+
+    #toc-content .is-active-link {
+        color: #42b983;
+    }
+
+    #toc-content .is-active-link::before {
+        background-color: #42b983;
+    }
+
+    #floating-toc-btn {
+        position: fixed;
+        right: 15px;
+        bottom: 76px;
+        padding-top: 15px;
+        margin-bottom: 0;
+        z-index: 998;
+    }
+
+    #floating-toc-btn .btn-floating {
+        width: 48px;
+        height: 48px;
+    }
+
+    #floating-toc-btn .btn-floating i {
+        line-height: 48px;
+        font-size: 1.4rem;
+    }
+</style>
+<div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                            <a href="/tags/%E7%BD%91%E5%85%B3/">
+                                <span class="chip bg-color">网关</span>
+                            </a>
+                        
+                            <a href="/tags/Spring-Cloud-Gateway/">
+                                <span class="chip bg-color">Spring-Cloud-Gateway</span>
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fas fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/categories/Spring/" class="post-category">
+                                Spring
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
+                    2021-01-11
+                </div>
+                
+
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
+                    3.2k
+                </div>
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
+                    15 分
+                </div>
+                
+				
+                
+            </div>
+            
+        </div>
+        <hr class="clearfix">
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <h2 id="目标"><a href="#目标" class="headerlink" title="目标"></a>目标</h2><ul>
+<li>温故 Java8 常见函数式用法</li>
+<li>再过一下 lookupRoute 方法</li>
+<li>过一遍 9 默认全局 Filter</li>
+</ul>
+<h2 id="Java-8-常见函数式用法"><a href="#Java-8-常见函数式用法" class="headerlink" title="Java 8 常见函数式用法"></a>Java 8 常见函数式用法</h2><h3 id="Consumer-表达式"><a href="#Consumer-表达式" class="headerlink" title="Consumer 表达式"></a>Consumer 表达式</h3><p>一个消费型的接口，通过传入参数，然后输出值，无返回值。接连两个<code>consumer</code>有相同的入参可以使用<code>addThen</code>将两个方法链接起来，然后一起<code>accept</code>方法接受入参。</p>
+<pre class=" language-java"><code class="language-java">Consumer<span class="token operator">&lt;</span>Integer<span class="token operator">></span> add2consumer <span class="token operator">=</span> x <span class="token operator">-</span><span class="token operator">></span> <span class="token punctuation">{</span>
+  <span class="token keyword">int</span> a <span class="token operator">=</span> x <span class="token operator">+</span> <span class="token number">2</span><span class="token punctuation">;</span>
+  System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>a<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+Consumer<span class="token operator">&lt;</span>Integer<span class="token operator">></span> add4consumer <span class="token operator">=</span> x <span class="token operator">-</span><span class="token operator">></span> <span class="token punctuation">{</span>
+  <span class="token keyword">int</span> a <span class="token operator">=</span> x <span class="token operator">+</span> <span class="token number">4</span><span class="token punctuation">;</span>
+  System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>a<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+add2consumer<span class="token punctuation">.</span><span class="token function">andThen</span><span class="token punctuation">(</span>add4consumer<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">accept</span><span class="token punctuation">(</span><span class="token number">10</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+​
+<span class="token comment" spellcheck="true">//① 使用consumer接口实现方法</span>
+Consumer<span class="token operator">&lt;</span>String<span class="token operator">></span> consumer <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Consumer</span><span class="token operator">&lt;</span>String<span class="token operator">></span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token annotation punctuation">@Override</span>
+  <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">accept</span><span class="token punctuation">(</span>String s<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>s<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+Stream<span class="token operator">&lt;</span>String<span class="token operator">></span> stream <span class="token operator">=</span> Stream<span class="token punctuation">.</span><span class="token function">of</span><span class="token punctuation">(</span><span class="token string">"aaa"</span><span class="token punctuation">,</span> <span class="token string">"bbb"</span><span class="token punctuation">,</span> <span class="token string">"ddd"</span><span class="token punctuation">,</span> <span class="token string">"ccc"</span><span class="token punctuation">,</span> <span class="token string">"fff"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+stream<span class="token punctuation">.</span><span class="token function">forEach</span><span class="token punctuation">(</span>consumer<span class="token punctuation">)</span><span class="token punctuation">;</span>
+System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"********************"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+​
+<span class="token comment" spellcheck="true">//② 使用lambda表达式，forEach方法需要的就是一个Consumer接口</span>
+stream <span class="token operator">=</span> Stream<span class="token punctuation">.</span><span class="token function">of</span><span class="token punctuation">(</span><span class="token string">"aaa"</span><span class="token punctuation">,</span> <span class="token string">"bbb"</span><span class="token punctuation">,</span> <span class="token string">"ddd"</span><span class="token punctuation">,</span> <span class="token string">"ccc"</span><span class="token punctuation">,</span> <span class="token string">"fff"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+Consumer<span class="token operator">&lt;</span>String<span class="token operator">></span> consumer1 <span class="token operator">=</span> <span class="token punctuation">(</span>s<span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">></span> System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>s<span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment" spellcheck="true">//lambda表达式返回的就是一个Consumer接口</span>
+stream<span class="token punctuation">.</span><span class="token function">forEach</span><span class="token punctuation">(</span>consumer1<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">//更直接的方式</span>
+<span class="token comment" spellcheck="true">//stream.forEach((s) -> System.out.println(s));</span>
+System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"********************"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+​
+<span class="token comment" spellcheck="true">//③ 使用方法引用，方法引用也是一个consumer</span>
+stream <span class="token operator">=</span> Stream<span class="token punctuation">.</span><span class="token function">of</span><span class="token punctuation">(</span><span class="token string">"aaa"</span><span class="token punctuation">,</span> <span class="token string">"bbb"</span><span class="token punctuation">,</span> <span class="token string">"ddd"</span><span class="token punctuation">,</span> <span class="token string">"ccc"</span><span class="token punctuation">,</span> <span class="token string">"fff"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+Consumer consumer2 <span class="token operator">=</span> System<span class="token punctuation">.</span>out<span class="token operator">:</span><span class="token operator">:</span>println<span class="token punctuation">;</span>
+stream<span class="token punctuation">.</span><span class="token function">forEach</span><span class="token punctuation">(</span>consumer2<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<h3 id="Supplier-表达式"><a href="#Supplier-表达式" class="headerlink" title="Supplier 表达式"></a>Supplier 表达式</h3><p>一个供给型的接口，可以用来存储数据，然后可以供其他方法使用的这么一个接口。</p>
+<pre class=" language-java"><code class="language-java"><span class="token comment" spellcheck="true">//① 使用Supplier接口实现方法,只有一个get方法，无参数，返回一个值</span>
+Supplier<span class="token operator">&lt;</span>Integer<span class="token operator">></span> supplier <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Supplier</span><span class="token operator">&lt;</span>Integer<span class="token operator">></span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token annotation punctuation">@Override</span>
+  <span class="token keyword">public</span> Integer <span class="token function">get</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">//返回一个随机值</span>
+    <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">Random</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">nextInt</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+​
+System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>supplier<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"********************"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+​
+<span class="token comment" spellcheck="true">//② 使用lambda表达式，</span>
+supplier <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">></span> <span class="token keyword">new</span> <span class="token class-name">Random</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">nextInt</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>supplier<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"********************"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+​
+<span class="token comment" spellcheck="true">//③ 使用方法引用</span>
+Supplier<span class="token operator">&lt;</span>Double<span class="token operator">></span> supplier2 <span class="token operator">=</span> Math<span class="token operator">:</span><span class="token operator">:</span>random<span class="token punctuation">;</span>
+System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>supplier2<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+​
+<span class="token comment" spellcheck="true">// 高阶用法</span>
+Stream<span class="token operator">&lt;</span>Integer<span class="token operator">></span> stream <span class="token operator">=</span> Stream<span class="token punctuation">.</span><span class="token function">of</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">//返回一个optional对象</span>
+Optional<span class="token operator">&lt;</span>Integer<span class="token operator">></span> first <span class="token operator">=</span> stream<span class="token punctuation">.</span><span class="token function">filter</span><span class="token punctuation">(</span>i <span class="token operator">-</span><span class="token operator">></span> i <span class="token operator">></span> <span class="token number">4</span><span class="token punctuation">)</span>
+  <span class="token punctuation">.</span><span class="token function">findFirst</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+​
+<span class="token comment" spellcheck="true">//optional对象有需要Supplier接口的方法</span>
+<span class="token comment" spellcheck="true">//orElse，如果first中存在数，就返回这个数，如果不存在，就放回传入的数</span>
+System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>first<span class="token punctuation">.</span><span class="token function">orElse</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>first<span class="token punctuation">.</span><span class="token function">orElse</span><span class="token punctuation">(</span><span class="token number">7</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+​
+System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"********************"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+​
+Supplier<span class="token operator">&lt;</span>Integer<span class="token operator">></span> integerSupplier <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Supplier</span><span class="token operator">&lt;</span>Integer<span class="token operator">></span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token annotation punctuation">@Override</span>
+  <span class="token keyword">public</span> Integer <span class="token function">get</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">//返回一个随机值</span>
+    <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">Random</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">nextInt</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+​
+<span class="token comment" spellcheck="true">//orElseGet，如果first中存在数，就返回这个数，如果不存在，就返回supplier返回的值</span>
+System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>first<span class="token punctuation">.</span><span class="token function">orElseGet</span><span class="token punctuation">(</span>integerSupplier<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<h3 id="Function-表达式"><a href="#Function-表达式" class="headerlink" title="Function 表达式"></a>Function 表达式</h3><p>一个功能型接口，它的一个作用就是转换作用，将输入数据转换成另一种形式的输出数据。</p>
+<pre class=" language-java"><code class="language-java"><span class="token comment" spellcheck="true">//① 使用map方法，泛型的第一个参数是转换前的类型，第二个是转化后的类型</span>
+Function<span class="token operator">&lt;</span>String<span class="token punctuation">,</span> Integer<span class="token operator">></span> function <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Function</span><span class="token operator">&lt;</span>String<span class="token punctuation">,</span> Integer<span class="token operator">></span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token annotation punctuation">@Override</span>
+  <span class="token keyword">public</span> Integer <span class="token function">apply</span><span class="token punctuation">(</span>String s<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> s<span class="token punctuation">.</span><span class="token function">length</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment" spellcheck="true">//获取每个字符串的长度，并且返回</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+​
+Stream<span class="token operator">&lt;</span>String<span class="token operator">></span> stream <span class="token operator">=</span> Stream<span class="token punctuation">.</span><span class="token function">of</span><span class="token punctuation">(</span><span class="token string">"aaa"</span><span class="token punctuation">,</span> <span class="token string">"bbbbb"</span><span class="token punctuation">,</span> <span class="token string">"ccccccv"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+Stream<span class="token operator">&lt;</span>Integer<span class="token operator">></span> stream1 <span class="token operator">=</span> stream<span class="token punctuation">.</span><span class="token function">map</span><span class="token punctuation">(</span>function<span class="token punctuation">)</span><span class="token punctuation">;</span>
+stream1<span class="token punctuation">.</span><span class="token function">forEach</span><span class="token punctuation">(</span>System<span class="token punctuation">.</span>out<span class="token operator">:</span><span class="token operator">:</span>println<span class="token punctuation">)</span><span class="token punctuation">;</span>
+System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"********************"</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<h3 id="Predicate-表达式"><a href="#Predicate-表达式" class="headerlink" title="Predicate 表达式"></a>Predicate 表达式</h3><p>谓词型接口，其实，这个就是一个类似于 bool 类型的判断的接口。</p>
+<pre class=" language-java"><code class="language-java"><span class="token comment" spellcheck="true">//① 使用Predicate接口实现方法,只有一个test方法，传入一个参数，返回一个bool值</span>
+Predicate<span class="token operator">&lt;</span>Integer<span class="token operator">></span> predicate <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Predicate</span><span class="token operator">&lt;</span>Integer<span class="token operator">></span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token annotation punctuation">@Override</span>
+  <span class="token keyword">public</span> <span class="token keyword">boolean</span> <span class="token function">test</span><span class="token punctuation">(</span>Integer integer<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>integer <span class="token operator">></span> <span class="token number">5</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">return</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">return</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>predicate<span class="token punctuation">.</span><span class="token function">test</span><span class="token punctuation">(</span><span class="token number">6</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"********************"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+​
+<span class="token comment" spellcheck="true">//② 使用lambda表达式，</span>
+predicate <span class="token operator">=</span> <span class="token punctuation">(</span>t<span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">></span> t <span class="token operator">></span> <span class="token number">5</span><span class="token punctuation">;</span>
+System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>predicate<span class="token punctuation">.</span><span class="token function">test</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"********************"</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<h3 id="需要时查看"><a href="#需要时查看" class="headerlink" title="需要时查看"></a>需要时查看</h3><p>列举下java8中 java.util.function包下，内置所有的接口简介和表达的意思</p>
+<p>1 BiConsumer&lt;T,U&gt;：代表了一个接受两个输入参数的操作，并且不返回任何结果</p>
+<p>2 BiFunction&lt;T,U,R&gt;：代表了一个接受两个输入参数的方法，并且返回一个结果</p>
+<p>3 BinaryOperator<T>：代表了一个作用于于两个同类型操作符的操作，并且返回了操作符同类型的结果</p>
+<p>4 BiPredicate&lt;T,U&gt;：代表了一个两个参数的boolean值方法</p>
+<p>5 BooleanSupplier：代表了boolean值结果的提供方</p>
+<p>6 Consumer<T>：代表了接受一个输入参数并且无返回的操作</p>
+<p>7 DoubleBinaryOperator：代表了作用于两个double值操作符的操作，并且返回了一个double值的结果。</p>
+<p>8 DoubleConsumer：代表一个接受double值参数的操作，并且不返回结果。</p>
+<p>9 DoubleFunction<R>：代表接受一个double值参数的方法，并且返回结果</p>
+<p>10 DoublePredicate：代表一个拥有double值参数的boolean值方法</p>
+<p>11 DoubleSupplier：代表一个double值结构的提供方</p>
+<p>12 DoubleToIntFunction：接受一个double类型输入，返回一个int类型结果。</p>
+<p>13 DoubleToLongFunction：接受一个double类型输入，返回一个long类型结果</p>
+<p>14 DoubleUnaryOperator：接受一个参数同为类型double,返回值类型也为double 。</p>
+<p>15 Function&lt;T,R&gt;：接受一个输入参数，返回一个结果。</p>
+<p>16 IntBinaryOperator：接受两个参数同为类型int,返回值类型也为int 。</p>
+<p>17 IntConsumer：接受一个int类型的输入参数，无返回值 。</p>
+<p>18 IntFunction<R>：接受一个int类型输入参数，返回一个结果 。</p>
+<p>19 IntPredicate：接受一个int输入参数，返回一个布尔值的结果。</p>
+<p>20 IntSupplier：无参数，返回一个int类型结果。</p>
+<p>21 IntToDoubleFunction：接受一个int类型输入，返回一个double类型结果 。</p>
+<p>22 IntToLongFunction：接受一个int类型输入，返回一个long类型结果。</p>
+<p>23 IntUnaryOperator：接受一个参数同为类型int,返回值类型也为int 。</p>
+<p>24 LongBinaryOperator：接受两个参数同为类型long,返回值类型也为long。</p>
+<p>25 LongConsumer：接受一个long类型的输入参数，无返回值。</p>
+<p>26 LongFunction<R>：接受一个long类型输入参数，返回一个结果。</p>
+<p>27 LongPredicate：R接受一个long输入参数，返回一个布尔值类型结果。</p>
+<p>28 LongSupplier：无参数，返回一个结果long类型的值。</p>
+<p>29 LongToDoubleFunction：接受一个long类型输入，返回一个double类型结果。</p>
+<p>30 LongToIntFunction：接受一个long类型输入，返回一个int类型结果。</p>
+<p>31 LongUnaryOperator：接受一个参数同为类型long,返回值类型也为long。</p>
+<p>32 ObjDoubleConsumer<T>：接受一个object类型和一个double类型的输入参数，无返回值。</p>
+<p>33 ObjIntConsumer<T>：接受一个object类型和一个int类型的输入参数，无返回值。</p>
+<p>34 ObjLongConsumer<T>：接受一个object类型和一个long类型的输入参数，无返回值。</p>
+<p>35 Predicate<T>：接受一个输入参数，返回一个布尔值结果。</p>
+<p>36 Supplier<T>：无参数，返回一个结果。</p>
+<p>37 ToDoubleBiFunction&lt;T,U&gt;：接受两个输入参数，返回一个double类型结果</p>
+<p>38 ToDoubleFunction<T>：接受一个输入参数，返回一个double类型结果</p>
+<p>39 ToIntBiFunction&lt;T,U&gt;：接受两个输入参数，返回一个int类型结果。</p>
+<p>40 ToIntFunction<T>：接受一个输入参数，返回一个int类型结果。</p>
+<p>41 ToLongBiFunction&lt;T,U&gt;：接受两个输入参数，返回一个long类型结果。</p>
+<p>42 ToLongFunction<T>：接受一个输入参数，返回一个long类型结果。</p>
+<p>43 UnaryOperator<T>：接受一个参数为类型T,返回值类型也为T。</p>
+<h2 id="lookupRoute-方法如何调用？"><a href="#lookupRoute-方法如何调用？" class="headerlink" title="lookupRoute 方法如何调用？"></a>lookupRoute 方法如何调用？</h2><pre class=" language-java"><code class="language-java"><span class="token keyword">protected</span> Mono<span class="token operator">&lt;</span>Route<span class="token operator">></span> <span class="token function">lookupRoute</span><span class="token punctuation">(</span>ServerWebExchange exchange<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  logger<span class="token punctuation">.</span><span class="token function">info</span><span class="token punctuation">(</span><span class="token string">"lookupRoute 开始匹配 Route 贼关键 -> RoutePredicateHandlerMapping#lookupRoute"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token keyword">return</span> <span class="token keyword">this</span><span class="token punctuation">.</span>routeLocator<span class="token punctuation">.</span><span class="token function">getRoutes</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token comment" spellcheck="true">// 单独处理，以便在出现错误的时候，返回空</span>
+    <span class="token punctuation">.</span><span class="token function">concatMap</span><span class="token punctuation">(</span>route <span class="token operator">-</span><span class="token operator">></span>
+               Mono<span class="token punctuation">.</span><span class="token function">just</span><span class="token punctuation">(</span>route<span class="token punctuation">)</span>
+               <span class="token punctuation">.</span><span class="token function">filterWhen</span><span class="token punctuation">(</span>r <span class="token operator">-</span><span class="token operator">></span> <span class="token punctuation">{</span>
+                 logger<span class="token punctuation">.</span><span class="token function">info</span><span class="token punctuation">(</span><span class="token string">"设置当前执行的 routeId GATEWAY_PREDICATE_ROUTE_ATTR: "</span> <span class="token operator">+</span>
+                             r<span class="token punctuation">.</span><span class="token function">getId</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token string">" -> RoutePredicateHandlerMapping#lookupRoute"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                 exchange<span class="token punctuation">.</span><span class="token function">getAttributes</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">put</span><span class="token punctuation">(</span>GATEWAY_PREDICATE_ROUTE_ATTR<span class="token punctuation">,</span> r<span class="token punctuation">.</span><span class="token function">getId</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                 <span class="token keyword">return</span> r<span class="token punctuation">.</span><span class="token function">getPredicate</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">apply</span><span class="token punctuation">(</span>exchange<span class="token punctuation">)</span><span class="token punctuation">;</span>
+               <span class="token punctuation">}</span><span class="token punctuation">)</span>
+               <span class="token punctuation">.</span><span class="token function">doOnError</span><span class="token punctuation">(</span>e <span class="token operator">-</span><span class="token operator">></span> logger<span class="token punctuation">.</span><span class="token function">error</span><span class="token punctuation">(</span>
+                 <span class="token string">"Error applying predicate for route: "</span> <span class="token operator">+</span> route<span class="token punctuation">.</span><span class="token function">getId</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+                 e<span class="token punctuation">)</span><span class="token punctuation">)</span>
+               <span class="token punctuation">.</span><span class="token function">onErrorResume</span><span class="token punctuation">(</span>e <span class="token operator">-</span><span class="token operator">></span> Mono<span class="token punctuation">.</span><span class="token function">empty</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+    <span class="token punctuation">.</span><span class="token function">next</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">.</span><span class="token function">map</span><span class="token punctuation">(</span>route <span class="token operator">-</span><span class="token operator">></span> <span class="token punctuation">{</span>
+      <span class="token keyword">if</span> <span class="token punctuation">(</span>logger<span class="token punctuation">.</span><span class="token function">isDebugEnabled</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        logger<span class="token punctuation">.</span><span class="token function">debug</span><span class="token punctuation">(</span><span class="token string">"Route matched: "</span> <span class="token operator">+</span> route<span class="token punctuation">.</span><span class="token function">getId</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token punctuation">}</span>
+      logger<span class="token punctuation">.</span><span class="token function">info</span><span class="token punctuation">(</span><span class="token string">"校验 Route 的有效性 -> RoutePredicateHandlerMapping#lookupRoute"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token function">validateRoute</span><span class="token punctuation">(</span>route<span class="token punctuation">,</span> exchange<span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token keyword">return</span> route<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
+<p>从方法名我们可以得知，这个方法就是要找出符合规则的 Route。在实际的调用过程中，方法是先返回一个 Mono 空对象，之后自己执行<code>r.getPredicate().apply(exchange)</code>使用每个<code>Route</code>的谓词规则过滤，返回匹配 Route。</p>
+<pre class=" language-java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">Route</span> <span class="token keyword">implements</span> <span class="token class-name">Ordered</span> <span class="token punctuation">{</span>
+  <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
+  <span class="token comment" spellcheck="true">// route 的 getPredicate 方法返回 AsyncPredicate 类型</span>
+  <span class="token keyword">public</span> AsyncPredicate<span class="token operator">&lt;</span>ServerWebExchange<span class="token operator">></span> <span class="token function">getPredicate</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> <span class="token keyword">this</span><span class="token punctuation">.</span>predicate<span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<p>route 的 getPredicate 方法返回 AsyncPredicate 类型</p>
+<pre class=" language-java"><code class="language-java"><span class="token keyword">class</span> <span class="token class-name">DefaultAsyncPredicate</span><span class="token operator">&lt;</span>T<span class="token operator">></span> <span class="token keyword">implements</span> <span class="token class-name">AsyncPredicate</span><span class="token operator">&lt;</span>T<span class="token operator">></span> <span class="token punctuation">{</span>
+​
+  <span class="token keyword">private</span> <span class="token keyword">final</span> Predicate<span class="token operator">&lt;</span>T<span class="token operator">></span> delegate<span class="token punctuation">;</span>
+​
+  <span class="token keyword">public</span> <span class="token function">DefaultAsyncPredicate</span><span class="token punctuation">(</span>Predicate<span class="token operator">&lt;</span>T<span class="token operator">></span> delegate<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>delegate <span class="token operator">=</span> delegate<span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+​
+  <span class="token annotation punctuation">@Override</span>
+  <span class="token keyword">public</span> Publisher<span class="token operator">&lt;</span>Boolean<span class="token operator">></span> <span class="token function">apply</span><span class="token punctuation">(</span>T t<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> Mono<span class="token punctuation">.</span><span class="token function">just</span><span class="token punctuation">(</span>delegate<span class="token punctuation">.</span><span class="token function">test</span><span class="token punctuation">(</span>t<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+  <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
+<span class="token punctuation">}</span></code></pre>
+<p>然后执行<code>Predicate</code>的<code>test</code>方法返回一个<code>boolean</code>值，来满足<code>filterWhen</code>方法，返回对应 Route。</p>
+<h2 id="9-个默认全局-Filter"><a href="#9-个默认全局-Filter" class="headerlink" title="9 个默认全局 Filter"></a>9 个默认全局 Filter</h2><p>访问对应<code>http://localhost:8080/actuator/gateway/globalfilters</code>地址，我们可以看到所有 GlobalFilter 以及对应的<code>Order</code>顺序。</p>
+<pre class=" language-json"><code class="language-json"><span class="token punctuation">{</span>
+  <span class="token property">"org.springframework.cloud.gateway.filter.RemoveCachedBodyFilter@ffaaaf0"</span><span class="token operator">:</span> -<span class="token number">2147483648</span><span class="token punctuation">,</span>
+  <span class="token property">"org.springframework.cloud.gateway.filter.AdaptCachedBodyGlobalFilter@537c8c7e"</span><span class="token operator">:</span> -<span class="token number">2147482648</span><span class="token punctuation">,</span>
+  <span class="token property">"org.springframework.cloud.gateway.filter.NettyWriteResponseFilter@2459319c"</span><span class="token operator">:</span> -<span class="token number">1</span><span class="token punctuation">,</span>
+  <span class="token property">"org.springframework.cloud.gateway.filter.ForwardPathFilter@33d53216"</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
+  <span class="token property">"org.springframework.cloud.gateway.filter.GatewayMetricsFilter@4f3e7344"</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
+  <span class="token property">"org.springframework.cloud.gateway.filter.RouteToRequestUrlFilter@1dc76fa1"</span><span class="token operator">:</span> <span class="token number">10000</span><span class="token punctuation">,</span>
+  <span class="token property">"org.springframework.cloud.gateway.filter.WebsocketRoutingFilter@69a2b3b6"</span><span class="token operator">:</span> <span class="token number">2147483646</span><span class="token punctuation">,</span>
+  <span class="token property">"org.springframework.cloud.gateway.filter.NettyRoutingFilter@3681037"</span><span class="token operator">:</span> <span class="token number">2147483647</span><span class="token punctuation">,</span>
+  <span class="token property">"org.springframework.cloud.gateway.filter.ForwardRoutingFilter@5eed2d86"</span><span class="token operator">:</span> <span class="token number">2147483647</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span></code></pre>
+<h3 id="RemoveCachedBodyFilter"><a href="#RemoveCachedBodyFilter" class="headerlink" title="RemoveCachedBodyFilter"></a>RemoveCachedBodyFilter</h3><pre class=" language-java"><code class="language-java"><span class="token keyword">public</span> Mono<span class="token operator">&lt;</span>Void<span class="token operator">></span> <span class="token function">filter</span><span class="token punctuation">(</span>ServerWebExchange exchange<span class="token punctuation">,</span> GatewayFilterChain chain<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">return</span> chain<span class="token punctuation">.</span><span class="token function">filter</span><span class="token punctuation">(</span>exchange<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">doFinally</span><span class="token punctuation">(</span>s <span class="token operator">-</span><span class="token operator">></span> <span class="token punctuation">{</span>
+    log<span class="token punctuation">.</span><span class="token function">info</span><span class="token punctuation">(</span><span class="token string">"执行到 RemoveCachedBodyFilter#filter "</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment" spellcheck="true">// 移除上下文中 cachedRequestBody 属性</span>
+    Object attribute <span class="token operator">=</span> exchange<span class="token punctuation">.</span><span class="token function">getAttributes</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">remove</span><span class="token punctuation">(</span>CACHED_REQUEST_BODY_ATTR<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment" spellcheck="true">// PooledDataBuffer 是 DataBuffer 的扩展，允许共享一块内存共享池 </span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>attribute <span class="token operator">!=</span> null <span class="token operator">&amp;&amp;</span> attribute <span class="token keyword">instanceof</span> <span class="token class-name">PooledDataBuffer</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      PooledDataBuffer dataBuffer <span class="token operator">=</span> <span class="token punctuation">(</span>PooledDataBuffer<span class="token punctuation">)</span> attribute<span class="token punctuation">;</span>
+      <span class="token comment" spellcheck="true">// 如果还有占用，则释放</span>
+      <span class="token keyword">if</span> <span class="token punctuation">(</span>dataBuffer<span class="token punctuation">.</span><span class="token function">isAllocated</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>log<span class="token punctuation">.</span><span class="token function">isTraceEnabled</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+          log<span class="token punctuation">.</span><span class="token function">trace</span><span class="token punctuation">(</span><span class="token string">"releasing cached body in exchange attribute"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        dataBuffer<span class="token punctuation">.</span><span class="token function">release</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
+<h3 id="AdaptCachedBodyGlobalFilter"><a href="#AdaptCachedBodyGlobalFilter" class="headerlink" title="AdaptCachedBodyGlobalFilter"></a>AdaptCachedBodyGlobalFilter</h3><pre class=" language-java"><code class="language-java"><span class="token annotation punctuation">@Override</span>
+<span class="token keyword">public</span> Mono<span class="token operator">&lt;</span>Void<span class="token operator">></span> <span class="token function">filter</span><span class="token punctuation">(</span>ServerWebExchange exchange<span class="token punctuation">,</span> GatewayFilterChain chain<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  logger<span class="token punctuation">.</span><span class="token function">info</span><span class="token punctuation">(</span><span class="token string">"执行到 AdaptCachedBodyGlobalFilter#filter"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  ServerHttpRequest cachedRequest <span class="token operator">=</span> exchange
+    <span class="token punctuation">.</span><span class="token function">getAttributeOrDefault</span><span class="token punctuation">(</span>CACHED_SERVER_HTTP_REQUEST_DECORATOR_ATTR<span class="token punctuation">,</span> null<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span>cachedRequest <span class="token operator">!=</span> null<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    exchange<span class="token punctuation">.</span><span class="token function">getAttributes</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">remove</span><span class="token punctuation">(</span>CACHED_SERVER_HTTP_REQUEST_DECORATOR_ATTR<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment" spellcheck="true">// 如果不为空，直接使用 DefaultServerWebExchangeBuilder 构建一个，并将 cachedRequest 加入到其中</span>
+    <span class="token keyword">return</span> chain<span class="token punctuation">.</span><span class="token function">filter</span><span class="token punctuation">(</span>exchange<span class="token punctuation">.</span><span class="token function">mutate</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">request</span><span class="token punctuation">(</span>cachedRequest<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">build</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+​
+  DataBuffer body <span class="token operator">=</span> exchange<span class="token punctuation">.</span><span class="token function">getAttributeOrDefault</span><span class="token punctuation">(</span>CACHED_REQUEST_BODY_ATTR<span class="token punctuation">,</span> null<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  Route route <span class="token operator">=</span> exchange<span class="token punctuation">.</span><span class="token function">getAttribute</span><span class="token punctuation">(</span>GATEWAY_ROUTE_ATTR<span class="token punctuation">)</span><span class="token punctuation">;</span>
+​
+  <span class="token comment" spellcheck="true">// 如果上下文中，没有 cachedRequestBody 缓存，并且本地方法中没有缓存过改 Route 则继续</span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span>body <span class="token operator">!=</span> null <span class="token operator">||</span> <span class="token operator">!</span><span class="token keyword">this</span><span class="token punctuation">.</span>routesToCache<span class="token punctuation">.</span><span class="token function">containsKey</span><span class="token punctuation">(</span>route<span class="token punctuation">.</span><span class="token function">getId</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> chain<span class="token punctuation">.</span><span class="token function">filter</span><span class="token punctuation">(</span>exchange<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+​
+  <span class="token keyword">return</span> ServerWebExchangeUtils<span class="token punctuation">.</span><span class="token function">cacheRequestBody</span><span class="token punctuation">(</span>exchange<span class="token punctuation">,</span> <span class="token punctuation">(</span>serverHttpRequest<span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">></span> <span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">// 如果是相同的则不 build 了</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>serverHttpRequest <span class="token operator">==</span> exchange<span class="token punctuation">.</span><span class="token function">getRequest</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">return</span> chain<span class="token punctuation">.</span><span class="token function">filter</span><span class="token punctuation">(</span>exchange<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">return</span> chain<span class="token punctuation">.</span><span class="token function">filter</span><span class="token punctuation">(</span>exchange<span class="token punctuation">.</span><span class="token function">mutate</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">request</span><span class="token punctuation">(</span>serverHttpRequest<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">build</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
+<h3 id="NettyWriteResponseFilter"><a href="#NettyWriteResponseFilter" class="headerlink" title="NettyWriteResponseFilter"></a>NettyWriteResponseFilter</h3><pre class=" language-java"><code class="language-java"><span class="token annotation punctuation">@Override</span>
+<span class="token keyword">public</span> Mono<span class="token operator">&lt;</span>Void<span class="token operator">></span> <span class="token function">filter</span><span class="token punctuation">(</span>ServerWebExchange exchange<span class="token punctuation">,</span> GatewayFilterChain chain<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  log<span class="token punctuation">.</span><span class="token function">info</span><span class="token punctuation">(</span><span class="token string">"执行到 NettyWriteResponseFilter#filter"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token comment" spellcheck="true">// NOTICE: nothing in "pre" filter stage as CLIENT_RESPONSE_CONN_ATTR is not added</span>
+  <span class="token comment" spellcheck="true">// until the NettyRoutingFilter is run</span>
+  <span class="token comment" spellcheck="true">// @formatter:off</span>
+  <span class="token keyword">return</span> chain<span class="token punctuation">.</span><span class="token function">filter</span><span class="token punctuation">(</span>exchange<span class="token punctuation">)</span>
+    <span class="token punctuation">.</span><span class="token function">doOnError</span><span class="token punctuation">(</span>throwable <span class="token operator">-</span><span class="token operator">></span> <span class="token function">cleanup</span><span class="token punctuation">(</span>exchange<span class="token punctuation">)</span><span class="token punctuation">)</span>
+    <span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span>Mono<span class="token punctuation">.</span><span class="token function">defer</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">></span> <span class="token punctuation">{</span>
+      <span class="token comment" spellcheck="true">// 获取 gatewayClientResponseConnection 连接</span>
+      Connection connection <span class="token operator">=</span> exchange<span class="token punctuation">.</span><span class="token function">getAttribute</span><span class="token punctuation">(</span>CLIENT_RESPONSE_CONN_ATTR<span class="token punctuation">)</span><span class="token punctuation">;</span>
+​
+      <span class="token keyword">if</span> <span class="token punctuation">(</span>connection <span class="token operator">==</span> null<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> Mono<span class="token punctuation">.</span><span class="token function">empty</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token punctuation">}</span>
+      <span class="token keyword">if</span> <span class="token punctuation">(</span>log<span class="token punctuation">.</span><span class="token function">isTraceEnabled</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        log<span class="token punctuation">.</span><span class="token function">trace</span><span class="token punctuation">(</span><span class="token string">"NettyWriteResponseFilter start inbound: "</span>
+                  <span class="token operator">+</span> connection<span class="token punctuation">.</span><span class="token function">channel</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">id</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">asShortText</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token string">", outbound: "</span>
+                  <span class="token operator">+</span> exchange<span class="token punctuation">.</span><span class="token function">getLogPrefix</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token punctuation">}</span>
+      ServerHttpResponse response <span class="token operator">=</span> exchange<span class="token punctuation">.</span><span class="token function">getResponse</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+      <span class="token keyword">final</span> Flux<span class="token operator">&lt;</span>DataBuffer<span class="token operator">></span> body <span class="token operator">=</span> connection
+        <span class="token punctuation">.</span><span class="token function">inbound</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+        <span class="token punctuation">.</span><span class="token function">receive</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+        <span class="token punctuation">.</span><span class="token function">retain</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+        <span class="token comment" spellcheck="true">// byteBuf -> DataBuffer, netty 数据结构到 spring 数据结构 </span>
+        <span class="token punctuation">.</span><span class="token function">map</span><span class="token punctuation">(</span>byteBuf <span class="token operator">-</span><span class="token operator">></span> <span class="token function">wrap</span><span class="token punctuation">(</span>byteBuf<span class="token punctuation">,</span> response<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+​
+      MediaType contentType <span class="token operator">=</span> null<span class="token punctuation">;</span>
+      <span class="token keyword">try</span> <span class="token punctuation">{</span>
+        contentType <span class="token operator">=</span> response<span class="token punctuation">.</span><span class="token function">getHeaders</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">getContentType</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token punctuation">}</span>
+      <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">Exception</span> e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>log<span class="token punctuation">.</span><span class="token function">isTraceEnabled</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+          log<span class="token punctuation">.</span><span class="token function">trace</span><span class="token punctuation">(</span><span class="token string">"invalid media type"</span><span class="token punctuation">,</span> e<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+      <span class="token punctuation">}</span>
+      <span class="token comment" spellcheck="true">// 根据不同类型，是否直接刷盘发送</span>
+      <span class="token keyword">return</span> <span class="token punctuation">(</span><span class="token function">isStreamingMediaType</span><span class="token punctuation">(</span>contentType<span class="token punctuation">)</span>
+              <span class="token operator">?</span> response<span class="token punctuation">.</span><span class="token function">writeAndFlushWith</span><span class="token punctuation">(</span>body<span class="token punctuation">.</span><span class="token function">map</span><span class="token punctuation">(</span>Flux<span class="token operator">:</span><span class="token operator">:</span>just<span class="token punctuation">)</span><span class="token punctuation">)</span>
+              <span class="token operator">:</span> response<span class="token punctuation">.</span><span class="token function">writeWith</span><span class="token punctuation">(</span>body<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">doOnCancel</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">></span> <span class="token function">cleanup</span><span class="token punctuation">(</span>exchange<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token comment" spellcheck="true">// @formatter:on</span>
+<span class="token punctuation">}</span></code></pre>
+<h3 id="ForwardPathFilter"><a href="#ForwardPathFilter" class="headerlink" title="ForwardPathFilter"></a>ForwardPathFilter</h3><pre class=" language-java"><code class="language-java"><span class="token annotation punctuation">@Override</span>
+<span class="token keyword">public</span> Mono<span class="token operator">&lt;</span>Void<span class="token operator">></span> <span class="token function">filter</span><span class="token punctuation">(</span>ServerWebExchange exchange<span class="token punctuation">,</span> GatewayFilterChain chain<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  logger<span class="token punctuation">.</span><span class="token function">info</span><span class="token punctuation">(</span><span class="token string">"执行到 ForwardPathFilter#filter"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  Route route <span class="token operator">=</span> exchange<span class="token punctuation">.</span><span class="token function">getAttribute</span><span class="token punctuation">(</span>GATEWAY_ROUTE_ATTR<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  URI routeUri <span class="token operator">=</span> route<span class="token punctuation">.</span><span class="token function">getUri</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  String scheme <span class="token operator">=</span> routeUri<span class="token punctuation">.</span><span class="token function">getScheme</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token comment" spellcheck="true">// 是否已经转发过(gatewayAlreadyRouted) 或 没有包含 forward 关键字</span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token function">isAlreadyRouted</span><span class="token punctuation">(</span>exchange<span class="token punctuation">)</span> <span class="token operator">||</span> <span class="token operator">!</span><span class="token string">"forward"</span><span class="token punctuation">.</span><span class="token function">equals</span><span class="token punctuation">(</span>scheme<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> chain<span class="token punctuation">.</span><span class="token function">filter</span><span class="token punctuation">(</span>exchange<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+  exchange <span class="token operator">=</span> exchange<span class="token punctuation">.</span><span class="token function">mutate</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">.</span><span class="token function">request</span><span class="token punctuation">(</span>exchange<span class="token punctuation">.</span><span class="token function">getRequest</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">mutate</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">path</span><span class="token punctuation">(</span>routeUri<span class="token punctuation">.</span><span class="token function">getPath</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">build</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+    <span class="token punctuation">.</span><span class="token function">build</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token keyword">return</span> chain<span class="token punctuation">.</span><span class="token function">filter</span><span class="token punctuation">(</span>exchange<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
+<h3 id="GatewayMetricsFilter"><a href="#GatewayMetricsFilter" class="headerlink" title="GatewayMetricsFilter"></a>GatewayMetricsFilter</h3><pre class=" language-java"><code class="language-java"><span class="token annotation punctuation">@Override</span>
+<span class="token keyword">public</span> Mono<span class="token operator">&lt;</span>Void<span class="token operator">></span> <span class="token function">filter</span><span class="token punctuation">(</span>ServerWebExchange exchange<span class="token punctuation">,</span> GatewayFilterChain chain<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  log<span class="token punctuation">.</span><span class="token function">info</span><span class="token punctuation">(</span><span class="token string">"执行到 GatewayMetricsFilter#filter"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  Sample sample <span class="token operator">=</span> Timer<span class="token punctuation">.</span><span class="token function">start</span><span class="token punctuation">(</span>meterRegistry<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token comment" spellcheck="true">// 添加对于成功或异常调用的方法</span>
+  <span class="token keyword">return</span> chain<span class="token punctuation">.</span><span class="token function">filter</span><span class="token punctuation">(</span>exchange<span class="token punctuation">)</span>
+    <span class="token punctuation">.</span><span class="token function">doOnSuccess</span><span class="token punctuation">(</span>aVoid <span class="token operator">-</span><span class="token operator">></span> <span class="token function">endTimerRespectingCommit</span><span class="token punctuation">(</span>exchange<span class="token punctuation">,</span> sample<span class="token punctuation">)</span><span class="token punctuation">)</span>
+    <span class="token punctuation">.</span><span class="token function">doOnError</span><span class="token punctuation">(</span>throwable <span class="token operator">-</span><span class="token operator">></span> <span class="token function">endTimerRespectingCommit</span><span class="token punctuation">(</span>exchange<span class="token punctuation">,</span> sample<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+​
+<span class="token keyword">private</span> <span class="token keyword">void</span> <span class="token function">endTimerRespectingCommit</span><span class="token punctuation">(</span>ServerWebExchange exchange<span class="token punctuation">,</span> Sample sample<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  ServerHttpResponse response <span class="token operator">=</span> exchange<span class="token punctuation">.</span><span class="token function">getResponse</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span>response<span class="token punctuation">.</span><span class="token function">isCommitted</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token function">endTimerInner</span><span class="token punctuation">(</span>exchange<span class="token punctuation">,</span> sample<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+  <span class="token keyword">else</span> <span class="token punctuation">{</span>
+    response<span class="token punctuation">.</span><span class="token function">beforeCommit</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">></span> <span class="token punctuation">{</span>
+      <span class="token function">endTimerInner</span><span class="token punctuation">(</span>exchange<span class="token punctuation">,</span> sample<span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token keyword">return</span> Mono<span class="token punctuation">.</span><span class="token function">empty</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<h3 id="RouteToRequestUrlFilter"><a href="#RouteToRequestUrlFilter" class="headerlink" title="RouteToRequestUrlFilter"></a>RouteToRequestUrlFilter</h3><pre class=" language-java"><code class="language-java"><span class="token annotation punctuation">@Override</span>
+<span class="token keyword">public</span> Mono<span class="token operator">&lt;</span>Void<span class="token operator">></span> <span class="token function">filter</span><span class="token punctuation">(</span>ServerWebExchange exchange<span class="token punctuation">,</span> GatewayFilterChain chain<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  log<span class="token punctuation">.</span><span class="token function">info</span><span class="token punctuation">(</span><span class="token string">"执行到 RouteToRequestUrlFilter#filter"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  Route route <span class="token operator">=</span> exchange<span class="token punctuation">.</span><span class="token function">getAttribute</span><span class="token punctuation">(</span>GATEWAY_ROUTE_ATTR<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span>route <span class="token operator">==</span> null<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> chain<span class="token punctuation">.</span><span class="token function">filter</span><span class="token punctuation">(</span>exchange<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+  log<span class="token punctuation">.</span><span class="token function">trace</span><span class="token punctuation">(</span><span class="token string">"RouteToRequestUrlFilter start"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  URI uri <span class="token operator">=</span> exchange<span class="token punctuation">.</span><span class="token function">getRequest</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">getURI</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token keyword">boolean</span> encoded <span class="token operator">=</span> <span class="token function">containsEncodedParts</span><span class="token punctuation">(</span>uri<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  URI routeUri <span class="token operator">=</span> route<span class="token punctuation">.</span><span class="token function">getUri</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+​
+  <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token function">hasAnotherScheme</span><span class="token punctuation">(</span>routeUri<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">// 设置相应的 schema</span>
+    exchange<span class="token punctuation">.</span><span class="token function">getAttributes</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">put</span><span class="token punctuation">(</span>GATEWAY_SCHEME_PREFIX_ATTR<span class="token punctuation">,</span> routeUri<span class="token punctuation">.</span><span class="token function">getScheme</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    routeUri <span class="token operator">=</span> URI<span class="token punctuation">.</span><span class="token function">create</span><span class="token punctuation">(</span>routeUri<span class="token punctuation">.</span><span class="token function">getSchemeSpecificPart</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+​
+  <span class="token comment" spellcheck="true">// 对于 loadbalance 的判断</span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token string">"lb"</span><span class="token punctuation">.</span><span class="token function">equalsIgnoreCase</span><span class="token punctuation">(</span>routeUri<span class="token punctuation">.</span><span class="token function">getScheme</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token operator">&amp;&amp;</span> routeUri<span class="token punctuation">.</span><span class="token function">getHost</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">==</span> null<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name">IllegalStateException</span><span class="token punctuation">(</span><span class="token string">"Invalid host: "</span> <span class="token operator">+</span> routeUri<span class="token punctuation">.</span><span class="token function">toString</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+​
+  URI mergedUrl <span class="token operator">=</span> UriComponentsBuilder<span class="token punctuation">.</span><span class="token function">fromUri</span><span class="token punctuation">(</span>uri<span class="token punctuation">)</span>
+    <span class="token comment" spellcheck="true">// .uri(routeUri)</span>
+    <span class="token punctuation">.</span><span class="token function">scheme</span><span class="token punctuation">(</span>routeUri<span class="token punctuation">.</span><span class="token function">getScheme</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">host</span><span class="token punctuation">(</span>routeUri<span class="token punctuation">.</span><span class="token function">getHost</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+    <span class="token punctuation">.</span><span class="token function">port</span><span class="token punctuation">(</span>routeUri<span class="token punctuation">.</span><span class="token function">getPort</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">build</span><span class="token punctuation">(</span>encoded<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">toUri</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  exchange<span class="token punctuation">.</span><span class="token function">getAttributes</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">put</span><span class="token punctuation">(</span>GATEWAY_REQUEST_URL_ATTR<span class="token punctuation">,</span> mergedUrl<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token keyword">return</span> chain<span class="token punctuation">.</span><span class="token function">filter</span><span class="token punctuation">(</span>exchange<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
+<h3 id="WebsocketRoutingFilter"><a href="#WebsocketRoutingFilter" class="headerlink" title="WebsocketRoutingFilter"></a>WebsocketRoutingFilter</h3><pre class=" language-java"><code class="language-java"><span class="token keyword">public</span> Mono<span class="token operator">&lt;</span>Void<span class="token operator">></span> <span class="token function">filter</span><span class="token punctuation">(</span>ServerWebExchange exchange<span class="token punctuation">,</span> GatewayFilterChain chain<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  log<span class="token punctuation">.</span><span class="token function">info</span><span class="token punctuation">(</span><span class="token string">"执行到 -> WebsocketRoutingFilter#filter"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token comment" spellcheck="true">// 如果是 ws 则修改 gatewayRequestUrl, 这个参数在 RouteToRequestUrlFilter 中设置</span>
+  <span class="token function">changeSchemeIfIsWebSocketUpgrade</span><span class="token punctuation">(</span>exchange<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token comment" spellcheck="true">// 然后获取上一步设置好的 gatewayRequestUrl 值</span>
+  URI requestUrl <span class="token operator">=</span> exchange<span class="token punctuation">.</span><span class="token function">getRequiredAttribute</span><span class="token punctuation">(</span>GATEWAY_REQUEST_URL_ATTR<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  String scheme <span class="token operator">=</span> requestUrl<span class="token punctuation">.</span><span class="token function">getScheme</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+​
+  <span class="token comment" spellcheck="true">// 如果已经 gatewayAlreadyRouted 已经为 true 或者 scheme 不是 ws 或 wss 则略过</span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token function">isAlreadyRouted</span><span class="token punctuation">(</span>exchange<span class="token punctuation">)</span>
+      <span class="token operator">||</span> <span class="token punctuation">(</span><span class="token operator">!</span><span class="token string">"ws"</span><span class="token punctuation">.</span><span class="token function">equals</span><span class="token punctuation">(</span>scheme<span class="token punctuation">)</span> <span class="token operator">&amp;&amp;</span> <span class="token operator">!</span><span class="token string">"wss"</span><span class="token punctuation">.</span><span class="token function">equals</span><span class="token punctuation">(</span>scheme<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> chain<span class="token punctuation">.</span><span class="token function">filter</span><span class="token punctuation">(</span>exchange<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+  <span class="token function">setAlreadyRouted</span><span class="token punctuation">(</span>exchange<span class="token punctuation">)</span><span class="token punctuation">;</span>
+​
+  HttpHeaders headers <span class="token operator">=</span> exchange<span class="token punctuation">.</span><span class="token function">getRequest</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">getHeaders</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  HttpHeaders filtered <span class="token operator">=</span> <span class="token function">filterRequest</span><span class="token punctuation">(</span><span class="token function">getHeadersFilters</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> exchange<span class="token punctuation">)</span><span class="token punctuation">;</span>
+​
+  List<span class="token operator">&lt;</span>String<span class="token operator">></span> protocols <span class="token operator">=</span> headers<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span>SEC_WEBSOCKET_PROTOCOL<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span>protocols <span class="token operator">!=</span> null<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    protocols <span class="token operator">=</span> headers<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span>SEC_WEBSOCKET_PROTOCOL<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">stream</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">flatMap</span><span class="token punctuation">(</span>
+      header <span class="token operator">-</span><span class="token operator">></span> Arrays<span class="token punctuation">.</span><span class="token function">stream</span><span class="token punctuation">(</span><span class="token function">commaDelimitedListToStringArray</span><span class="token punctuation">(</span>header<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+      <span class="token punctuation">.</span><span class="token function">map</span><span class="token punctuation">(</span>String<span class="token operator">:</span><span class="token operator">:</span>trim<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">collect</span><span class="token punctuation">(</span>Collectors<span class="token punctuation">.</span><span class="token function">toList</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+​
+  <span class="token keyword">return</span> <span class="token keyword">this</span><span class="token punctuation">.</span>webSocketService<span class="token punctuation">.</span><span class="token function">handleRequest</span><span class="token punctuation">(</span>exchange<span class="token punctuation">,</span> <span class="token keyword">new</span> <span class="token class-name">ProxyWebSocketHandler</span><span class="token punctuation">(</span>
+    requestUrl<span class="token punctuation">,</span> <span class="token keyword">this</span><span class="token punctuation">.</span>webSocketClient<span class="token punctuation">,</span> filtered<span class="token punctuation">,</span> protocols<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
+<h3 id="NettyRoutingFilter"><a href="#NettyRoutingFilter" class="headerlink" title="NettyRoutingFilter"></a>NettyRoutingFilter</h3><pre class=" language-java"><code class="language-java"><span class="token annotation punctuation">@Override</span>
+<span class="token keyword">public</span> Mono<span class="token operator">&lt;</span>Void<span class="token operator">></span> <span class="token function">filter</span><span class="token punctuation">(</span>ServerWebExchange exchange<span class="token punctuation">,</span> GatewayFilterChain chain<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  URI requestUrl <span class="token operator">=</span> exchange<span class="token punctuation">.</span><span class="token function">getRequiredAttribute</span><span class="token punctuation">(</span>GATEWAY_REQUEST_URL_ATTR<span class="token punctuation">)</span><span class="token punctuation">;</span>
+​
+  String scheme <span class="token operator">=</span> requestUrl<span class="token punctuation">.</span><span class="token function">getScheme</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token function">isAlreadyRouted</span><span class="token punctuation">(</span>exchange<span class="token punctuation">)</span>
+      <span class="token operator">||</span> <span class="token punctuation">(</span><span class="token operator">!</span><span class="token string">"http"</span><span class="token punctuation">.</span><span class="token function">equals</span><span class="token punctuation">(</span>scheme<span class="token punctuation">)</span> <span class="token operator">&amp;&amp;</span> <span class="token operator">!</span><span class="token string">"https"</span><span class="token punctuation">.</span><span class="token function">equals</span><span class="token punctuation">(</span>scheme<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> chain<span class="token punctuation">.</span><span class="token function">filter</span><span class="token punctuation">(</span>exchange<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+  <span class="token function">setAlreadyRouted</span><span class="token punctuation">(</span>exchange<span class="token punctuation">)</span><span class="token punctuation">;</span>
+​
+  ServerHttpRequest request <span class="token operator">=</span> exchange<span class="token punctuation">.</span><span class="token function">getRequest</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+​
+  HttpMethod method <span class="token operator">=</span> request<span class="token punctuation">.</span><span class="token function">getMethod</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+​
+  HttpHeaders filteredHeaders <span class="token operator">=</span> <span class="token function">filterRequest</span><span class="token punctuation">(</span><span class="token function">getHeadersFilters</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> exchange<span class="token punctuation">)</span><span class="token punctuation">;</span>
+​
+  <span class="token comment" spellcheck="true">// 判断是否 保留主机标头属性名称</span>
+  <span class="token keyword">boolean</span> preserveHost <span class="token operator">=</span> exchange
+    <span class="token punctuation">.</span><span class="token function">getAttributeOrDefault</span><span class="token punctuation">(</span>PRESERVE_HOST_HEADER_ATTRIBUTE<span class="token punctuation">,</span> <span class="token boolean">false</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+​
+​
+  <span class="token comment" spellcheck="true">/*
+    * 在 GatewayAutoConfiguration 中有如下一块注释，说我们可以自定义 WebClient 来覆盖 netty
+    * @Bean //TODO: default over netty? configurable public WebClientHttpRoutingFilter
+    * webClientHttpRoutingFilter() { //TODO: WebClient bean return new
+    * WebClientHttpRoutingFilter(WebClient.routes().build()); }
+    *
+    * @Bean public WebClientWriteResponseFilter webClientWriteResponseFilter() { return
+    * new WebClientWriteResponseFilter(); }
+    */</span>
+  <span class="token comment" spellcheck="true">// 使用 webClient </span>
+  RequestBodySpec bodySpec <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>webClient<span class="token punctuation">.</span><span class="token function">method</span><span class="token punctuation">(</span>method<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">uri</span><span class="token punctuation">(</span>requestUrl<span class="token punctuation">)</span>
+    <span class="token punctuation">.</span><span class="token function">headers</span><span class="token punctuation">(</span>httpHeaders <span class="token operator">-</span><span class="token operator">></span> <span class="token punctuation">{</span>
+      httpHeaders<span class="token punctuation">.</span><span class="token function">addAll</span><span class="token punctuation">(</span>filteredHeaders<span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token comment" spellcheck="true">// TODO: can this support preserviceHostHeader?</span>
+      <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>preserveHost<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        httpHeaders<span class="token punctuation">.</span><span class="token function">remove</span><span class="token punctuation">(</span>HttpHeaders<span class="token punctuation">.</span>HOST<span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+​
+  RequestHeadersSpec<span class="token operator">&lt;</span><span class="token operator">?</span><span class="token operator">></span> headersSpec<span class="token punctuation">;</span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token function">requiresBody</span><span class="token punctuation">(</span>method<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    headersSpec <span class="token operator">=</span> bodySpec<span class="token punctuation">.</span><span class="token function">body</span><span class="token punctuation">(</span>BodyInserters<span class="token punctuation">.</span><span class="token function">fromDataBuffers</span><span class="token punctuation">(</span>request<span class="token punctuation">.</span><span class="token function">getBody</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+  <span class="token keyword">else</span> <span class="token punctuation">{</span>
+    headersSpec <span class="token operator">=</span> bodySpec<span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+​
+  <span class="token keyword">return</span> headersSpec<span class="token punctuation">.</span><span class="token function">exchange</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">"webClient route"</span><span class="token punctuation">)</span>
+    <span class="token punctuation">.</span><span class="token function">flatMap</span><span class="token punctuation">(</span>res <span class="token operator">-</span><span class="token operator">></span> <span class="token punctuation">{</span>
+      <span class="token comment" spellcheck="true">// 将返回的结构再次封装到 exchange 中,同时设置 gatewayClientResponse</span>
+      ServerHttpResponse response <span class="token operator">=</span> exchange<span class="token punctuation">.</span><span class="token function">getResponse</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      response<span class="token punctuation">.</span><span class="token function">getHeaders</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">putAll</span><span class="token punctuation">(</span>res<span class="token punctuation">.</span><span class="token function">headers</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">asHttpHeaders</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      response<span class="token punctuation">.</span><span class="token function">setStatusCode</span><span class="token punctuation">(</span>res<span class="token punctuation">.</span><span class="token function">statusCode</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token comment" spellcheck="true">// Defer committing the response until all route filters have run</span>
+      <span class="token comment" spellcheck="true">// Put client response as ServerWebExchange attribute and write</span>
+      <span class="token comment" spellcheck="true">// response later NettyWriteResponseFilter</span>
+      exchange<span class="token punctuation">.</span><span class="token function">getAttributes</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">put</span><span class="token punctuation">(</span>CLIENT_RESPONSE_ATTR<span class="token punctuation">,</span> res<span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token keyword">return</span> chain<span class="token punctuation">.</span><span class="token function">filter</span><span class="token punctuation">(</span>exchange<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
+<h3 id="ForwardRoutingFilter"><a href="#ForwardRoutingFilter" class="headerlink" title="ForwardRoutingFilter"></a>ForwardRoutingFilter</h3><pre class=" language-java"><code class="language-java"><span class="token annotation punctuation">@Override</span>
+<span class="token keyword">public</span> Mono<span class="token operator">&lt;</span>Void<span class="token operator">></span> <span class="token function">filter</span><span class="token punctuation">(</span>ServerWebExchange exchange<span class="token punctuation">,</span> GatewayFilterChain chain<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+   log<span class="token punctuation">.</span><span class="token function">info</span><span class="token punctuation">(</span><span class="token string">"执行到 -> ForwardRoutingFilter#filter"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+   URI requestUrl <span class="token operator">=</span> exchange<span class="token punctuation">.</span><span class="token function">getRequiredAttribute</span><span class="token punctuation">(</span>GATEWAY_REQUEST_URL_ATTR<span class="token punctuation">)</span><span class="token punctuation">;</span>
+   String scheme <span class="token operator">=</span> requestUrl<span class="token punctuation">.</span><span class="token function">getScheme</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+   <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token function">isAlreadyRouted</span><span class="token punctuation">(</span>exchange<span class="token punctuation">)</span> <span class="token operator">||</span> <span class="token operator">!</span><span class="token string">"forward"</span><span class="token punctuation">.</span><span class="token function">equals</span><span class="token punctuation">(</span>scheme<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">return</span> chain<span class="token punctuation">.</span><span class="token function">filter</span><span class="token punctuation">(</span>exchange<span class="token punctuation">)</span><span class="token punctuation">;</span>
+   <span class="token punctuation">}</span>
+   <span class="token keyword">if</span> <span class="token punctuation">(</span>log<span class="token punctuation">.</span><span class="token function">isTraceEnabled</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      log<span class="token punctuation">.</span><span class="token function">trace</span><span class="token punctuation">(</span><span class="token string">"Forwarding to URI: "</span> <span class="token operator">+</span> requestUrl<span class="token punctuation">)</span><span class="token punctuation">;</span>
+   <span class="token punctuation">}</span>
+   <span class="token keyword">return</span> <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">getDispatcherHandler</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">handle</span><span class="token punctuation">(</span>exchange<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><ul>
+<li><a href="https://www.cnblogs.com/rever/p/9725173.html" target="_blank" rel="noopener">https://www.cnblogs.com/rever/p/9725173.html</a></li>
+<li><a href="https://www.cnblogs.com/SIHAIloveYAN/p/11288064.html" target="_blank" rel="noopener">https://www.cnblogs.com/SIHAIloveYAN/p/11288064.html</a></li>
+</ul>
+
+            </div>
+            <hr/>
+
+            
+
+    <div class="reprint" id="reprint-statement">
+        
+            <div class="reprint__author">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-user">
+                        文章作者:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="https://www.asxing.com" rel="external nofollow noreferrer">HoldDie</a>
+                </span>
+            </div>
+            <div class="reprint__type">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-link">
+                        文章链接:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="https://www.asxing.com/2021/01/11/spring-cloud-gateway-quan-ju-filter-xi-pin-wu/">https://www.asxing.com/2021/01/11/spring-cloud-gateway-quan-ju-filter-xi-pin-wu/</a>
+                </span>
+            </div>
+            <div class="reprint__notice">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-copyright">
+                        版权声明:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    本博客所有文章除特別声明外，均采用
+                    <a href="https://creativecommons.org/licenses/by/4.0/deed.zh" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>
+                    许可协议。转载请注明来源
+                    <a href="https://www.asxing.com" target="_blank">HoldDie</a>
+                    !
+                </span>
+            </div>
+        
+    </div>
+
+    <script async defer>
+      document.addEventListener("copy", function (e) {
+        let toastHTML = '<span>复制成功，请遵循本文的转载规则</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">查看</a>';
+        M.toast({html: toastHTML})
+      });
+
+      function navToReprintStatement() {
+        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      }
+    </script>
+
+
+
+            <div class="tag_share" style="display: block;">
+                <div class="post-meta__tag-list" style="display: inline-block;">
+                    
+                        <div class="article-tag">
+                            
+                                <a href="/tags/%E7%BD%91%E5%85%B3/">
+                                    <span class="chip bg-color">网关</span>
+                                </a>
+                            
+                                <a href="/tags/Spring-Cloud-Gateway/">
+                                    <span class="chip bg-color">Spring-Cloud-Gateway</span>
+                                </a>
+                            
+                        </div>
+                    
+                </div>
+                <div class="post_share" style="zoom: 80%; width: fit-content; display: inline-block; float: right; margin: -0.15rem 0;">
+                    <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+
+<div id="article-share">
+    
+    
+    <div class="social-share" data-sites="twitter,facebook,google,qq,qzone,wechat,weibo,douban,linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
+    <script src="/libs/share/js/social-share.min.js"></script>
+    
+
+    
+
+</div>
+
+                </div>
+            </div>
+            
+                <style>
+    #reward {
+        margin: 40px 0;
+        text-align: center;
+    }
+
+    #reward .reward-link {
+        font-size: 1.4rem;
+        line-height: 38px;
+    }
+
+    #reward .btn-floating:hover {
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2), 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    #rewardModal {
+        width: 320px;
+        height: 350px;
+    }
+
+    #rewardModal .reward-title {
+        margin: 15px auto;
+        padding-bottom: 5px;
+    }
+
+    #rewardModal .modal-content {
+        padding: 10px;
+    }
+
+    #rewardModal .close {
+        position: absolute;
+        right: 15px;
+        top: 15px;
+        color: rgba(0, 0, 0, 0.5);
+        font-size: 1.3rem;
+        line-height: 20px;
+        cursor: pointer;
+    }
+
+    #rewardModal .close:hover {
+        color: #ef5350;
+        transform: scale(1.3);
+        -moz-transform:scale(1.3);
+        -webkit-transform:scale(1.3);
+        -o-transform:scale(1.3);
+    }
+
+    #rewardModal .reward-tabs {
+        margin: 0 auto;
+        width: 210px;
+    }
+
+    .reward-tabs .tabs {
+        height: 38px;
+        margin: 10px auto;
+        padding-left: 0;
+    }
+
+    .reward-content ul {
+        padding-left: 0 !important;
+    }
+
+    .reward-tabs .tabs .tab {
+        height: 38px;
+        line-height: 38px;
+    }
+
+    .reward-tabs .tab a {
+        color: #fff;
+        background-color: #ccc;
+    }
+
+    .reward-tabs .tab a:hover {
+        background-color: #ccc;
+        color: #fff;
+    }
+
+    .reward-tabs .wechat-tab .active {
+        color: #fff !important;
+        background-color: #22AB38 !important;
+    }
+
+    .reward-tabs .alipay-tab .active {
+        color: #fff !important;
+        background-color: #019FE8 !important;
+    }
+
+    .reward-tabs .reward-img {
+        width: 210px;
+        height: 210px;
+    }
+</style>
+
+<div id="reward">
+    <a href="#rewardModal" class="reward-link modal-trigger btn-floating btn-medium waves-effect waves-light red">赏</a>
+
+    <!-- Modal Structure -->
+    <div id="rewardModal" class="modal">
+        <div class="modal-content">
+            <a class="close modal-close"><i class="fas fa-times"></i></a>
+            <h4 class="reward-title">你的赏识是我前进的动力</h4>
+            <div class="reward-content">
+                <div class="reward-tabs">
+                    <ul class="tabs row">
+                        <li class="tab col s6 alipay-tab waves-effect waves-light"><a href="#alipay">支付宝</a></li>
+                        <li class="tab col s6 wechat-tab waves-effect waves-light"><a href="#wechat">微 信</a></li>
+                    </ul>
+                    <div id="alipay">
+                        <img src="/medias/reward/alipay.jpg" class="reward-img" alt="支付宝打赏二维码">
+                    </div>
+                    <div id="wechat">
+                        <img src="/medias/reward/wechat.png" class="reward-img" alt="微信打赏二维码">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $('.tabs').tabs();
+    });
+</script>
+            
+        </div>
+    </div>
+
+    
+        <link rel="stylesheet" href="/libs/gitalk/gitalk.css">
+<link rel="stylesheet" href="/css/my-gitalk.css">
+
+<div class="card gitalk-card" data-aos="fade-up">
+    <div class="comment_headling" style="font-size: 20px; font-weight: 700; position: relative; left: 20px; top: 15px; padding-bottom: 5px;">
+        <i class="fas fa-comments fa-fw" aria-hidden="true"></i>
+        <span>评论</span>
+    </div>
+    <div id="gitalk-container" class="card-content"></div>
+</div>
+
+<script src="/libs/gitalk/gitalk.min.js"></script>
+<script>
+    let gitalk = new Gitalk({
+        clientID: 'c4e18e113d94091c8828',
+        clientSecret: '891f04d80de6a77fd6eb60d1cbe792e916cde3ff',
+        repo: 'asxing.github.io',
+        owner: 'Asxing',
+        admin: "asxing",
+        id: '2021-01-11T15-02-39',
+        distractionFreeMode: false  // Facebook-like distraction free mode
+    });
+
+    gitalk.render('gitalk-container');
+</script>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+            <div class="card">
+                <a href="/2021/01/14/soul-huan-jing-da-jian-yi/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/10.jpg" class="responsive-img" alt="Soul-环境搭建（一）">
+                        
+                        <span class="card-title">Soul-环境搭建（一）</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            Soul-bootStrap
+网关的核心启动入口
+
+Maven 依赖从Maven 依赖中我们可以看见，所以 Soul 网关需要的各个插件模块都尽在眼底，所有的组件模块都可以自定义配置，其中有：
+
+soul-spring-boot-start
+                        
+                    </div>
+                    <div class="publish-info">
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2021-01-14
+                        </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/Soul/" class="post-category">
+                                    Soul
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/Spring/">
+                        <span class="chip bg-color">Spring</span>
+                    </a>
+                    
+                    <a href="/tags/%E7%BD%91%E5%85%B3/">
+                        <span class="chip bg-color">网关</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2021/01/11/spring-cloud-gateway-liu-cheng-xi-jie-si/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/17.jpg" class="responsive-img" alt="Spring-Cloud-Gateway-流程细节（四）">
+                        
+                        <span class="card-title">Spring-Cloud-Gateway-流程细节（四）</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            1. 思考题
+如何从 DispatcherHandler 匹配对应的 HandlerMapping？如何从 HandlerMapping 匹配 Route？
+FilteringWebHandler 创建 GatewayFilterChain
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2021-01-11
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/Spring/" class="post-category">
+                                    Spring
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/Gateway/">
+                        <span class="chip bg-color">Gateway</span>
+                    </a>
+                    
+                    <a href="/tags/Spring-Cloud-Gateway/">
+                        <span class="chip bg-color">Spring-Cloud-Gateway</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+
+</div>
+
+
+
+<!-- 代码块功能依赖 -->
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+
+<!-- 代码语言 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+
+    
+<!-- 代码块复制 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+
+
+<!-- 代码块收缩 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script>
+
+
+<!-- 代码块折行 -->
+
+<style type="text/css">
+code[class*="language-"], pre[class*="language-"] { white-space: pre !important; }
+</style>
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget">
+            <div class="toc-title"><i class="far fa-list-alt"></i>&nbsp;&nbsp;目录</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fas fa-list-ul"></i>
+    </a>
+</div>
+
+
+<script src="/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            // headingsOffset: -205,
+            headingSelector: 'h2, h3, h4'
+        });
+
+        // modify the toc link href to support Chinese.
+        let i = 0;
+        let tocHeading = 'toc-heading-';
+        $('#toc-content a').each(function () {
+            $(this).attr('href', '#' + tocHeading + (++i));
+        });
+
+        // modify the heading title id to support Chinese.
+        i = 0;
+        $('#articleContent').children('h2, h3, h4').each(function () {
+            $(this).attr('id', tocHeading + (++i));
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).hide();
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).show();
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+        });
+        
+    });
+</script>
+
+    
+
+</main>
+
+
+<script src="https://cdn.bootcss.com/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script>
+    MathJax.Hub.Config({
+        tex2jax: {inlineMath: [['$', '$'], ['\(', '\)']]}
+    });
+</script>
+
+
+    <footer class="page-footer bg-color">
+    <div class="container row center-align">
+        <div class="col s12 m8 l8 copy-right">
+            Copyright&nbsp;&copy;
+            <span id="year">年份</span>
+            <a href="https://www.asxing.com" target="_blank">Asxing</a>
+            |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
+            |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
+            <br>
+            
+            &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
+                class="white-color">479k</span>&nbsp;字
+            
+            
+            
+            
+            <span id="busuanzi_container_site_pv">
+                |&nbsp;<i class="far fa-eye"></i>&nbsp;总访问量:&nbsp;<span id="busuanzi_value_site_pv"
+                    class="white-color"></span>&nbsp;次
+            </span>
+            
+            
+            <span id="busuanzi_container_site_uv">
+                |&nbsp;<i class="fas fa-users"></i>&nbsp;总访问人数:&nbsp;<span id="busuanzi_value_site_uv"
+                    class="white-color"></span>&nbsp;人
+            </span>
+            
+            <br>
+            
+            <span id="sitetime">载入运行时间...</span>
+            <script>
+                function siteTime() {
+                    window.setTimeout("siteTime()", 1000);
+                    var seconds = 1000;
+                    var minutes = seconds * 60;
+                    var hours = minutes * 60;
+                    var days = hours * 24;
+                    var years = days * 365;
+                    var today = new Date();
+                    var startYear = "2019";
+                    var startMonth = "10";
+                    var startDate = "30";
+                    var startHour = "22";
+                    var startMinute = "30";
+                    var startSecond = "0";
+                    var todayYear = today.getFullYear();
+                    var todayMonth = today.getMonth() + 1;
+                    var todayDate = today.getDate();
+                    var todayHour = today.getHours();
+                    var todayMinute = today.getMinutes();
+                    var todaySecond = today.getSeconds();
+                    var t1 = Date.UTC(startYear, startMonth, startDate, startHour, startMinute, startSecond);
+                    var t2 = Date.UTC(todayYear, todayMonth, todayDate, todayHour, todayMinute, todaySecond);
+                    var diff = t2 - t1;
+                    var diffYears = Math.floor(diff / years);
+                    var diffDays = Math.floor((diff / days) - diffYears * 365);
+                    var diffHours = Math.floor((diff - (diffYears * 365 + diffDays) * days) / hours);
+                    var diffMinutes = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours) /
+                        minutes);
+                    var diffSeconds = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours -
+                        diffMinutes * minutes) / seconds);
+                    if (startYear == todayYear) {
+                        document.getElementById("year").innerHTML = todayYear;
+                        document.getElementById("sitetime").innerHTML = "本站已安全运行 " + diffDays + " 天 " + diffHours +
+                            " 小时 " + diffMinutes + " 分钟 " + diffSeconds + " 秒";
+                    } else {
+                        document.getElementById("year").innerHTML = startYear + " - " + todayYear;
+                        document.getElementById("sitetime").innerHTML = "本站已安全运行 " + diffYears + " 年 " + diffDays +
+                            " 天 " + diffHours + " 小时 " + diffMinutes + " 分钟 " + diffSeconds + " 秒";
+                    }
+                }
+                setInterval(siteTime, 1000);
+            </script>
+            
+            <br>
+            
+        </div>
+        <div class="col s12 m4 l4 social-link ">
+    <a href="https://github.com/asxing" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+        <i class="fab fa-github"></i>
+    </a>
+
+
+
+    <a href="mailto:asxingking@gmail.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fas fa-envelope-open"></i>
+    </a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <a href="/atom.xml" class="tooltipped" target="_blank" data-tooltip="RSS 订阅" data-position="top" data-delay="50">
+        <i class="fas fa-rss"></i>
+    </a>
+
+</div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+
+    <!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fas fa-search"></i>&nbsp;&nbsp;搜索</span>
+            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script src="/js/search.js"></script>
+<script type="text/javascript">
+$(function () {
+    searchFunc("/" + "search.xml", 'searchInput', 'searchResult');
+});
+</script>
+    <!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+</div>
+
+
+    <script src="/libs/materialize/materialize.min.js"></script>
+    <script src="/libs/masonry/masonry.pkgd.min.js"></script>
+    <script src="/libs/aos/aos.js"></script>
+    <script src="/libs/scrollprogress/scrollProgress.min.js"></script>
+    <script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+    <script src="/js/matery.js"></script>
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+    <!-- Baidu Analytics -->
+
+    <!-- Baidu Push -->
+
+    
+    <script src="/libs/others/clicklove.js" async="async"></script>
+    
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <script type="text/javascript" src="/libs/background/ribbon-dynamic.js" async="async"></script>
+    
+    
+    
+
+</body>
+
+</html>

@@ -1,0 +1,617 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>Asxing-阿行</title>
+  
+  <subtitle>执行 敬畏 感恩</subtitle>
+  <link href="/atom.xml" rel="self"/>
+  
+  <link href="https://www.asxing.com/"/>
+  <updated>2021-03-28T09:58:07.155Z</updated>
+  <id>https://www.asxing.com/</id>
+  
+  <author>
+    <name>Asxing</name>
+    
+  </author>
+  
+  <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Java进阶之JVM实战</title>
+    <link href="https://www.asxing.com/2021/02/24/java-jin-jie-zhi-jvm-shi-zhan/"/>
+    <id>https://www.asxing.com/2021/02/24/java-jin-jie-zhi-jvm-shi-zhan/</id>
+    <published>2021-02-24T14:42:59.000Z</published>
+    <updated>2021-03-28T09:58:07.155Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h2 id=&quot;1-使用自定义Classloader机制，实现xlass的加载&quot;&gt;&lt;a href=&quot;#1-使用自定义Classloader机制，实现xlass的加载&quot; class=&quot;headerlink&quot; title=&quot;1.
+        
+      
+    
+    </summary>
+    
+    
+      <category term="Java进阶" scheme="https://www.asxing.com/categories/Java%E8%BF%9B%E9%98%B6/"/>
+    
+    
+      <category term="Java" scheme="https://www.asxing.com/tags/Java/"/>
+    
+      <category term="JVM" scheme="https://www.asxing.com/tags/JVM/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Soul-单测小结</title>
+    <link href="https://www.asxing.com/2021/02/06/soul-dan-ce-xiao-jie/"/>
+    <id>https://www.asxing.com/2021/02/06/soul-dan-ce-xiao-jie/</id>
+    <published>2021-02-06T21:09:32.000Z</published>
+    <updated>2021-03-28T09:58:07.155Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;&lt;img src=&quot;https://cdn.jsdelivr.net/gh/HoldDie/img1/20210206195040.png&quot; alt=&quot;image-20210206195040098&quot;&gt;&lt;/p&gt;
+&lt;h2 id=&quot;常用-UT&quot;&gt;&lt;a
+        
+      
+    
+    </summary>
+    
+    
+      <category term="Soul" scheme="https://www.asxing.com/categories/Soul/"/>
+    
+    
+      <category term="Spring" scheme="https://www.asxing.com/tags/Spring/"/>
+    
+      <category term="单测" scheme="https://www.asxing.com/tags/%E5%8D%95%E6%B5%8B/"/>
+    
+      <category term="test" scheme="https://www.asxing.com/tags/test/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>响应式编程（一）</title>
+    <link href="https://www.asxing.com/2021/01/30/xiang-ying-shi-bian-cheng-yi/"/>
+    <id>https://www.asxing.com/2021/01/30/xiang-ying-shi-bian-cheng-yi/</id>
+    <published>2021-01-30T16:39:38.000Z</published>
+    <updated>2021-03-28T09:58:07.155Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h2 id=&quot;1-响应式编程&quot;&gt;&lt;a href=&quot;#1-响应式编程&quot; class=&quot;headerlink&quot; title=&quot;1. 响应式编程&quot;&gt;&lt;/a&gt;1.
+        
+      
+    
+    </summary>
+    
+    
+      <category term="响应式编程" scheme="https://www.asxing.com/categories/%E5%93%8D%E5%BA%94%E5%BC%8F%E7%BC%96%E7%A8%8B/"/>
+    
+    
+      <category term="响应式" scheme="https://www.asxing.com/tags/%E5%93%8D%E5%BA%94%E5%BC%8F/"/>
+    
+      <category term="理念" scheme="https://www.asxing.com/tags/%E7%90%86%E5%BF%B5/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Soul-全流程分析（九）</title>
+    <link href="https://www.asxing.com/2021/01/23/soul-quan-liu-cheng-fen-xi-jiu/"/>
+    <id>https://www.asxing.com/2021/01/23/soul-quan-liu-cheng-fen-xi-jiu/</id>
+    <published>2021-01-23T23:28:21.000Z</published>
+    <updated>2021-03-28T09:58:07.155Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h3 id=&quot;Nacos启动配置&quot;&gt;&lt;a href=&quot;#Nacos启动配置&quot; class=&quot;headerlink&quot; title=&quot;Nacos启动配置&quot;&gt;&lt;/a&gt;Nacos启动配置&lt;/h3&gt;&lt;pre class=&quot; language-java&quot;&gt;&lt;code
+        
+      
+    
+    </summary>
+    
+    
+      <category term="Soul" scheme="https://www.asxing.com/categories/Soul/"/>
+    
+    
+      <category term="Spring" scheme="https://www.asxing.com/tags/Spring/"/>
+    
+      <category term="网关" scheme="https://www.asxing.com/tags/%E7%BD%91%E5%85%B3/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Soul-全流程分析（八）</title>
+    <link href="https://www.asxing.com/2021/01/22/soul-quan-liu-cheng-fen-xi-ba/"/>
+    <id>https://www.asxing.com/2021/01/22/soul-quan-liu-cheng-fen-xi-ba/</id>
+    <published>2021-01-22T23:30:09.000Z</published>
+    <updated>2021-03-28T09:58:07.155Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h3 id=&quot;WebSocket-数据分析&quot;&gt;&lt;a href=&quot;#WebSocket-数据分析&quot; class=&quot;headerlink&quot; title=&quot;WebSocket 数据分析&quot;&gt;&lt;/a&gt;WebSocket 数据分析&lt;/h3&gt;&lt;h3 id=&quot;默认配置&quot;&gt;&lt;a
+        
+      
+    
+    </summary>
+    
+    
+      <category term="Soul" scheme="https://www.asxing.com/categories/Soul/"/>
+    
+    
+      <category term="Spring" scheme="https://www.asxing.com/tags/Spring/"/>
+    
+      <category term="网关" scheme="https://www.asxing.com/tags/%E7%BD%91%E5%85%B3/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Soul-全流程分析（七）</title>
+    <link href="https://www.asxing.com/2021/01/22/soul-quan-liu-cheng-fen-xi-qi/"/>
+    <id>https://www.asxing.com/2021/01/22/soul-quan-liu-cheng-fen-xi-qi/</id>
+    <published>2021-01-22T07:27:51.000Z</published>
+    <updated>2021-03-28T09:58:07.155Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h2 id=&quot;ZK-数据配置&quot;&gt;&lt;a href=&quot;#ZK-数据配置&quot; class=&quot;headerlink&quot; title=&quot;ZK 数据配置&quot;&gt;&lt;/a&gt;ZK 数据配置&lt;/h2&gt;&lt;h3 id=&quot;启动配置&quot;&gt;&lt;a href=&quot;#启动配置&quot; class=&quot;headerlink&quot;
+        
+      
+    
+    </summary>
+    
+    
+      <category term="Soul" scheme="https://www.asxing.com/categories/Soul/"/>
+    
+    
+      <category term="Spring" scheme="https://www.asxing.com/tags/Spring/"/>
+    
+      <category term="网关" scheme="https://www.asxing.com/tags/%E7%BD%91%E5%85%B3/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Soul-全流程分析（六）</title>
+    <link href="https://www.asxing.com/2021/01/21/soul-quan-liu-cheng-fen-xi-liu/"/>
+    <id>https://www.asxing.com/2021/01/21/soul-quan-liu-cheng-fen-xi-liu/</id>
+    <published>2021-01-21T07:04:02.000Z</published>
+    <updated>2021-03-28T09:58:07.155Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h2 id=&quot;数据同步&quot;&gt;&lt;a href=&quot;#数据同步&quot; class=&quot;headerlink&quot; title=&quot;数据同步&quot;&gt;&lt;/a&gt;数据同步&lt;/h2&gt;&lt;h3 id=&quot;DataChangedListener&quot;&gt;&lt;a href=&quot;#DataChangedListener&quot;
+        
+      
+    
+    </summary>
+    
+    
+      <category term="Soul" scheme="https://www.asxing.com/categories/Soul/"/>
+    
+    
+      <category term="Spring" scheme="https://www.asxing.com/tags/Spring/"/>
+    
+      <category term="网关" scheme="https://www.asxing.com/tags/%E7%BD%91%E5%85%B3/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Soul-全流程分析（五）</title>
+    <link href="https://www.asxing.com/2021/01/20/soul-quan-liu-cheng-fen-xi-wu/"/>
+    <id>https://www.asxing.com/2021/01/20/soul-quan-liu-cheng-fen-xi-wu/</id>
+    <published>2021-01-20T01:11:46.000Z</published>
+    <updated>2021-03-28T09:58:07.155Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;书接上回，讲到如何根据请求 path 匹配到对应 Selector，之后我们执行对应 Plugin 的 doExecute 方法；&lt;/p&gt;
+&lt;h2 id=&quot;Divide-插件解析&quot;&gt;&lt;a href=&quot;#Divide-插件解析&quot; class=&quot;headerlink&quot;
+        
+      
+    
+    </summary>
+    
+    
+      <category term="Soul" scheme="https://www.asxing.com/categories/Soul/"/>
+    
+    
+      <category term="Spring" scheme="https://www.asxing.com/tags/Spring/"/>
+    
+      <category term="网关" scheme="https://www.asxing.com/tags/%E7%BD%91%E5%85%B3/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Soul-全流程分析（四）</title>
+    <link href="https://www.asxing.com/2021/01/18/soul-quan-liu-cheng-fen-xi-si/"/>
+    <id>https://www.asxing.com/2021/01/18/soul-quan-liu-cheng-fen-xi-si/</id>
+    <published>2021-01-18T23:29:36.000Z</published>
+    <updated>2021-03-28T09:58:07.155Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;今天继续上次未完成的第二部分，话说当请求到达 WebHandler，从 handle 开始处理。&lt;/p&gt;
+&lt;h2 id=&quot;SoulWebHandler&quot;&gt;&lt;a href=&quot;#SoulWebHandler&quot; class=&quot;headerlink&quot;
+        
+      
+    
+    </summary>
+    
+    
+      <category term="Soul" scheme="https://www.asxing.com/categories/Soul/"/>
+    
+    
+      <category term="Spring" scheme="https://www.asxing.com/tags/Spring/"/>
+    
+      <category term="网关" scheme="https://www.asxing.com/tags/%E7%BD%91%E5%85%B3/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Soul-全流程分析（三）</title>
+    <link href="https://www.asxing.com/2021/01/16/soul-quan-liu-cheng-fen-xi-san/"/>
+    <id>https://www.asxing.com/2021/01/16/soul-quan-liu-cheng-fen-xi-san/</id>
+    <published>2021-01-16T22:58:16.000Z</published>
+    <updated>2021-03-28T09:58:07.155Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;blockquote&gt;
+&lt;p&gt;本节意在配置一个简单的只使用 divide 插件实现转发，进而了解整个网关全流程，管中窥豹。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id=&quot;使用配置&quot;&gt;&lt;a href=&quot;#使用配置&quot; class=&quot;headerlink&quot;
+        
+      
+    
+    </summary>
+    
+    
+      <category term="Soul" scheme="https://www.asxing.com/categories/Soul/"/>
+    
+    
+      <category term="Netty" scheme="https://www.asxing.com/tags/Netty/"/>
+    
+      <category term="网关" scheme="https://www.asxing.com/tags/%E7%BD%91%E5%85%B3/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Soul-Admin项目结构（二）</title>
+    <link href="https://www.asxing.com/2021/01/15/soul-admin-xiang-mu-jie-gou-er/"/>
+    <id>https://www.asxing.com/2021/01/15/soul-admin-xiang-mu-jie-gou-er/</id>
+    <published>2021-01-15T23:31:35.000Z</published>
+    <updated>2021-03-28T09:58:07.155Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h2 id=&quot;Soul-admin-目录结构&quot;&gt;&lt;a href=&quot;#Soul-admin-目录结构&quot; class=&quot;headerlink&quot; title=&quot;Soul-admin 目录结构&quot;&gt;&lt;/a&gt;Soul-admin 目录结构&lt;/h2&gt;&lt;h3 id=&quot;数据异步配置&quot;&gt;&lt;a
+        
+      
+    
+    </summary>
+    
+    
+      <category term="Soul" scheme="https://www.asxing.com/categories/Soul/"/>
+    
+    
+      <category term="Spring" scheme="https://www.asxing.com/tags/Spring/"/>
+    
+      <category term="网关" scheme="https://www.asxing.com/tags/%E7%BD%91%E5%85%B3/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Soul-环境搭建（一）</title>
+    <link href="https://www.asxing.com/2021/01/14/soul-huan-jing-da-jian-yi/"/>
+    <id>https://www.asxing.com/2021/01/14/soul-huan-jing-da-jian-yi/</id>
+    <published>2021-01-14T23:44:24.000Z</published>
+    <updated>2021-03-28T09:58:07.155Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h2 id=&quot;Soul-bootStrap&quot;&gt;&lt;a href=&quot;#Soul-bootStrap&quot; class=&quot;headerlink&quot;
+        
+      
+    
+    </summary>
+    
+    
+      <category term="Soul" scheme="https://www.asxing.com/categories/Soul/"/>
+    
+    
+      <category term="Spring" scheme="https://www.asxing.com/tags/Spring/"/>
+    
+      <category term="网关" scheme="https://www.asxing.com/tags/%E7%BD%91%E5%85%B3/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Spring-Cloud-Gateway-全局filter细品（五）</title>
+    <link href="https://www.asxing.com/2021/01/11/spring-cloud-gateway-quan-ju-filter-xi-pin-wu/"/>
+    <id>https://www.asxing.com/2021/01/11/spring-cloud-gateway-quan-ju-filter-xi-pin-wu/</id>
+    <published>2021-01-11T15:02:39.000Z</published>
+    <updated>2021-03-28T09:58:07.151Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h2 id=&quot;目标&quot;&gt;&lt;a href=&quot;#目标&quot; class=&quot;headerlink&quot; title=&quot;目标&quot;&gt;&lt;/a&gt;目标&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;温故 Java8 常见函数式用法&lt;/li&gt;
+&lt;li&gt;再过一下 lookupRoute 方法&lt;/li&gt;
+&lt;li&gt;过一遍 9
+        
+      
+    
+    </summary>
+    
+    
+      <category term="Spring" scheme="https://www.asxing.com/categories/Spring/"/>
+    
+    
+      <category term="网关" scheme="https://www.asxing.com/tags/%E7%BD%91%E5%85%B3/"/>
+    
+      <category term="Spring-Cloud-Gateway" scheme="https://www.asxing.com/tags/Spring-Cloud-Gateway/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Spring-Cloud-Gateway-流程细节（四）</title>
+    <link href="https://www.asxing.com/2021/01/11/spring-cloud-gateway-liu-cheng-xi-jie-si/"/>
+    <id>https://www.asxing.com/2021/01/11/spring-cloud-gateway-liu-cheng-xi-jie-si/</id>
+    <published>2021-01-11T14:59:19.000Z</published>
+    <updated>2021-03-28T09:58:07.155Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h2 id=&quot;1-思考题&quot;&gt;&lt;a href=&quot;#1-思考题&quot; class=&quot;headerlink&quot; title=&quot;1. 思考题&quot;&gt;&lt;/a&gt;1. 思考题&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;如何从 DispatcherHandler 匹配对应的 HandlerMapping？如何从
+        
+      
+    
+    </summary>
+    
+    
+      <category term="Spring" scheme="https://www.asxing.com/categories/Spring/"/>
+    
+    
+      <category term="Gateway" scheme="https://www.asxing.com/tags/Gateway/"/>
+    
+      <category term="Spring-Cloud-Gateway" scheme="https://www.asxing.com/tags/Spring-Cloud-Gateway/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Spring-Cloud-Gateway-核心流程（三）</title>
+    <link href="https://www.asxing.com/2021/01/11/spring-cloud-gateway-he-xin-liu-cheng-san/"/>
+    <id>https://www.asxing.com/2021/01/11/spring-cloud-gateway-he-xin-liu-cheng-san/</id>
+    <published>2021-01-11T14:56:59.000Z</published>
+    <updated>2021-03-28T09:58:07.151Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h2 id=&quot;抓主线&quot;&gt;&lt;a href=&quot;#抓主线&quot; class=&quot;headerlink&quot; title=&quot;抓主线&quot;&gt;&lt;/a&gt;抓主线&lt;/h2&gt;&lt;p&gt;&lt;img
+        
+      
+    
+    </summary>
+    
+    
+      <category term="Spring" scheme="https://www.asxing.com/categories/Spring/"/>
+    
+    
+      <category term="Gateway" scheme="https://www.asxing.com/tags/Gateway/"/>
+    
+      <category term="Spring-Cloud" scheme="https://www.asxing.com/tags/Spring-Cloud/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Spring-Cloud-Gateway-基础篇（二）</title>
+    <link href="https://www.asxing.com/2021/01/11/spring-cloud-gateway-ji-chu-pian-er/"/>
+    <id>https://www.asxing.com/2021/01/11/spring-cloud-gateway-ji-chu-pian-er/</id>
+    <published>2021-01-11T13:12:54.000Z</published>
+    <updated>2021-03-28T09:58:07.151Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;ol&gt;
+&lt;li&gt;项目地址&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;a href=&quot;https://github.com/HoldDie/spring-cloud-gateway&quot; target=&quot;_blank&quot;
+        
+      
+    
+    </summary>
+    
+    
+      <category term="Spring" scheme="https://www.asxing.com/categories/Spring/"/>
+    
+    
+      <category term="Gateway" scheme="https://www.asxing.com/tags/Gateway/"/>
+    
+      <category term="Spring-Cloud" scheme="https://www.asxing.com/tags/Spring-Cloud/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Spring-Cloud-Gateway-基础篇（一）</title>
+    <link href="https://www.asxing.com/2021/01/11/spring-cloud-gateway-ji-chu-pian-yi/"/>
+    <id>https://www.asxing.com/2021/01/11/spring-cloud-gateway-ji-chu-pian-yi/</id>
+    <published>2021-01-11T13:09:34.000Z</published>
+    <updated>2021-03-28T09:58:07.151Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h1 id=&quot;目标&quot;&gt;&lt;a href=&quot;#目标&quot; class=&quot;headerlink&quot; title=&quot;目标&quot;&gt;&lt;/a&gt;目标&lt;/h1&gt;&lt;ul&gt;
+&lt;li&gt;了解 SGC
+        
+      
+    
+    </summary>
+    
+    
+      <category term="Spring-Cloud-Gateway" scheme="https://www.asxing.com/categories/Spring-Cloud-Gateway/"/>
+    
+    
+      <category term="Spring" scheme="https://www.asxing.com/tags/Spring/"/>
+    
+      <category term="网关" scheme="https://www.asxing.com/tags/%E7%BD%91%E5%85%B3/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>SpringBoot-Webflux-Netty(四)</title>
+    <link href="https://www.asxing.com/2021/01/09/springboot-webflux-netty-si/"/>
+    <id>https://www.asxing.com/2021/01/09/springboot-webflux-netty-si/</id>
+    <published>2021-01-09T00:27:07.000Z</published>
+    <updated>2021-03-28T09:58:07.151Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h2 id=&quot;SpringBoot-Netty-配置&quot;&gt;&lt;a href=&quot;#SpringBoot-Netty-配置&quot; class=&quot;headerlink&quot; title=&quot;SpringBoot Netty 配置&quot;&gt;&lt;/a&gt;SpringBoot Netty 配置&lt;/h2&gt;&lt;h3
+        
+      
+    
+    </summary>
+    
+    
+      <category term="Spring" scheme="https://www.asxing.com/categories/Spring/"/>
+    
+    
+      <category term="Netty" scheme="https://www.asxing.com/tags/Netty/"/>
+    
+      <category term="WebFlux" scheme="https://www.asxing.com/tags/WebFlux/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Reactor Netty(三)</title>
+    <link href="https://www.asxing.com/2021/01/05/reactor-netty-san/"/>
+    <id>https://www.asxing.com/2021/01/05/reactor-netty-san/</id>
+    <published>2021-01-05T10:13:16.000Z</published>
+    <updated>2021-03-28T09:58:07.151Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h1 id=&quot;Reactor-Netty-Reference-Guide&quot;&gt;&lt;a href=&quot;#Reactor-Netty-Reference-Guide&quot; class=&quot;headerlink&quot; title=&quot;Reactor Netty Reference
+        
+      
+    
+    </summary>
+    
+    
+      <category term="Spring" scheme="https://www.asxing.com/categories/Spring/"/>
+    
+    
+      <category term="Netty" scheme="https://www.asxing.com/tags/Netty/"/>
+    
+      <category term="Reactor" scheme="https://www.asxing.com/tags/Reactor/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Spring WebFlux(二)</title>
+    <link href="https://www.asxing.com/2021/01/05/spring-webflux-er/"/>
+    <id>https://www.asxing.com/2021/01/05/spring-webflux-er/</id>
+    <published>2021-01-05T00:44:50.000Z</published>
+    <updated>2021-03-28T09:58:07.151Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h1 id=&quot;Web-on-Reactive-Stack&quot;&gt;&lt;a href=&quot;#Web-on-Reactive-Stack&quot; class=&quot;headerlink&quot; title=&quot;Web on Reactive Stack&quot;&gt;&lt;/a&gt;Web on Reactive
+        
+      
+    
+    </summary>
+    
+    
+      <category term="Spring" scheme="https://www.asxing.com/categories/Spring/"/>
+    
+    
+      <category term="Reactive" scheme="https://www.asxing.com/tags/Reactive/"/>
+    
+      <category term="WebFlux" scheme="https://www.asxing.com/tags/WebFlux/"/>
+    
+      <category term="WebClient" scheme="https://www.asxing.com/tags/WebClient/"/>
+    
+  </entry>
+  
+</feed>

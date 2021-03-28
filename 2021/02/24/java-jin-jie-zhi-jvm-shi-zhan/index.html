@@ -1,0 +1,1714 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="keywords" content="Java进阶之JVM实战, 编程 读书 生活">
+    <meta name="description" content="1. 使用自定义Classloader机制，实现xlass的加载1.1 类加载流程BootStrap 加载路径System.getProperty(&#34;sun.boot.class.path&#34;)
+
+输出结果如下：
+xxx/jre/lib/re">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>Java进阶之JVM实战 | Asxing-阿行</title>
+    <link rel="icon" type="image/png" href="/favicon.png">
+
+    <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
+    <link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
+    <link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/matery.css">
+    <link rel="stylesheet" type="text/css" href="/css/my.css">
+    
+    <script src="/libs/jquery/jquery.min.js"></script>
+    
+<meta name="generator" content="Hexo 4.2.1"><link rel="alternate" href="/atom.xml" title="Asxing-阿行" type="application/atom+xml">
+<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+
+
+<body>
+    <header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper head-container">
+            <div class="brand-logo">
+                <a href="/" class="waves-effect waves-light">
+                    
+                    <img src="/medias/logo.png" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">Asxing-阿行</span>
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
+<ul class="right nav-menu">
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/" class="waves-effect waves-light">
+      
+      <i class="fas fa-home" style="zoom: 0.6;"></i>
+      
+      <span>首页</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/tags" class="waves-effect waves-light">
+      
+      <i class="fas fa-tags" style="zoom: 0.6;"></i>
+      
+      <span>标签</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/categories" class="waves-effect waves-light">
+      
+      <i class="fas fa-bookmark" style="zoom: 0.6;"></i>
+      
+      <span>分类</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/archives" class="waves-effect waves-light">
+      
+      <i class="fas fa-archive" style="zoom: 0.6;"></i>
+      
+      <span>归档</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/about" class="waves-effect waves-light">
+      
+      <i class="fas fa-user-circle" style="zoom: 0.6;"></i>
+      
+      <span>关于</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/contact" class="waves-effect waves-light">
+      
+      <i class="fas fa-comments" style="zoom: 0.6;"></i>
+      
+      <span>留言板</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/friends" class="waves-effect waves-light">
+      
+      <i class="fas fa-address-book" style="zoom: 0.6;"></i>
+      
+      <span>友情链接</span>
+    </a>
+    
+  </li>
+  
+  <li>
+    <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+      <i id="searchIcon" class="fas fa-search" title="搜索" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+</ul>
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="/medias/logo.png" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">Asxing-阿行</div>
+        <div class="logo-desc">
+            
+            Never really desperate, only the lost of the soul.
+            
+        </div>
+    </div>
+
+    
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li class="m-nav-item">
+	  
+		<a href="/" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-home"></i>
+			
+			首页
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/tags" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-tags"></i>
+			
+			标签
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/categories" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-bookmark"></i>
+			
+			分类
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/archives" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-archive"></i>
+			
+			归档
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/about" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-user-circle"></i>
+			
+			关于
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/contact" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-comments"></i>
+			
+			Contact
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/friends" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-address-book"></i>
+			
+			友情链接
+		</a>
+          
+        </li>
+        
+        
+        <li><div class="divider"></div></li>
+        <li>
+            <a href="https://github.com/asxing" class="waves-effect waves-light" target="_blank">
+                <i class="fab fa-github-square fa-fw"></i>Fork Me
+            </a>
+        </li>
+        
+    </ul>
+</div>
+
+        </div>
+
+        
+            <style>
+    .nav-transparent .github-corner {
+        display: none !important;
+    }
+
+    .github-corner {
+        position: absolute;
+        z-index: 10;
+        top: 0;
+        right: 0;
+        border: 0;
+        transform: scale(1.1);
+    }
+
+    .github-corner svg {
+        color: #0f9d58;
+        fill: #fff;
+        height: 64px;
+        width: 64px;
+    }
+
+    .github-corner:hover .octo-arm {
+        animation: a 0.56s ease-in-out;
+    }
+
+    .github-corner .octo-arm {
+        animation: none;
+    }
+
+    @keyframes a {
+        0%,
+        to {
+            transform: rotate(0);
+        }
+        20%,
+        60% {
+            transform: rotate(-25deg);
+        }
+        40%,
+        80% {
+            transform: rotate(10deg);
+        }
+    }
+</style>
+
+<a href="https://github.com/asxing" class="github-corner tooltipped hide-on-med-and-down" target="_blank"
+   data-tooltip="Fork Me" data-position="left" data-delay="50">
+    <svg viewBox="0 0 250 250" aria-hidden="true">
+        <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
+        <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2"
+              fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path>
+        <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z"
+              fill="currentColor" class="octo-body"></path>
+    </svg>
+</a>
+        
+    </nav>
+
+</header>
+
+    
+<script src="/libs/cryptojs/crypto-js.min.js"></script>
+<script>
+    (function() {
+        let pwd = '';
+        if (pwd && pwd.length > 0) {
+            if (pwd !== CryptoJS.SHA256(prompt('请输入访问本文章的密码')).toString(CryptoJS.enc.Hex)) {
+                alert('密码错误，将返回主页！');
+                location.href = '/';
+            }
+        }
+    })();
+</script>
+
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/3.jpg')">
+    <div class="container" style="right: 0px;left: 0px;">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <div class="description center-align post-title">
+                        Java进阶之JVM实战
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<main class="post-container content">
+
+    
+    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
+<style>
+    #articleContent h1::before,
+    #articleContent h2::before,
+    #articleContent h3::before,
+    #articleContent h4::before,
+    #articleContent h5::before,
+    #articleContent h6::before {
+        display: block;
+        content: " ";
+        height: 100px;
+        margin-top: -100px;
+        visibility: hidden;
+    }
+
+    #articleContent :focus {
+        outline: none;
+    }
+
+    .toc-fixed {
+        position: fixed;
+        top: 64px;
+    }
+
+    .toc-widget {
+        padding-left: 20px;
+    }
+
+    .toc-widget .toc-title {
+        margin: 35px 0 15px 0;
+        padding-left: 17px;
+        font-size: 1.5rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    .toc-widget ol {
+        padding: 0;
+        list-style: none;
+    }
+
+    #toc-content ol {
+        padding-left: 10px;
+    }
+
+    #toc-content ol li {
+        padding-left: 10px;
+    }
+
+    #toc-content .toc-link:hover {
+        color: #42b983;
+        font-weight: 700;
+        text-decoration: underline;
+    }
+
+    #toc-content .toc-link::before {
+        background-color: transparent;
+        max-height: 25px;
+    }
+
+    #toc-content .is-active-link {
+        color: #42b983;
+    }
+
+    #toc-content .is-active-link::before {
+        background-color: #42b983;
+    }
+
+    #floating-toc-btn {
+        position: fixed;
+        right: 15px;
+        bottom: 76px;
+        padding-top: 15px;
+        margin-bottom: 0;
+        z-index: 998;
+    }
+
+    #floating-toc-btn .btn-floating {
+        width: 48px;
+        height: 48px;
+    }
+
+    #floating-toc-btn .btn-floating i {
+        line-height: 48px;
+        font-size: 1.4rem;
+    }
+</style>
+<div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                            <a href="/tags/Java/">
+                                <span class="chip bg-color">Java</span>
+                            </a>
+                        
+                            <a href="/tags/JVM/">
+                                <span class="chip bg-color">JVM</span>
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fas fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/categories/Java%E8%BF%9B%E9%98%B6/" class="post-category">
+                                Java进阶
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
+                    2021-02-24
+                </div>
+                
+
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
+                    3.2k
+                </div>
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
+                    16 分
+                </div>
+                
+				
+                
+            </div>
+            
+        </div>
+        <hr class="clearfix">
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <h2 id="1-使用自定义Classloader机制，实现xlass的加载"><a href="#1-使用自定义Classloader机制，实现xlass的加载" class="headerlink" title="1. 使用自定义Classloader机制，实现xlass的加载"></a>1. 使用自定义Classloader机制，实现xlass的加载</h2><h3 id="1-1-类加载流程"><a href="#1-1-类加载流程" class="headerlink" title="1.1 类加载流程"></a>1.1 类加载流程</h3><h4 id="BootStrap-加载路径"><a href="#BootStrap-加载路径" class="headerlink" title="BootStrap 加载路径"></a>BootStrap 加载路径</h4><pre class=" language-java"><code class="language-java">System<span class="token punctuation">.</span><span class="token function">getProperty</span><span class="token punctuation">(</span><span class="token string">"sun.boot.class.path"</span><span class="token punctuation">)</span>
+
+输出结果如下：
+xxx<span class="token operator">/</span>jre<span class="token operator">/</span>lib<span class="token operator">/</span>resources<span class="token punctuation">.</span>jar<span class="token operator">:</span> 
+xxx<span class="token operator">/</span>jre<span class="token operator">/</span>lib<span class="token operator">/</span>rt<span class="token punctuation">.</span>jar<span class="token operator">:</span> 
+xxx<span class="token operator">/</span>jre<span class="token operator">/</span>lib<span class="token operator">/</span>sunrsasign<span class="token punctuation">.</span>jar<span class="token operator">:</span> 
+xxx<span class="token operator">/</span>jre<span class="token operator">/</span>lib<span class="token operator">/</span>jsse<span class="token punctuation">.</span>jar<span class="token operator">:</span> 
+xxx<span class="token operator">/</span>jre<span class="token operator">/</span>lib<span class="token operator">/</span>jce<span class="token punctuation">.</span>jar<span class="token operator">:</span> 
+xxx<span class="token operator">/</span>jre<span class="token operator">/</span>lib<span class="token operator">/</span>charsets<span class="token punctuation">.</span>jar<span class="token operator">:</span> 
+xxx<span class="token operator">/</span>jre<span class="token operator">/</span>lib<span class="token operator">/</span>jfr<span class="token punctuation">.</span>jar<span class="token operator">:</span> 
+xxx<span class="token operator">/</span>jre<span class="token operator">/</span>classes</code></pre>
+<h4 id="ExtClassLoader-加载路径"><a href="#ExtClassLoader-加载路径" class="headerlink" title="ExtClassLoader 加载路径"></a>ExtClassLoader 加载路径</h4><pre class=" language-java"><code class="language-java">System<span class="token punctuation">.</span><span class="token function">getProperty</span><span class="token punctuation">(</span><span class="token string">"java.ext.dirs"</span><span class="token punctuation">)</span>
+
+输出结果如下：
+<span class="token operator">/</span>Users<span class="token operator">/</span>xxx<span class="token operator">/</span>Library<span class="token operator">/</span>Java<span class="token operator">/</span>Extensions<span class="token operator">:</span>
+xxx<span class="token operator">/</span>jre<span class="token operator">/</span>lib<span class="token operator">/</span>ext<span class="token operator">:</span>
+<span class="token operator">/</span>Library<span class="token operator">/</span>Java<span class="token operator">/</span>Extensions<span class="token operator">:</span>
+<span class="token operator">/</span>Network<span class="token operator">/</span>Library<span class="token operator">/</span>Java<span class="token operator">/</span>Extensions<span class="token operator">:</span>
+<span class="token operator">/</span>System<span class="token operator">/</span>Library<span class="token operator">/</span>Java<span class="token operator">/</span>Extensions<span class="token operator">:</span>
+<span class="token operator">/</span>usr<span class="token operator">/</span>lib<span class="token operator">/</span>java</code></pre>
+<h4 id="AppClassLoader-加载路径"><a href="#AppClassLoader-加载路径" class="headerlink" title="AppClassLoader 加载路径"></a>AppClassLoader 加载路径</h4><pre class=" language-java"><code class="language-java">System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"自定义类加载路径："</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>AXClassLoader<span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">.</span><span class="token function">getClassLoader</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"对应Parent ClassLoader："</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>AXClassLoader<span class="token punctuation">.</span><span class="token function">getSystemClassLoader</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">getParent</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"对应父类的父类 ClassLoader："</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>AXClassLoader<span class="token punctuation">.</span><span class="token function">getSystemClassLoader</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">getParent</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">getParent</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<h3 id="1-2-Java-Resource-路径"><a href="#1-2-Java-Resource-路径" class="headerlink" title="1.2 Java Resource 路径"></a>1.2 Java Resource 路径</h3><pre class=" language-java"><code class="language-java"><span class="token keyword">private</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">printResourcePath</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"AXClassLoader.class.getResource(\"\")):\n"</span> <span class="token operator">+</span> AXClassLoader<span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">.</span><span class="token function">getResource</span><span class="token punctuation">(</span><span class="token string">""</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"AXClassLoader.class.getResource(\"/\")):\n"</span> <span class="token operator">+</span> AXClassLoader<span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">.</span><span class="token function">getResource</span><span class="token punctuation">(</span><span class="token string">"/"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"AXClassLoader.class.getClassLoader().getResource(\"\")):\n"</span> <span class="token operator">+</span> AXClassLoader<span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">.</span><span class="token function">getClassLoader</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">getResource</span><span class="token punctuation">(</span><span class="token string">""</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"ClassLoader.getSystemResource(\"))\n"</span> <span class="token operator">+</span> ClassLoader<span class="token punctuation">.</span><span class="token function">getSystemResource</span><span class="token punctuation">(</span><span class="token string">""</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"Thread.currentThread().getContextClassLoader().getResource(\"\")\n"</span> <span class="token operator">+</span> Thread<span class="token punctuation">.</span><span class="token function">currentThread</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">getContextClassLoader</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">getResource</span><span class="token punctuation">(</span><span class="token string">""</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+输出结果：
+AXClassLoader<span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">.</span><span class="token function">getResource</span><span class="token punctuation">(</span><span class="token string">""</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token operator">:</span>
+file<span class="token operator">:</span><span class="token operator">/</span>xxx<span class="token operator">/</span>java<span class="token operator">-</span>p7<span class="token operator">-</span>in<span class="token operator">-</span>action<span class="token operator">/</span>jvm<span class="token operator">-</span>base<span class="token operator">/</span>target<span class="token operator">/</span>classes<span class="token operator">/</span>com<span class="token operator">/</span>holddie<span class="token operator">/</span>jvm<span class="token operator">/</span>classloader<span class="token operator">/</span>v1<span class="token operator">/</span>
+
+AXClassLoader<span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">.</span><span class="token function">getResource</span><span class="token punctuation">(</span><span class="token string">"/"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token operator">:</span>
+file<span class="token operator">:</span><span class="token operator">/</span>xxx<span class="token operator">/</span>java<span class="token operator">-</span>p7<span class="token operator">-</span>in<span class="token operator">-</span>action<span class="token operator">/</span>jvm<span class="token operator">-</span>base<span class="token operator">/</span>target<span class="token operator">/</span>classes<span class="token operator">/</span>
+
+AXClassLoader<span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">.</span><span class="token function">getClassLoader</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">getResource</span><span class="token punctuation">(</span><span class="token string">""</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token operator">:</span>
+file<span class="token operator">:</span><span class="token operator">/</span>xxx<span class="token operator">/</span>java<span class="token operator">-</span>p7<span class="token operator">-</span>in<span class="token operator">-</span>action<span class="token operator">/</span>jvm<span class="token operator">-</span>base<span class="token operator">/</span>target<span class="token operator">/</span>classes<span class="token operator">/</span>
+
+ClassLoader<span class="token punctuation">.</span><span class="token function">getSystemResource</span><span class="token punctuation">(</span>"<span class="token punctuation">)</span><span class="token punctuation">)</span>
+file<span class="token operator">:</span><span class="token operator">/</span>xxx<span class="token operator">/</span>java<span class="token operator">-</span>p7<span class="token operator">-</span>in<span class="token operator">-</span>action<span class="token operator">/</span>jvm<span class="token operator">-</span>base<span class="token operator">/</span>target<span class="token operator">/</span>classes<span class="token operator">/</span>
+
+Thread<span class="token punctuation">.</span><span class="token function">currentThread</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">getContextClassLoader</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">getResource</span><span class="token punctuation">(</span><span class="token string">""</span><span class="token punctuation">)</span>
+file<span class="token operator">:</span><span class="token operator">/</span>xxx<span class="token operator">/</span>java<span class="token operator">-</span>p7<span class="token operator">-</span>in<span class="token operator">-</span>action<span class="token operator">/</span>jvm<span class="token operator">-</span>base<span class="token operator">/</span>target<span class="token operator">/</span>classes<span class="token operator">/</span></code></pre>
+<h4 id="1-3-实现-AXClassLoader-定义"><a href="#1-3-实现-AXClassLoader-定义" class="headerlink" title="1.3 实现 AXClassLoader 定义"></a>1.3 实现 AXClassLoader 定义</h4><pre class=" language-java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">AXClassLoader</span> <span class="token keyword">extends</span> <span class="token class-name">ClassLoader</span> <span class="token punctuation">{</span>
+
+  <span class="token annotation punctuation">@Override</span>
+  <span class="token keyword">protected</span> Class<span class="token operator">&lt;</span><span class="token operator">?</span><span class="token operator">></span> <span class="token function">findClass</span><span class="token punctuation">(</span>String name<span class="token punctuation">)</span> <span class="token keyword">throws</span> ClassNotFoundException <span class="token punctuation">{</span>
+    <span class="token keyword">try</span> <span class="token punctuation">{</span>
+      <span class="token keyword">byte</span><span class="token punctuation">[</span><span class="token punctuation">]</span> bytes <span class="token operator">=</span> Files<span class="token punctuation">.</span><span class="token function">readAllBytes</span><span class="token punctuation">(</span>Paths<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token function">getFileName</span><span class="token punctuation">(</span>name<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> bytes<span class="token punctuation">.</span>length<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        bytes<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token keyword">byte</span><span class="token punctuation">)</span> <span class="token punctuation">(</span><span class="token number">255</span> <span class="token operator">-</span> bytes<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token punctuation">}</span>
+      <span class="token keyword">return</span> <span class="token function">defineClass</span><span class="token punctuation">(</span>name<span class="token punctuation">,</span> bytes<span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> bytes<span class="token punctuation">.</span>length<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">IOException</span> e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      e<span class="token punctuation">.</span><span class="token function">printStackTrace</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">return</span> <span class="token keyword">super</span><span class="token punctuation">.</span><span class="token function">findClass</span><span class="token punctuation">(</span>name<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+
+  <span class="token keyword">private</span> String <span class="token function">getFileName</span><span class="token punctuation">(</span>String name<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">int</span> index <span class="token operator">=</span> name<span class="token punctuation">.</span><span class="token function">lastIndexOf</span><span class="token punctuation">(</span><span class="token string">'.'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>index <span class="token operator">==</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">return</span> ClassLoader<span class="token punctuation">.</span><span class="token function">getSystemResource</span><span class="token punctuation">(</span><span class="token string">""</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">getPath</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">+</span> name <span class="token operator">+</span> <span class="token string">".xlass"</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+      <span class="token keyword">return</span> ClassLoader<span class="token punctuation">.</span><span class="token function">getSystemResource</span><span class="token punctuation">(</span><span class="token string">""</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">getPath</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">+</span> name<span class="token punctuation">.</span><span class="token function">substring</span><span class="token punctuation">(</span>index <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token string">".xlass"</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<h4 id="1-4-调用加载"><a href="#1-4-调用加载" class="headerlink" title="1.4 调用加载"></a>1.4 调用加载</h4><pre class=" language-java"><code class="language-java">AXClassLoader axClassLoader <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">AXClassLoader</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">try</span> <span class="token punctuation">{</span>
+    Class<span class="token operator">&lt;</span><span class="token operator">?</span><span class="token operator">></span> hello <span class="token operator">=</span> axClassLoader<span class="token punctuation">.</span><span class="token function">loadClass</span><span class="token punctuation">(</span><span class="token string">"Hello"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>hello <span class="token operator">!=</span> null<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        Object obj <span class="token operator">=</span> hello<span class="token punctuation">.</span><span class="token function">newInstance</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        Method method <span class="token operator">=</span> hello<span class="token punctuation">.</span><span class="token function">getDeclaredMethod</span><span class="token punctuation">(</span><span class="token string">"hello"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        method<span class="token punctuation">.</span><span class="token function">invoke</span><span class="token punctuation">(</span>obj<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">ClassNotFoundException</span> <span class="token operator">|</span> IllegalAccessException <span class="token operator">|</span> InvocationTargetException <span class="token operator">|</span> InstantiationException <span class="token operator">|</span> NoSuchMethodException e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    e<span class="token punctuation">.</span><span class="token function">printStackTrace</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
+<h2 id="2-实现xlass打包的xar（类似class文件打包的jar）的加载"><a href="#2-实现xlass打包的xar（类似class文件打包的jar）的加载" class="headerlink" title="2. 实现xlass打包的xar（类似class文件打包的jar）的加载"></a>2. 实现xlass打包的xar（类似class文件打包的jar）的加载</h2><h4 id="2-1-生成-xar-包"><a href="#2-1-生成-xar-包" class="headerlink" title="2.1 生成 xar 包"></a>2.1 生成 xar 包</h4><pre class=" language-java"><code class="language-java"><span class="token keyword">private</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">createHelloXar</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">try</span> <span class="token punctuation">{</span>
+    XarSink xarSink <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">XarSink</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">final</span> XarFileSource fileSource<span class="token punctuation">;</span>
+    <span class="token keyword">final</span> File fileToCompress <span class="token operator">=</span> <span class="token function">getClasspathResourceAsFile</span><span class="token punctuation">(</span>CLASS_FILE_NAME<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">assert</span> fileToCompress <span class="token operator">!=</span> null<span class="token punctuation">;</span>
+    fileSource <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">XarFileSource</span><span class="token punctuation">(</span>fileToCompress<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    xarSink<span class="token punctuation">.</span><span class="token function">addSource</span><span class="token punctuation">(</span>fileSource<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    URL resource <span class="token operator">=</span> Thread<span class="token punctuation">.</span><span class="token function">currentThread</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">getContextClassLoader</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">getResource</span><span class="token punctuation">(</span><span class="token string">""</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">assert</span> resource <span class="token operator">!=</span> null<span class="token punctuation">;</span>
+    xarSink<span class="token punctuation">.</span><span class="token function">write</span><span class="token punctuation">(</span>FileUtils<span class="token punctuation">.</span><span class="token function">openOutputStream</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">File</span><span class="token punctuation">(</span>resource<span class="token punctuation">.</span><span class="token function">getPath</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> XAR_FILE_NAME<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">Exception</span> e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    e<span class="token punctuation">.</span><span class="token function">printStackTrace</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<h4 id="2-2-解析-xar-包"><a href="#2-2-解析-xar-包" class="headerlink" title="2.2 解析 xar 包"></a>2.2 解析 xar 包</h4><pre class=" language-java"><code class="language-java"><span class="token annotation punctuation">@Override</span>
+<span class="token keyword">protected</span> Class<span class="token operator">&lt;</span><span class="token operator">?</span><span class="token operator">></span> <span class="token function">findClass</span><span class="token punctuation">(</span>String name<span class="token punctuation">)</span> <span class="token keyword">throws</span> ClassNotFoundException <span class="token punctuation">{</span>
+  <span class="token keyword">try</span> <span class="token punctuation">{</span>
+    XarSource xar <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">FileXarSource</span><span class="token punctuation">(</span><span class="token function">getClasspathResourceAsFile</span><span class="token punctuation">(</span>name<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    XarEntry entry <span class="token operator">=</span> xar<span class="token punctuation">.</span><span class="token function">getEntry</span><span class="token punctuation">(</span>CLASS_FILE_NAME<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">byte</span><span class="token punctuation">[</span><span class="token punctuation">]</span> bytes <span class="token operator">=</span> entry<span class="token punctuation">.</span><span class="token function">getBytes</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> bytes<span class="token punctuation">.</span>length<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      bytes<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token keyword">byte</span><span class="token punctuation">)</span> <span class="token punctuation">(</span><span class="token number">255</span> <span class="token operator">-</span> bytes<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">return</span> <span class="token function">defineClass</span><span class="token punctuation">(</span>CLASS_NAME<span class="token punctuation">,</span> bytes<span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> bytes<span class="token punctuation">.</span>length<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">IOException</span> <span class="token operator">|</span> URISyntaxException e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    e<span class="token punctuation">.</span><span class="token function">printStackTrace</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+  <span class="token keyword">return</span> <span class="token keyword">super</span><span class="token punctuation">.</span><span class="token function">findClass</span><span class="token punctuation">(</span>name<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
+<h4 id="2-3-加载-xar-包"><a href="#2-3-加载-xar-包" class="headerlink" title="2.3 加载 xar 包"></a>2.3 加载 xar 包</h4><pre class=" language-java"><code class="language-java"><span class="token comment" spellcheck="true">/*
+ *自定义加载 xar 文件
+ */</span>
+AXClassLoader axClassLoader <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">AXClassLoader</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">try</span> <span class="token punctuation">{</span>
+  Class<span class="token operator">&lt;</span><span class="token operator">?</span><span class="token operator">></span> hello <span class="token operator">=</span> axClassLoader<span class="token punctuation">.</span><span class="token function">loadClass</span><span class="token punctuation">(</span>XAR_FILE_NAME<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span>hello <span class="token operator">!=</span> null<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    Object obj <span class="token operator">=</span> hello<span class="token punctuation">.</span><span class="token function">newInstance</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    Method method <span class="token operator">=</span> hello<span class="token punctuation">.</span><span class="token function">getDeclaredMethod</span><span class="token punctuation">(</span>METHOD_NAME<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    method<span class="token punctuation">.</span><span class="token function">invoke</span><span class="token punctuation">(</span>obj<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">ClassNotFoundException</span> <span class="token operator">|</span> IllegalAccessException <span class="token operator">|</span> InvocationTargetException <span class="token operator">|</span> InstantiationException <span class="token operator">|</span> NoSuchMethodException e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  e<span class="token punctuation">.</span><span class="token function">printStackTrace</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
+<h2 id="3-基于自定义Classloader实现类的动态加载和卸载"><a href="#3-基于自定义Classloader实现类的动态加载和卸载" class="headerlink" title="3. 基于自定义Classloader实现类的动态加载和卸载"></a>3. 基于自定义Classloader实现类的动态加载和卸载</h2><h4 id="3-1-理论支撑"><a href="#3-1-理论支撑" class="headerlink" title="3.1 理论支撑"></a>3.1 理论支撑</h4><p>如何实现类的卸载，需要满足哪些条件：</p>
+<ul>
+<li>该类的所有实例对象不可达</li>
+<li>该类的Class对象不可达</li>
+<li>该类的ClassLoader不可达</li>
+</ul>
+<p>使用什么方式监控JVM的加载和卸载过程？</p>
+<ul>
+<li><code>-verbose:class</code> ：同时追踪类的加载和卸载</li>
+<li><code>-XX:+TraceClassLoading</code>：单独跟踪类的加载</li>
+<li><code>-XX:+TranceUnloading</code>：单独跟踪累的卸载</li>
+</ul>
+<p>类加载器特征</p>
+<ul>
+<li>每个ClassLoader都维护了一份自己的名称空间，同一个名称空间里不能出现两个同名的类；</li>
+<li>为了实现Java安全沙箱模型的类加载安全机制，Java默认采用了“双亲委派的加载链”结构；</li>
+</ul>
+<h4 id="3-2-动态加载"><a href="#3-2-动态加载" class="headerlink" title="3.2 动态加载"></a>3.2 动态加载</h4><p>这里我们清楚，类的动态加载，或者说热加载，就是我们程序从一个固定路径读取 class 文件，同样类名称，前后修改方法实现，使用替换手法，就可以立即使用替换类的方法。</p>
+<pre class=" language-java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">AXClassLoader</span> <span class="token keyword">extends</span> <span class="token class-name">ClassLoader</span> <span class="token punctuation">{</span>
+  <span class="token comment" spellcheck="true">/**
+    * 基础包路径
+    */</span>
+  <span class="token keyword">private</span> String basePackagePath<span class="token punctuation">;</span>
+  <span class="token comment" spellcheck="true">/**
+    * 需要该类加载器直接加载的类文件的基目录
+    */</span>
+  <span class="token keyword">private</span> String basedir<span class="token punctuation">;</span>
+  <span class="token comment" spellcheck="true">/**
+    * 需要由该类加载器直接加载的类名
+    */</span>
+  <span class="token keyword">private</span> HashSet<span class="token operator">&lt;</span>Object<span class="token operator">></span> dynaclazns<span class="token punctuation">;</span>
+
+  <span class="token keyword">public</span> <span class="token function">AXClassLoader</span><span class="token punctuation">(</span>String basedir<span class="token punctuation">,</span> String<span class="token punctuation">[</span><span class="token punctuation">]</span> clazns<span class="token punctuation">,</span> String packagePath<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">super</span><span class="token punctuation">(</span>null<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>basePackagePath <span class="token operator">=</span> packagePath<span class="token punctuation">;</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>basedir <span class="token operator">=</span> basedir<span class="token punctuation">;</span>
+    dynaclazns <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">HashSet</span><span class="token operator">&lt;</span><span class="token operator">></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">loadClassByMe</span><span class="token punctuation">(</span>clazns<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+
+  <span class="token annotation punctuation">@SneakyThrows</span>
+  <span class="token keyword">private</span> <span class="token keyword">void</span> <span class="token function">loadClassByMe</span><span class="token punctuation">(</span>String<span class="token punctuation">[</span><span class="token punctuation">]</span> clazns<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> clazns<span class="token punctuation">.</span>length<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      String fileNamePath <span class="token operator">=</span> <span class="token function">getFileName</span><span class="token punctuation">(</span>clazns<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token keyword">byte</span><span class="token punctuation">[</span><span class="token punctuation">]</span> bytes <span class="token operator">=</span> Files<span class="token punctuation">.</span><span class="token function">readAllBytes</span><span class="token punctuation">(</span>Paths<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span>fileNamePath<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token function">defineClass</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>basePackagePath <span class="token operator">+</span> <span class="token string">"."</span> <span class="token operator">+</span> clazns<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">,</span> bytes<span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> bytes<span class="token punctuation">.</span>length<span class="token punctuation">)</span><span class="token punctuation">;</span>
+      dynaclazns<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span>clazns<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span>
+
+  <span class="token keyword">private</span> String <span class="token function">getFileName</span><span class="token punctuation">(</span>String name<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">int</span> index <span class="token operator">=</span> name<span class="token punctuation">.</span><span class="token function">lastIndexOf</span><span class="token punctuation">(</span><span class="token string">'.'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>index <span class="token operator">==</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">return</span> <span class="token keyword">this</span><span class="token punctuation">.</span>basedir <span class="token operator">+</span> name <span class="token operator">+</span> <span class="token string">".class"</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+      <span class="token keyword">return</span> <span class="token keyword">this</span><span class="token punctuation">.</span>basedir <span class="token operator">+</span> name<span class="token punctuation">.</span><span class="token function">substring</span><span class="token punctuation">(</span>index <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token string">".class"</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span>
+
+  <span class="token annotation punctuation">@Override</span>
+  <span class="token keyword">protected</span> Class <span class="token class-name">loadClass</span><span class="token punctuation">(</span>String name<span class="token punctuation">,</span> <span class="token keyword">boolean</span> resolve<span class="token punctuation">)</span> <span class="token keyword">throws</span> ClassNotFoundException <span class="token punctuation">{</span>
+    Class <span class="token class-name">cls</span> <span class="token operator">=</span> <span class="token function">findLoadedClass</span><span class="token punctuation">(</span>name<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span><span class="token keyword">this</span><span class="token punctuation">.</span>dynaclazns<span class="token punctuation">.</span><span class="token function">contains</span><span class="token punctuation">(</span>name<span class="token punctuation">)</span> <span class="token operator">&amp;&amp;</span> cls <span class="token operator">==</span> null<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      cls <span class="token operator">=</span> <span class="token function">getSystemClassLoader</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">loadClass</span><span class="token punctuation">(</span>name<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>cls <span class="token operator">==</span> null<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name">ClassNotFoundException</span><span class="token punctuation">(</span>name<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>resolve<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token function">resolveClass</span><span class="token punctuation">(</span>cls<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">return</span> cls<span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+
+  <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">main</span><span class="token punctuation">(</span>String<span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    String packagePath <span class="token operator">=</span> <span class="token string">"com.holddie.jvm.classloader.v3"</span><span class="token punctuation">;</span>
+    <span class="token keyword">new</span> <span class="token class-name">Timer</span><span class="token punctuation">(</span><span class="token string">"timer - 1"</span><span class="token punctuation">)</span>
+      <span class="token punctuation">.</span><span class="token function">schedule</span><span class="token punctuation">(</span>
+      <span class="token keyword">new</span> <span class="token class-name">TimerTask</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token annotation punctuation">@Override</span>
+        <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">run</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+          <span class="token keyword">try</span> <span class="token punctuation">{</span>
+            <span class="token comment" spellcheck="true">// 每次都创建出一个新的类加载器</span>
+            AXClassLoader cl <span class="token operator">=</span>
+              <span class="token keyword">new</span> <span class="token class-name">AXClassLoader</span><span class="token punctuation">(</span>
+              ClassLoader<span class="token punctuation">.</span><span class="token function">getSystemResource</span><span class="token punctuation">(</span><span class="token string">""</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">getPath</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+              <span class="token operator">+</span> <span class="token string">"v3/"</span><span class="token punctuation">,</span>
+              <span class="token keyword">new</span> <span class="token class-name">String</span><span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token punctuation">{</span><span class="token string">"Foo"</span><span class="token punctuation">}</span><span class="token punctuation">,</span>
+              packagePath<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            Class <span class="token class-name">cls</span> <span class="token operator">=</span> cl<span class="token punctuation">.</span><span class="token function">loadClass</span><span class="token punctuation">(</span>packagePath <span class="token operator">+</span> <span class="token string">".Foo"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            Object foo <span class="token operator">=</span> cls<span class="token punctuation">.</span><span class="token function">newInstance</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+            Method m <span class="token operator">=</span> foo<span class="token punctuation">.</span><span class="token function">getClass</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">getMethod</span><span class="token punctuation">(</span><span class="token string">"sayHello"</span><span class="token punctuation">,</span> <span class="token keyword">new</span> <span class="token class-name">Class</span><span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            m<span class="token punctuation">.</span><span class="token function">invoke</span><span class="token punctuation">(</span>foo<span class="token punctuation">,</span> <span class="token keyword">new</span> <span class="token class-name">Object</span><span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+          <span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">Exception</span> ex<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            ex<span class="token punctuation">.</span><span class="token function">printStackTrace</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+          <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+      <span class="token punctuation">}</span><span class="token punctuation">,</span>
+      <span class="token number">2000</span><span class="token punctuation">,</span>
+      <span class="token number">3000</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>对应这里，我们使用 resources 文件夹下的 v3_2 的 Foo.class 文件替换之前文件夹下的 Foo.class 文件。注意我们为什么要使用一个 Schedule 定时加载，主要目的模拟程序在频繁类加载，方便前后两次热替换之后，方法输出结果展示；</p>
+<h4 id="3-3-卸载"><a href="#3-3-卸载" class="headerlink" title="3.3 卸载"></a>3.3 卸载</h4><p>上述介绍了满足类卸载的三个条件，code show as flow:</p>
+<pre class=" language-java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">main</span><span class="token punctuation">(</span>String<span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  String packagePath <span class="token operator">=</span> <span class="token string">"com.holddie.jvm.classloader.v3"</span><span class="token punctuation">;</span>
+  <span class="token keyword">new</span> <span class="token class-name">Timer</span><span class="token punctuation">(</span><span class="token string">"timer - 1"</span><span class="token punctuation">)</span>
+    <span class="token punctuation">.</span><span class="token function">schedule</span><span class="token punctuation">(</span>
+    <span class="token keyword">new</span> <span class="token class-name">TimerTask</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token annotation punctuation">@Override</span>
+      <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">run</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">try</span> <span class="token punctuation">{</span>
+          AXClassLoader cl <span class="token operator">=</span>
+            <span class="token keyword">new</span> <span class="token class-name">AXClassLoader</span><span class="token punctuation">(</span>
+            ClassLoader<span class="token punctuation">.</span><span class="token function">getSystemResource</span><span class="token punctuation">(</span><span class="token string">""</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">getPath</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+            <span class="token operator">+</span> <span class="token string">"v3/"</span><span class="token punctuation">,</span>
+            <span class="token keyword">new</span> <span class="token class-name">String</span><span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token punctuation">{</span><span class="token string">"Foo"</span><span class="token punctuation">}</span><span class="token punctuation">,</span>
+            packagePath<span class="token punctuation">)</span><span class="token punctuation">;</span>
+          Class <span class="token class-name">cls</span> <span class="token operator">=</span> cl<span class="token punctuation">.</span><span class="token function">loadClass</span><span class="token punctuation">(</span>packagePath <span class="token operator">+</span> <span class="token string">".Foo"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+          Object foo <span class="token operator">=</span> cls<span class="token punctuation">.</span><span class="token function">newInstance</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+          Method m <span class="token operator">=</span> foo<span class="token punctuation">.</span><span class="token function">getClass</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">getMethod</span><span class="token punctuation">(</span><span class="token string">"sayHello"</span><span class="token punctuation">,</span> <span class="token keyword">new</span> <span class="token class-name">Class</span><span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+          m<span class="token punctuation">.</span><span class="token function">invoke</span><span class="token punctuation">(</span>foo<span class="token punctuation">,</span> <span class="token keyword">new</span> <span class="token class-name">Object</span><span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+          foo <span class="token operator">=</span> null<span class="token punctuation">;</span>
+          cls <span class="token operator">=</span> null<span class="token punctuation">;</span>
+          cl <span class="token operator">=</span> null<span class="token punctuation">;</span>
+          System<span class="token punctuation">.</span><span class="token function">gc</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+          System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"GC over"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">Exception</span> ex<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+          ex<span class="token punctuation">.</span><span class="token function">printStackTrace</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token number">2000</span><span class="token punctuation">,</span>
+    <span class="token number">3000</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
+<p>此处注意我们，将对应的引用都置为空，之后手动执行了 <code>System.gc()</code> 方法，对此我们要观察类的加载和卸载需要在程序启动的时候设置JVM参数 <code>-verbose:class</code> 即可看到对应 loading 和 unloading 日志；</p>
+<h3 id="4-基于自定义-Classloader-实现模块化机制：需要设计模块化机制。"><a href="#4-基于自定义-Classloader-实现模块化机制：需要设计模块化机制。" class="headerlink" title="4. 基于自定义 Classloader 实现模块化机制：需要设计模块化机制。"></a>4. 基于自定义 Classloader 实现模块化机制：需要设计模块化机制。</h3><p>主要思想：</p>
+<ul>
+<li>已经熟悉基于一个类的加载和卸载，在实际使用原理上大同小异；</li>
+<li>一个基础模块，提供抽象定义；</li>
+<li>两个实现模块，每个模块内部都有自己 module.properties 文件定义自己模块版本、模块入口等，以作为生成jar包运行使用；</li>
+<li>一个运行模块，使用两种模块化加载方式；</li>
+</ul>
+<h4 id="4-1-multi-skd-基础模块"><a href="#4-1-multi-skd-基础模块" class="headerlink" title="4.1 multi-skd 基础模块"></a>4.1 multi-skd 基础模块</h4><p>定义模块抽象方法</p>
+<pre class=" language-java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">interface</span> <span class="token class-name">IFun</span> <span class="token punctuation">{</span>
+  <span class="token keyword">void</span> <span class="token function">sayHello</span><span class="token punctuation">(</span>String name<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
+<h4 id="4-2-multi-fz-实现模块"><a href="#4-2-multi-fz-实现模块" class="headerlink" title="4.2 multi-fz 实现模块"></a>4.2 multi-fz 实现模块</h4><p>依赖基础模块，fz 自定义实现</p>
+<pre class=" language-java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">FzFun</span> <span class="token keyword">implements</span> <span class="token class-name">IFun</span> <span class="token punctuation">{</span>
+  <span class="token annotation punctuation">@Override</span>
+  <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">sayHello</span><span class="token punctuation">(</span>String name<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"Hi "</span> <span class="token operator">+</span> name <span class="token operator">+</span> <span class="token string">", i am FzFun"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<p>模块元数据声明 </p>
+<pre class=" language-properties"><code class="language-properties"><span class="token comment" spellcheck="true"># 位置在 resources/META-INF/module.properties </span>
+<span class="token attr-name">module.appCode</span><span class="token punctuation">=</span><span class="token attr-value">fz</span>
+<span class="token attr-name">module.jarVersion</span><span class="token punctuation">=</span><span class="token attr-value">1.0</span>
+<span class="token attr-name">module.fun.location</span><span class="token punctuation">=</span><span class="token attr-value">com.holddie.jvm.FzFun</span></code></pre>
+<h4 id="4-3-multi-tz-实现模块"><a href="#4-3-multi-tz-实现模块" class="headerlink" title="4.3 multi-tz 实现模块"></a>4.3 multi-tz 实现模块</h4><p>依赖基础模块，tz 自定义实现类</p>
+<pre class=" language-java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">TzFun</span> <span class="token keyword">implements</span> <span class="token class-name">IFun</span> <span class="token punctuation">{</span>
+  <span class="token annotation punctuation">@Override</span>
+  <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">sayHello</span><span class="token punctuation">(</span>String name<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"Hi "</span> <span class="token operator">+</span> name <span class="token operator">+</span> <span class="token string">", i am TzFun"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<p>模块元数据声明</p>
+<pre class=" language-properties"><code class="language-properties"><span class="token comment" spellcheck="true"># 位置在 resources/META-INF/module.properties </span>
+<span class="token attr-name">module.appCode</span><span class="token punctuation">=</span><span class="token attr-value">tz</span>
+<span class="token attr-name">module.jarVersion</span><span class="token punctuation">=</span><span class="token attr-value">1.0</span>
+<span class="token attr-name">module.fun.location</span><span class="token punctuation">=</span><span class="token attr-value">com.holddie.jvm.TzFun</span></code></pre>
+<h4 id="4-4-multi-server-运行动态加载模块"><a href="#4-4-multi-server-运行动态加载模块" class="headerlink" title="4.4 multi-server 运行动态加载模块"></a>4.4 multi-server 运行动态加载模块</h4><p>使用两种方式，一种是JDK基于接口的动态代理，一种原生反射实现方法调用，详情在第五小节；</p>
+<h3 id="5-使用-jar-作为模块，实现xar动态加载和卸载，综合应用前面的内容；"><a href="#5-使用-jar-作为模块，实现xar动态加载和卸载，综合应用前面的内容；" class="headerlink" title="5. 使用 jar 作为模块，实现xar动态加载和卸载，综合应用前面的内容；"></a>5. 使用 jar 作为模块，实现xar动态加载和卸载，综合应用前面的内容；</h3><p>我们首先需要把实现模块的两个Jar包，打包OK，为下文加载提供方便，此处我们同时加载两个模块，并且指定了加载jar的名称，也可以使用自定义的目录区分；</p>
+<h4 id="5-1-ModuleClassLoader"><a href="#5-1-ModuleClassLoader" class="headerlink" title="5.1 ModuleClassLoader"></a>5.1 ModuleClassLoader</h4><pre class=" language-java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">ModuleClassLoader</span> <span class="token keyword">extends</span> <span class="token class-name">URLClassLoader</span> <span class="token punctuation">{</span>
+
+  <span class="token keyword">private</span> <span class="token keyword">final</span> List<span class="token operator">&lt;</span>String<span class="token operator">></span> excludePackages<span class="token punctuation">;</span>
+
+  <span class="token keyword">public</span> <span class="token function">ModuleClassLoader</span><span class="token punctuation">(</span>URL<span class="token punctuation">[</span><span class="token punctuation">]</span> urls<span class="token punctuation">,</span> List<span class="token operator">&lt;</span>String<span class="token operator">></span> excludePackages<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">super</span><span class="token punctuation">(</span>urls<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>excludePackages <span class="token operator">=</span> excludePackages<span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+
+  <span class="token annotation punctuation">@Override</span>
+  <span class="token keyword">public</span> Class<span class="token operator">&lt;</span><span class="token operator">?</span><span class="token operator">></span> <span class="token function">loadClass</span><span class="token punctuation">(</span>String name<span class="token punctuation">)</span> <span class="token keyword">throws</span> ClassNotFoundException <span class="token punctuation">{</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token function">isExcludePackage</span><span class="token punctuation">(</span>name<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">return</span> <span class="token keyword">super</span><span class="token punctuation">.</span><span class="token function">loadClass</span><span class="token punctuation">(</span>name<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">synchronized</span> <span class="token punctuation">(</span><span class="token function">getClassLoadingLock</span><span class="token punctuation">(</span>name<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      Class <span class="token class-name">cls</span> <span class="token operator">=</span> <span class="token function">findLoadedClass</span><span class="token punctuation">(</span>name<span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token keyword">if</span> <span class="token punctuation">(</span>cls <span class="token operator">==</span> null<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">try</span> <span class="token punctuation">{</span>
+          cls <span class="token operator">=</span> <span class="token function">findClass</span><span class="token punctuation">(</span>name<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">ClassNotFoundException</span> e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+          e<span class="token punctuation">.</span><span class="token function">printStackTrace</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+      <span class="token punctuation">}</span>
+      <span class="token keyword">if</span> <span class="token punctuation">(</span>cls <span class="token operator">!=</span> null<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> cls<span class="token punctuation">;</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">return</span> <span class="token keyword">super</span><span class="token punctuation">.</span><span class="token function">loadClass</span><span class="token punctuation">(</span>name<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+
+  <span class="token keyword">private</span> <span class="token keyword">boolean</span> <span class="token function">isExcludePackage</span><span class="token punctuation">(</span>String name<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>StringUtils<span class="token punctuation">.</span><span class="token function">isEmpty</span><span class="token punctuation">(</span>name<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">return</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">return</span> <span class="token keyword">this</span><span class="token punctuation">.</span>excludePackages<span class="token punctuation">.</span><span class="token function">stream</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">anyMatch</span><span class="token punctuation">(</span>name<span class="token operator">:</span><span class="token operator">:</span>startsWith<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<h4 id="5-2-DynamicProxy"><a href="#5-2-DynamicProxy" class="headerlink" title="5.2 DynamicProxy"></a>5.2 DynamicProxy</h4><pre class=" language-java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">DynamicProxy</span> <span class="token keyword">implements</span> <span class="token class-name">InvocationHandler</span> <span class="token punctuation">{</span>
+
+    <span class="token keyword">private</span> Object target<span class="token punctuation">;</span>
+
+    <span class="token keyword">public</span> Object <span class="token function">bind</span><span class="token punctuation">(</span>Object target<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>target <span class="token operator">=</span> target<span class="token punctuation">;</span>
+        <span class="token keyword">return</span> Proxy<span class="token punctuation">.</span><span class="token function">newProxyInstance</span><span class="token punctuation">(</span>target<span class="token punctuation">.</span><span class="token function">getClass</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">getClassLoader</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> target<span class="token punctuation">.</span><span class="token function">getClass</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">getInterfaces</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token keyword">this</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token annotation punctuation">@Override</span>
+    <span class="token keyword">public</span> Object <span class="token function">invoke</span><span class="token punctuation">(</span>Object proxy<span class="token punctuation">,</span> Method method<span class="token punctuation">,</span> Object<span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span> <span class="token keyword">throws</span> Throwable <span class="token punctuation">{</span>
+        Long start <span class="token operator">=</span> System<span class="token punctuation">.</span><span class="token function">currentTimeMillis</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        Object result <span class="token operator">=</span> method<span class="token punctuation">.</span><span class="token function">invoke</span><span class="token punctuation">(</span>target<span class="token punctuation">,</span> args<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        Long end <span class="token operator">=</span> System<span class="token punctuation">.</span><span class="token function">currentTimeMillis</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        String format <span class="token operator">=</span> String<span class="token punctuation">.</span><span class="token function">format</span><span class="token punctuation">(</span><span class="token string">"执行: class => %s, 方法=> %s, 参数 => %s, 耗时 => %sms, 执行结果 => %s, 当前路径 => %s"</span><span class="token punctuation">,</span>
+                target<span class="token punctuation">.</span><span class="token function">getClass</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">getName</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+                method<span class="token punctuation">.</span><span class="token function">getName</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+                JSON<span class="token punctuation">.</span><span class="token function">toJSON</span><span class="token punctuation">(</span>args<span class="token punctuation">)</span><span class="token punctuation">,</span>
+                end <span class="token operator">-</span> start<span class="token punctuation">,</span>
+                JSON<span class="token punctuation">.</span><span class="token function">toJSON</span><span class="token punctuation">(</span>result<span class="token punctuation">)</span><span class="token punctuation">,</span>
+                target<span class="token punctuation">.</span><span class="token function">getClass</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">getResource</span><span class="token punctuation">(</span><span class="token string">""</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">getPath</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>format<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">return</span> result<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<h4 id="5-3-ModuleJar"><a href="#5-3-ModuleJar" class="headerlink" title="5.3 ModuleJar"></a>5.3 ModuleJar</h4><pre class=" language-java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">ModuleJar</span> <span class="token punctuation">{</span>
+    <span class="token keyword">private</span> String jarVersion<span class="token punctuation">;</span>
+    <span class="token keyword">private</span> String appCode<span class="token punctuation">;</span>
+    <span class="token keyword">private</span> String moduleJarUrl<span class="token punctuation">;</span>
+    <span class="token keyword">private</span> ModuleClassLoader moduleClassLoader<span class="token punctuation">;</span>
+    <span class="token keyword">private</span> String moduleFunLocation<span class="token punctuation">;</span>
+
+    <span class="token keyword">public</span> String <span class="token function">getJarVersion</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> jarVersion<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">setJarVersion</span><span class="token punctuation">(</span>String jarVersion<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>jarVersion <span class="token operator">=</span> jarVersion<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">public</span> String <span class="token function">getAppCode</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> appCode<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">setAppCode</span><span class="token punctuation">(</span>String appCode<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>appCode <span class="token operator">=</span> appCode<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">public</span> String <span class="token function">getModuleJarUrl</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> moduleJarUrl<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">setModuleJarUrl</span><span class="token punctuation">(</span>String moduleJarUrl<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>moduleJarUrl <span class="token operator">=</span> moduleJarUrl<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">public</span> ModuleClassLoader <span class="token function">getModuleClassLoader</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> moduleClassLoader<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">setModuleClassLoader</span><span class="token punctuation">(</span>ModuleClassLoader moduleClassLoader<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>moduleClassLoader <span class="token operator">=</span> moduleClassLoader<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">public</span> String <span class="token function">getModuleFunLocation</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> moduleFunLocation<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">setModuleFunLocation</span><span class="token punctuation">(</span>String moduleFunLocation<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>moduleFunLocation <span class="token operator">=</span> moduleFunLocation<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<h4 id="5-4-MultiModuleLoaderMain"><a href="#5-4-MultiModuleLoaderMain" class="headerlink" title="5.4 MultiModuleLoaderMain"></a>5.4 MultiModuleLoaderMain</h4><pre class=" language-java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">MultiModuleLoaderMain</span> <span class="token punctuation">{</span>
+  <span class="token keyword">private</span> <span class="token keyword">final</span> <span class="token keyword">static</span> String APP_CODE <span class="token operator">=</span> <span class="token string">"module.appCode"</span><span class="token punctuation">;</span>
+  <span class="token keyword">private</span> <span class="token keyword">final</span> <span class="token keyword">static</span> String JAR_VERSION <span class="token operator">=</span> <span class="token string">"module.jarVersion"</span><span class="token punctuation">;</span>
+  <span class="token keyword">private</span> <span class="token keyword">final</span> <span class="token keyword">static</span> String MODULE_FUN_LOCATION <span class="token operator">=</span> <span class="token string">"module.fun.location"</span><span class="token punctuation">;</span>
+
+  <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">main</span><span class="token punctuation">(</span>String<span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+
+    HashMap<span class="token operator">&lt;</span>String<span class="token punctuation">,</span> ModuleJar<span class="token operator">></span> moduleCache <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">HashMap</span><span class="token operator">&lt;</span>String<span class="token punctuation">,</span> ModuleJar<span class="token operator">></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    List<span class="token operator">&lt;</span>String<span class="token operator">></span> excludePackages <span class="token operator">=</span> Arrays<span class="token punctuation">.</span><span class="token function">asList</span><span class="token punctuation">(</span><span class="token string">"java"</span><span class="token punctuation">,</span> <span class="token string">"com.holddie.jvm.sdk"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    List<span class="token operator">&lt;</span>String<span class="token operator">></span> jarUrls <span class="token operator">=</span> Arrays<span class="token punctuation">.</span><span class="token function">asList</span><span class="token punctuation">(</span>
+      <span class="token string">"file:"</span> <span class="token operator">+</span> ClassLoader<span class="token punctuation">.</span><span class="token function">getSystemResource</span><span class="token punctuation">(</span><span class="token string">""</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">getPath</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token string">"multi-fz-1.0.0-jar-with-dependencies.jar"</span><span class="token punctuation">,</span>
+      <span class="token string">"file:"</span> <span class="token operator">+</span> ClassLoader<span class="token punctuation">.</span><span class="token function">getSystemResource</span><span class="token punctuation">(</span><span class="token string">""</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">getPath</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token string">"multi-tz-1.0.0-jar-with-dependencies.jar"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    jarUrls<span class="token punctuation">.</span><span class="token function">forEach</span><span class="token punctuation">(</span>url <span class="token operator">-</span><span class="token operator">></span> <span class="token punctuation">{</span>
+      <span class="token keyword">try</span> <span class="token punctuation">{</span>
+        URL moduleJarUrl <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">URL</span><span class="token punctuation">(</span>url<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        ModuleClassLoader moduleClassLoader <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">ModuleClassLoader</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">URL</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">{</span>moduleJarUrl<span class="token punctuation">}</span><span class="token punctuation">,</span> excludePackages<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        Properties properties <span class="token operator">=</span> <span class="token function">getProperties</span><span class="token punctuation">(</span>moduleClassLoader<span class="token punctuation">.</span><span class="token function">getResourceAsStream</span><span class="token punctuation">(</span><span class="token string">"META-INF/module.properties"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        ModuleJar moduleJar <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">ModuleJar</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        moduleJar<span class="token punctuation">.</span><span class="token function">setAppCode</span><span class="token punctuation">(</span>properties<span class="token punctuation">.</span><span class="token function">getProperty</span><span class="token punctuation">(</span>APP_CODE<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        moduleJar<span class="token punctuation">.</span><span class="token function">setJarVersion</span><span class="token punctuation">(</span>properties<span class="token punctuation">.</span><span class="token function">getProperty</span><span class="token punctuation">(</span>JAR_VERSION<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        moduleJar<span class="token punctuation">.</span><span class="token function">setModuleFunLocation</span><span class="token punctuation">(</span>properties<span class="token punctuation">.</span><span class="token function">getProperty</span><span class="token punctuation">(</span>MODULE_FUN_LOCATION<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        moduleJar<span class="token punctuation">.</span><span class="token function">setModuleClassLoader</span><span class="token punctuation">(</span>moduleClassLoader<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        moduleJar<span class="token punctuation">.</span><span class="token function">setModuleJarUrl</span><span class="token punctuation">(</span>moduleJarUrl<span class="token punctuation">.</span><span class="token function">getPath</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        moduleCache<span class="token punctuation">.</span><span class="token function">put</span><span class="token punctuation">(</span>moduleJar<span class="token punctuation">.</span><span class="token function">getAppCode</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> moduleJar<span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">MalformedURLException</span> e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        e<span class="token punctuation">.</span><span class="token function">printStackTrace</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    ModuleJar fzModuleJar <span class="token operator">=</span> moduleCache<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token string">"fz"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    ModuleJar tzModuleJar <span class="token operator">=</span> moduleCache<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token string">"tz"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">try</span> <span class="token punctuation">{</span>
+      ModuleClassLoader fzModuleJarModuleClassLoader <span class="token operator">=</span> fzModuleJar<span class="token punctuation">.</span><span class="token function">getModuleClassLoader</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      Object fzInstance <span class="token operator">=</span> fzModuleJarModuleClassLoader<span class="token punctuation">.</span><span class="token function">loadClass</span><span class="token punctuation">(</span>fzModuleJar<span class="token punctuation">.</span><span class="token function">getModuleFunLocation</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">newInstance</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      Method fzSayHello <span class="token operator">=</span> fzInstance<span class="token punctuation">.</span><span class="token function">getClass</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">getMethod</span><span class="token punctuation">(</span><span class="token string">"sayHello"</span><span class="token punctuation">,</span> <span class="token keyword">new</span> <span class="token class-name">Class</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">{</span>String<span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      fzSayHello<span class="token punctuation">.</span><span class="token function">invoke</span><span class="token punctuation">(</span>fzInstance<span class="token punctuation">,</span> <span class="token keyword">new</span> <span class="token class-name">Object</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">{</span><span class="token string">"4456"</span><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      fzSayHello <span class="token operator">=</span> null<span class="token punctuation">;</span>
+      fzInstance <span class="token operator">=</span> null<span class="token punctuation">;</span>
+      fzModuleJarModuleClassLoader <span class="token operator">=</span> null<span class="token punctuation">;</span>
+      fzModuleJar <span class="token operator">=</span> null<span class="token punctuation">;</span>
+      moduleCache<span class="token punctuation">.</span><span class="token function">put</span><span class="token punctuation">(</span><span class="token string">"fz"</span><span class="token punctuation">,</span> null<span class="token punctuation">)</span><span class="token punctuation">;</span>
+      System<span class="token punctuation">.</span><span class="token function">gc</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+      IFun tzFun <span class="token operator">=</span> <span class="token punctuation">(</span>IFun<span class="token punctuation">)</span> <span class="token keyword">new</span> <span class="token class-name">DynamicProxy</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">bind</span><span class="token punctuation">(</span>tzModuleJar<span class="token punctuation">.</span><span class="token function">getModuleClassLoader</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">loadClass</span><span class="token punctuation">(</span>tzModuleJar<span class="token punctuation">.</span><span class="token function">getModuleFunLocation</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">newInstance</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      tzFun<span class="token punctuation">.</span><span class="token function">sayHello</span><span class="token punctuation">(</span><span class="token string">"123"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      tzFun<span class="token punctuation">.</span><span class="token function">toString</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">InstantiationException</span> <span class="token operator">|</span> IllegalAccessException <span class="token operator">|</span> ClassNotFoundException <span class="token operator">|</span> NoSuchMethodException <span class="token operator">|</span> InvocationTargetException e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      e<span class="token punctuation">.</span><span class="token function">printStackTrace</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"----------------------"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+
+  <span class="token keyword">public</span> <span class="token keyword">static</span> Properties <span class="token function">getProperties</span><span class="token punctuation">(</span>InputStream inputStream<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    Properties properties <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Properties</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">try</span> <span class="token punctuation">{</span>
+      properties<span class="token punctuation">.</span><span class="token function">load</span><span class="token punctuation">(</span>inputStream<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">IOException</span> e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      e<span class="token punctuation">.</span><span class="token function">printStackTrace</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">return</span> properties<span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<h4 id="5-6-运行日志"><a href="#5-6-运行日志" class="headerlink" title="5.6 运行日志"></a>5.6 运行日志</h4><pre class=" language-java"><code class="language-java"><span class="token punctuation">[</span>Opened <span class="token operator">/</span>Library<span class="token operator">/</span>Java<span class="token operator">/</span>JavaVirtualMachines<span class="token operator">/</span>jdk1<span class="token number">.8</span><span class="token punctuation">.</span>0_241<span class="token punctuation">.</span>jdk<span class="token operator">/</span>Contents<span class="token operator">/</span>Home<span class="token operator">/</span>jre<span class="token operator">/</span>lib<span class="token operator">/</span>rt<span class="token punctuation">.</span>jar<span class="token punctuation">]</span>
+<span class="token punctuation">[</span>Loaded java<span class="token punctuation">.</span>lang<span class="token punctuation">.</span>Object from <span class="token operator">/</span>Library<span class="token operator">/</span>Java<span class="token operator">/</span>JavaVirtualMachines<span class="token operator">/</span>jdk1<span class="token number">.8</span><span class="token punctuation">.</span>0_241<span class="token punctuation">.</span>jdk<span class="token operator">/</span>Contents<span class="token operator">/</span>Home<span class="token operator">/</span>jre<span class="token operator">/</span>lib<span class="token operator">/</span>rt<span class="token punctuation">.</span>jar<span class="token punctuation">]</span>
+<span class="token punctuation">[</span>Loaded java<span class="token punctuation">.</span>io<span class="token punctuation">.</span>Serializable from <span class="token operator">/</span>Library<span class="token operator">/</span>Java<span class="token operator">/</span>JavaVirtualMachines<span class="token operator">/</span>jdk1<span class="token number">.8</span><span class="token punctuation">.</span>0_241<span class="token punctuation">.</span>jdk<span class="token operator">/</span>Contents<span class="token operator">/</span>Home<span class="token operator">/</span>jre<span class="token operator">/</span>lib<span class="token operator">/</span>rt<span class="token punctuation">.</span>jar<span class="token punctuation">]</span>
+<span class="token punctuation">[</span>Loaded java<span class="token punctuation">.</span>lang<span class="token punctuation">.</span>Comparable from <span class="token operator">/</span>Library<span class="token operator">/</span>Java<span class="token operator">/</span>JavaVirtualMachines<span class="token operator">/</span>jdk1<span class="token number">.8</span><span class="token punctuation">.</span>0_241<span class="token punctuation">.</span>jdk<span class="token operator">/</span>Contents<span class="token operator">/</span>Home<span class="token operator">/</span>jre<span class="token operator">/</span>lib<span class="token operator">/</span>rt<span class="token punctuation">.</span>jar<span class="token punctuation">]</span>
+<span class="token punctuation">[</span>Loaded java<span class="token punctuation">.</span>lang<span class="token punctuation">.</span>CharSequence from <span class="token operator">/</span>Library<span class="token operator">/</span>Java<span class="token operator">/</span>JavaVirtualMachines<span class="token operator">/</span>jdk1<span class="token number">.8</span><span class="token punctuation">.</span>0_241<span class="token punctuation">.</span>jdk<span class="token operator">/</span>Contents<span class="token operator">/</span>Home<span class="token operator">/</span>jre<span class="token operator">/</span>lib<span class="token operator">/</span>rt<span class="token punctuation">.</span>jar<span class="token punctuation">]</span>
+<span class="token punctuation">[</span>Loaded java<span class="token punctuation">.</span>lang<span class="token punctuation">.</span>String from <span class="token operator">/</span>Library<span class="token operator">/</span>Java<span class="token operator">/</span>JavaVirtualMachines<span class="token operator">/</span>jdk1<span class="token number">.8</span><span class="token punctuation">.</span>0_241<span class="token punctuation">.</span>jdk<span class="token operator">/</span>Contents<span class="token operator">/</span>Home<span class="token operator">/</span>jre<span class="token operator">/</span>lib<span class="token operator">/</span>rt<span class="token punctuation">.</span>jar<span class="token punctuation">]</span>
+<span class="token punctuation">[</span>Loaded java<span class="token punctuation">.</span>lang<span class="token punctuation">.</span>reflect<span class="token punctuation">.</span>AnnotatedElement from 
+<span class="token punctuation">[</span>Loaded java<span class="token punctuation">.</span>util<span class="token punctuation">.</span>stream<span class="token punctuation">.</span>Sink from <span class="token operator">/</span>Library<span class="token operator">/</span>Java<span class="token operator">/</span>JavaVirtualMachines<span class="token operator">/</span>jdk1<span class="token number">.8</span><span class="token punctuation">.</span>0_241<span class="token punctuation">.</span>jdk<span class="token operator">/</span>Contents<span class="token operator">/</span>Home<span class="token operator">/</span>jre<span class="token operator">/</span>lib<span class="token operator">/</span>rt<span class="token punctuation">.</span>jar<span class="token punctuation">]</span>
+<span class="token punctuation">[</span>Loaded java<span class="token punctuation">.</span>util<span class="token punctuation">.</span>stream<span class="token punctuation">.</span>MatchOps$BooleanTerminalSink from <span class="token operator">/</span>Library<span class="token operator">/</span>Java<span class="token operator">/</span>JavaVirtualMachines<span class="token operator">/</span>jdk1<span class="token number">.8</span><span class="token punctuation">.</span>0_241<span class="token punctuation">.</span>jdk<span class="token operator">/</span>Contents<span class="token operator">/</span>Home<span class="token operator">/</span>jre<span class="token operator">/</span>lib<span class="token operator">/</span>rt<span class="token punctuation">.</span>jar<span class="token punctuation">]</span>
+<span class="token punctuation">[</span>Loaded java<span class="token punctuation">.</span>util<span class="token punctuation">.</span>function<span class="token punctuation">.</span>Supplier from <span class="token operator">/</span>Library<span class="token operator">/</span>Java<span class="token operator">/</span>JavaVirtualMachines<span class="token operator">/</span>jdk1<span class="token number">.8</span><span class="token punctuation">.</span>0_241<span class="token punctuation">.</span>jdk<span class="token operator">/</span>Contents<span class="token operator">/</span>Home<span class="token operator">/</span>jre<span class="token operator">/</span>lib<span class="token operator">/</span>rt<span class="token punctuation">.</span>jar<span class="token punctuation">]</span>
+<span class="token punctuation">[</span>Loaded java<span class="token punctuation">.</span>util<span class="token punctuation">.</span>stream<span class="token punctuation">.</span>MatchOps$$Lambda$<span class="token number">3</span><span class="token operator">/</span><span class="token number">511754216</span> from java<span class="token punctuation">.</span>util<span class="token punctuation">.</span>stream<span class="token punctuation">.</span>MatchOps<span class="token punctuation">]</span>
+<span class="token punctuation">[</span>Loaded java<span class="token punctuation">.</span>util<span class="token punctuation">.</span>stream<span class="token punctuation">.</span>MatchOps$1MatchSink from <span class="token operator">/</span>Library<span class="token operator">/</span>Java<span class="token operator">/</span>JavaVirtualMachines<span class="token operator">/</span>jdk1<span class="token number">.8</span><span class="token punctuation">.</span>0_241<span class="token punctuation">.</span>jdk<span class="token operator">/</span>Contents<span class="token operator">/</span>Home<span class="token operator">/</span>jre<span class="token operator">/</span>lib<span class="token operator">/</span>rt<span class="token punctuation">.</span>jar<span class="token punctuation">]</span>
+<span class="token punctuation">[</span>Loaded com<span class="token punctuation">.</span>holddie<span class="token punctuation">.</span>jvm<span class="token punctuation">.</span>sdk<span class="token punctuation">.</span>IFun from file<span class="token operator">:</span><span class="token operator">/</span>xxx<span class="token operator">/</span>java<span class="token operator">-</span>p7<span class="token operator">-</span>in<span class="token operator">-</span>action<span class="token operator">/</span>jvm<span class="token operator">-</span>base<span class="token operator">/</span>modularization<span class="token operator">/</span>multi<span class="token operator">-</span>sdk<span class="token operator">/</span>target<span class="token operator">/</span>classes<span class="token operator">/</span><span class="token punctuation">]</span>
+<span class="token punctuation">[</span>Loaded com<span class="token punctuation">.</span>holddie<span class="token punctuation">.</span>jvm<span class="token punctuation">.</span>FzFun from file<span class="token operator">:</span><span class="token operator">/</span>xxx<span class="token operator">/</span>java<span class="token operator">-</span>p7<span class="token operator">-</span>in<span class="token operator">-</span>action<span class="token operator">/</span>jvm<span class="token operator">-</span>base<span class="token operator">/</span>modularization<span class="token operator">/</span>multi<span class="token operator">-</span>server<span class="token operator">/</span>target<span class="token operator">/</span>classes<span class="token operator">/</span>multi<span class="token operator">-</span>fz<span class="token operator">-</span><span class="token number">1.0</span><span class="token punctuation">.</span><span class="token number">0</span><span class="token operator">-</span>jar<span class="token operator">-</span>with<span class="token operator">-</span>dependencies<span class="token punctuation">.</span>jar<span class="token punctuation">]</span>
+
+Hi <span class="token number">4456</span><span class="token punctuation">,</span> i am FzFun
+
+<span class="token punctuation">[</span>Unloading <span class="token keyword">class</span> <span class="token class-name">com<span class="token punctuation">.</span>holddie<span class="token punctuation">.</span>jvm<span class="token punctuation">.</span>FzFun</span> <span class="token number">0x00000007c0086828</span><span class="token punctuation">]</span>
+<span class="token punctuation">[</span>Loaded java<span class="token punctuation">.</span>lang<span class="token punctuation">.</span>reflect<span class="token punctuation">.</span>InvocationHandler from <span class="token operator">/</span>Library<span class="token operator">/</span>Java<span class="token operator">/</span>JavaVirtualMachines<span class="token operator">/</span>jdk1<span class="token number">.8</span><span class="token punctuation">.</span>0_241<span class="token punctuation">.</span>jdk<span class="token operator">/</span>Contents<span class="token operator">/</span>Home<span class="token operator">/</span>jre<span class="token operator">/</span>lib<span class="token operator">/</span>rt<span class="token punctuation">.</span>jar<span class="token punctuation">]</span>
+<span class="token punctuation">[</span>Loaded com<span class="token punctuation">.</span>holddie<span class="token punctuation">.</span>jvm<span class="token punctuation">.</span>DynamicProxy from file<span class="token operator">:</span><span class="token operator">/</span>xxx<span class="token operator">/</span>java<span class="token operator">-</span>p7<span class="token operator">-</span>in<span class="token operator">-</span>action<span class="token operator">/</span>jvm<span class="token operator">-</span>base<span class="token operator">/</span>modularization<span class="token operator">/</span>multi<span class="token operator">-</span>server<span class="token operator">/</span>target<span class="token operator">/</span>classes<span class="token operator">/</span><span class="token punctuation">]</span>
+<span class="token punctuation">[</span>Loaded com<span class="token punctuation">.</span>holddie<span class="token punctuation">.</span>jvm<span class="token punctuation">.</span>TzFun from file<span class="token operator">:</span><span class="token operator">/</span>xxx<span class="token operator">/</span>java<span class="token operator">-</span>p7<span class="token operator">-</span>in<span class="token operator">-</span>action<span class="token operator">/</span>jvm<span class="token operator">-</span>base<span class="token operator">/</span>modularization<span class="token operator">/</span>multi<span class="token operator">-</span>server<span class="token operator">/</span>target<span class="token operator">/</span>classes<span class="token operator">/</span>multi<span class="token operator">-</span>tz<span class="token operator">-</span><span class="token number">1.0</span><span class="token punctuation">.</span><span class="token number">0</span><span class="token operator">-</span>jar<span class="token operator">-</span>with<span class="token operator">-</span>dependencies<span class="token punctuation">.</span>jar<span class="token punctuation">]</span>
+<span class="token punctuation">[</span>Loaded java<span class="token punctuation">.</span>lang<span class="token punctuation">.</span>reflect<span class="token punctuation">.</span>Proxy from <span class="token operator">/</span>Library<span class="token operator">/</span>Java<span class="token operator">/</span>JavaVirtualMachines<span class="token operator">/</span>jdk1<span class="token number">.8</span><span class="token punctuation">.</span>0_241<span class="token punctuation">.</span>jdk<span class="token operator">/</span>Contents<span class="token operator">/</span>Home<span class="token operator">/</span>jre<span class="token operator">/</span>lib<span class="token operator">/</span>rt<span class="token punctuation">.</span>jar<span class="token punctuation">]</span>
+<span class="token punctuation">[</span>Loaded java<span class="token punctuation">.</span>lang<span class="token punctuation">.</span>reflect<span class="token punctuation">.</span>WeakCache from <span class="token operator">/</span>Library<span class="token operator">/</span>Java<span class="token operator">/</span>JavaVirtualMachines<span class="token operator">/</span>jdk1<span class="token number">.8</span><span class="token punctuation">.</span>0_241<span class="token punctuation">.</span>jdk<span class="token operator">/</span>Contents<span class="token operator">/</span>Home<span class="token operator">/</span>jre<span class="token operator">/</span>lib<span class="token operator">/</span>rt<span class="token punctuation">.</span>jar<span class="token punctuation">]</span>
+<span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
+<span class="token punctuation">[</span>Loaded java<span class="token punctuation">.</span>lang<span class="token punctuation">.</span>reflect<span class="token punctuation">.</span>WeakCache$CacheValue from <span class="token operator">/</span>Library<span class="token operator">/</span>Java<span class="token operator">/</span>JavaVirtualMachines<span class="token operator">/</span>jdk1<span class="token number">.8</span><span class="token punctuation">.</span>0_241<span class="token punctuation">.</span>jdk<span class="token operator">/</span>Contents<span class="token operator">/</span>Home<span class="token operator">/</span>jre<span class="token operator">/</span>lib<span class="token operator">/</span>rt<span class="token punctuation">.</span>jar<span class="token punctuation">]</span>
+<span class="token punctuation">[</span>Loaded java<span class="token punctuation">.</span>lang<span class="token punctuation">.</span>reflect<span class="token punctuation">.</span>UndeclaredThrowableException from <span class="token operator">/</span>Library<span class="token operator">/</span>Java<span class="token operator">/</span>JavaVirtualMachines<span class="token operator">/</span>jdk1<span class="token number">.8</span><span class="token punctuation">.</span>0_241<span class="token punctuation">.</span>jdk<span class="token operator">/</span>Contents<span class="token operator">/</span>Home<span class="token operator">/</span>jre<span class="token operator">/</span>lib<span class="token operator">/</span>rt<span class="token punctuation">.</span>jar<span class="token punctuation">]</span>
+
+Hi <span class="token number">123</span><span class="token punctuation">,</span> i am TzFun
+
+<span class="token punctuation">[</span>Loaded com<span class="token punctuation">.</span>alibaba<span class="token punctuation">.</span>fastjson<span class="token punctuation">.</span>JSONStreamAware from file<span class="token operator">:</span><span class="token operator">/</span>Users<span class="token operator">/</span>zeyangg<span class="token operator">/</span><span class="token punctuation">.</span>m2<span class="token operator">/</span>repository<span class="token operator">/</span>com<span class="token operator">/</span>alibaba<span class="token operator">/</span>fastjson<span class="token operator">/</span><span class="token number">1.2</span><span class="token punctuation">.</span><span class="token number">4</span><span class="token operator">/</span>fastjson<span class="token operator">-</span><span class="token number">1.2</span><span class="token punctuation">.</span><span class="token number">4</span><span class="token punctuation">.</span>jar<span class="token punctuation">]</span>
+<span class="token punctuation">[</span>Loaded com<span class="token punctuation">.</span>alibaba<span class="token punctuation">.</span>fastjson<span class="token punctuation">.</span>JSONAware from file<span class="token operator">:</span><span class="token operator">/</span>xxx<span class="token operator">/</span><span class="token punctuation">.</span>m2<span class="token operator">/</span>repository<span class="token operator">/</span>com<span class="token operator">/</span>alibaba<span class="token operator">/</span>fastjson<span class="token operator">/</span><span class="token number">1.2</span><span class="token punctuation">.</span><span class="token number">4</span><span class="token operator">/</span>fastjson<span class="token operator">-</span><span class="token number">1.2</span><span class="token punctuation">.</span><span class="token number">4</span><span class="token punctuation">.</span>jar<span class="token punctuation">]</span>
+<span class="token punctuation">[</span>Loaded java<span class="token punctuation">.</span>util<span class="token punctuation">.</span>HashMap$KeyIterator from <span class="token operator">/</span>Library<span class="token operator">/</span>Java<span class="token operator">/</span>JavaVirtualMachines<span class="token operator">/</span>jdk1<span class="token number">.8</span><span class="token punctuation">.</span>0_241<span class="token punctuation">.</span>jdk<span class="token operator">/</span>Contents<span class="token operator">/</span>Home<span class="token operator">/</span>jre<span class="token operator">/</span>lib<span class="token operator">/</span>rt<span class="token punctuation">.</span>jar<span class="token punctuation">]</span>
+<span class="token punctuation">[</span>Loaded com<span class="token punctuation">.</span>alibaba<span class="token punctuation">.</span>fastjson<span class="token punctuation">.</span>serializer<span class="token punctuation">.</span>ListSerializer from file<span class="token operator">:</span><span class="token operator">/</span>Users<span class="token operator">/</span>zeyangg<span class="token operator">/</span><span class="token punctuation">.</span>m2<span class="token operator">/</span>repository<span class="token operator">/</span>com<span class="token operator">/</span>alibaba<span class="token operator">/</span>fastjson<span class="token operator">/</span><span class="token number">1.2</span><span class="token punctuation">.</span><span class="token number">4</span><span class="token operator">/</span>fastjson<span class="token operator">-</span><span class="token number">1.2</span><span class="token punctuation">.</span><span class="token number">4</span><span class="token punctuation">.</span>jar<span class="token punctuation">]</span>
+<span class="token punctuation">[</span>Loaded com<span class="token punctuation">.</span>alibaba<span class="token punctuation">.</span>fastjson<span class="token punctuation">.</span>serializer<span class="token punctuation">.</span>SerialContext from file<span class="token operator">:</span><span class="token operator">/</span>Users<span class="token operator">/</span>zeyangg<span class="token operator">/</span><span class="token punctuation">.</span>m2<span class="token operator">/</span>repository<span class="token operator">/</span>com<span class="token operator">/</span>alibaba<span class="token operator">/</span>fastjson<span class="token operator">/</span><span class="token number">1.2</span><span class="token punctuation">.</span><span class="token number">4</span><span class="token operator">/</span>fastjson<span class="token operator">-</span><span class="token number">1.2</span><span class="token punctuation">.</span><span class="token number">4</span><span class="token punctuation">.</span>jar<span class="token punctuation">]</span>
+执行<span class="token operator">:</span> <span class="token keyword">class</span> <span class="token operator">=</span><span class="token operator">></span> com<span class="token punctuation">.</span>holddie<span class="token punctuation">.</span>jvm<span class="token punctuation">.</span>TzFun<span class="token punctuation">,</span> 方法<span class="token operator">=</span><span class="token operator">></span> sayHello<span class="token punctuation">,</span> 参数 <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">[</span><span class="token string">"123"</span><span class="token punctuation">]</span><span class="token punctuation">,</span> 耗时 <span class="token operator">=</span><span class="token operator">></span> 0ms<span class="token punctuation">,</span> 执行结果 <span class="token operator">=</span><span class="token operator">></span> null<span class="token punctuation">,</span> 当前路径 <span class="token operator">=</span><span class="token operator">></span> <span class="token operator">/</span>xxx<span class="token operator">/</span>java<span class="token operator">-</span>p7<span class="token operator">-</span>in<span class="token operator">-</span>action<span class="token operator">/</span>jvm<span class="token operator">-</span>base<span class="token operator">/</span>modularization<span class="token operator">/</span>multi<span class="token operator">-</span>server<span class="token operator">/</span>target<span class="token operator">/</span>classes<span class="token operator">/</span>com<span class="token operator">/</span>holddie<span class="token operator">/</span>jvm<span class="token operator">/</span>
+执行<span class="token operator">:</span> <span class="token keyword">class</span> <span class="token operator">=</span><span class="token operator">></span> com<span class="token punctuation">.</span>holddie<span class="token punctuation">.</span>jvm<span class="token punctuation">.</span>TzFun<span class="token punctuation">,</span> 方法<span class="token operator">=</span><span class="token operator">></span> toString<span class="token punctuation">,</span> 参数 <span class="token operator">=</span><span class="token operator">></span> null<span class="token punctuation">,</span> 耗时 <span class="token operator">=</span><span class="token operator">></span> 0ms<span class="token punctuation">,</span> 执行结果 <span class="token operator">=</span><span class="token operator">></span> com<span class="token punctuation">.</span>holddie<span class="token punctuation">.</span>jvm<span class="token punctuation">.</span>TzFun<span class="token annotation punctuation">@6ed3ef1</span><span class="token punctuation">,</span> 当前路径 <span class="token operator">=</span><span class="token operator">></span> <span class="token operator">/</span>xxx<span class="token operator">/</span>java<span class="token operator">-</span>p7<span class="token operator">-</span>in<span class="token operator">-</span>action<span class="token operator">/</span>jvm<span class="token operator">-</span>base<span class="token operator">/</span>modularization<span class="token operator">/</span>multi<span class="token operator">-</span>server<span class="token operator">/</span>target<span class="token operator">/</span>classes<span class="token operator">/</span>com<span class="token operator">/</span>holddie<span class="token operator">/</span>jvm<span class="token operator">/</span>
+<span class="token operator">--</span><span class="token operator">--</span><span class="token operator">--</span><span class="token operator">--</span><span class="token operator">--</span><span class="token operator">--</span><span class="token operator">--</span><span class="token operator">--</span><span class="token operator">--</span><span class="token operator">--</span><span class="token operator">--</span>
+
+<span class="token punctuation">[</span>Loaded sun<span class="token punctuation">.</span>misc<span class="token punctuation">.</span>VMSupport from <span class="token operator">/</span>Library<span class="token operator">/</span>Java<span class="token operator">/</span>JavaVirtualMachines<span class="token operator">/</span>jdk1<span class="token number">.8</span><span class="token punctuation">.</span>0_241<span class="token punctuation">.</span>jdk<span class="token operator">/</span>Contents<span class="token operator">/</span>Home<span class="token operator">/</span>jre<span class="token operator">/</span>lib<span class="token operator">/</span>rt<span class="token punctuation">.</span>jar<span class="token punctuation">]</span>
+<span class="token punctuation">[</span>Loaded java<span class="token punctuation">.</span>util<span class="token punctuation">.</span>Hashtable$KeySet from <span class="token operator">/</span>Library<span class="token operator">/</span>Java<span class="token operator">/</span>JavaVirtualMachines<span class="token operator">/</span>jdk1<span class="token number">.8</span><span class="token punctuation">.</span>0_241<span class="token punctuation">.</span>jdk<span class="token operator">/</span>Contents<span class="token operator">/</span>Home<span class="token operator">/</span>jre<span class="token operator">/</span>lib<span class="token operator">/</span>rt<span class="token punctuation">.</span>jar<span class="token punctuation">]</span>
+<span class="token punctuation">[</span>Loaded sun<span class="token punctuation">.</span>nio<span class="token punctuation">.</span>cs<span class="token punctuation">.</span>ISO_8859_1$Encoder from <span class="token operator">/</span>Library<span class="token operator">/</span>Java<span class="token operator">/</span>JavaVirtualMachines<span class="token operator">/</span>jdk1<span class="token number">.8</span><span class="token punctuation">.</span>0_241<span class="token punctuation">.</span>jdk<span class="token operator">/</span>Contents<span class="token operator">/</span>Home<span class="token operator">/</span>jre<span class="token operator">/</span>lib<span class="token operator">/</span>rt<span class="token punctuation">.</span>jar<span class="token punctuation">]</span></code></pre>
+<p>注意，日志中的一些路径，自己做了一些脱敏使用 <code>/xxx</code> 代替，自己在看的时候，切勿当真以为是 <code>/xxx</code>，主要想表达的是一种数据脱敏；</p>
+<p>最终代码参考实现：<a href="https://github.com/HoldDie/java-p7-in-action/tree/master/jvm-base/" target="_blank" rel="noopener">https://github.com/HoldDie/java-p7-in-action/tree/master/jvm-base/</a></p>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><ul>
+<li><a href="https://my.oschina.net/xianggao/blog/367822" target="_blank" rel="noopener">Class热替换与卸载</a></li>
+<li><a href="https://my.oschina.net/xianggao/blog/364068" target="_blank" rel="noopener">Tomcat热部署的实现原理</a></li>
+<li><a href="https://www.cnblogs.com/eoss/p/5992499.html" target="_blank" rel="noopener">Java –ClassLoader创建、加载class、卸载class</a></li>
+<li><a href="https://developer.ibm.com/zh/articles/j-lo-hotswapcls/" target="_blank" rel="noopener">Java ClassLoader 技术剖析</a></li>
+<li><a href="https://xie.infoq.cn/article/b1e7b584d48baa89379ab87e6" target="_blank" rel="noopener">深入理解 ClassLoader</a></li>
+<li><a href="https://juejin.cn/post/6844903925103984648" target="_blank" rel="noopener">带你从0到1撸一个简单版的模块化服务系统</a></li>
+</ul>
+
+            </div>
+            <hr/>
+
+            
+
+    <div class="reprint" id="reprint-statement">
+        
+            <div class="reprint__author">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-user">
+                        文章作者:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="https://www.asxing.com" rel="external nofollow noreferrer">HoldDie</a>
+                </span>
+            </div>
+            <div class="reprint__type">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-link">
+                        文章链接:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="https://www.asxing.com/2021/02/24/java-jin-jie-zhi-jvm-shi-zhan/">https://www.asxing.com/2021/02/24/java-jin-jie-zhi-jvm-shi-zhan/</a>
+                </span>
+            </div>
+            <div class="reprint__notice">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-copyright">
+                        版权声明:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    本博客所有文章除特別声明外，均采用
+                    <a href="https://creativecommons.org/licenses/by/4.0/deed.zh" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>
+                    许可协议。转载请注明来源
+                    <a href="https://www.asxing.com" target="_blank">HoldDie</a>
+                    !
+                </span>
+            </div>
+        
+    </div>
+
+    <script async defer>
+      document.addEventListener("copy", function (e) {
+        let toastHTML = '<span>复制成功，请遵循本文的转载规则</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">查看</a>';
+        M.toast({html: toastHTML})
+      });
+
+      function navToReprintStatement() {
+        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      }
+    </script>
+
+
+
+            <div class="tag_share" style="display: block;">
+                <div class="post-meta__tag-list" style="display: inline-block;">
+                    
+                        <div class="article-tag">
+                            
+                                <a href="/tags/Java/">
+                                    <span class="chip bg-color">Java</span>
+                                </a>
+                            
+                                <a href="/tags/JVM/">
+                                    <span class="chip bg-color">JVM</span>
+                                </a>
+                            
+                        </div>
+                    
+                </div>
+                <div class="post_share" style="zoom: 80%; width: fit-content; display: inline-block; float: right; margin: -0.15rem 0;">
+                    <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+
+<div id="article-share">
+    
+    
+    <div class="social-share" data-sites="twitter,facebook,google,qq,qzone,wechat,weibo,douban,linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
+    <script src="/libs/share/js/social-share.min.js"></script>
+    
+
+    
+
+</div>
+
+                </div>
+            </div>
+            
+                <style>
+    #reward {
+        margin: 40px 0;
+        text-align: center;
+    }
+
+    #reward .reward-link {
+        font-size: 1.4rem;
+        line-height: 38px;
+    }
+
+    #reward .btn-floating:hover {
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2), 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    #rewardModal {
+        width: 320px;
+        height: 350px;
+    }
+
+    #rewardModal .reward-title {
+        margin: 15px auto;
+        padding-bottom: 5px;
+    }
+
+    #rewardModal .modal-content {
+        padding: 10px;
+    }
+
+    #rewardModal .close {
+        position: absolute;
+        right: 15px;
+        top: 15px;
+        color: rgba(0, 0, 0, 0.5);
+        font-size: 1.3rem;
+        line-height: 20px;
+        cursor: pointer;
+    }
+
+    #rewardModal .close:hover {
+        color: #ef5350;
+        transform: scale(1.3);
+        -moz-transform:scale(1.3);
+        -webkit-transform:scale(1.3);
+        -o-transform:scale(1.3);
+    }
+
+    #rewardModal .reward-tabs {
+        margin: 0 auto;
+        width: 210px;
+    }
+
+    .reward-tabs .tabs {
+        height: 38px;
+        margin: 10px auto;
+        padding-left: 0;
+    }
+
+    .reward-content ul {
+        padding-left: 0 !important;
+    }
+
+    .reward-tabs .tabs .tab {
+        height: 38px;
+        line-height: 38px;
+    }
+
+    .reward-tabs .tab a {
+        color: #fff;
+        background-color: #ccc;
+    }
+
+    .reward-tabs .tab a:hover {
+        background-color: #ccc;
+        color: #fff;
+    }
+
+    .reward-tabs .wechat-tab .active {
+        color: #fff !important;
+        background-color: #22AB38 !important;
+    }
+
+    .reward-tabs .alipay-tab .active {
+        color: #fff !important;
+        background-color: #019FE8 !important;
+    }
+
+    .reward-tabs .reward-img {
+        width: 210px;
+        height: 210px;
+    }
+</style>
+
+<div id="reward">
+    <a href="#rewardModal" class="reward-link modal-trigger btn-floating btn-medium waves-effect waves-light red">赏</a>
+
+    <!-- Modal Structure -->
+    <div id="rewardModal" class="modal">
+        <div class="modal-content">
+            <a class="close modal-close"><i class="fas fa-times"></i></a>
+            <h4 class="reward-title">你的赏识是我前进的动力</h4>
+            <div class="reward-content">
+                <div class="reward-tabs">
+                    <ul class="tabs row">
+                        <li class="tab col s6 alipay-tab waves-effect waves-light"><a href="#alipay">支付宝</a></li>
+                        <li class="tab col s6 wechat-tab waves-effect waves-light"><a href="#wechat">微 信</a></li>
+                    </ul>
+                    <div id="alipay">
+                        <img src="/medias/reward/alipay.jpg" class="reward-img" alt="支付宝打赏二维码">
+                    </div>
+                    <div id="wechat">
+                        <img src="/medias/reward/wechat.png" class="reward-img" alt="微信打赏二维码">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $('.tabs').tabs();
+    });
+</script>
+            
+        </div>
+    </div>
+
+    
+        <link rel="stylesheet" href="/libs/gitalk/gitalk.css">
+<link rel="stylesheet" href="/css/my-gitalk.css">
+
+<div class="card gitalk-card" data-aos="fade-up">
+    <div class="comment_headling" style="font-size: 20px; font-weight: 700; position: relative; left: 20px; top: 15px; padding-bottom: 5px;">
+        <i class="fas fa-comments fa-fw" aria-hidden="true"></i>
+        <span>评论</span>
+    </div>
+    <div id="gitalk-container" class="card-content"></div>
+</div>
+
+<script src="/libs/gitalk/gitalk.min.js"></script>
+<script>
+    let gitalk = new Gitalk({
+        clientID: 'c4e18e113d94091c8828',
+        clientSecret: '891f04d80de6a77fd6eb60d1cbe792e916cde3ff',
+        repo: 'asxing.github.io',
+        owner: 'Asxing',
+        admin: "asxing",
+        id: '2021-02-24T14-42-59',
+        distractionFreeMode: false  // Facebook-like distraction free mode
+    });
+
+    gitalk.render('gitalk-container');
+</script>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
+            <div class="card">
+                <a href="/2021/02/24/java-jin-jie-zhi-jvm-shi-zhan/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/3.jpg" class="responsive-img" alt="Java进阶之JVM实战">
+                        
+                        <span class="card-title">Java进阶之JVM实战</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            1. 使用自定义Classloader机制，实现xlass的加载1.1 类加载流程BootStrap 加载路径System.getProperty("sun.boot.class.path")
+
+输出结果如下：
+xxx/jre/lib/re
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2021-02-24
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/Java%E8%BF%9B%E9%98%B6/" class="post-category">
+                                    Java进阶
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/Java/">
+                        <span class="chip bg-color">Java</span>
+                    </a>
+                    
+                    <a href="/tags/JVM/">
+                        <span class="chip bg-color">JVM</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2021/02/06/soul-dan-ce-xiao-jie/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/20.jpg" class="responsive-img" alt="Soul-单测小结">
+                        
+                        <span class="card-title">Soul-单测小结</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+常用 UTProperties UTpublic final class NacosPropertiesTest extends AbstractConfigurationTest {
+
+  @Test
+  public void tes
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2021-02-06
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/Soul/" class="post-category">
+                                    Soul
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/Spring/">
+                        <span class="chip bg-color">Spring</span>
+                    </a>
+                    
+                    <a href="/tags/%E5%8D%95%E6%B5%8B/">
+                        <span class="chip bg-color">单测</span>
+                    </a>
+                    
+                    <a href="/tags/test/">
+                        <span class="chip bg-color">test</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+
+</div>
+
+
+
+<!-- 代码块功能依赖 -->
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+
+<!-- 代码语言 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+
+    
+<!-- 代码块复制 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+
+
+<!-- 代码块收缩 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script>
+
+
+<!-- 代码块折行 -->
+
+<style type="text/css">
+code[class*="language-"], pre[class*="language-"] { white-space: pre !important; }
+</style>
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget">
+            <div class="toc-title"><i class="far fa-list-alt"></i>&nbsp;&nbsp;目录</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fas fa-list-ul"></i>
+    </a>
+</div>
+
+
+<script src="/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            // headingsOffset: -205,
+            headingSelector: 'h2, h3, h4'
+        });
+
+        // modify the toc link href to support Chinese.
+        let i = 0;
+        let tocHeading = 'toc-heading-';
+        $('#toc-content a').each(function () {
+            $(this).attr('href', '#' + tocHeading + (++i));
+        });
+
+        // modify the heading title id to support Chinese.
+        i = 0;
+        $('#articleContent').children('h2, h3, h4').each(function () {
+            $(this).attr('id', tocHeading + (++i));
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).hide();
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).show();
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+        });
+        
+    });
+</script>
+
+    
+
+</main>
+
+
+<script src="https://cdn.bootcss.com/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script>
+    MathJax.Hub.Config({
+        tex2jax: {inlineMath: [['$', '$'], ['\(', '\)']]}
+    });
+</script>
+
+
+    <footer class="page-footer bg-color">
+    <div class="container row center-align">
+        <div class="col s12 m8 l8 copy-right">
+            Copyright&nbsp;&copy;
+            <span id="year">年份</span>
+            <a href="https://www.asxing.com" target="_blank">Asxing</a>
+            |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
+            |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
+            <br>
+            
+            &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
+                class="white-color">479k</span>&nbsp;字
+            
+            
+            
+            
+            <span id="busuanzi_container_site_pv">
+                |&nbsp;<i class="far fa-eye"></i>&nbsp;总访问量:&nbsp;<span id="busuanzi_value_site_pv"
+                    class="white-color"></span>&nbsp;次
+            </span>
+            
+            
+            <span id="busuanzi_container_site_uv">
+                |&nbsp;<i class="fas fa-users"></i>&nbsp;总访问人数:&nbsp;<span id="busuanzi_value_site_uv"
+                    class="white-color"></span>&nbsp;人
+            </span>
+            
+            <br>
+            
+            <span id="sitetime">载入运行时间...</span>
+            <script>
+                function siteTime() {
+                    window.setTimeout("siteTime()", 1000);
+                    var seconds = 1000;
+                    var minutes = seconds * 60;
+                    var hours = minutes * 60;
+                    var days = hours * 24;
+                    var years = days * 365;
+                    var today = new Date();
+                    var startYear = "2019";
+                    var startMonth = "10";
+                    var startDate = "30";
+                    var startHour = "22";
+                    var startMinute = "30";
+                    var startSecond = "0";
+                    var todayYear = today.getFullYear();
+                    var todayMonth = today.getMonth() + 1;
+                    var todayDate = today.getDate();
+                    var todayHour = today.getHours();
+                    var todayMinute = today.getMinutes();
+                    var todaySecond = today.getSeconds();
+                    var t1 = Date.UTC(startYear, startMonth, startDate, startHour, startMinute, startSecond);
+                    var t2 = Date.UTC(todayYear, todayMonth, todayDate, todayHour, todayMinute, todaySecond);
+                    var diff = t2 - t1;
+                    var diffYears = Math.floor(diff / years);
+                    var diffDays = Math.floor((diff / days) - diffYears * 365);
+                    var diffHours = Math.floor((diff - (diffYears * 365 + diffDays) * days) / hours);
+                    var diffMinutes = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours) /
+                        minutes);
+                    var diffSeconds = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours -
+                        diffMinutes * minutes) / seconds);
+                    if (startYear == todayYear) {
+                        document.getElementById("year").innerHTML = todayYear;
+                        document.getElementById("sitetime").innerHTML = "本站已安全运行 " + diffDays + " 天 " + diffHours +
+                            " 小时 " + diffMinutes + " 分钟 " + diffSeconds + " 秒";
+                    } else {
+                        document.getElementById("year").innerHTML = startYear + " - " + todayYear;
+                        document.getElementById("sitetime").innerHTML = "本站已安全运行 " + diffYears + " 年 " + diffDays +
+                            " 天 " + diffHours + " 小时 " + diffMinutes + " 分钟 " + diffSeconds + " 秒";
+                    }
+                }
+                setInterval(siteTime, 1000);
+            </script>
+            
+            <br>
+            
+        </div>
+        <div class="col s12 m4 l4 social-link ">
+    <a href="https://github.com/asxing" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+        <i class="fab fa-github"></i>
+    </a>
+
+
+
+    <a href="mailto:asxingking@gmail.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fas fa-envelope-open"></i>
+    </a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <a href="/atom.xml" class="tooltipped" target="_blank" data-tooltip="RSS 订阅" data-position="top" data-delay="50">
+        <i class="fas fa-rss"></i>
+    </a>
+
+</div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+
+    <!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fas fa-search"></i>&nbsp;&nbsp;搜索</span>
+            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script src="/js/search.js"></script>
+<script type="text/javascript">
+$(function () {
+    searchFunc("/" + "search.xml", 'searchInput', 'searchResult');
+});
+</script>
+    <!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+</div>
+
+
+    <script src="/libs/materialize/materialize.min.js"></script>
+    <script src="/libs/masonry/masonry.pkgd.min.js"></script>
+    <script src="/libs/aos/aos.js"></script>
+    <script src="/libs/scrollprogress/scrollProgress.min.js"></script>
+    <script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+    <script src="/js/matery.js"></script>
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+    <!-- Baidu Analytics -->
+
+    <!-- Baidu Push -->
+
+    
+    <script src="/libs/others/clicklove.js" async="async"></script>
+    
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <script type="text/javascript" src="/libs/background/ribbon-dynamic.js" async="async"></script>
+    
+    
+    
+
+</body>
+
+</html>

@@ -1,0 +1,1708 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="keywords" content="Kafka-核心组件（四）, 编程 读书 生活">
+    <meta name="description" content="
+我脚下的这片土地，埋藏了万千战士的英魂，我因此而颤抖。 ——笑道应有思
+
+
+Kafka核心功能模块，主要包括延迟操作组件、控制器、协调器、网络通信、日志管理器、副本管理器、动态配置管理器及心跳检测。
+
+1 延迟操作组件
+延迟操作组件辅助其">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>Kafka-核心组件（四） | Asxing-阿行</title>
+    <link rel="icon" type="image/png" href="/favicon.png">
+
+    <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
+    <link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
+    <link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/matery.css">
+    <link rel="stylesheet" type="text/css" href="/css/my.css">
+    
+    <script src="/libs/jquery/jquery.min.js"></script>
+    
+<meta name="generator" content="Hexo 4.2.1"><link rel="alternate" href="/atom.xml" title="Asxing-阿行" type="application/atom+xml">
+<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+
+
+<body>
+    <header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper head-container">
+            <div class="brand-logo">
+                <a href="/" class="waves-effect waves-light">
+                    
+                    <img src="/medias/logo.png" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">Asxing-阿行</span>
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
+<ul class="right nav-menu">
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/" class="waves-effect waves-light">
+      
+      <i class="fas fa-home" style="zoom: 0.6;"></i>
+      
+      <span>首页</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/tags" class="waves-effect waves-light">
+      
+      <i class="fas fa-tags" style="zoom: 0.6;"></i>
+      
+      <span>标签</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/categories" class="waves-effect waves-light">
+      
+      <i class="fas fa-bookmark" style="zoom: 0.6;"></i>
+      
+      <span>分类</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/archives" class="waves-effect waves-light">
+      
+      <i class="fas fa-archive" style="zoom: 0.6;"></i>
+      
+      <span>归档</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/about" class="waves-effect waves-light">
+      
+      <i class="fas fa-user-circle" style="zoom: 0.6;"></i>
+      
+      <span>关于</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/contact" class="waves-effect waves-light">
+      
+      <i class="fas fa-comments" style="zoom: 0.6;"></i>
+      
+      <span>留言板</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/friends" class="waves-effect waves-light">
+      
+      <i class="fas fa-address-book" style="zoom: 0.6;"></i>
+      
+      <span>友情链接</span>
+    </a>
+    
+  </li>
+  
+  <li>
+    <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+      <i id="searchIcon" class="fas fa-search" title="搜索" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+</ul>
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="/medias/logo.png" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">Asxing-阿行</div>
+        <div class="logo-desc">
+            
+            Never really desperate, only the lost of the soul.
+            
+        </div>
+    </div>
+
+    
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li class="m-nav-item">
+	  
+		<a href="/" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-home"></i>
+			
+			首页
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/tags" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-tags"></i>
+			
+			标签
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/categories" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-bookmark"></i>
+			
+			分类
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/archives" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-archive"></i>
+			
+			归档
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/about" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-user-circle"></i>
+			
+			关于
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/contact" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-comments"></i>
+			
+			Contact
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/friends" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-address-book"></i>
+			
+			友情链接
+		</a>
+          
+        </li>
+        
+        
+        <li><div class="divider"></div></li>
+        <li>
+            <a href="https://github.com/asxing" class="waves-effect waves-light" target="_blank">
+                <i class="fab fa-github-square fa-fw"></i>Fork Me
+            </a>
+        </li>
+        
+    </ul>
+</div>
+
+        </div>
+
+        
+            <style>
+    .nav-transparent .github-corner {
+        display: none !important;
+    }
+
+    .github-corner {
+        position: absolute;
+        z-index: 10;
+        top: 0;
+        right: 0;
+        border: 0;
+        transform: scale(1.1);
+    }
+
+    .github-corner svg {
+        color: #0f9d58;
+        fill: #fff;
+        height: 64px;
+        width: 64px;
+    }
+
+    .github-corner:hover .octo-arm {
+        animation: a 0.56s ease-in-out;
+    }
+
+    .github-corner .octo-arm {
+        animation: none;
+    }
+
+    @keyframes a {
+        0%,
+        to {
+            transform: rotate(0);
+        }
+        20%,
+        60% {
+            transform: rotate(-25deg);
+        }
+        40%,
+        80% {
+            transform: rotate(10deg);
+        }
+    }
+</style>
+
+<a href="https://github.com/asxing" class="github-corner tooltipped hide-on-med-and-down" target="_blank"
+   data-tooltip="Fork Me" data-position="left" data-delay="50">
+    <svg viewBox="0 0 250 250" aria-hidden="true">
+        <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
+        <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2"
+              fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path>
+        <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z"
+              fill="currentColor" class="octo-body"></path>
+    </svg>
+</a>
+        
+    </nav>
+
+</header>
+
+    
+<script src="/libs/cryptojs/crypto-js.min.js"></script>
+<script>
+    (function() {
+        let pwd = '';
+        if (pwd && pwd.length > 0) {
+            if (pwd !== CryptoJS.SHA256(prompt('请输入访问本文章的密码')).toString(CryptoJS.enc.Hex)) {
+                alert('密码错误，将返回主页！');
+                location.href = '/';
+            }
+        }
+    })();
+</script>
+
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/18.jpg')">
+    <div class="container" style="right: 0px;left: 0px;">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <div class="description center-align post-title">
+                        Kafka-核心组件（四）
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<main class="post-container content">
+
+    
+    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
+<style>
+    #articleContent h1::before,
+    #articleContent h2::before,
+    #articleContent h3::before,
+    #articleContent h4::before,
+    #articleContent h5::before,
+    #articleContent h6::before {
+        display: block;
+        content: " ";
+        height: 100px;
+        margin-top: -100px;
+        visibility: hidden;
+    }
+
+    #articleContent :focus {
+        outline: none;
+    }
+
+    .toc-fixed {
+        position: fixed;
+        top: 64px;
+    }
+
+    .toc-widget {
+        padding-left: 20px;
+    }
+
+    .toc-widget .toc-title {
+        margin: 35px 0 15px 0;
+        padding-left: 17px;
+        font-size: 1.5rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    .toc-widget ol {
+        padding: 0;
+        list-style: none;
+    }
+
+    #toc-content ol {
+        padding-left: 10px;
+    }
+
+    #toc-content ol li {
+        padding-left: 10px;
+    }
+
+    #toc-content .toc-link:hover {
+        color: #42b983;
+        font-weight: 700;
+        text-decoration: underline;
+    }
+
+    #toc-content .toc-link::before {
+        background-color: transparent;
+        max-height: 25px;
+    }
+
+    #toc-content .is-active-link {
+        color: #42b983;
+    }
+
+    #toc-content .is-active-link::before {
+        background-color: #42b983;
+    }
+
+    #floating-toc-btn {
+        position: fixed;
+        right: 15px;
+        bottom: 76px;
+        padding-top: 15px;
+        margin-bottom: 0;
+        z-index: 998;
+    }
+
+    #floating-toc-btn .btn-floating {
+        width: 48px;
+        height: 48px;
+    }
+
+    #floating-toc-btn .btn-floating i {
+        line-height: 48px;
+        font-size: 1.4rem;
+    }
+</style>
+<div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                            <a href="/tags/Kafka/">
+                                <span class="chip bg-color">Kafka</span>
+                            </a>
+                        
+                            <a href="/tags/%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6/">
+                                <span class="chip bg-color">消息中间件</span>
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fas fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/categories/Kafka/" class="post-category">
+                                Kafka
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
+                    2018-10-14
+                </div>
+                
+
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
+                    14.9k
+                </div>
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
+                    53 分
+                </div>
+                
+				
+                
+            </div>
+            
+        </div>
+        <hr class="clearfix">
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <blockquote>
+<p>我脚下的这片土地，埋藏了万千战士的英魂，我因此而颤抖。 ——笑道应有思</p>
+</blockquote>
+<blockquote>
+<p>Kafka核心功能模块，主要包括<strong>延迟操作组件</strong>、<strong>控制器</strong>、<strong>协调器</strong>、<strong>网络通信</strong>、<strong>日志管理器</strong>、<strong>副本管理器</strong>、<strong>动态配置管理器</strong>及<strong>心跳检测</strong>。</p>
+</blockquote>
+<h3 id="1-延迟操作组件"><a href="#1-延迟操作组件" class="headerlink" title="1 延迟操作组件"></a>1 延迟操作组件</h3><blockquote>
+<p>延迟操作组件辅助其他组件完成相应功能：</p>
+<ul>
+<li>协助客户端处理创建主题操作</li>
+<li>协助组协调器 (GroupCoordinator) 处理JoinGroupRequet 和 HeartbeatRequest请求</li>
+<li>协助副本管理器 (ReplicaManager) 处理ProduceRequest和FetchRequest请求</li>
+</ul>
+</blockquote>
+<h4 id="1-1-DelayedOperation"><a href="#1-1-DelayedOperation" class="headerlink" title="1.1 DelayedOperation"></a>1.1 DelayedOperation</h4><blockquote>
+<p>定义：将一些不立即执行而要等待满足一定条件才能触发完成的操作成为延迟操作，抽象类 <code>DelayedOperation</code></p>
+</blockquote>
+<ul>
+<li>DelayedOperation 是一个基于事件启动有失效时间的 TimerTask。</li>
+<li>TimerTask 实现了 Runnable 接口，维护了一个 TimerTaskEntry 对象，TimerTaskEntry 绑定了一个 TimerTask</li>
+<li>TimerTaskEntry 被添加到 TimerTaskList 中，TimerTaskList 是一个环形双向链表，按失效时间排序。</li>
+<li>DelayedOperation 是一个抽象类，具体的延迟操作类继承于该抽象类，分别用来协助相应组件对不同的请求完成延迟处理操作</li>
+<li>DelayedOperation 只有一个 AtomicBoolean 类型的 completed 属性，用来控制某个延迟操作。在延迟时间（delayMs）内，onComplete() 方法只被调用一次。</li>
+</ul>
+<p><img src="../../../../../../../../images/2018/10/DelayedOperation%E6%8A%BD%E8%B1%A1%E7%B1%BB%E5%9B%BE.png" alt="DelayedOperation抽象类图"></p>
+<h4 id="核心方法"><a href="#核心方法" class="headerlink" title="核心方法"></a>核心方法</h4><ul>
+<li><p>tryComplete()方法</p>
+<p>：</p>
+<ul>
+<li>一个抽象方法，由子类来实现，负责检测执行条件是否满足。</li>
+<li>若满足执行条件，则调用 forceComplete() 方法完成延迟操作。</li>
+</ul>
+</li>
+<li><p>forceCompete()方法</p>
+<p>：</p>
+<ul>
+<li>该方法在条件满足时，检测延迟任务是否未被执行。</li>
+<li>若未被执行，则先调用 TimerTask.cancel() 方法解除该延迟操作与 TimerTaskEntry 的绑定，将该延迟操作从 TimerTaskList 链表中移除，</li>
+<li>然后调用 onComplete() 方法让延迟操作执行完成。</li>
+<li>通过 completed 的 CAS 原子操作（completed.compareAndSet），可以保证并发操作时只有第一个调用该方法的线程能够顺利调用 onComplete() 完成延迟操作，其他线程获取的 completed 属性为 false，即不会调用 onComplete() 方法，这就保证了 onComplete() 只会被调用一次。</li>
+</ul>
+</li>
+<li><p>onComplete() 方法</p>
+<p>：</p>
+<ul>
+<li>是一个抽象方法，由子类来实现，执行延迟操作满足执行条件后需要执行的实际业务逻辑。</li>
+<li>例如，DelayedProduce 和 DelayedFetch 都是在该方法内调用 responseCallback 向客户端做出响应。</li>
+</ul>
+</li>
+<li><p>safeTryComplete() 方法</p>
+<p>：</p>
+<ul>
+<li>以 synchronized 同步锁调用 onComplete() 方法，供外部调用。</li>
+</ul>
+</li>
+<li><p>onExpiration() 方法</p>
+<p>：</p>
+<ul>
+<li>也是一个抽象方法，由子类来实现当延迟操作已达失效时间的相应逻辑处理。</li>
+<li>Kafka 通过 SystemTimer 来定期检测请求是否超时。</li>
+<li>SystemTimer 是 Kafka 实现的底层基于层级时间轮和 DelayQueue 定时器，维护了一个 newFixedThreadPool 线程池，用于提交相应的线程执行。</li>
+<li>例如，当检测到延迟操作已失效时则将延迟操作提交到该线程池，即执行线程的 run() 方法的逻辑。DelayedOperation 覆盖了 TimerTask 的 run() 方法，在该方法中先调用 forceCompete() 方法，当该方法返回 true 后再调用 onExpiration() 方法。</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>Kafka 当前的设计 onComplete() 方法是向客户端做出响应的唯一出口，当延迟操作达到失效时间时也是先执行 forceCompete() 方法，让 onComplete() 方法执行之后再调用 onExpiration() 方法，在 onExpiration() 方法中仅是进行相应的过期信息收集之类的操作。</p>
+</blockquote>
+<p><img src="../../../../../../../../images/2018/10/DelayedOperation%E4%B8%AA%E6%96%B9%E6%B3%95%E8%AF%B7%E6%B1%82%E6%B5%81%E7%A8%8B.png" alt="DelayedOperation各方法请求流程"></p>
+<h4 id="1-2-DelayedOperationPurgatory"><a href="#1-2-DelayedOperationPurgatory" class="headerlink" title="1.2 DelayedOperationPurgatory"></a>1.2 DelayedOperationPurgatory</h4><ul>
+<li><p>一个对 DelayedOperation 管理的辅助类，</p>
+</li>
+<li><p>Purgatory 以泛型的形式将一个 DelayedOperation 添加到其内部维护的 Pool[Any, Watchers] 类型 watchersForKey 对象中，同时将 DelayedOperation 添加到 SystemTimer 中。</p>
+</li>
+<li><p>Watchers 是 Purgatory 的内部类，底层是一个 ConcurrentLinkedQueue，该类定义了一个 ConcurrentLinkedQueue 类型的 operations 属性，用于保存 DelayedOperation。</p>
+</li>
+<li><p>从 Watchers 类名可以看出，该类的作用就是对 DelayedOperation 进行监视。</p>
+<ul>
+<li><p>watch() 方法</p>
+<p>：</p>
+<ul>
+<li>用于将 DelayedOperation 添加到 operations 集合中。</li>
+</ul>
+</li>
+<li><p>tryCompleteWatched() 方法</p>
+<p>：</p>
+<ul>
+<li>用于迭代 operations 集合中的 DelayedOperation，通过 DelayedOperation.isCompleted 检测该 DelayedOperation 是否已执行完成。</li>
+<li>若已执行完成，则从 operations 集合中移除该 DelayedOperation。</li>
+<li>否则调用 DelayedOperation.safeTryComplete() 方法尝试让该 DelayedOperation 执行完成，</li>
+<li>若执行完成，即 safeTryComplete() 方法返回 true，则将该 DelayedOperation 从 operations 集合中移除。</li>
+<li>最后检测 operations 集合是否为空，如果 operations 为空，则表示该 operations 所关联的 DelayedOperation 已全部执行完成</li>
+<li>因此将该 Watchers 从 Purgatory 的 Pool 中移除。</li>
+</ul>
+</li>
+<li><p>purgeCompleted() 方法</p>
+<p>：</p>
+<ul>
+<li>与 tryCompleteWatched() 方法基本功能类似，</li>
+<li>区别在于 purgeCompleted() 方法只单纯地将该 operations 集合中已完成的 DelayedOperation 移除，<strong>对未完成的 DelayedOperation 并不尝试将其执行完成</strong>。</li>
+</ul>
+</li>
+<li><p>我们可以简单地将 Purgatory 与 Spring Quartz 类比，这样对 Purgatory 的作用就不难理解了。Purgatory 相当于 Quartz 的 SchedulerFactoryBean，而 DelayedOperation 相当于 ScheduleFactoryBean 所管理的具体 Schedule，由 Purgatory 负责调度。只不过 Purgatory 除了管理调度 DelayedOperation 之外，还负责 DelayedOperation 超时的管理。下面简要介绍 Purgatory 的两个主要方法。</p>
+</li>
+<li><p>tryCompleteElseWatch ()方法</p>
+<p>：</p>
+<ul>
+<li>该方法首先调用待检测的 DelayedOperation.safeTryComplete() 方法，检测是否能执行完成，</li>
+<li>若未执行完成，则迭代 watchersForKey 对应的 DelayedOperation 检测 DelayedOperation 是否已完成，</li>
+<li>若未完成，则将其添加到 Watchers 中。添加完成后，再调用 safeTryComplete() 方法再次尝试让 DelayedOpeartion 执行完成，</li>
+<li>若还是未完成，再将其添加到 SystemTimer 中。添加完后再次检测是否执行完成，</li>
+<li>若已执行完成则将其从 SystemTimer 中移除。</li>
+<li>可以看到，在整个操作逻辑中多次执行 safeTryComplete() 方法以及多次检测是否已完成，是以防在操作过程中可能已被其他线程触发执行完成。</li>
+<li>同时在将 DelayedOperation 添加到 Watchers 操作时并没有将原来的 Key 清理掉，这是因为 Purgatory 在启动时会同时启动一个 ExpiredOperationReaper 线程，该线程除了推进时间轮的指针外还会定期清理 watchersForKey 已完成的 DelayedOperation。</li>
+</ul>
+</li>
+<li><p>checkAndComplete() 方法</p>
+<p>：</p>
+<ul>
+<li>根据所传入的 Key，检测该 Key 对应的 Watchers 是否执行完成，若未完成，再调用 Watchers.tryCompleteWatched() 方法进行处理。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>Purgatory 对 DelayedOperation 的管理是通过 Watchers 来完成的，通过 Watchers 调用 DelayedOperation 相应的方法，让 DelayedOperation 要么在 delayMs 时间内完成，要么超时。</p>
+</blockquote>
+<h4 id="1-3-DelayedProduce"><a href="#1-3-DelayedProduce" class="headerlink" title="1.3 DelayedProduce"></a>1.3 DelayedProduce</h4><ul>
+<li>DelayedProduce 的作用就是协助副本管理器在 acks 为−1的场景时，延迟回调 responseCallback 向生产者做出响应。</li>
+<li>具体表现在当消息追加到分区 Leader 副本之后，该分区各 Follower 副本完成了与 Leader 副本消息同步之后再回调 responseCallback 给生产者。</li>
+</ul>
+<h5 id="1-3-1-DelayedProduce-处理逻辑"><a href="#1-3-1-DelayedProduce-处理逻辑" class="headerlink" title="1.3.1 DelayedProduce 处理逻辑"></a>1.3.1 DelayedProduce 处理逻辑</h5><ul>
+<li>（1）写操作发生异常。更新该分区的 ProducePartitionStatus.PartitionResponse.errorCode，同时更新 acksPending=false。</li>
+<li>（2）当分区 Leader 副本发生迁移时。此时也需要更新该分区的 ProducePartitonStatus 和 acksPending=false。</li>
+<li>（3）ISR 副本同步完成，Leader 副本的 HW（HighWatermark）已大于 requiredOffset。通过 Partition.checkEnoughReplicasReachOffset（status.requiredOffset） 处理后会修改 DelayedProduce 初始化时对 PartitionResponse.errorCode 所设置的默认值。</li>
+<li>DelayedProduce.tryComplete() 方法检测 DelayedProduce 是否满足执行条件，DelayedProduce 需要在本次请求对应的所有分区都满足条件之后才调用 forceComplete() 方法来完成延迟操作。</li>
+</ul>
+<h4 id="1-4-DelayedFetch"><a href="#1-4-DelayedFetch" class="headerlink" title="1.4 DelayedFetch"></a>1.4 DelayedFetch</h4><ul>
+<li>DelayedProduce 是在 ProduceRequest 处理中对生产者发送消息的延迟操作，自然 DelayedFetch 就是在 FetchRequest 处理时进行的延迟操作。</li>
+<li>在 Kafka 中只有消费者或是 Follower 副本会发起 FetchReuqest 请求。</li>
+<li>FecthRequest 是由 KafkaApis.handleFetchRequest() 方法处理的，在该方法中会调用 ReplicaManager.fetchMessages() 方法从相应分区的 Leader 副本拉取消息。</li>
+<li>在 ReplicaManager.fetchMessages() 方法中会创建 DelayedFetch 延迟操作。</li>
+</ul>
+<h4 id="1-5-DelayedJoin"><a href="#1-5-DelayedJoin" class="headerlink" title="1.5 DelayedJoin"></a>1.5 DelayedJoin</h4><ul>
+<li>DelayedJoin 是协助组协调器在消费组准备平衡操作时进行相应的处理。</li>
+<li>当消费组的状态转换为 PreparingRebalance 时，即准备进行平衡操作，在组协调器的 prepareRebalance() 方法中会创建一个 DelayedJoin 对象，并交由 DelayedOperationPurgatory 负责监视管理。</li>
+<li>在消费组进行平衡操作时之所以需要 DelayedJoin 处理，是为了让组协调器等待当前消费组下所有的消费者都请求加入消费组，即发起了 JoinGroupRequest 请求。</li>
+<li>每次组协调器处理完 JoinGroupRequest 时都会检测 DelayedJoin 是否满足了完成执行的条件。</li>
+</ul>
+<h4 id="1-6-DelayedHeartbeat"><a href="#1-6-DelayedHeartbeat" class="headerlink" title="1.6 DelayedHeartbeat"></a>1.6 DelayedHeartbeat</h4><ul>
+<li>DelayedHeartbeat 用于协助消费者与组协调器心跳检测相关的延迟操作，DelayedHeartbeat 相关功能的实现是调用 GroupCoordinator 的相应方法来完成的。</li>
+</ul>
+<h4 id="1-7-DelayedCreateTopics"><a href="#1-7-DelayedCreateTopics" class="headerlink" title="1.7 DelayedCreateTopics"></a>1.7 DelayedCreateTopics</h4><ul>
+<li>在创建主题时，需要为主题的每个分区分配到 Leader 之后，才调用回调函数将创建主题结果返回给客户端。</li>
+<li>DelayedCreateTopics 延迟操作等待该主题的所有分区副本分配到 Leader 或是等待超时后调用回调函数返回给客户端。</li>
+</ul>
+<h3 id="2-控制器"><a href="#2-控制器" class="headerlink" title="2 控制器"></a>2 控制器</h3><h4 id="2-0-基础概念"><a href="#2-0-基础概念" class="headerlink" title="2.0 基础概念"></a>2.0 基础概念</h4><ul>
+<li>在启动 Kafka 集群时，每一个代理都会实例化并启动一个 KafkaController，并将该代理的 brokerId 注册到 ZooKeeper 的相应节点当中。</li>
+<li>Kafka 集群中各代理会根据选举机制选出其中一个代理作为 Leader，即 Leader 控制器（本书简称之为控制器，在没有特殊说明情况下，控制器均指 Leader 控制器）。</li>
+<li>当控制器发生宕机后其他代理再次竞选出新的控制器。</li>
+<li>控制器负责主题的创建与删除、分区和副本的管理以及代理故障转移处理等。<ul>
+<li>当一个代理被选举成为控制器时，该代理对应的 KafkaController 就会注册（Register）控制器相应的操作权限，同时标记自己是 Leader。</li>
+<li>当代理不再成为控制器时，就要注销掉（DeRegister）相应的权限。实现这些功能的程序入口是在 Kafka 核心 core 工程下的 kafka.controller.KafkaController 类。</li>
+</ul>
+</li>
+</ul>
+<p>核心关键词：</p>
+<ul>
+<li><pre><code>controller_epoch</code></pre><p>：</p>
+<ul>
+<li>用于记录控制器发生变更次数，即记录当前的控制器是第几代控制器（本书中我们称之为控制器轮值次数）。</li>
+<li>初始值为0，当控制器发生变更时，每选出一个新的控制器需将该字段加1，每个向控制器发送的请求都会带上该字段，</li>
+<li>如果请求的 <code>controller_epoch</code>的值小于内存中<code>controller_epoch</code>的值，则认为这个请求是向已过期的控制器发送的请求，那么本次请求就是一个无效的请求。</li>
+<li>若该值大于内存中<code>controller_epoch</code>的值，则说明已有新的控制器当选了。</li>
+<li>通过该值来保证集群控制器的唯一性，进而保证相关操作一致性。该字段对应 ZooKeeper 的 <code>controller_epoch</code>节点，通过登录 ZooKeeper 客户端执行<code>get/controller_epoch</code>命令，可以查看该字段对应的值。</li>
+</ul>
+</li>
+<li><p>zkVersion：</p>
+<ul>
+<li>作用类似数据库乐观锁，用于更新 ZooKeeper 路径下相应元数据信息，如controller epoch，ISR 信息等。</li>
+</ul>
+</li>
+<li><pre><code>leader_epoch</code></pre><p>：</p>
+<ul>
+<li>分区 Leader 更新次数。<code>controller_epoch</code>是相对代理而言的，而<code>leader_epoch</code>是相对于分区来说的。</li>
+<li>由于各请求达到顺序不同，控制器通过<code>controller_epoch</code>和<code>leader_epoch</code>来确定具体应该执行哪个命令操作。</li>
+</ul>
+</li>
+<li><p>已分配副本（assigned replica）：</p>
+<ul>
+<li>每个分区的所有副本集合被称作已分配副本，简写为 AR，本书中所有 AR 均表示此含义，而 ISR 是与分区 Leader 保持同步的副本列表。</li>
+</ul>
+</li>
+<li><p>LeaderAndIsr：</p>
+<ul>
+<li>Kafka 将 Leader 对应的 brokerId 和 ISR 列表封装成一个 LeaderAndIsr类。</li>
+<li>以 JSON 串表示为<code>{&quot;leader&quot; :Leader的 brokerId, &quot;leader_epoch&quot;:leader 更新次数, &quot;isr&quot; :ISR 列表}</code>。</li>
+</ul>
+</li>
+<li><p>优先副本（preferred replica）：</p>
+<ul>
+<li>在 AR 中，第一个副本称为 preferred replica，也就是我们说的优先副本。</li>
+<li>理想情况下，优先副本即是该分区的 Leader，Kafka 要确保所有主题的优先副本在 Kafka 集群中均衡分布，这样就保证了所有分区的 Leader 均衡分布。</li>
+<li>保证 Leader 在集群中均衡分布很重要，因为所有的读写请求都由分区 Leader 副本进行处理，如果 Leader 分布过于集中，就会造成集群负载不均衡。</li>
+<li>为了保证优先副本的均衡分布，Kafka 提供了5种分区选举器（PartitionLeaderSelector），当分区数发生变化或是分区 Leader 宕机时就会通过分区选举器及时选出分区新的 Leader。</li>
+</ul>
+</li>
+</ul>
+<h4 id="2-1-控制器初始化"><a href="#2-1-控制器初始化" class="headerlink" title="2.1 控制器初始化"></a>2.1 控制器初始化</h4><ul>
+<li><p>每个代理在启动时会实例化并启动一个 KafkaController。</p>
+</li>
+<li><p>KafkaController 实例化时主要完成以下工作。</p>
+<p>(1) 创建一个 ControllerContext 实例对象，该对象很重要的一个作用是用于缓存控制器各种处理操作所需要的数据结构。ControllerContext 实例化时会初始化用于记录控制器选举次数的 epoch 及与之对应的 zkVersion 字段的值，初始时都为0，同时设置当前正常运行的代理列表、主题列表、各主题对应分区与副本的AR列表等。声明控制器与其他代理通信的 ControllerChannelManager 对象，ControllerChannelManager 在这里只是声明并没有创建和启动。实例化代理选举控制器操作的 ReentrantLock。</p>
+<p>(2) 实例化用于维护和管理分区状态的状态机（PartitionStateMachine）。Kafka 分区定义了4个状态，分区状态及描述如表3-1所示。</p>
+</li>
+</ul>
+<p>Kafka 分区状态及描述</p>
+<table>
+<thead>
+<tr>
+<th>状　态　名</th>
+<th>状　态　值</th>
+<th>描　　述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>NewPartition</td>
+<td>0</td>
+<td>当一个分区被创建后就处于该状态，处于该状态的分区已得到了副本分配，但还没有Leader和ISR信息</td>
+</tr>
+<tr>
+<td>OnlinePartition</td>
+<td>1</td>
+<td>一旦分区的Leader选举出来后，分区就处于该状态</td>
+</tr>
+<tr>
+<td>OfflinePartition</td>
+<td>2</td>
+<td>如果分区Leader成功选出来之后，Leader的代理仍处于宕机状态，则该分区就转到离线（OfflinePartition）状态</td>
+</tr>
+<tr>
+<td>NonExistentPartition</td>
+<td>3</td>
+<td>处于此状态表明该分区可能还没有被创建，也可能是曾被创建过但已被删除</td>
+</tr>
+</tbody></table>
+<p>分区状态机对应的4种状态的转换关系</p>
+<p>分区状态机会注册两个监听器，这两个监听器的作用如下。</p>
+<ul>
+<li><p>TopicChangeListener 用于监听 <code>/brokers/topics</code> 路径下子节点变化，当创建一个主题时，会在该路径下创建一个与该主题相同名字的子节点。当该路径下子节点发生变化即主题有变化时就会触发该监听器，该监听器的 handleChildChange() 方法中会更新 ControllerContext 中维护的主题列表信息及各主题对应分区的 AR 信息。同时，若该路径下节点的变更是由于创建一个新的主题所引起的，则调用控制器相应方法进行处理，会向该主题注册一个用于监听该主题分区和副本发生变化的监听器。</p>
+</li>
+<li><p>DeleteTopicsListener 用于监听 <code>/admin/delete_topics</code>子节点的变更，当删除一个主题时，会在该路径下创建一个与待删除主题相同名字的子节点，当该路径下子节点发生变化时就会触发该监听器，在该监听器的 handleChildChange() 方法中会将待删除的主题从 /brokers/topic 路径下删除，并将该主题加入到 TopicDeletionManager 维护的记录待删除主题的队列当中，交由 TopicDeletionManager 执行删除。</p>
+<p>（3）实例化一个对副本状态管理的状态机 ReplicaStateMachine。Kafka 对副本定义了7种状态，各副本状态及描述如表3-2所示。</p>
+<p>表3-2　Kafka 副本状态及描述</p>
+</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>状　态　名</th>
+<th>状态值</th>
+<th>描　　述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>NewReplica</td>
+<td>1</td>
+<td>新创建的副本状态即为 NewReplica，处于该状态的副本只能接受成为 Follower 副本的转换请求</td>
+</tr>
+<tr>
+<td>OnlineReplica</td>
+<td>2</td>
+<td>一旦副本被启动或者已是分区 AR 的一部分时，该副本就处于在线状态，处于该状态的副本可以接受成为 Leader 或者 Follower 的转换请求</td>
+</tr>
+<tr>
+<td>OfflineReplica</td>
+<td>3</td>
+<td>如果检测到一个副本所在的代理已宕机，则将该副本状态设置为此状态即离线状态，表示该副本将要被从 ISR 中下线</td>
+</tr>
+<tr>
+<td>ReplicaDeletionStarted</td>
+<td>4</td>
+<td>在对处于离线状态的副本进行删除操作时，先将副本状态标记为此状态，表示正在进行删除离线副本的操作</td>
+</tr>
+<tr>
+<td>ReplicaDeletionSuccessful</td>
+<td>5</td>
+<td>当删除副本成功，删除请求返回没有错误应答码时，则将副本标记为此状态</td>
+</tr>
+<tr>
+<td>ReplicaDeletionIneligible</td>
+<td>6</td>
+<td>如果副本删除失败，则将副本状态设置为此状态</td>
+</tr>
+<tr>
+<td>NonExistentReplica</td>
+<td>7</td>
+<td>如果副本删除成功，则将副本状态设置为此状态</td>
+</tr>
+</tbody></table>
+<p>表3-2对副本状态进行了详细介绍，各状态之间有效状态转换如图3-4所示。</p>
+<p><img src="../../../../../../../../images/2018/10/%E5%89%AF%E6%9C%AC%E7%8A%B6%E6%80%81.png" alt="enter image description here"></p>
+<p>图3-4　副本状态机状态转换图</p>
+<p>在副本状态机内部定义了一个 BrokerChangeListener 监听器，该监听器会监听 ZooKeeper 的 /brokers/ids/ 路径下各代理对应的 brokerId 节点的变化。当代理与 ZooKeeper 会话超时，相应临时节点被删除抑或是一个新代理加入时，/brokers/ids 路径下的子节点发生变化就会触发该监听器，该监听器调用 ControllerContext.controllerChannelManager 对节点变化进行相应处理。</p>
+<p>（4）创建用于将当前代理选举为控制器的 ZooKeeperLeaderElector 选举器对象，实例化该对象时需要传递两个回调函数：完成控制器相应初始化操作的 onControllerFailover() 方法，以及当新的控制器当选时让先前的控制器注销控制器权限的 onControllerResignation() 方法。Kafka 控制器选举策略是在 ZooKeeper 的 /controller 路径下创建一个临时节点，并注册一个 LeaderChangeListener，通过该监听器来监听该临时节点，当该临时节点信息发生变更时，就会触发该监听器。当新当选的控制器信息被保存时，就会触发该监听器的 handleDataChange() 方法进行相应处理；当监听器监听到 /controller 路径下控制器信息被删除时，将触发 onControllerResignation() 回调方法，同时触发重新选举机制。关于控制器的选举过程在后面小节会有详细讲解，这里不再赘述。</p>
+<p>（5）创建一个独立定时任务 KafkaScheduler，该定时任务用于控制器进行平衡操作，其生命周期只在代理成为Leader控制器期间有效，当代理不再是Leader控制器时，即调用 onControllerResignation() 方法时该定时任务就会被关闭。</p>
+<p>（6）声明一个对主题操作管理的 TopicDeletionManager 对象。该对象在3.2.5节将会详细阐述。</p>
+<p>（7）创建一个用于在分区状态发生变化时为分区选举出 Leader 副本的分区选举器 PartitionLeaderSelector。Kafka 提供了5种分区选举器，这些选举器会被分区状态机调用，当分区的状态发生变化时，根据分区所处状态选用不同的选举器为分区选出 Leader 副本。分区选举器只定义了一个 selectLeader() 方法，该方法接受两个对象，一个表示要被选举为 Leader 的分区对象 TopicAndPartition，另一个表示该分区当前的 Leader 和 ISR 对象 LeaderAndIsr。该方法返回一个元组，元组包括新当选的 Leader，ISR 对象以及由一组副本构成的 LeaderAndIsrRequest 对象。分区选举器的类层次结构</p>
+<p><img src="../../../../../../../../images/2018/10/%E5%88%86%E5%8C%BA%E9%80%89%E4%B8%BE%E5%99%A8%E7%9A%84%E7%B1%BB%E5%B1%82%E6%AC%A1%E7%BB%93%E6%9E%84.png" alt="分区选举器的类层次结构"></p>
+<p>各选举器的功能及选举策略如下。</p>
+<ul>
+<li><p>OfflinePartitionLeaderSelector：分区状态机启动、新创建一个分区或是将一个分区状态由 NewPartition 状态、OfflinePartition 状态转换到 OnlinePartition 状态时会调用该选举器，为分区选出 Leader，得到分区的 LeaderAndIsr。该选举器选举策略是首先判断是否有存活（本书用存活来代表心跳检测正常的代理所处的状态）的 ISR，若 ISR 中至少有一个存活的代理，则从 ISR 列表中选第一个存活的代理作为 Leader，存活的 ISR 作为新的 ISR；否则，若配置项 unclean.leader.election.enable 为 true，该配置项默认为 true，即表示允许从不在 ISR 列表中的副本选举 Leader，同时 AR 中若有存活的副本，则从 AR 列表中选第一个代理作为 Leader，存活的 AR 作为新的 ISR。当没有可选作 Leader 的代理时，会抛出 NoReplicaOnlineException 的异常。Leader 和 ISR 选出后构造 LeaderAndIsr 对象，将当前的 <code>leader_epoch</code> 加1赋值给新的<code>leader_epoch</code>，将当前的 zkVersion 加1作为新的 zkVersion。若 Leader 选举成功，后续会将 LeaderAndIsr 对象和<code>controller_epoch</code>值构造 PartitionStateInfo 对象。登录 ZooKeeper 客户端在 ZooKeeper 的 <code>/brokers/topics/${topicName}/partitions/${partitionId}/state</code>可以查看到某个分区的元数据信息。例如，查看有5个 Broker，即 brokerId={0,1,2,3,4}，主题名 topicName 为“topic-analyse”，partitionId 为0的分区信息如下：</p>
+<pre class=" language-json"><code class="language-json"> <span class="token punctuation">{</span><span class="token property">"controller_epoch"</span><span class="token operator">:</span><span class="token number">7</span><span class="token punctuation">,</span><span class="token property">"leader"</span><span class="token operator">:</span><span class="token number">3</span><span class="token punctuation">,</span><span class="token property">"version"</span><span class="token operator">:</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token property">"leader_epoch"</span><span class="token operator">:</span><span class="token number">0</span><span class="token punctuation">,</span><span class="token property">"isr"</span><span class="token operator">:</span><span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">3</span><span class="token punctuation">]</span><span class="token punctuation">}</span></code></pre>
+<p>以上分区信息表示该分区的 Leader 副本为 brokerId 为3的节点，同时该分区至少有2个副本，因为 ISR 当前有2个节点，集群的控制器总共发生了7次变更，而分区的 Leader 从最初当选还未发生过变化，可以从<code>leader_epoch</code>值来判断分区或是ISR是否发生过变化。</p>
+</li>
+<li><p>ReassignedPartitionLeaderSelector：当分区进行重分配时会调用该选举器。该选举器的选举策略是从 AR 列表中找出存活副本列表，若有存活的副本则取存活副本列表的第一个副本作为 Leader，将当前 ISR 作为新的 ISR，将 AR 作为接受 LeaderAndIsr 请求的副本集合。若没有候选的副本，则抛出 NoReplicaOnlineException 异常。</p>
+</li>
+<li><p>PreferredReplicaPartitionLeaderSelector：该选举器直接将优先副本设置为分区的 Leader。该选举器首先根据当前 Leader 是不是由优先副本担任来决定是否需要选举。若当前 Leader 由优先副本担任则无需设置，仅抛出 LeaderElectionNotNeededException 异常进行提示；若优先副本不是 Leader 但在该分区的 ISR 列表中，则将优先副本选为 Leader，将 AR 作为接受 LeaderAndIsr 请求的副本集合；否则抛出 StateChangeFailedException 异常。</p>
+</li>
+<li><p>ControlledShutdownLeaderSelector：该选举器将从 ISR 中剔除已关闭的节点，将剔除已关闭节点后的 ISR 作为新的 ISR，同时从新的 ISR 中选取第一个作为 Leader 副本。将 AR 中剔除已关闭节后的副本节点作为接受 LeaderAndIsr 请求的副本集合。</p>
+</li>
+<li><p>NoOpLeaderSelector：该选举器只返回当前分区的 Leader 和 ISR。</p>
+<p>（8）实例化 ControllerBrokerRequestBatch。在前面实例化了分区状态机和副本状态机，这两个状态机在相应状态发生变化时相应监听器都会调用各自的 handleStateChange() 方法进行处理，而 ControllerBrokerRequestBatch 封装了 leaderAndIsrRequestMap、stopReplicaRequestMap 和 updateMetadataRequestMap 这3个集合，用来记录和缓存 handleStateChange() 方法中产生的 request，控制器将这些 request 交由 ControllerBrokerRequestBatch.sendRequestsToBrokers() 方法批量发送出去，交由 KafkaApis 调用相应的 handle 方法进行处理。</p>
+<p>（9）实例化3个监听器，即用于监听分区重分配的 PartitionsReassignedListener，用于监听当分区状态变化时触发 PreferredReplicaPartitionLeaderSelector 选举器将优先副本选举为 Leader 的 PreferredReplicaElectionListener、用于监听当 ISR 发生变化时将 ISR 变化通知给 ZooKeeper 进行更新操作，同时向所有的代理节点发送元数据修改请求的 IsrChangeNotificationListener。</p>
+<p>至此，控制器实例化过程讲解完毕。当一个代理启动时就会创建一个 KafkaController 实例并启动。在启动 KafkaController 时，先注册一个用于监听代理与 ZooKeeper 会话超时的监听器 SessionExpirationListener，然后启动控制器选举，让当前代理试图去竞选为控制器。</p>
+</li>
+</ul>
+<p>以下部分实在目前消化困难，待以后回头温习，顾直接引用。</p>
+<h4 id="2-2-控制器选举过程"><a href="#2-2-控制器选举过程" class="headerlink" title="2.2 控制器选举过程"></a>2.2 控制器选举过程</h4><p>每个代理启动时会创建一个 KafkaController 实例，当 KafkaController 启动后就会从所有代理中选择一个代理作为控制器，控制器是所有代理的 Leader，因此这里也称之为 Leader 选举。除了在启动时会导致选举外，当控制器所在代理发生故障或 ZooKeeper 通过心跳机制感知控制器与自己的连接 Session 已过期时，也会再次从所有代理中选出一个节点作为集群的控制器。</p>
+<p>Kafka 控制器的选举依赖于 ZooKeeper。在集群整个运行过程中，代理在 ZooKeeper 不同节点上注册相应的监听器。各监听器各司其职，当所监听的节点状态发生变化时就会触发相关函数进行处理。本节将详细讲解控制器的选举过程。</p>
+<p>在3.2.1节中提到过在控制器初始化时创建了一个将代理选举为 Leader 的 ZooKeeperLeaderElector 对象，代码如下：</p>
+<pre><code>val controllerElector=new ZooKeeperLeaderElector(controllerContext, ZkUtils.ControllerPath,   
+onControllerFailover, onControllerResignation, config.brokerId)</code></pre><p>通过实例化 ZooKeeperLeaderElector 的入参可看到选举前后需要做的工作。参数 config.brokerId 是候选控制器代理对应的 brokerId，参数 ZkUtils.ControllerPath 即为选举过程所依赖的 /controller 路径，当代理当选为 Leader 控制器后回调 onControllerFailover，当前代理上任（sign），注册 Leader 拥有的权限和启动相应工作；当代理不再担任 Leader 时，当前代理退位（resign），注销 Leader 拥有的权限，即回调 onControllerResignation 相应进行处理。</p>
+<p>在 ZooKeeperLeaderElector 启动时首先注册一个 LeaderChangeListener，负责监听 ZooKeeper 的 /controller 节点数据变化，该节点存储了当前 Leader 的 brokerId，数据格式为一个 JSON 字符串：{“version” :1, “brokerid”:brokerId, “timestamp”:timestamp}。当该节点数据发生变化时，比较当前代理的 brokerId 与当前 Leader 的 leaderId 是否相同，若不同，则表示当前代理已不是 Leader，则回调 onControllerResignation 退位，注销 Leader 控制器相关权限，将当前代理状态设置为 RunningAsBroker，同时将该代理的<code>leader_epoch</code>和 zkVersion 设置为0。当该节点数据被删除时，若当前代理是 Leader，则先退位，然后再触发选举，否则直接触发选举。</p>
+<p>控制器选举算法思想较简单，入口为 ZooKeeperLeaderElector.select() 方法，该方法执行逻辑如下。</p>
+<p>每个代理首先从 ZooKeeper 的 /controller 节点获取 Leader 信息，解析当前 Leader 的 leaderId（作为 Leader 的代理对应的 brokerId）。若 leaderId 等于−1，则表示还没有成功选举出 Leader，则该代理将封装有自己 brokerId 的信息以 JSON 串 {“version”: 1, “brokerid”: brokerId, “timestamp”:timestamp} 格式请求 ZooKeeper 将该数据写入 /controller 节点。如果 leaderId 不为−1，则表示已有代理抢先成为了 Leader，则停止选举。若写入代理信息成功，则当前代理即为所选出的 Leader。</p>
+<p>在抢占写 /controller 节点时若发生非 ZkNodeExistsException 异常，则会将 leaderId 设置为−1，同时删除存储在 /controller 节点的元数据信息，以便让请求最先到达 ZooKeeper 的代理成为 Leader，由于删除了 /controller 节点将会触发 LeaderChangeListener.handleDataDeleted() 方法，就会重新选举 Leader。同时由于 /controller 节点数据的变化，将触发 LeaderChangeListener.handleDataChange() 方法，这时其他代理将通过当前的 leaderId 与自己的 brokerId 比较，若在 /controller 节点数据发生变化前自己是 Leader，而现在 leaderId 与自己的 brokerId 不同，则自己退位（resign），回调 onControllerResignation 函数。</p>
+<p>可见，Kafka 控制器选举的核心思想就是各代理通过争抢向 /controller 节点请求写入自身的信息，先成功写入的代理即为 Leader。控制器选举流程如图3-6所示。</p>
+<p><img src="../../../../../../../../../../../../images/2018/10/%E6%8E%A7%E5%88%B6%E5%99%A8%E9%80%89%E4%B8%BE%E6%B5%81%E7%A8%8B.png" alt="enter image description here"></p>
+<p>图3-6　控制器选举流程</p>
+<h4 id="2-3-故障转移"><a href="#2-3-故障转移" class="headerlink" title="2.3　故障转移"></a>2.3　故障转移</h4><p>我们在3.2.2节对选举过程进行了详细介绍，而触发控制器进行选举有3种情况：一是在控制器启动的时候，二是当控制器发生故障转移的时候，三是当心跳检测超时的时候。因此，我们说控制器故障转移的本质是控制权的转移，而控制权的转移也就是重新选出新的控制器。在控制器实例化时创建了一个 ZooKeeperLeaderElector 对象，实例化该对象时需要两个回调函数，分别用于代理当选为控制器时注册相应权限的 onControllerFailover() 方法和不再是 Leader 控制器时注销相应权限的 onControllerResignation() 方法。对故障转移的讲解，我们也是主要介绍这两个方法具体的实现逻辑。</p>
+<h5 id="1．onControllerFailover-操作"><a href="#1．onControllerFailover-操作" class="headerlink" title="1．onControllerFailover 操作"></a>1．onControllerFailover 操作</h5><p>KafkaController 的 onControllerFailover() 方法的作用就是完成控制器相应的初始化工作，如果当前的控制器正常运行，即在控制器启动时的标志位 isRunning 为 true，则执行以下逻辑完成控制器的初始化，否则表示当前的控制器已关闭，将终止相应的初始化处理。</p>
+<p>（1）从 ZooKeeper 的 <code>/controller_epoch</code> 路径读取当前控制器的轮值次数，并更新到当前 ControllerContext 中。</p>
+<p>（2）将控制器的轮值次数加1，并尝试去更新 ZooKeeper 中<code>/controller_epoch</code>中记录的轮值次数的值，若更新失败则表示当前的控制器也被其他控制器替代，因此当前代理成为控制器相关的初始化处理将以异常而告终。若更新失败是由于 ZooKeeper 中不存在 <code>/controller_epoch</code> 节点，则表明是控制器首次启动，第一个控制器当选，因此在 ZooKeeper 中创建该节点并写入控制器轮值次数。同时更新 ControllerContext 中缓存的与轮值次数相关的数据。</p>
+<p>前两步是判断能否为控制器完成初始化处理的前置条件，只有保证控制器轮值次数正常处理之后，才会进行以下初始处理工作。</p>
+<p>（1）注册分区管理相关的监听器。用于监听 ZooKeeper 的<code>/admin/reassign_partitions</code>节点引发分区重分配操作的 PartitionsReassignedListener；用于监听 ZooKeeper 的<code>/isr_change_notification</code>节点用于处理分区ISR发生变化的 IsrChangeNotificationListener；用于监听<code>/admin/preferred_replica_election</code>节点将优先副本选为分区 Leader 操作的 PreferredReplicaElectionListener。</p>
+<p>（2）注册主题管理的监听器。通过分区状态机向 ZooKeeper 的 /brokers/topics 节点注册一个 TopicChangeListener，用于监听主题发生变化时进行相应的处理。同时，若开启了 delete.topic.enable，即该配置项值为 true，则同时向 ZooKeeper 的 <code>/admin/delete_topics</code>节点注册一个 DeleteTopicsListener，该监听器会完成服务器端删除主题相应的操作，否则当客户端删除一个主题时，仅是将该主题标识为删除，但服务端并没有将该主题真正删除。</p>
+<p>（3）注册代理变化处理的监听器。通过副本状态机向 ZooKeeper 的 /brokers/ids 节点注册一个 BrokerChangeListener，当代理发生增、减变化时进行相应的处理。</p>
+<p>（4）初始化 ControllerContext，即当一个代理成为控制器后，原控制器所持有的 ControllerContext 将被重新赋值。首先从 ZooKeeper 中获取当前所有存活的代理、所有的主题及分区分配方案信息，分别初始化存活的代理集合、主题集合及每个分区的AR集合信息，更新 ControllerContext 中每个分区的 Leader 及 ISR 信息。当 ControllerContext 缓存的基础信息初始化后，启动用于管理控制器与各代理之间通信的 ControllerChannelManager。然后分别初始化需要优先副本选举的分区，以及需要选举的分区所对应的分区分配方案。最后创建一个用于管理主题删除操作的 TopicDeletionManager 对象。</p>
+<p>（5）启动分区状态机和副本状态机。</p>
+<p>（6）从 ControllerContext 中读取所有主题，轮询每个主题，为每个主题添加用于监听分区变化的 PartitionModificationsListener。</p>
+<p>（7）检测当前是否有分区需要触发分区重分配操作。若需要重分配，则进行一次分区重分配操作。</p>
+<p>（8）检测当前是否有需要将优先副本选举为 Leader 的分区，并进行相应的操作。</p>
+<p>（9）向 Kafka 集群中所有存活的代理发送更新元数据请求。</p>
+<p>（10）根据配置 auto.leader.rebalance.enable 决定是否创建用于分区平衡操作的定时任务。该配置项默认为 true。若该配置项为 true，则创建一个每隔<code>${leader.imbalance.check.interval.seconds}</code>秒，默认是300秒，即每5分钟执行一次分区重分配检查及分区重分配操作的定时任务。</p>
+<p>（11）启动第4步创建的删除主题管理的 TopicDeletionManager 组件。</p>
+<p>至此，onControllerFailover() 操作的执行逻辑介绍完毕。通过该方法执行逻辑讲解可知，当一个代理成为控制器后，主要完成相应元数据的初始化以及对代理、主题、分区等变化感知的监听器的注册和启动相应管理组件。</p>
+<h5 id="2．onControllerResignation-操作"><a href="#2．onControllerResignation-操作" class="headerlink" title="2．onControllerResignation 操作"></a>2．onControllerResignation 操作</h5><p>当一个代理不再是控制器时，需要注销控制器相应的权限及修改相应元数据的初始化信息。KafkaController 通过调用 KafkaController.onControllerResignation() 方法实现一个代理从控制器到普通代理的转变操作，该方法的执行逻辑如下。</p>
+<p>首先，取消该控制器在 ZooKeeper 中注册的用于对分区及副本变化感知的监听器的监听；接着，关闭删除主题操作的 TopicDeletionManager，并关闭分区平衡操作的定时任务（若参数 auto.leader.rebalance.enable 为 true，即在当前代理成为控制器时启动的分区平衡操作的定时任务）。</p>
+<p>然后，在获取 ControllerContext 维护的重入锁的条件下取消对分区 ISR 变化监听，关闭分区状态机和副本状态机，关闭控制器与其他代理之间进行通信的 ControllerChannelManager。</p>
+<p>最后，将 ControllerContext 中用于记录控制器轮值次数及轮值数对应的 epochZkVersion 字段置零，并将当前代理状态设置为 RunningAsBroker，即当前代理不再是控制器的角色。</p>
+<h4 id="2-4-代理上线与下线"><a href="#2-4-代理上线与下线" class="headerlink" title="2.4　代理上线与下线"></a>2.4　代理上线与下线</h4><p>在介绍完控制器选举操作两个回调方法之后，我们再简要对代理增、减变化，或者说是代理上线与下线操作时 BrokerChangeListener 所做的处理进行介绍。</p>
+<h5 id="1．代理上线"><a href="#1．代理上线" class="headerlink" title="1．代理上线"></a>1．代理上线</h5><p>当有新的代理上线时，在代理启动时会向 ZooKeeper 的 /brokers/ids 节点下注册该代理的 brokerId，此时会被副本状态机在 ZooKeeper 所注册的 BrokerChangerListener 监听器监听到该节点信息的变化，通过 ZooKeeper 中记录的节点信息及 ControllerContext 缓存的节点信息，计算出新上线的节点集合，对新上线的代理节点调用 ControllerChannelManager.addBroker() 方法完成新上线代理网络层相关初始化处理。然后调用 KafkaController.onBrokerStartup() 方法进行处理，该方法处理逻辑如下。</p>
+<p>首先，向集群当前所有的代理发送 UpdateMetadataRequest 请求，这样所有的代理通过这种方式就会知道有新的代理加入。</p>
+<p>接着，查找出被分配到新上线节点上的副本集合，通过副本状态机对副本状态进行相应变迁处理，将这些副本的状态更新为 OnlineReplica，并通过分区状态机对分区状态为 NewPartition 和 OfflinePartition 的分区进行处理，将其状态扭转至 OnlinePartition 状态，并触发一次分区 Leader 选举，以确认新增加的代理是否是分区的 Leader。</p>
+<p>然后，轮询被分配到新上线代理的副本，调用 KafkaController.onPartitionReassignment() 方法执行服务端分区副本分配操作。在3.2.6节的“分区重分配”小节将对 onPartitionReassignment() 方法进行详细讲解。</p>
+<p>最后，恢复由于新代理上线而被暂停的删除主题操作的线程，让其继续完成服务端删除主题的操作。</p>
+<p>至此，新代理上线时 BrokerChangeListener 所进行的处理基本流程介绍完毕。当然，每步操作都涉及更复杂数据结构的处理，这里我们只是简要梳理了对代理上线操作的几个关键步骤，这样可以便于大家对新代理上线处理整体逻辑的把握，同时为阅读源码提供参考。</p>
+<h5 id="2．代理下线"><a href="#2．代理下线" class="headerlink" title="2．代理下线"></a>2．代理下线</h5><p>当代理下线时，该代理在 ZooKeeper 的 /brokers/ids 节点注册的与该代理对应的节点将被删除，此时 BrokerChangeListener 的 handleChildChange() 方法将被触发。</p>
+<p>与新代理上线操作类似，首先要查找下线节点的集合，然后轮询下线节点集合，调用 ControllerChannelManager.removeBroker() 方法，关闭每个下线节点的网络连接，清空下线节点的消息队列，关闭下线节点发送 Request 请求的线程等。最后调用 KafkaController 的 onBrokerFailure() 方法进行处理，该方法处理逻辑如下。</p>
+<p>首先，查找 Leader 副本在下线节点上的分区，将这些分区的状态设置为 OfflinePartition，并处理相应状态变迁，然后调用分区状态机的 triggerOnlinePartitionStateChange() 方法将处于 OfflinePartition 状态的分区状态转换为 OnlinePartition 状态，这个过程会通过 OfflinePartitionLeaderSelector 分区选举器为分区选出 Leader，并将 Leader 和 ISR 信息写入 ZooKeeper 中，同时发送 UpdateMetadataRequest 请求更新元数据信息。</p>
+<p>然后，查找所有在下线节点上的副本集合，将该集合分成两部分，一部分是待删除主题的副本，将这些副本的状态转换为 ReplicaDeletionIneligible，标记该副本对应的主题暂时不可被删除。另一部分副本即是当前处于正常使用的主题的副本，因此需要对这些副本进行下线相应的处理，将副本状态由 OnlineReplica 转化为 OfflineReplica，此时会将该副本节点从分区的 ISR 集合中删除，并发送 StopReplicaRequest 请求，停止该副本从 Leader 副本同步消息的操作，发送 LeaderAndIsrRequest 请求，该分区 Leader 副本和 Follower 副本根据角色不同分别进行相应处理，同时发送 UpdateMetadataRequest 请求，更新当前所有存活代理的缓存的元数据信息。</p>
+<p>最后，若分区 Leader 副本分配在下线节点上的所有分区状态转换操作执行完成，则向集群所有存活的代理发送更新元数据的 UpdateMetadataRequest 请求，执行元数据更新操作。</p>
+<h4 id="2-5-主题管理"><a href="#2-5-主题管理" class="headerlink" title="2.5　主题管理"></a>2.5　主题管理</h4><p>在3.2节一开始就提到控制器负责对主题、分区副本的管理操作，本小节将详细介绍控制器是如何对主题进行管理的，主要是讲解控制器在创建主题与删除主题时承担的职责。由于分区、副本是主题的固有属性，因此在讲解控制器对主题管理时将同时讲解控制器对分区副本创建及删除的管理操作。控制器对分区、副本的管理在逻辑上体现在分区状态机以及副本状态机对 ZooKeeper 的 /brokers/topics 节点及其子节点注册的一系列监听器上。</p>
+<p>为了便于理解，我们首先创建一个主题名为“topic-foo”的主题，该主题有3个分区、2个副本，然后以该主题为例详细分析控制器在该主题创建及删除操作时具体执行逻辑。</p>
+<h5 id="1．创建主题"><a href="#1．创建主题" class="headerlink" title="1．创建主题"></a>1．创建主题</h5><p>当创建一个主题时会在 ZooKeeper 的 /brokers/topics 目录下创建一个与主题同名的节点，在该节点下会记录该主题的分区副本分配方案。关于主题在 ZooKeeper 创建节点的流程本小节不进行阐述，在4.2节再进行详细讲解，这里关注的是控制器在主题创建及删除操作时所承担的工作。</p>
+<p>当创建一个主题时，无论是通过 Kafka API 还是通过命令行创建主题，同步返回创建主题成功时，其实仅是在 ZooKeeper 的 /brokers/topics 节点成功创建了该主题对应的子节点。而服务端创建主题的相关操作是异步交由控制器去完成的。例如，本例仅是在 ZooKeeper 的 /brokers/topics 路径下创建一个名为“topic-foo”的节点，同时在该节点中写入分区副本分配信息。可以登录 ZooKeeper 客户端通过 get/brokers/topics/topic-foo 命令查看该主题各分区副本分配信息，该主题各分区副本分配信息为：</p>
+<pre><code>{&quot;version&quot;:1,&quot;partitions&quot;:{&quot;2&quot;:[3,2],&quot;1&quot;:[2,1],&quot;0&quot;:[1,3]}}</code></pre><p>控制器初始化时分别创建了分区状态机及副本状态机，当代理被选为控制器后回调 onBecomingLeader() 时会调用分区状态机和副本状态机的 registerListeners() 方法。分区状态机在该方法中注册一个监听 ZooKeeper 的 /brokers/topics 子节点的变化的 TopicChangeListener 监听器，即该监听器用于监听主题及分区变化，而副本状态机在 registerListeners() 方法中会注册一个 BrokerChangeListener 监听器，该监听器用于监听 /brokers/ids 子节点的变化。当创建一个主题时，主题及该主题分区副本分配方案写入 ZooKeeper 的 /brokers/topics/ 下相应节点时，分区状态机和副本状态机注册的监听器就会被触发。</p>
+<p>当新创建一个主题时，该主题及分区副本分配信息写入 /brokes/topics 路径下后就会触发 TopicChangeListener 监听器的 handleChildChange() 方法进行处理，在 ControllerContext 实例化时创建了一个 ReentrantLock 锁对象，handleChildChange() 方法是在获取该重入锁的条件下进行处理的。</p>
+<p>handleChildChange() 方法的具体逻辑如下。</p>
+<p>（1）获取 /brokers/topics 下所有主题列表集合，记为集合 A。将 ControllerContext 中记录的当前所有主题列表集合，记为集合 C。通过集合 A 与集合 C 的差集 A−C，计算出新创建的主题列表，记为集合 N，对本例而言，即新创建的主题列表中只有“topic-foo”这一个元素。通过集合 C−A 的差集计算出被删除的主题列表，记为集合 D，对本例而言 D 为一个空集合。</p>
+<p>（2）更新 ControllerContext 缓存的当前主题列表，即用 A 集合的值覆盖 C 集合的值，这样就保证新创建的主题加入到缓存当中，同时从缓存中剔除被删除的主题。</p>
+<p>（3）遍历集合 N 列表，读取集合中每个主题的 partitions 子节点，本例为读取 /brokers/topics/ topic-foo/partitons 下各分区副本分配方案信息，构造一个 Map[TopicAndPartition, Seq[Int]] 集合，以每个主题的每个分区 TopicAndPartition 对象作为 Key，以该分区的 AR 作为 Value。同时从分区副本分配信息中过滤掉集合 N 中所有主题对应的分区副本分配信息，然后更新缓存中分区副本分配信息。</p>
+<p>（4）待缓存中主题及分区副本信息更新后，调用控制器的 onNewTopicCreation() 方法，实现真正创建主题的逻辑。这里之所以称为“真正创建主题”，是因为截止到当前所有的操作仅是在 ZooKeeper 中创建主题和分区副本最基础的元数据信息，以及 ControllerContext 缓存的信息，并不涉及分区及副本的状态转换、分区 Leader 分配、分区存储日志文件的创建等。这一系列的操作是由控制器调用 KafkaController.onNewTopicCreation() 方法来完成的。</p>
+<p>第4步中的 KafkaController.onNewTopicCreation() 方法的实现逻辑如下。</p>
+<p>（1）遍历集合 N，通过分区状态机为每个新创建的主题向 ZooKeeper 注册一个监听分区变化的监听器 PartitionModificationsListener。对本例而言，该监听器监听的是 /brokers/topics/topic-foo/ partitions 节点的信息变化。</p>
+<p>（2）调用控制器的 onNewPartitionCreation() 方法创建分区。</p>
+<p>上面提到的 onNewPartitionCreation() 方法的处理逻辑如下。</p>
+<p>（1）调用分区状态机的 handleStateChanges() 方法，将新增主题的各分区状态设置为 NewPartition 状态。</p>
+<p>（2）调用副本状态机的 handleStateChange() 方法，将新增主题的每个分区的副本状态设置为 NewReplica 状态。</p>
+<p>（3）调用分区状态机的 handleStateChanges() 方法，将新增主题的各分区状态设置为 OnlinePartition 状态，将各分区 AR 中第一个副本选为该分区的 Leader，将 AR 作为 ISR，然后创建各分区节点并写入该分区的详细元数据信息。本例会在 /brokers/topics/topic-foo 路径分别创建3个分区元数据信息对应的节点，例如，对分区编号为1的分区元数据路径为 /brokers/topics/ topic-foo/partitions/1/state，将该分区的元数据信息写入到该节点下，同时更新 ControllerContext 中缓存的信息。登录 ZooKeeper 客户端通过 get 命令查看该分区元数据信息为：</p>
+<pre><code>{&quot;controller_epoch&quot;:31,&quot;leader&quot;:2,&quot;version&quot;:1,&quot;leader_epoch&quot;:0,&quot;isr&quot;:[2,1]}</code></pre><p>（4）调用副本状态机将新增主题的各分区的副本状态从 NewReplica 转换为 OnlineReplica 状态。</p>
+<p>以上每步操作时都会向各代理发出请求，调用 ControllerChannelManager.sendRequestsToBrokers() 方法，在该方法中会向代理发送 LeaderAndIsrRequest 和 UpdateMetadataRequest 请求，这两类请求分别由 KafkaApis 的 handleLeaderAndIsrRequest() 方法和 handleUpdateMetadataRequest() 方法处理，前者会根据各副本是 Leader 还是 Follower 进行相应处理，后者使代理及时更新各自缓存的元数据信息以达到信息同步。至此，在新创建一个主题时，控制器对主题创建过程的管理逻辑讲解完毕。</p>
+<h5 id="2．删除主题"><a href="#2．删除主题" class="headerlink" title="2．删除主题"></a>2．删除主题</h5><p>客户端执行删除主题操作时仅是在 ZooKeeper 的<code>/admin/delete_topics</code>路径下创建一个与待删除主题同名的节点，返回该主题被标记为删除，保证本步操作成功执行的前提是配置项 delete.topic.enable 值被设置为 true。例如，删除主题“topic-foo”，则客户端执行删除操作时会在<code>/admin/delete_topics</code>路径下创建一个名为“topic-foo”的节点。而实际删除主题的逻辑是异步交由 Kafka 控制器负责执行的，本小节将介绍控制器在删除主题时的具体实现。</p>
+<p>在控制器实例化时创建了一个分区状态机，而分区状态机注册了一个监听 ZooKeeper 的<code>/admin/delete_topics</code>子节点变化的监听器，即 DeleteTopicsListener 监听器。当客户端执行删除主题操作将待删除主题写入<code>/admin/delete_topics</code>路径下时，将会触发该监听器。在该监听器的 handleChildChange() 方法中执行实际删除主题操作。</p>
+<p>handleChildChange() 方法在获取 ControllerContext 的 ReentrantLock 的条件下执行，具体执行逻辑如下。</p>
+<p>（1）从 <code>/admin/delete_topics</code> 路径下读取被标记为删除的主题，记为集合 D，从 ControllerContext 中读取缓存的所有主题列表，记为集合 A。通过计算集合 D 与集合 A 的差集得到已被删除的主题集合，记为 N。由于实际删除主题是由控制器负责执行的，而可能在删除某些主题相应的元数据之后相应的缓存数据已更新，但在删除<code>/admin/delete_topics</code>路径该主题节点之前发生了异常或未被执行，如控制器的平衡操作控制权发生了转移等，这样就会导致某些该主题对应的节点还存在<code>/admin/delete_topics</code>路径下。</p>
+<p>（2）若集合 N 不为空，则直接删除<code>/admin/delete_tpoics</code>路径下集合 N 中各主题对应的节点。</p>
+<p>（3）计算集合 D 与集合 N 的差集，计算本次操作实际应删除的主题集合，得到新的待删除集合 D。若集合 D 为空，则本次删除操作结束，否则转入第4步执行。</p>
+<p>（4）遍历集合 D 中的各主题，分别检测主题当前是在进行将优先副本选为分区 Leader 操作还是在进行分区重分配操作。若是这两种操作中的一种，则将该主题加入到暂时不可删除的主题集合中缓存起来，等分区 Leader 选举结束或分区重分配结束之后，再调用 TopicDeletionManager. resumeDeletionForTopics() 方法将这些主题从不可删除的主题集合中剔除，同时唤醒删除主题的线程 DeleteTopicsThread 进行删除操作；否则，调用 TopicDeletionManger.enqueueTopicsForDeletion() 方法来唤醒删除主题线程，执行删除主题操作。</p>
+<p>（5）当第4步执行完成后，待删除主题的所有副本状态均被设置为 ReplicaDeletionSuccessful 状态，当 DeleteTopicsThread 线程检测到副本状态都为 ReplicaDeletionSuccessful 状态时将会移除状态机对该主题分区的监听器，同时将该主题对应的副本状态设置为 NonExistentReplica，然后分别删除该主题在 ZooKeeper 存储元数据对应的节点。对于本例而言，会依次删除主题“topic-foo”在 ZooKeeper 的 /brokers/topics/topic-foo 节点、/config/topics/topic-foo 节点以及 <code>/admin/delete_topics/topic-foo</code> 节点。最后将该主题对应的缓存信息移除。</p>
+<p>补充说明一下，第4步中提及的 DeleteTopicsThread 线程的执行逻辑如下：该方法首先对待删除主题的所有副本状态进行检测并进行相应处理，在这里我们只分析该主题所有副本都处于可被执行删除操作的情况，此时删除主题线程调用 onTopicDeletion() 方法执行删除操作。</p>
+<p>onTopicDeletion() 方法的执行逻辑如下。</p>
+<p>（1）向所有代理发送更新元数据的请求，即发送 UpdateMetadataRequest，通知所有代理将待删除的主题分区副本信息从缓存中删除。</p>
+<p>（2）调用 TopicDeletionManager.onPartitionDeletion() 方法执行删除该主题的所有分区操作，而该方法主要完成以下逻辑操作。</p>
+<p>（a）向所有代理发送请求，通知代理该主题的所有分区将要被删除，代理收到请求后就会拒绝客户端向这些分区发送的请求。</p>
+<p>（b）通过副本状态机将该主题每个分区的所有副本状态设置为 OfflineReplica 状态，在副本状态设置为 OfflineReplica 过程当中会向所有副本对应的代理发送 StopReplicaRequest 请求，下达不再向该主题的分区 Leader 副本发送请求的指令，这样该分区的 ISR 就不断缩小，当该分区 Leader 对应的副本状态也被置于 OfflineReplica 状态时，该分区 Leader 信息将被更新为 −1，这样就不会再发送 LeaderAndIsrRequest 的请求，即不会向各副本节点发送副本同步的请求。</p>
+<p>（c）通过副本状态机将该主题各副本状态设置为 ReplicaDeletionStarted 状态。此时会向该主题副本对应的所有代理发送 StopReplicaRequest 的请求，并附带删除标志位，所有代理在接收到请求后，ReplicaFetcherManager 会停止对该副本对应分区 Fetcher 线程，同时删除该副本存储数据的目录文件。</p>
+<h4 id="2-6-分区管理"><a href="#2-6-分区管理" class="headerlink" title="2.6　分区管理"></a>2.6　分区管理</h4><ul>
+<li>Kafka 控制器对分区的管理包括对分区创建及删除的管理，分区 Leader 选举的管理，分区自动平衡、分区副本重分配的管理等。</li>
+</ul>
+<h5 id="1．分区平衡"><a href="#1．分区平衡" class="headerlink" title="1．分区平衡"></a>1．分区平衡</h5><ul>
+<li>在 onControllerFailover 操作时会启动一个分区自动平衡的定时任务，该定时任务会定期检查集群上各代理分区分布是否失去平衡。<ul>
+<li>该过程是调用控制器的 <code>checkAndTriggerPartitionRebalance()</code> 方法完成。</li>
+</ul>
+</li>
+<li>分区自动平衡是通过将分区的优先副本选为分区的 Leader，通常当分区副本是通过 Kafka 自动分配时，会保证分区的副本分配在不同的代理节点，而分区副本分配方案即AR中的第一个副本优先副本会作为该分区的 Leader。<ul>
+<li>这样当每个分区的 Leader 为各自的优先副本时，Kafka 各分区就处于一个相对平衡的状态。</li>
+<li>然而，随着时间的推移，Kafka 在运行时可能部分节点的变化导致 Leader 进行了重新选举，若优先副本在发生故障后由其他副本代替担任了 Leader，就算优先副本故障解除，重新回到集群时若没有自动平衡功能，该副本也不会成为分区的 Leader。</li>
+</ul>
+</li>
+<li>下面详细讲解自动平衡的过程。<ul>
+<li>首先，从 ControllerContext 的 partitionReplicaAssignment 数据结构中查询出当前所有可用的副本（剔除待删除主题的副本），根据分区 AR 的头节点分组。</li>
+<li>然后，轮询所有代理节点，以判断该节点的分区是否需要进行优先副本选举。<ul>
+<li>判断的条件是计算每个代理的分区不平衡率 imbalanceRatio 是否超过了 leader.imbalance.per.broker.percentage 配置的比率，默认是10%。</li>
+<li>不平衡率是指每个代理上的分区 Leader 不是优先副本的分区总数 totalTopicPartitionsNotLedByBroker 与该代理上分区总数的比值。</li>
+<li>若不平衡率超过了<code>${leader. imbalance.per.broker.percentage}/100</code>，且没有分区正在进行分区重分配和优先副本选举操作以及当前没有执行删除主题操作，则调用 onPreferredReplicaElection() 方法，执行优先副本选举，让优先副本成为分区的 Leader，这样就达到了分区自动平衡的目的。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h5 id="2．分区重分配"><a href="#2．分区重分配" class="headerlink" title="2．分区重分配"></a>2．分区重分配</h5><p>本小节将通过对一个名为“partition-reassign-foo”主题的分区进行重新分配的实例，详细讲解分区重分配的实现原理。该主题当前的分区副本信息如图3-7所示。</p>
+<p><img src="../../../../../../../../images/2018/10/%E5%88%86%E5%8C%BA%E5%89%AF%E6%9C%AC%E4%BF%A1%E6%81%AF.png" alt="enter image description here"></p>
+<p>图3-7 “partition-reassign-foo”分区副本分配方案</p>
+<p>将该主题分区重分配操作之前各分区副本分配信息描述如表3-3所示，分区重分配操作各分区副本分配方案信息如表3-4所示。</p>
+<p>表3-3　主题“partition-reassign-foo”分区重分配前副本信息</p>
+<table>
+<thead>
+<tr>
+<th>分区编号</th>
+<th>Leader</th>
+<th>AR</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>0</td>
+<td>3</td>
+<td>[3,1]</td>
+</tr>
+<tr>
+<td>1</td>
+<td>1</td>
+<td>[1,3]</td>
+</tr>
+</tbody></table>
+<p>表3-4　主题“partition-reassign-foo”分区重分配分配方案</p>
+<table>
+<thead>
+<tr>
+<th>分区编号</th>
+<th>Leader</th>
+<th>AR</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>0</td>
+<td>2</td>
+<td>[2,3]</td>
+</tr>
+<tr>
+<td>1</td>
+<td>1</td>
+<td>[1,2]</td>
+</tr>
+</tbody></table>
+<ul>
+<li>当客户端执行分区重分配操作后（客户端分区重分配相关操作在5.6.2节有详细介绍），会在 ZooKeeper 的 /admin 节点下创建一个临时子节点<code>reassign_partitions</code>，将分区副本重分配的分配方案写入该节点中。</li>
+<li>由于正常情况下，分区重分配的整个操作执行过程很快，所以大多时候当我们还没来得及在 ZooKeeper 上查看到该临时节点时，由于分区重分配操作完成，该节点已被删除了。</li>
+<li>如果读者希望确认在分区重分配执行过程中曾创建过该临时节点，可以查看<code>${KAFKA_HOME}/ logs/controller.log</code>日志文件，例如，本节实例在执行时日志文件会输出以下内容：</li>
+</ul>
+<pre class=" language-verilog"><code class="language-verilog">DEBUG <span class="token punctuation">[</span>PartitionsReassignedListener on <span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">:</span> Partitions reassigned listener fired <span class="token keyword">for</span> path<span class="token operator">/</span>admin<span class="token operator">/</span>reassign_partitions<span class="token punctuation">.</span> Record partitions to be reassigned <span class="token operator">{</span><span class="token string">"version"</span><span class="token punctuation">:</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token string">"partitions"</span><span class="token punctuation">:</span><span class="token punctuation">[</span><span class="token operator">{</span><span class="token string">"topic"</span><span class="token punctuation">:</span><span class="token string">"partition-reassign-foo"</span><span class="token punctuation">,</span><span class="token string">"partition"</span><span class="token punctuation">:</span><span class="token number">0</span><span class="token punctuation">,</span><span class="token string">"replicas"</span><span class="token punctuation">:</span><span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">,</span><span class="token number">3</span><span class="token punctuation">]</span><span class="token operator">}</span><span class="token punctuation">,</span><span class="token operator">{</span><span class="token string">"topic"</span><span class="token punctuation">:</span><span class="token string">"partition-reassign-foo"</span><span class="token punctuation">,</span><span class="token string">"partition"</span><span class="token punctuation">:</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token string">"replicas"</span><span class="token punctuation">:</span><span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">2</span><span class="token punctuation">]</span><span class="token operator">}</span><span class="token punctuation">]</span><span class="token operator">}</span></code></pre>
+<p>同时还可以在执行分区重分配操作之前关闭新分配方案中的某个节点，如这里在执行时关掉了 server-2 节点。通过该方式，我们可以在 ZooKeeper 中查看整个重分配过程当中相应节点数据的变化。</p>
+<p>在客户端执行分区重分配操作后，登录 ZooKeeper 客户端查看在<code>/admin/reassign_partitions</code>节点中写入的分区副本分配信息如图3-8所示。</p>
+<p><img src="../../../../../../../../images/2018/10/%E5%88%86%E5%8C%BA%E5%89%AF%E6%9C%AC%E5%88%86%E9%85%8D%E4%BF%A1%E6%81%AF.png" alt="enter image description here"></p>
+<p>图3-8　分区重分配时 ZooKeeper 中相应节点元数据信息</p>
+<p>由于 <code>/admin/reassign_partitions</code>节点数据发生了变化，此时会触发 PartitionsReassignedListener 监听器，在该监听器的 handleDataChange() 方法对该主题的每个需要重新分配的分区经过一系列的检测验证处理后，最终会调用 KafkaController.onPartitionReassignment() 方法完成分区重分配的操作。该方法执行逻辑如下。</p>
+<p>（1）由于重新分配的副本新节点肯定不在 ISR 之中，因此首先需要计算出不在 ISR 之中的副本列表。我们将新分配的分区的 AR 记为 RAR，将该主题分区重分配之前的 AR 记为 OAR，本例两个分区的 OAR、RAR 信息以及两者的差集与并集信息如表3-5所示。</p>
+<p>表3-5　主题“partition-reassign-foo”分区的 AR 信息</p>
+<table>
+<thead>
+<tr>
+<th>分区编号</th>
+<th>OAR</th>
+<th>RAR</th>
+<th>RAR-OAR</th>
+<th>RAR+OAR</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>0</td>
+<td>[3,1]</td>
+<td>[2,3]</td>
+<td>[2]</td>
+<td>[2,3,1]</td>
+</tr>
+<tr>
+<td>1</td>
+<td>[1,3]</td>
+<td>[1,2]</td>
+<td>[2]</td>
+<td>[2,1,3]</td>
+</tr>
+</tbody></table>
+<p>用 OAR 与 RAR 的并集更新该主题的分区 AR，即将并集结果写入 /brokers/topics/partition- reassign-foo 节点中，在 ZooKeeper 中的结果如图3-9所示。为了保证分区重分配的操作顺利完成，登录 ZooKeeper 客户端查看相应元数据信息之后，重启 server-2。</p>
+<p>（2）向 AR 并集的各节点发送 LeaderAndIsrRequest 的请求，让各副本节点进行数据同步，更新缓存中分区副本信息，更新后的缓存中记录的分区信息为 OAR 与 RAR 的并集，例如，对编号为0的分区，对应的分区副本信息为[2,3,1]。并强制让<code>leader_epoch</code>数据增1。</p>
+<p>（3）将 AR 差集的各副本的状态设置为 NewReplica。在第1步操作结束后由于各分区副本信息发生了变化，会触发 ReassignedPartitionsIsrChangeListener 监听器，该监听器也会调用 onPartitionReassignment() 方法。若此时 RAR 中的所有副本都加入到各分区的 ISR 之中，则转至该函数的第4步继续执行。</p>
+<p>（4）通过 (OAR+RAR)−RAR 计算每个分区需要被下线的副本。本例编号为0的分区需要下线的副本为[2,3,1]−[2,3]=[1]。</p>
+<p>（5）遍历 RAR 中各副本，调用副本状态机创建相应的副本操作，并将副本状态设置为 OnlineReplica 状态。</p>
+<p>（6）更新缓存中 AR 信息，即用 RAR 覆盖缓存中的 AR 信息。</p>
+<p>（7）检测各分区 Leader 并分别进行相应处理。若 Leader 不在 RAR 之中或 Leader 节点已宕机，则从 RAR 中选出一个副本作为该分区 Leader，否则向各副本发送 LeaderAndIsr 请求，并更新 ZooKeeper 中该分区的<code>leader_epoch</code>值。</p>
+<p>（8）将需要下线的副本进行下线处理。首先将下线的副本状态设置为 OfflineReplica 状态，这样控制器就会将该副本从分区的 ISR 中移除，接着再执行将副本删除的处理。</p>
+<p>（9）更新各分区的 AR 信息，即将该分区原来的 AR 替换为 RAR 信息。</p>
+<p>（10）删除 ZooKeeper 中的 <code>/admin/reassign_partitions</code>临时节点。</p>
+<p>（11）向所有的代理发送更新元数据信息请求。</p>
+<p>（12）唤醒删除主题的线程，有可能执行了删除当前正在进行分区重分配的主题，但由于分区重分配而导致删除主题线程被挂起，因此待分区重分配完成后，再唤醒该线程，继续执行删除主题的操作。</p>
+<p>至此，分区重分配实现原理讲解完毕。</p>
+
+            </div>
+            <hr/>
+
+            
+
+    <div class="reprint" id="reprint-statement">
+        
+            <div class="reprint__author">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-user">
+                        文章作者:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="https://www.asxing.com" rel="external nofollow noreferrer">HoldDie</a>
+                </span>
+            </div>
+            <div class="reprint__type">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-link">
+                        文章链接:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="https://www.asxing.com/2018/10/14/kafka-he-xin-zu-jian-si/">https://www.asxing.com/2018/10/14/kafka-he-xin-zu-jian-si/</a>
+                </span>
+            </div>
+            <div class="reprint__notice">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-copyright">
+                        版权声明:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    本博客所有文章除特別声明外，均采用
+                    <a href="https://creativecommons.org/licenses/by/4.0/deed.zh" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>
+                    许可协议。转载请注明来源
+                    <a href="https://www.asxing.com" target="_blank">HoldDie</a>
+                    !
+                </span>
+            </div>
+        
+    </div>
+
+    <script async defer>
+      document.addEventListener("copy", function (e) {
+        let toastHTML = '<span>复制成功，请遵循本文的转载规则</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">查看</a>';
+        M.toast({html: toastHTML})
+      });
+
+      function navToReprintStatement() {
+        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      }
+    </script>
+
+
+
+            <div class="tag_share" style="display: block;">
+                <div class="post-meta__tag-list" style="display: inline-block;">
+                    
+                        <div class="article-tag">
+                            
+                                <a href="/tags/Kafka/">
+                                    <span class="chip bg-color">Kafka</span>
+                                </a>
+                            
+                                <a href="/tags/%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6/">
+                                    <span class="chip bg-color">消息中间件</span>
+                                </a>
+                            
+                        </div>
+                    
+                </div>
+                <div class="post_share" style="zoom: 80%; width: fit-content; display: inline-block; float: right; margin: -0.15rem 0;">
+                    <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+
+<div id="article-share">
+    
+    
+    <div class="social-share" data-sites="twitter,facebook,google,qq,qzone,wechat,weibo,douban,linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
+    <script src="/libs/share/js/social-share.min.js"></script>
+    
+
+    
+
+</div>
+
+                </div>
+            </div>
+            
+                <style>
+    #reward {
+        margin: 40px 0;
+        text-align: center;
+    }
+
+    #reward .reward-link {
+        font-size: 1.4rem;
+        line-height: 38px;
+    }
+
+    #reward .btn-floating:hover {
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2), 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    #rewardModal {
+        width: 320px;
+        height: 350px;
+    }
+
+    #rewardModal .reward-title {
+        margin: 15px auto;
+        padding-bottom: 5px;
+    }
+
+    #rewardModal .modal-content {
+        padding: 10px;
+    }
+
+    #rewardModal .close {
+        position: absolute;
+        right: 15px;
+        top: 15px;
+        color: rgba(0, 0, 0, 0.5);
+        font-size: 1.3rem;
+        line-height: 20px;
+        cursor: pointer;
+    }
+
+    #rewardModal .close:hover {
+        color: #ef5350;
+        transform: scale(1.3);
+        -moz-transform:scale(1.3);
+        -webkit-transform:scale(1.3);
+        -o-transform:scale(1.3);
+    }
+
+    #rewardModal .reward-tabs {
+        margin: 0 auto;
+        width: 210px;
+    }
+
+    .reward-tabs .tabs {
+        height: 38px;
+        margin: 10px auto;
+        padding-left: 0;
+    }
+
+    .reward-content ul {
+        padding-left: 0 !important;
+    }
+
+    .reward-tabs .tabs .tab {
+        height: 38px;
+        line-height: 38px;
+    }
+
+    .reward-tabs .tab a {
+        color: #fff;
+        background-color: #ccc;
+    }
+
+    .reward-tabs .tab a:hover {
+        background-color: #ccc;
+        color: #fff;
+    }
+
+    .reward-tabs .wechat-tab .active {
+        color: #fff !important;
+        background-color: #22AB38 !important;
+    }
+
+    .reward-tabs .alipay-tab .active {
+        color: #fff !important;
+        background-color: #019FE8 !important;
+    }
+
+    .reward-tabs .reward-img {
+        width: 210px;
+        height: 210px;
+    }
+</style>
+
+<div id="reward">
+    <a href="#rewardModal" class="reward-link modal-trigger btn-floating btn-medium waves-effect waves-light red">赏</a>
+
+    <!-- Modal Structure -->
+    <div id="rewardModal" class="modal">
+        <div class="modal-content">
+            <a class="close modal-close"><i class="fas fa-times"></i></a>
+            <h4 class="reward-title">你的赏识是我前进的动力</h4>
+            <div class="reward-content">
+                <div class="reward-tabs">
+                    <ul class="tabs row">
+                        <li class="tab col s6 alipay-tab waves-effect waves-light"><a href="#alipay">支付宝</a></li>
+                        <li class="tab col s6 wechat-tab waves-effect waves-light"><a href="#wechat">微 信</a></li>
+                    </ul>
+                    <div id="alipay">
+                        <img src="/medias/reward/alipay.jpg" class="reward-img" alt="支付宝打赏二维码">
+                    </div>
+                    <div id="wechat">
+                        <img src="/medias/reward/wechat.png" class="reward-img" alt="微信打赏二维码">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $('.tabs').tabs();
+    });
+</script>
+            
+        </div>
+    </div>
+
+    
+        <link rel="stylesheet" href="/libs/gitalk/gitalk.css">
+<link rel="stylesheet" href="/css/my-gitalk.css">
+
+<div class="card gitalk-card" data-aos="fade-up">
+    <div class="comment_headling" style="font-size: 20px; font-weight: 700; position: relative; left: 20px; top: 15px; padding-bottom: 5px;">
+        <i class="fas fa-comments fa-fw" aria-hidden="true"></i>
+        <span>评论</span>
+    </div>
+    <div id="gitalk-container" class="card-content"></div>
+</div>
+
+<script src="/libs/gitalk/gitalk.min.js"></script>
+<script>
+    let gitalk = new Gitalk({
+        clientID: 'c4e18e113d94091c8828',
+        clientSecret: '891f04d80de6a77fd6eb60d1cbe792e916cde3ff',
+        repo: 'asxing.github.io',
+        owner: 'Asxing',
+        admin: "asxing",
+        id: '2018-10-14T19-43-41',
+        distractionFreeMode: false  // Facebook-like distraction free mode
+    });
+
+    gitalk.render('gitalk-container');
+</script>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+            <div class="card">
+                <a href="/2018/10/15/kafka-he-xin-zu-jian-wu/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/17.jpg" class="responsive-img" alt="Kafka-核心组件（五）">
+                        
+                        <span class="card-title">Kafka-核心组件（五）</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+当捡起最后一片落叶，我就能看到整个春天。 ——秋水
+
+5.2　日志管理器启动过程在对日志结构进行简要介绍之后，现在开始分析日志管理器的实现原理。首先分析日志管理器的启动过程。
+当代理启动时首先实例化并启动一个日志管理器。实例化日志管理器时
+                        
+                    </div>
+                    <div class="publish-info">
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2018-10-15
+                        </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/Kafka/" class="post-category">
+                                    Kafka
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/Kafka/">
+                        <span class="chip bg-color">Kafka</span>
+                    </a>
+                    
+                    <a href="/tags/%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6/">
+                        <span class="chip bg-color">消息中间件</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2018/10/13/kafka-spring-springboot-zheng-he-san/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/19.jpg" class="responsive-img" alt="Kafka-Spring&SpringBoot整合（三）">
+                        
+                        <span class="card-title">Kafka-Spring&SpringBoot整合（三）</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+真相就在眼前，却露出戏谑的笑容，只有心如明镜之人才可触碰到。 ——鱼大仙
+
+1、Kafka 源码导入1.1、环境准备
+Gradle
+Scala
+
+1.2、下载源码，然后解压并进入源码目录gradle idea
+idea build.gra
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2018-10-13
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/Kafka/" class="post-category">
+                                    Kafka
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/Kafka/">
+                        <span class="chip bg-color">Kafka</span>
+                    </a>
+                    
+                    <a href="/tags/%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6/">
+                        <span class="chip bg-color">消息中间件</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+
+</div>
+
+
+
+<!-- 代码块功能依赖 -->
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+
+<!-- 代码语言 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+
+    
+<!-- 代码块复制 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+
+
+<!-- 代码块收缩 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script>
+
+
+<!-- 代码块折行 -->
+
+<style type="text/css">
+code[class*="language-"], pre[class*="language-"] { white-space: pre !important; }
+</style>
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget">
+            <div class="toc-title"><i class="far fa-list-alt"></i>&nbsp;&nbsp;目录</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fas fa-list-ul"></i>
+    </a>
+</div>
+
+
+<script src="/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            // headingsOffset: -205,
+            headingSelector: 'h2, h3, h4'
+        });
+
+        // modify the toc link href to support Chinese.
+        let i = 0;
+        let tocHeading = 'toc-heading-';
+        $('#toc-content a').each(function () {
+            $(this).attr('href', '#' + tocHeading + (++i));
+        });
+
+        // modify the heading title id to support Chinese.
+        i = 0;
+        $('#articleContent').children('h2, h3, h4').each(function () {
+            $(this).attr('id', tocHeading + (++i));
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).hide();
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).show();
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+        });
+        
+    });
+</script>
+
+    
+
+</main>
+
+
+
+    <footer class="page-footer bg-color">
+    <div class="container row center-align">
+        <div class="col s12 m8 l8 copy-right">
+            Copyright&nbsp;&copy;
+            <span id="year">年份</span>
+            <a href="https://www.asxing.com" target="_blank">Asxing</a>
+            |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
+            |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
+            <br>
+            
+            &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
+                class="white-color">479k</span>&nbsp;字
+            
+            
+            
+            
+            <span id="busuanzi_container_site_pv">
+                |&nbsp;<i class="far fa-eye"></i>&nbsp;总访问量:&nbsp;<span id="busuanzi_value_site_pv"
+                    class="white-color"></span>&nbsp;次
+            </span>
+            
+            
+            <span id="busuanzi_container_site_uv">
+                |&nbsp;<i class="fas fa-users"></i>&nbsp;总访问人数:&nbsp;<span id="busuanzi_value_site_uv"
+                    class="white-color"></span>&nbsp;人
+            </span>
+            
+            <br>
+            
+            <span id="sitetime">载入运行时间...</span>
+            <script>
+                function siteTime() {
+                    window.setTimeout("siteTime()", 1000);
+                    var seconds = 1000;
+                    var minutes = seconds * 60;
+                    var hours = minutes * 60;
+                    var days = hours * 24;
+                    var years = days * 365;
+                    var today = new Date();
+                    var startYear = "2019";
+                    var startMonth = "10";
+                    var startDate = "30";
+                    var startHour = "22";
+                    var startMinute = "30";
+                    var startSecond = "0";
+                    var todayYear = today.getFullYear();
+                    var todayMonth = today.getMonth() + 1;
+                    var todayDate = today.getDate();
+                    var todayHour = today.getHours();
+                    var todayMinute = today.getMinutes();
+                    var todaySecond = today.getSeconds();
+                    var t1 = Date.UTC(startYear, startMonth, startDate, startHour, startMinute, startSecond);
+                    var t2 = Date.UTC(todayYear, todayMonth, todayDate, todayHour, todayMinute, todaySecond);
+                    var diff = t2 - t1;
+                    var diffYears = Math.floor(diff / years);
+                    var diffDays = Math.floor((diff / days) - diffYears * 365);
+                    var diffHours = Math.floor((diff - (diffYears * 365 + diffDays) * days) / hours);
+                    var diffMinutes = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours) /
+                        minutes);
+                    var diffSeconds = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours -
+                        diffMinutes * minutes) / seconds);
+                    if (startYear == todayYear) {
+                        document.getElementById("year").innerHTML = todayYear;
+                        document.getElementById("sitetime").innerHTML = "本站已安全运行 " + diffDays + " 天 " + diffHours +
+                            " 小时 " + diffMinutes + " 分钟 " + diffSeconds + " 秒";
+                    } else {
+                        document.getElementById("year").innerHTML = startYear + " - " + todayYear;
+                        document.getElementById("sitetime").innerHTML = "本站已安全运行 " + diffYears + " 年 " + diffDays +
+                            " 天 " + diffHours + " 小时 " + diffMinutes + " 分钟 " + diffSeconds + " 秒";
+                    }
+                }
+                setInterval(siteTime, 1000);
+            </script>
+            
+            <br>
+            
+        </div>
+        <div class="col s12 m4 l4 social-link ">
+    <a href="https://github.com/asxing" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+        <i class="fab fa-github"></i>
+    </a>
+
+
+
+    <a href="mailto:asxingking@gmail.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fas fa-envelope-open"></i>
+    </a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <a href="/atom.xml" class="tooltipped" target="_blank" data-tooltip="RSS 订阅" data-position="top" data-delay="50">
+        <i class="fas fa-rss"></i>
+    </a>
+
+</div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+
+    <!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fas fa-search"></i>&nbsp;&nbsp;搜索</span>
+            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script src="/js/search.js"></script>
+<script type="text/javascript">
+$(function () {
+    searchFunc("/" + "search.xml", 'searchInput', 'searchResult');
+});
+</script>
+    <!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+</div>
+
+
+    <script src="/libs/materialize/materialize.min.js"></script>
+    <script src="/libs/masonry/masonry.pkgd.min.js"></script>
+    <script src="/libs/aos/aos.js"></script>
+    <script src="/libs/scrollprogress/scrollProgress.min.js"></script>
+    <script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+    <script src="/js/matery.js"></script>
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+    <!-- Baidu Analytics -->
+
+    <!-- Baidu Push -->
+
+    
+    <script src="/libs/others/clicklove.js" async="async"></script>
+    
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <script type="text/javascript" src="/libs/background/ribbon-dynamic.js" async="async"></script>
+    
+    
+    
+
+</body>
+
+</html>

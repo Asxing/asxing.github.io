@@ -1,0 +1,1871 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="keywords" content="Java爬虫-WebMagic（二）, 编程 读书 生活">
+    <meta name="description" content="
+你如此美好，我跌入花间忘了人间。 ——天涯
+
+1、Spider 架构
+WebMagic的结构分为Downloader、PageProcessor、Scheduler、Pipeline四大组件，并由Spider将它们彼此组织起来。
+
+1.2">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>Java爬虫-WebMagic（二） | Asxing-阿行</title>
+    <link rel="icon" type="image/png" href="/favicon.png">
+
+    <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
+    <link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
+    <link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/matery.css">
+    <link rel="stylesheet" type="text/css" href="/css/my.css">
+    
+    <script src="/libs/jquery/jquery.min.js"></script>
+    
+<meta name="generator" content="Hexo 4.2.1"><link rel="alternate" href="/atom.xml" title="Asxing-阿行" type="application/atom+xml">
+<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+
+
+<body>
+    <header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper head-container">
+            <div class="brand-logo">
+                <a href="/" class="waves-effect waves-light">
+                    
+                    <img src="/medias/logo.png" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">Asxing-阿行</span>
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
+<ul class="right nav-menu">
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/" class="waves-effect waves-light">
+      
+      <i class="fas fa-home" style="zoom: 0.6;"></i>
+      
+      <span>首页</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/tags" class="waves-effect waves-light">
+      
+      <i class="fas fa-tags" style="zoom: 0.6;"></i>
+      
+      <span>标签</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/categories" class="waves-effect waves-light">
+      
+      <i class="fas fa-bookmark" style="zoom: 0.6;"></i>
+      
+      <span>分类</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/archives" class="waves-effect waves-light">
+      
+      <i class="fas fa-archive" style="zoom: 0.6;"></i>
+      
+      <span>归档</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/about" class="waves-effect waves-light">
+      
+      <i class="fas fa-user-circle" style="zoom: 0.6;"></i>
+      
+      <span>关于</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/contact" class="waves-effect waves-light">
+      
+      <i class="fas fa-comments" style="zoom: 0.6;"></i>
+      
+      <span>留言板</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/friends" class="waves-effect waves-light">
+      
+      <i class="fas fa-address-book" style="zoom: 0.6;"></i>
+      
+      <span>友情链接</span>
+    </a>
+    
+  </li>
+  
+  <li>
+    <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+      <i id="searchIcon" class="fas fa-search" title="搜索" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+</ul>
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="/medias/logo.png" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">Asxing-阿行</div>
+        <div class="logo-desc">
+            
+            Never really desperate, only the lost of the soul.
+            
+        </div>
+    </div>
+
+    
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li class="m-nav-item">
+	  
+		<a href="/" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-home"></i>
+			
+			首页
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/tags" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-tags"></i>
+			
+			标签
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/categories" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-bookmark"></i>
+			
+			分类
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/archives" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-archive"></i>
+			
+			归档
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/about" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-user-circle"></i>
+			
+			关于
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/contact" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-comments"></i>
+			
+			Contact
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/friends" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-address-book"></i>
+			
+			友情链接
+		</a>
+          
+        </li>
+        
+        
+        <li><div class="divider"></div></li>
+        <li>
+            <a href="https://github.com/asxing" class="waves-effect waves-light" target="_blank">
+                <i class="fab fa-github-square fa-fw"></i>Fork Me
+            </a>
+        </li>
+        
+    </ul>
+</div>
+
+        </div>
+
+        
+            <style>
+    .nav-transparent .github-corner {
+        display: none !important;
+    }
+
+    .github-corner {
+        position: absolute;
+        z-index: 10;
+        top: 0;
+        right: 0;
+        border: 0;
+        transform: scale(1.1);
+    }
+
+    .github-corner svg {
+        color: #0f9d58;
+        fill: #fff;
+        height: 64px;
+        width: 64px;
+    }
+
+    .github-corner:hover .octo-arm {
+        animation: a 0.56s ease-in-out;
+    }
+
+    .github-corner .octo-arm {
+        animation: none;
+    }
+
+    @keyframes a {
+        0%,
+        to {
+            transform: rotate(0);
+        }
+        20%,
+        60% {
+            transform: rotate(-25deg);
+        }
+        40%,
+        80% {
+            transform: rotate(10deg);
+        }
+    }
+</style>
+
+<a href="https://github.com/asxing" class="github-corner tooltipped hide-on-med-and-down" target="_blank"
+   data-tooltip="Fork Me" data-position="left" data-delay="50">
+    <svg viewBox="0 0 250 250" aria-hidden="true">
+        <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
+        <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2"
+              fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path>
+        <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z"
+              fill="currentColor" class="octo-body"></path>
+    </svg>
+</a>
+        
+    </nav>
+
+</header>
+
+    
+<script src="/libs/cryptojs/crypto-js.min.js"></script>
+<script>
+    (function() {
+        let pwd = '';
+        if (pwd && pwd.length > 0) {
+            if (pwd !== CryptoJS.SHA256(prompt('请输入访问本文章的密码')).toString(CryptoJS.enc.Hex)) {
+                alert('密码错误，将返回主页！');
+                location.href = '/';
+            }
+        }
+    })();
+</script>
+
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/8.jpg')">
+    <div class="container" style="right: 0px;left: 0px;">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <div class="description center-align post-title">
+                        Java爬虫-WebMagic（二）
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<main class="post-container content">
+
+    
+    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
+<style>
+    #articleContent h1::before,
+    #articleContent h2::before,
+    #articleContent h3::before,
+    #articleContent h4::before,
+    #articleContent h5::before,
+    #articleContent h6::before {
+        display: block;
+        content: " ";
+        height: 100px;
+        margin-top: -100px;
+        visibility: hidden;
+    }
+
+    #articleContent :focus {
+        outline: none;
+    }
+
+    .toc-fixed {
+        position: fixed;
+        top: 64px;
+    }
+
+    .toc-widget {
+        padding-left: 20px;
+    }
+
+    .toc-widget .toc-title {
+        margin: 35px 0 15px 0;
+        padding-left: 17px;
+        font-size: 1.5rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    .toc-widget ol {
+        padding: 0;
+        list-style: none;
+    }
+
+    #toc-content ol {
+        padding-left: 10px;
+    }
+
+    #toc-content ol li {
+        padding-left: 10px;
+    }
+
+    #toc-content .toc-link:hover {
+        color: #42b983;
+        font-weight: 700;
+        text-decoration: underline;
+    }
+
+    #toc-content .toc-link::before {
+        background-color: transparent;
+        max-height: 25px;
+    }
+
+    #toc-content .is-active-link {
+        color: #42b983;
+    }
+
+    #toc-content .is-active-link::before {
+        background-color: #42b983;
+    }
+
+    #floating-toc-btn {
+        position: fixed;
+        right: 15px;
+        bottom: 76px;
+        padding-top: 15px;
+        margin-bottom: 0;
+        z-index: 998;
+    }
+
+    #floating-toc-btn .btn-floating {
+        width: 48px;
+        height: 48px;
+    }
+
+    #floating-toc-btn .btn-floating i {
+        line-height: 48px;
+        font-size: 1.4rem;
+    }
+</style>
+<div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                            <a href="/tags/Java/">
+                                <span class="chip bg-color">Java</span>
+                            </a>
+                        
+                            <a href="/tags/%E7%88%AC%E8%99%AB/">
+                                <span class="chip bg-color">爬虫</span>
+                            </a>
+                        
+                            <a href="/tags/WebMagic/">
+                                <span class="chip bg-color">WebMagic</span>
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fas fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/categories/%E7%88%AC%E8%99%AB/" class="post-category">
+                                爬虫
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
+                    2018-11-15
+                </div>
+                
+
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
+                    3.1k
+                </div>
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
+                    12 分
+                </div>
+                
+				
+                
+            </div>
+            
+        </div>
+        <hr class="clearfix">
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <blockquote>
+<p><strong>你如此美好，我跌入花间忘了人间。 ——天涯</strong></p>
+</blockquote>
+<h3 id="1、Spider-架构"><a href="#1、Spider-架构" class="headerlink" title="1、Spider 架构"></a>1、Spider 架构</h3><blockquote>
+<p>WebMagic的结构分为<code>Downloader</code>、<code>PageProcessor</code>、<code>Scheduler</code>、<code>Pipeline</code>四大组件，并由Spider将它们彼此组织起来。</p>
+</blockquote>
+<h4 id="1-2、四个组件"><a href="#1-2、四个组件" class="headerlink" title="1.2、四个组件"></a>1.2、四个组件</h4><ul>
+<li>Downloader</li>
+</ul>
+<blockquote>
+<p>Downloader负责从互联网上下载页面，以便后续处理。WebMagic默认使用了<a href="http://hc.apache.org/index.html" target="_blank" rel="noopener">Apache HttpClient</a>作为下载工具。</p>
+</blockquote>
+<ul>
+<li>PageProcessor</li>
+</ul>
+<blockquote>
+<p>PageProcessor负责解析页面，抽取有用信息，以及发现新的链接。WebMagic使用<a href="http://jsoup.org/" target="_blank" rel="noopener">Jsoup</a>作为HTML解析工具，并基于其开发了解析XPath的工具<a href="https://github.com/code4craft/xsoup" target="_blank" rel="noopener">Xsoup</a>。</p>
+<p>在这四个组件中，<code>PageProcessor</code>对于每个站点每个页面都不一样，是需要使用者定制的部分。</p>
+</blockquote>
+<ul>
+<li>Scheduler</li>
+</ul>
+<blockquote>
+<p>Scheduler负责管理待抓取的URL，以及一些去重的工作。WebMagic默认提供了JDK的内存队列来管理URL，并用集合来进行去重。也支持使用Redis进行分布式管理。</p>
+<p>除非项目有一些特殊的分布式需求，否则无需自己定制Scheduler。</p>
+</blockquote>
+<ul>
+<li>Pipeline</li>
+</ul>
+<blockquote>
+<p>Pipeline负责抽取结果的处理，包括计算、持久化到文件、数据库等。WebMagic默认提供了“输出到控制台”和“保存到文件”两种结果处理方案。</p>
+<p><code>Pipeline</code>定义了结果保存的方式，如果你要保存到指定数据库，则需要编写对应的Pipeline。对于一类需求一般只需编写一个<code>Pipeline</code>。</p>
+</blockquote>
+<h4 id="1-3、三个数据流对象"><a href="#1-3、三个数据流对象" class="headerlink" title="1.3、三个数据流对象"></a>1.3、三个数据流对象</h4><ul>
+<li>Request</li>
+</ul>
+<blockquote>
+<p><code>Request</code>是对URL地址的一层封装，一个Request对应一个URL地址。</p>
+<p>它是PageProcessor与Downloader交互的载体，也是PageProcessor控制Downloader唯一方式。</p>
+<p>除了URL本身外，它还包含一个Key-Value结构的字段<code>extra</code>。你可以在extra中保存一些特殊的属性，然后在其他地方读取，以完成不同的功能。例如附加上一个页面的一些信息等。</p>
+</blockquote>
+<ul>
+<li>Page</li>
+</ul>
+<blockquote>
+<p><code>Page</code>代表了从Downloader下载到的一个页面——可能是HTML，也可能是JSON或者其他文本格式的内容。</p>
+<p>Page是WebMagic抽取过程的核心对象，它提供一些方法可供抽取、结果保存等。在第四章的例子中，我们会详细介绍它的使用。</p>
+</blockquote>
+<ul>
+<li>ResultItems</li>
+</ul>
+<blockquote>
+<p><code>ResultItems</code>相当于一个Map，它保存PageProcessor处理的结果，供Pipeline使用。它的API与Map很类似，值得注意的是它有一个字段<code>skip</code>，若设置为true，则不应被Pipeline处理。</p>
+</blockquote>
+<h3 id="2、页面数据处理"><a href="#2、页面数据处理" class="headerlink" title="2、页面数据处理"></a>2、页面数据处理</h3><blockquote>
+<p>实现 PageProcessor 接口</p>
+</blockquote>
+<h4 id="2-1、页面元素抽取技术："><a href="#2-1、页面元素抽取技术：" class="headerlink" title="2.1、页面元素抽取技术："></a>2.1、页面元素抽取技术：</h4><ul>
+<li><h5 id="XPath"><a href="#XPath" class="headerlink" title="XPath"></a>XPath</h5></li>
+<li><h5 id="CSS-选择器"><a href="#CSS-选择器" class="headerlink" title="CSS 选择器"></a>CSS 选择器</h5></li>
+<li><h5 id="正则表达式"><a href="#正则表达式" class="headerlink" title="正则表达式"></a>正则表达式</h5></li>
+<li><h5 id="JsonPath"><a href="#JsonPath" class="headerlink" title="JsonPath"></a>JsonPath</h5></li>
+</ul>
+<h4 id="2-2、Selectable-抽取元素"><a href="#2-2、Selectable-抽取元素" class="headerlink" title="2.2、Selectable 抽取元素"></a>2.2、Selectable 抽取元素</h4><blockquote>
+<h6 id="抽取API，这部分抽取API返回的都是一个Selectable接口"><a href="#抽取API，这部分抽取API返回的都是一个Selectable接口" class="headerlink" title="抽取API，这部分抽取API返回的都是一个Selectable接口"></a>抽取API，这部分抽取API返回的都是一个<code>Selectable</code>接口</h6></blockquote>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>说明</th>
+<th>示例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>xpath(String xpath)</td>
+<td>使用XPath选择</td>
+<td>html.xpath(“//div[@class=’title’]”)</td>
+</tr>
+<tr>
+<td>$(String selector)</td>
+<td>使用Css选择器选择</td>
+<td>html.$(“div.title”)</td>
+</tr>
+<tr>
+<td>$(String selector,String attr)</td>
+<td>使用Css选择器选择</td>
+<td>html.$(“div.title”,”text”)</td>
+</tr>
+<tr>
+<td>css(String selector)</td>
+<td>功能同$()，使用Css选择器选择</td>
+<td>html.css(“div.title”)</td>
+</tr>
+<tr>
+<td>links()</td>
+<td>选择所有链接</td>
+<td>html.links()</td>
+</tr>
+<tr>
+<td>regex(String regex)</td>
+<td>使用正则表达式抽取</td>
+<td>html.regex(“(.*?)\”)</td>
+</tr>
+<tr>
+<td>regex(String regex,int group)</td>
+<td>使用正则表达式抽取，并指定捕获组</td>
+<td>html.regex(“(.*?)\”,1)</td>
+</tr>
+<tr>
+<td>replace(String regex, String replacement)</td>
+<td>替换内容</td>
+<td>html.replace(“\”,””)</td>
+</tr>
+</tbody></table>
+<h4 id="2-3、获取结果API"><a href="#2-3、获取结果API" class="headerlink" title="2.3、获取结果API"></a>2.3、获取结果API</h4><table>
+<thead>
+<tr>
+<th>方法</th>
+<th>说明</th>
+<th>示例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>get()</td>
+<td>返回一条String类型的结果</td>
+<td>String link= html.links().get()</td>
+</tr>
+<tr>
+<td>toString()</td>
+<td>功能同get()，返回一条String类型的结果</td>
+<td>String link= html.links().toString()</td>
+</tr>
+<tr>
+<td>all()</td>
+<td>返回所有抽取结果</td>
+<td>List links= html.links().all()</td>
+</tr>
+<tr>
+<td>match()</td>
+<td>是否有匹配结果</td>
+<td>if (html.links().match()){ xxx; }</td>
+</tr>
+</tbody></table>
+<h3 id="3、爬虫配置"><a href="#3、爬虫配置" class="headerlink" title="3、爬虫配置"></a>3、爬虫配置</h3><h4 id="3-1、Spider"><a href="#3-1、Spider" class="headerlink" title="3.1、Spider"></a>3.1、Spider</h4><table>
+<thead>
+<tr>
+<th>方法</th>
+<th>说明</th>
+<th>示例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>create(PageProcessor)</td>
+<td>创建Spider</td>
+<td>Spider.create(new GithubRepoProcessor())</td>
+</tr>
+<tr>
+<td>addUrl(String…)</td>
+<td>添加初始的URL</td>
+<td>spider .addUrl(“<a href="http://webmagic.io/docs/“" target="_blank" rel="noopener">http://webmagic.io/docs/“</a>)</td>
+</tr>
+<tr>
+<td>addRequest(Request…)</td>
+<td>添加初始的Request</td>
+<td>spider .addRequest(“<a href="http://webmagic.io/docs/“" target="_blank" rel="noopener">http://webmagic.io/docs/“</a>)</td>
+</tr>
+<tr>
+<td>thread(n)</td>
+<td>开启n个线程</td>
+<td>spider.thread(5)</td>
+</tr>
+<tr>
+<td>run()</td>
+<td>启动，会阻塞当前线程执行</td>
+<td>spider.run()</td>
+</tr>
+<tr>
+<td>start()/runAsync()</td>
+<td>异步启动，当前线程继续执行</td>
+<td>spider.start()</td>
+</tr>
+<tr>
+<td>stop()</td>
+<td>停止爬虫</td>
+<td>spider.stop()</td>
+</tr>
+<tr>
+<td>test(String)</td>
+<td>抓取一个页面进行测试</td>
+<td>spider .test(“<a href="http://webmagic.io/docs/“" target="_blank" rel="noopener">http://webmagic.io/docs/“</a>)</td>
+</tr>
+<tr>
+<td>addPipeline(Pipeline)</td>
+<td>添加一个Pipeline，一个Spider可以有多个Pipeline</td>
+<td>spider .addPipeline(new ConsolePipeline())</td>
+</tr>
+<tr>
+<td>setScheduler(Scheduler)</td>
+<td>设置Scheduler，一个Spider只能有个一个Scheduler</td>
+<td>spider.setScheduler(new RedisScheduler())</td>
+</tr>
+<tr>
+<td>setDownloader(Downloader)</td>
+<td>设置Downloader，一个Spider只能有个一个Downloader</td>
+<td>spider .setDownloader(new SeleniumDownloader())</td>
+</tr>
+<tr>
+<td>get(String)</td>
+<td>同步调用，并直接取得结果</td>
+<td>ResultItems result = spider .get(“<a href="http://webmagic.io/docs/“" target="_blank" rel="noopener">http://webmagic.io/docs/“</a>)</td>
+</tr>
+<tr>
+<td>getAll(String…)</td>
+<td>同步调用，并直接取得一堆结果</td>
+<td>List results = spider .getAll(“<a href="http://webmagic.io/docs/“" target="_blank" rel="noopener">http://webmagic.io/docs/“</a>, “<a href="http://webmagic.io/xxx“" target="_blank" rel="noopener">http://webmagic.io/xxx“</a>)</td>
+</tr>
+</tbody></table>
+<h4 id="3-2、Site"><a href="#3-2、Site" class="headerlink" title="3.2、Site"></a>3.2、Site</h4><table>
+<thead>
+<tr>
+<th>方法</th>
+<th>说明</th>
+<th>示例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>setCharset(String)</td>
+<td>设置编码</td>
+<td>site.setCharset(“utf-8”)</td>
+</tr>
+<tr>
+<td>setUserAgent(String)</td>
+<td>设置UserAgent</td>
+<td>site.setUserAgent(“Spider”)</td>
+</tr>
+<tr>
+<td>setTimeOut(int)</td>
+<td>设置超时时间，单位是毫秒</td>
+<td>site.setTimeOut(3000)</td>
+</tr>
+<tr>
+<td>setRetryTimes(int)</td>
+<td>设置重试次数</td>
+<td>site.setRetryTimes(3)</td>
+</tr>
+<tr>
+<td>setCycleRetryTimes(int)</td>
+<td>设置循环重试次数</td>
+<td>site.setCycleRetryTimes(3)</td>
+</tr>
+<tr>
+<td>addCookie(String,String)</td>
+<td>添加一条cookie</td>
+<td>site.addCookie(“dotcomt_user”,”code4craft”)</td>
+</tr>
+<tr>
+<td>setDomain(String)</td>
+<td>设置域名，需设置域名后，addCookie才可生效</td>
+<td>site.setDomain(“github.com”)</td>
+</tr>
+<tr>
+<td>addHeader(String,String)</td>
+<td>添加一条addHeader</td>
+<td>site.addHeader(“Referer”,”<a href="https://github.com/" target="_blank" rel="noopener">https://github.com</a>“)</td>
+</tr>
+<tr>
+<td>setHttpProxy(HttpHost)</td>
+<td>设置Http代理</td>
+<td>site.setHttpProxy(new HttpHost(“127.0.0.1”,8080))</td>
+</tr>
+</tbody></table>
+<h4 id="3-3、Jsoup"><a href="#3-3、Jsoup" class="headerlink" title="3.3、Jsoup"></a>3.3、Jsoup</h4><h4 id="3-4、Xsoup"><a href="#3-4、Xsoup" class="headerlink" title="3.4、Xsoup"></a>3.4、Xsoup</h4><table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Expression</th>
+<th>Support</th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>nodename</td>
+<td>nodename</td>
+<td>yes</td>
+<td></td>
+</tr>
+<tr>
+<td>immediate parent</td>
+<td>/</td>
+<td>yes</td>
+<td></td>
+</tr>
+<tr>
+<td>parent</td>
+<td>//</td>
+<td>yes</td>
+<td></td>
+</tr>
+<tr>
+<td>attribute</td>
+<td>[@key=value]</td>
+<td>yes</td>
+<td></td>
+</tr>
+<tr>
+<td>nth child</td>
+<td>tag[n]</td>
+<td>yes</td>
+<td></td>
+</tr>
+<tr>
+<td>attribute</td>
+<td>/@key</td>
+<td>yes</td>
+<td></td>
+</tr>
+<tr>
+<td>wildcard in tagname</td>
+<td>/*</td>
+<td>yes</td>
+<td></td>
+</tr>
+<tr>
+<td>wildcard in attribute</td>
+<td>/[@*]</td>
+<td>yes</td>
+<td></td>
+</tr>
+<tr>
+<td>function</td>
+<td>function()</td>
+<td>part</td>
+<td></td>
+</tr>
+<tr>
+<td>or</td>
+<td>a \</td>
+<td>b</td>
+<td>yes since 0.2.0</td>
+</tr>
+<tr>
+<td>parent in path</td>
+<td>. or ..</td>
+<td>no</td>
+<td></td>
+</tr>
+<tr>
+<td>predicates</td>
+<td>price&gt;35</td>
+<td>no</td>
+<td></td>
+</tr>
+<tr>
+<td>predicates logic</td>
+<td>@class=a or @class=b</td>
+<td>yes since 0.2.0</td>
+<td></td>
+</tr>
+</tbody></table>
+<p>请注意，这些函数式标准XPath没有的。</p>
+<table>
+<thead>
+<tr>
+<th>Expression</th>
+<th>Description</th>
+<th>XPath1.0</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>text(n)</td>
+<td>第n个直接文本子节点，为0表示所有</td>
+<td>text() only</td>
+</tr>
+<tr>
+<td>allText()</td>
+<td>所有的直接和间接文本子节点</td>
+<td>not support</td>
+</tr>
+<tr>
+<td>tidyText()</td>
+<td>所有的直接和间接文本子节点，并将一些标签替换为换行，使纯文本显示更整洁</td>
+<td>not support</td>
+</tr>
+<tr>
+<td>html()</td>
+<td>内部html，不包括标签的html本身</td>
+<td>not support</td>
+</tr>
+<tr>
+<td>outerHtml()</td>
+<td>内部html，包括标签的html本身</td>
+<td>not support</td>
+</tr>
+<tr>
+<td>regex(@attr,expr,group)</td>
+<td>这里@attr和group均可选，默认是group0</td>
+<td>not support</td>
+</tr>
+</tbody></table>
+<h3 id="4、配置代理"><a href="#4、配置代理" class="headerlink" title="4、配置代理"></a>4、配置代理</h3><blockquote>
+<p>自定义的代理实现</p>
+</blockquote>
+<h4 id="4-1、配置代理池"><a href="#4-1、配置代理池" class="headerlink" title="4.1、配置代理池"></a>4.1、配置代理池</h4><pre class=" language-java"><code class="language-java">  HttpClientDownloader httpClientDownloader <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">HttpClientDownloader</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    httpClientDownloader<span class="token punctuation">.</span><span class="token function">setProxyProvider</span><span class="token punctuation">(</span>SimpleProxyProvider<span class="token punctuation">.</span><span class="token function">from</span><span class="token punctuation">(</span>
+    <span class="token keyword">new</span> <span class="token class-name">Proxy</span><span class="token punctuation">(</span><span class="token string">"101.101.101.101"</span><span class="token punctuation">,</span><span class="token number">8888</span><span class="token punctuation">)</span>
+    <span class="token punctuation">,</span><span class="token keyword">new</span> <span class="token class-name">Proxy</span><span class="token punctuation">(</span><span class="token string">"102.102.102.102"</span><span class="token punctuation">,</span><span class="token number">8888</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<h4 id="4-2、处理非GET方法"><a href="#4-2、处理非GET方法" class="headerlink" title="4.2、处理非GET方法"></a>4.2、处理非GET方法</h4><pre class=" language-java"><code class="language-java">Request request <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Request</span><span class="token punctuation">(</span><span class="token string">"http://xxx/path"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+request<span class="token punctuation">.</span><span class="token function">setMethod</span><span class="token punctuation">(</span>HttpConstant<span class="token punctuation">.</span>Method<span class="token punctuation">.</span>POST<span class="token punctuation">)</span><span class="token punctuation">;</span>
+request<span class="token punctuation">.</span><span class="token function">setRequestBody</span><span class="token punctuation">(</span>HttpRequestBody<span class="token punctuation">.</span><span class="token function">json</span><span class="token punctuation">(</span><span class="token string">"{'id':1}"</span><span class="token punctuation">,</span><span class="token string">"utf-8"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<p>HttpRequestBody 内置了几种初始化方式，支持最常见的表单提交、json提交等方式。</p>
+<table>
+<thead>
+<tr>
+<th>API</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>HttpRequestBody.form(Map\ params, String encoding)</td>
+<td>使用表单提交的方式</td>
+</tr>
+<tr>
+<td>HttpRequestBody.json(String json, String encoding)</td>
+<td>使用JSON的方式，json是序列化后的结果</td>
+</tr>
+<tr>
+<td>HttpRequestBody.xml(String xml, String encoding)</td>
+<td>设置xml的方式，xml是序列化后的结果</td>
+</tr>
+<tr>
+<td>HttpRequestBody.custom(byte[] body, String contentType, String encoding)</td>
+<td>设置自定义的requestBody</td>
+</tr>
+</tbody></table>
+<h3 id="5、注解开发"><a href="#5、注解开发" class="headerlink" title="5、注解开发"></a>5、注解开发</h3><h4 id="5-1、-TargetUrl"><a href="#5-1、-TargetUrl" class="headerlink" title="5.1、@TargetUrl"></a>5.1、<code>@TargetUrl</code></h4><blockquote>
+<ul>
+<li>类上面写</li>
+<li>抓取目标的地址</li>
+<li>页面详情（对应<code>HelpUrl</code>）</li>
+<li>tips<ul>
+<li>将URL中常用的字符<code>.</code>默认做了转义，变成了<code>\.</code></li>
+<li>将”<em>“替换成了”.</em>“，直接使用可表示通配符。</li>
+</ul>
+</li>
+<li>sourceRegion<ul>
+<li><strong>TargetUrl</strong>还支持定义<code>sourceRegion</code>，这个参数是一个XPath表达式，指定了这个URL从哪里得到——不在sourceRegion的URL不会被抽取。</li>
+</ul>
+</li>
+</ul>
+</blockquote>
+<h4 id="5-2、-HelpUrl"><a href="#5-2、-HelpUrl" class="headerlink" title="5.2、@HelpUrl"></a>5.2、<code>@HelpUrl</code></h4><blockquote>
+<ul>
+<li>类上边写</li>
+<li>列表页面（对应 <code>TargetUrl</code>）</li>
+<li>对应关系<ul>
+<li>对于博客页，HelpUrl是列表页，TargetUrl是文章页。</li>
+<li>对于论坛，HelpUrl是帖子列表，TargetUrl是帖子详情。</li>
+<li>对于电商网站，HelpUrl是分类列表，TargetUrl是商品详情。</li>
+</ul>
+</li>
+<li>sourceRegion<ul>
+<li><strong>TargetUrl</strong>还支持定义<code>sourceRegion</code>，这个参数是一个XPath表达式，指定了这个URL从哪里得到——不在sourceRegion的URL不会被抽取。</li>
+</ul>
+</li>
+</ul>
+</blockquote>
+<h4 id="5-3、-ExtractBy"><a href="#5-3、-ExtractBy" class="headerlink" title="5.3、@ExtractBy"></a>5.3、<code>@ExtractBy</code></h4><blockquote>
+<ul>
+<li>类的字段上注解</li>
+<li>定义这个字段使用什么方式进行抽取</li>
+<li><code>value</code> 是一个XPath表示的抽取规则，而抽取到的结果则会保存到readme字段中。</li>
+</ul>
+</blockquote>
+<pre class=" language-java"><code class="language-java"><span class="token annotation punctuation">@ExtractBy</span><span class="token punctuation">(</span>value <span class="token operator">=</span> <span class="token string">"div.BlogContent"</span><span class="token punctuation">,</span> type <span class="token operator">=</span> ExtractBy<span class="token punctuation">.</span>Type<span class="token punctuation">.</span>Css<span class="token punctuation">)</span>
+<span class="token keyword">private</span> String content<span class="token punctuation">;</span></code></pre>
+<h4 id="5-4、-ExtractByUrl"><a href="#5-4、-ExtractByUrl" class="headerlink" title="5.4、@ExtractByUrl"></a>5.4、<code>@ExtractByUrl</code></h4><blockquote>
+<p><code>@ExtractByUrl</code>是一个单独的注解，它的意思是“从URL中进行抽取”。它只支持正则表达式作为抽取规则。</p>
+</blockquote>
+<h4 id="5-5、结果类型转换"><a href="#5-5、结果类型转换" class="headerlink" title="5.5、结果类型转换"></a>5.5、结果类型转换</h4><pre class=" language-java"><code class="language-java"><span class="token annotation punctuation">@Formatter</span><span class="token punctuation">(</span><span class="token string">"yyyy-MM-dd HH:mm"</span><span class="token punctuation">)</span>
+<span class="token annotation punctuation">@ExtractBy</span><span class="token punctuation">(</span><span class="token string">"//div[@class='BlogStat']/regex('\\d+-\\d+-\\d+\\s+\\d+:\\d+')"</span><span class="token punctuation">)</span>
+<span class="token keyword">private</span> Date date<span class="token punctuation">;</span>
+
+
+<span class="token annotation punctuation">@Formatter</span><span class="token punctuation">(</span>value <span class="token operator">=</span> <span class="token string">""</span><span class="token punctuation">,</span>subClazz <span class="token operator">=</span> Integer<span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">)</span>
+<span class="token annotation punctuation">@ExtractBy</span><span class="token punctuation">(</span>value <span class="token operator">=</span> <span class="token string">"//div[@class='id']/text()"</span><span class="token punctuation">,</span> multi <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">)</span>
+<span class="token keyword">private</span> List<span class="token operator">&lt;</span>Integer<span class="token operator">></span> ids<span class="token punctuation">;</span></code></pre>
+<h5 id="自定义Formatter"><a href="#自定义Formatter" class="headerlink" title="自定义Formatter"></a>自定义<code>Formatter</code></h5><pre class=" language-java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">StringTemplateFormatter</span> <span class="token keyword">implements</span> <span class="token class-name">ObjectFormatter</span><span class="token operator">&lt;</span>String<span class="token operator">></span> <span class="token punctuation">{</span>
+
+    <span class="token keyword">private</span> String template<span class="token punctuation">;</span>
+
+    <span class="token annotation punctuation">@Override</span>
+    <span class="token keyword">public</span> String <span class="token function">format</span><span class="token punctuation">(</span>String raw<span class="token punctuation">)</span> <span class="token keyword">throws</span> Exception <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> String<span class="token punctuation">.</span><span class="token function">format</span><span class="token punctuation">(</span>template<span class="token punctuation">,</span> raw<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token annotation punctuation">@Override</span>
+    <span class="token keyword">public</span> Class<span class="token operator">&lt;</span>String<span class="token operator">></span> <span class="token function">clazz</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> String<span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token annotation punctuation">@Override</span>
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">initParam</span><span class="token punctuation">(</span>String<span class="token punctuation">[</span><span class="token punctuation">]</span> extra<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        template <span class="token operator">=</span> extra<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token annotation punctuation">@Formatter</span><span class="token punctuation">(</span>value <span class="token operator">=</span> <span class="token string">"author is %s"</span><span class="token punctuation">,</span>formatter <span class="token operator">=</span> StringTemplateFormatter<span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">)</span>
+<span class="token annotation punctuation">@ExtractByUrl</span><span class="token punctuation">(</span><span class="token string">"https://github\\.com/(\\w+)/.*"</span><span class="token punctuation">)</span>
+<span class="token keyword">private</span> String author<span class="token punctuation">;</span></code></pre>
+<h4 id="5-6、AfterExtractor"><a href="#5-6、AfterExtractor" class="headerlink" title="5.6、AfterExtractor"></a>5.6、AfterExtractor</h4><blockquote>
+<p>注解模式无法满足，有些值需要计算之类的需求，可以在获取值之后，进行补充处理。</p>
+</blockquote>
+<pre class=" language-java"><code class="language-java"><span class="token comment" spellcheck="true">//TargetUrl的意思是只有以下格式的URL才会被抽取出生成model对象</span>
+<span class="token comment" spellcheck="true">//这里对正则做了一点改动，'.'默认是不需要转义的，而'*'则会自动被替换成'.*'，因为这样描述URL看着舒服一点...</span>
+<span class="token comment" spellcheck="true">//继承jfinal中的Model</span>
+<span class="token comment" spellcheck="true">//实现AfterExtractor接口可以在填充属性后进行其他操作</span>
+<span class="token annotation punctuation">@TargetUrl</span><span class="token punctuation">(</span><span class="token string">"http://my.oschina.net/flashsword/blog/*"</span><span class="token punctuation">)</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">OschinaBlog</span> <span class="token keyword">extends</span> <span class="token class-name">Model</span><span class="token operator">&lt;</span>OschinaBlog<span class="token operator">></span> <span class="token keyword">implements</span> <span class="token class-name">AfterExtractor</span> <span class="token punctuation">{</span>
+
+    <span class="token comment" spellcheck="true">//用ExtractBy注解的字段会被自动抽取并填充</span>
+    <span class="token comment" spellcheck="true">//默认是xpath语法</span>
+    <span class="token annotation punctuation">@ExtractBy</span><span class="token punctuation">(</span><span class="token string">"//title"</span><span class="token punctuation">)</span>
+    <span class="token keyword">private</span> String title<span class="token punctuation">;</span>
+
+    <span class="token comment" spellcheck="true">//可以定义抽取语法为Css、Regex等</span>
+    <span class="token annotation punctuation">@ExtractBy</span><span class="token punctuation">(</span>value <span class="token operator">=</span> <span class="token string">"div.BlogContent"</span><span class="token punctuation">,</span> type <span class="token operator">=</span> ExtractBy<span class="token punctuation">.</span>Type<span class="token punctuation">.</span>Css<span class="token punctuation">)</span>
+    <span class="token keyword">private</span> String content<span class="token punctuation">;</span>
+
+    <span class="token comment" spellcheck="true">//multi标注的抽取结果可以是一个List</span>
+    <span class="token annotation punctuation">@ExtractBy</span><span class="token punctuation">(</span>value <span class="token operator">=</span> <span class="token string">"//div[@class='BlogTags']/a/text()"</span><span class="token punctuation">,</span> multi <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">)</span>
+    <span class="token keyword">private</span> List<span class="token operator">&lt;</span>String<span class="token operator">></span> tags<span class="token punctuation">;</span>
+
+    <span class="token annotation punctuation">@Override</span>
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">afterProcess</span><span class="token punctuation">(</span>Page page<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token comment" spellcheck="true">//jfinal的属性其实是一个Map而不是字段，没关系，填充进去就是了</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">set</span><span class="token punctuation">(</span><span class="token string">"title"</span><span class="token punctuation">,</span> title<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">set</span><span class="token punctuation">(</span><span class="token string">"content"</span><span class="token punctuation">,</span> content<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">set</span><span class="token punctuation">(</span><span class="token string">"tags"</span><span class="token punctuation">,</span> StringUtils<span class="token punctuation">.</span><span class="token function">join</span><span class="token punctuation">(</span>tags<span class="token punctuation">,</span> <span class="token string">","</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token comment" spellcheck="true">//保存</span>
+        <span class="token function">save</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">main</span><span class="token punctuation">(</span>String<span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        C3p0Plugin c3p0Plugin <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">C3p0Plugin</span><span class="token punctuation">(</span><span class="token string">"jdbc:mysql://127.0.0.1/blog?characterEncoding=utf-8"</span><span class="token punctuation">,</span> <span class="token string">"blog"</span><span class="token punctuation">,</span> <span class="token string">"password"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        c3p0Plugin<span class="token punctuation">.</span><span class="token function">start</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        ActiveRecordPlugin activeRecordPlugin <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">ActiveRecordPlugin</span><span class="token punctuation">(</span>c3p0Plugin<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        activeRecordPlugin<span class="token punctuation">.</span><span class="token function">addMapping</span><span class="token punctuation">(</span><span class="token string">"blog"</span><span class="token punctuation">,</span> OschinaBlog<span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        activeRecordPlugin<span class="token punctuation">.</span><span class="token function">start</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token comment" spellcheck="true">//启动webmagic</span>
+        OOSpider<span class="token punctuation">.</span><span class="token function">create</span><span class="token punctuation">(</span>Site<span class="token punctuation">.</span><span class="token function">me</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">addStartUrl</span><span class="token punctuation">(</span><span class="token string">"http://my.oschina.net/flashsword/blog/145796"</span><span class="token punctuation">)</span><span class="token punctuation">,</span> OschinaBlog<span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">run</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<h3 id="6、组件定制"><a href="#6、组件定制" class="headerlink" title="6、组件定制"></a>6、组件定制</h3><h4 id="6-1、Pipeline-定制"><a href="#6-1、Pipeline-定制" class="headerlink" title="6.1、Pipeline 定制"></a>6.1、Pipeline 定制</h4><pre class=" language-java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">interface</span> <span class="token class-name">Pipeline</span> <span class="token punctuation">{</span>
+
+    <span class="token comment" spellcheck="true">// ResultItems保存了抽取结果，它是一个Map结构，</span>
+    <span class="token comment" spellcheck="true">// 在page.putField(key,value)中保存的数据，可以通过ResultItems.get(key)获取</span>
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">process</span><span class="token punctuation">(</span>ResultItems resultItems<span class="token punctuation">,</span> Task task<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token punctuation">}</span>
+
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">ConsolePipeline</span> <span class="token keyword">implements</span> <span class="token class-name">Pipeline</span> <span class="token punctuation">{</span>
+
+    <span class="token annotation punctuation">@Override</span>
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">process</span><span class="token punctuation">(</span>ResultItems resultItems<span class="token punctuation">,</span> Task task<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"get page: "</span> <span class="token operator">+</span> resultItems<span class="token punctuation">.</span><span class="token function">getRequest</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">getUrl</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token comment" spellcheck="true">//遍历所有结果，输出到控制台，上面例子中的"author"、"name"、"readme"都是一个key，其结果则是对应的value</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span>Map<span class="token punctuation">.</span>Entry<span class="token operator">&lt;</span>String<span class="token punctuation">,</span> Object<span class="token operator">></span> entry <span class="token operator">:</span> resultItems<span class="token punctuation">.</span><span class="token function">getAll</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">entrySet</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>entry<span class="token punctuation">.</span><span class="token function">getKey</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token string">":\t"</span> <span class="token operator">+</span> entry<span class="token punctuation">.</span><span class="token function">getValue</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<blockquote>
+<p>一个<code>Spider</code>可以有多个Pipeline，使用<code>Spider.addPipeline()</code>即可增加一个Pipeline。这些Pipeline都会得到处理。</p>
+</blockquote>
+<p>WebMagic中已经提供了将结果输出到控制台、保存到文件和JSON格式保存的几个Pipeline：</p>
+<table>
+<thead>
+<tr>
+<th>类</th>
+<th>说明</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>ConsolePipeline</td>
+<td>输出结果到控制台</td>
+<td>抽取结果需要实现toString方法</td>
+</tr>
+<tr>
+<td>FilePipeline</td>
+<td>保存结果到文件</td>
+<td>抽取结果需要实现toString方法</td>
+</tr>
+<tr>
+<td>JsonFilePipeline</td>
+<td>JSON格式保存结果到文件</td>
+<td></td>
+</tr>
+<tr>
+<td>ConsolePageModelPipeline</td>
+<td>(注解模式)输出结果到控制台</td>
+<td></td>
+</tr>
+<tr>
+<td>FilePageModelPipeline</td>
+<td>(注解模式)保存结果到文件</td>
+<td></td>
+</tr>
+<tr>
+<td>JsonFilePageModelPipeline</td>
+<td>(注解模式)JSON格式保存结果到文件</td>
+<td>想要持久化的字段需要有getter方法</td>
+</tr>
+</tbody></table>
+<h4 id="6-2、Schedule-定制"><a href="#6-2、Schedule-定制" class="headerlink" title="6.2、Schedule 定制"></a>6.2、Schedule 定制</h4><p>Scheduler是WebMagic中进行URL管理的组件。一般来说，Scheduler包括两个作用：</p>
+<ol>
+<li>对待抓取的URL队列进行管理。</li>
+<li>对已抓取的URL进行去重。</li>
+</ol>
+<p>WebMagic内置了几个常用的Scheduler。如果你只是在本地执行规模比较小的爬虫，那么基本无需定制Scheduler，但是了解一下已经提供的几个Scheduler还是有意义的。</p>
+<table>
+<thead>
+<tr>
+<th>类</th>
+<th>说明</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>DuplicateRemovedScheduler</td>
+<td>抽象基类，提供一些模板方法</td>
+<td>继承它可以实现自己的功能</td>
+</tr>
+<tr>
+<td>QueueScheduler</td>
+<td>使用内存队列保存待抓取URL</td>
+<td></td>
+</tr>
+<tr>
+<td>PriorityScheduler</td>
+<td>使用带有优先级的内存队列保存待抓取URL</td>
+<td>耗费内存较QueueScheduler更大，但是当设置了request.priority之后，只能使用PriorityScheduler才可使优先级生效</td>
+</tr>
+<tr>
+<td>FileCacheQueueScheduler</td>
+<td>使用文件保存抓取URL，可以在关闭程序并下次启动时，从之前抓取到的URL继续抓取</td>
+<td>需指定路径，会建立.urls.txt和.cursor.txt两个文件</td>
+</tr>
+<tr>
+<td>RedisScheduler</td>
+<td>使用Redis保存抓取队列，可进行多台机器同时合作抓取</td>
+<td>需要安装并启动redis</td>
+</tr>
+</tbody></table>
+<p>在0.5.1版本里，我对Scheduler的内部实现进行了重构，去重部分被单独抽象成了一个接口：<code>DuplicateRemover</code>，从而可以为同一个Scheduler选择不同的去重方式，以适应不同的需要，目前提供了两种去重方式。</p>
+<table>
+<thead>
+<tr>
+<th>类</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>HashSetDuplicateRemover</td>
+<td>使用HashSet来进行去重，占用内存较大</td>
+</tr>
+<tr>
+<td>BloomFilterDuplicateRemover</td>
+<td>使用BloomFilter来进行去重，占用内存较小，但是可能漏抓页面</td>
+</tr>
+</tbody></table>
+<p>所有默认的Scheduler都使用HashSetDuplicateRemover来进行去重，（除开RedisScheduler是使用Redis的set进行去重）。如果你的URL较多，使用HashSetDuplicateRemover会比较占用内存，所以也可以尝试以下BloomFilterDuplicateRemover<a href="http://webmagic.io/docs/zh/posts/ch6-custom-componenet/scheduler.html#fn_1" target="_blank" rel="noopener">1</a>，使用方式：</p>
+<pre class=" language-java"><code class="language-java"><span class="token comment" spellcheck="true">//10000000是估计的页面数量</span>
+spider<span class="token punctuation">.</span><span class="token function">setScheduler</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">QueueScheduler</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+                    <span class="token punctuation">.</span><span class="token function">setDuplicateRemover</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">BloomFilterDuplicateRemover</span><span class="token punctuation">(</span><span class="token number">10000000</span><span class="token punctuation">)</span><span class="token punctuation">)</span> 
+                   <span class="token punctuation">)</span></code></pre>
+
+            </div>
+            <hr/>
+
+            
+
+    <div class="reprint" id="reprint-statement">
+        
+            <div class="reprint__author">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-user">
+                        文章作者:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="https://www.asxing.com" rel="external nofollow noreferrer">HoldDie</a>
+                </span>
+            </div>
+            <div class="reprint__type">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-link">
+                        文章链接:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="https://www.asxing.com/2018/11/15/java-pa-chong-webmagic-er/">https://www.asxing.com/2018/11/15/java-pa-chong-webmagic-er/</a>
+                </span>
+            </div>
+            <div class="reprint__notice">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-copyright">
+                        版权声明:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    本博客所有文章除特別声明外，均采用
+                    <a href="https://creativecommons.org/licenses/by/4.0/deed.zh" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>
+                    许可协议。转载请注明来源
+                    <a href="https://www.asxing.com" target="_blank">HoldDie</a>
+                    !
+                </span>
+            </div>
+        
+    </div>
+
+    <script async defer>
+      document.addEventListener("copy", function (e) {
+        let toastHTML = '<span>复制成功，请遵循本文的转载规则</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">查看</a>';
+        M.toast({html: toastHTML})
+      });
+
+      function navToReprintStatement() {
+        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      }
+    </script>
+
+
+
+            <div class="tag_share" style="display: block;">
+                <div class="post-meta__tag-list" style="display: inline-block;">
+                    
+                        <div class="article-tag">
+                            
+                                <a href="/tags/Java/">
+                                    <span class="chip bg-color">Java</span>
+                                </a>
+                            
+                                <a href="/tags/%E7%88%AC%E8%99%AB/">
+                                    <span class="chip bg-color">爬虫</span>
+                                </a>
+                            
+                                <a href="/tags/WebMagic/">
+                                    <span class="chip bg-color">WebMagic</span>
+                                </a>
+                            
+                        </div>
+                    
+                </div>
+                <div class="post_share" style="zoom: 80%; width: fit-content; display: inline-block; float: right; margin: -0.15rem 0;">
+                    <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+
+<div id="article-share">
+    
+    
+    <div class="social-share" data-sites="twitter,facebook,google,qq,qzone,wechat,weibo,douban,linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
+    <script src="/libs/share/js/social-share.min.js"></script>
+    
+
+    
+
+</div>
+
+                </div>
+            </div>
+            
+                <style>
+    #reward {
+        margin: 40px 0;
+        text-align: center;
+    }
+
+    #reward .reward-link {
+        font-size: 1.4rem;
+        line-height: 38px;
+    }
+
+    #reward .btn-floating:hover {
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2), 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    #rewardModal {
+        width: 320px;
+        height: 350px;
+    }
+
+    #rewardModal .reward-title {
+        margin: 15px auto;
+        padding-bottom: 5px;
+    }
+
+    #rewardModal .modal-content {
+        padding: 10px;
+    }
+
+    #rewardModal .close {
+        position: absolute;
+        right: 15px;
+        top: 15px;
+        color: rgba(0, 0, 0, 0.5);
+        font-size: 1.3rem;
+        line-height: 20px;
+        cursor: pointer;
+    }
+
+    #rewardModal .close:hover {
+        color: #ef5350;
+        transform: scale(1.3);
+        -moz-transform:scale(1.3);
+        -webkit-transform:scale(1.3);
+        -o-transform:scale(1.3);
+    }
+
+    #rewardModal .reward-tabs {
+        margin: 0 auto;
+        width: 210px;
+    }
+
+    .reward-tabs .tabs {
+        height: 38px;
+        margin: 10px auto;
+        padding-left: 0;
+    }
+
+    .reward-content ul {
+        padding-left: 0 !important;
+    }
+
+    .reward-tabs .tabs .tab {
+        height: 38px;
+        line-height: 38px;
+    }
+
+    .reward-tabs .tab a {
+        color: #fff;
+        background-color: #ccc;
+    }
+
+    .reward-tabs .tab a:hover {
+        background-color: #ccc;
+        color: #fff;
+    }
+
+    .reward-tabs .wechat-tab .active {
+        color: #fff !important;
+        background-color: #22AB38 !important;
+    }
+
+    .reward-tabs .alipay-tab .active {
+        color: #fff !important;
+        background-color: #019FE8 !important;
+    }
+
+    .reward-tabs .reward-img {
+        width: 210px;
+        height: 210px;
+    }
+</style>
+
+<div id="reward">
+    <a href="#rewardModal" class="reward-link modal-trigger btn-floating btn-medium waves-effect waves-light red">赏</a>
+
+    <!-- Modal Structure -->
+    <div id="rewardModal" class="modal">
+        <div class="modal-content">
+            <a class="close modal-close"><i class="fas fa-times"></i></a>
+            <h4 class="reward-title">你的赏识是我前进的动力</h4>
+            <div class="reward-content">
+                <div class="reward-tabs">
+                    <ul class="tabs row">
+                        <li class="tab col s6 alipay-tab waves-effect waves-light"><a href="#alipay">支付宝</a></li>
+                        <li class="tab col s6 wechat-tab waves-effect waves-light"><a href="#wechat">微 信</a></li>
+                    </ul>
+                    <div id="alipay">
+                        <img src="/medias/reward/alipay.jpg" class="reward-img" alt="支付宝打赏二维码">
+                    </div>
+                    <div id="wechat">
+                        <img src="/medias/reward/wechat.png" class="reward-img" alt="微信打赏二维码">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $('.tabs').tabs();
+    });
+</script>
+            
+        </div>
+    </div>
+
+    
+        <link rel="stylesheet" href="/libs/gitalk/gitalk.css">
+<link rel="stylesheet" href="/css/my-gitalk.css">
+
+<div class="card gitalk-card" data-aos="fade-up">
+    <div class="comment_headling" style="font-size: 20px; font-weight: 700; position: relative; left: 20px; top: 15px; padding-bottom: 5px;">
+        <i class="fas fa-comments fa-fw" aria-hidden="true"></i>
+        <span>评论</span>
+    </div>
+    <div id="gitalk-container" class="card-content"></div>
+</div>
+
+<script src="/libs/gitalk/gitalk.min.js"></script>
+<script>
+    let gitalk = new Gitalk({
+        clientID: 'c4e18e113d94091c8828',
+        clientSecret: '891f04d80de6a77fd6eb60d1cbe792e916cde3ff',
+        repo: 'asxing.github.io',
+        owner: 'Asxing',
+        admin: "asxing",
+        id: '2018-11-15T19-43-41',
+        distractionFreeMode: false  // Facebook-like distraction free mode
+    });
+
+    gitalk.render('gitalk-container');
+</script>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+            <div class="card">
+                <a href="/2018/11/16/java-pa-chong-qian-duan-xuan-ran-san/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/3.jpg" class="responsive-img" alt="Java爬虫-前段渲染（三）">
+                        
+                        <span class="card-title">Java爬虫-前段渲染（三）</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+风起时，我听到了命运的声音。 ——杨
+
+1、页面抓取1.1、判断动静态页面 至此，基本简单的页面，没有问题了，此处我所说的页面指的是静态页面，那么问题来了，我自己如何判断一个页面的动静态加载。此时我们查看网页源码就可以看出来，当页面的源码
+                        
+                    </div>
+                    <div class="publish-info">
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2018-11-16
+                        </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/%E7%88%AC%E8%99%AB/" class="post-category">
+                                    爬虫
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/Java/">
+                        <span class="chip bg-color">Java</span>
+                    </a>
+                    
+                    <a href="/tags/%E7%88%AC%E8%99%AB/">
+                        <span class="chip bg-color">爬虫</span>
+                    </a>
+                    
+                    <a href="/tags/%E5%89%8D%E7%AB%AF/">
+                        <span class="chip bg-color">前端</span>
+                    </a>
+                    
+                    <a href="/tags/%E5%8A%A8%E9%9D%99%E7%BB%93%E5%90%88/">
+                        <span class="chip bg-color">动静结合</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2018/11/14/java-pa-chong-xpath-yi/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/0.jpg" class="responsive-img" alt="Java爬虫-XPath（一）">
+                        
+                        <span class="card-title">Java爬虫-XPath（一）</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            当你走过漫漫长路，是否还记得那一眼花开的动心？ ——萌贝壳
+
+XPath 是一门在 XML 文档中查找信息的语言。XPath 用于在XML文档中通过元素和属性进行导航。
+
+1、XPath 基本概念1.1、XPath 概念
+XPath 使用路
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2018-11-14
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/%E7%88%AC%E8%99%AB/" class="post-category">
+                                    爬虫
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/Java/">
+                        <span class="chip bg-color">Java</span>
+                    </a>
+                    
+                    <a href="/tags/%E7%88%AC%E8%99%AB/">
+                        <span class="chip bg-color">爬虫</span>
+                    </a>
+                    
+                    <a href="/tags/XPath/">
+                        <span class="chip bg-color">XPath</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+
+</div>
+
+
+
+<!-- 代码块功能依赖 -->
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+
+<!-- 代码语言 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+
+    
+<!-- 代码块复制 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+
+
+<!-- 代码块收缩 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script>
+
+
+<!-- 代码块折行 -->
+
+<style type="text/css">
+code[class*="language-"], pre[class*="language-"] { white-space: pre !important; }
+</style>
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget">
+            <div class="toc-title"><i class="far fa-list-alt"></i>&nbsp;&nbsp;目录</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fas fa-list-ul"></i>
+    </a>
+</div>
+
+
+<script src="/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            // headingsOffset: -205,
+            headingSelector: 'h2, h3, h4'
+        });
+
+        // modify the toc link href to support Chinese.
+        let i = 0;
+        let tocHeading = 'toc-heading-';
+        $('#toc-content a').each(function () {
+            $(this).attr('href', '#' + tocHeading + (++i));
+        });
+
+        // modify the heading title id to support Chinese.
+        i = 0;
+        $('#articleContent').children('h2, h3, h4').each(function () {
+            $(this).attr('id', tocHeading + (++i));
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).hide();
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).show();
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+        });
+        
+    });
+</script>
+
+    
+
+</main>
+
+
+
+    <footer class="page-footer bg-color">
+    <div class="container row center-align">
+        <div class="col s12 m8 l8 copy-right">
+            Copyright&nbsp;&copy;
+            <span id="year">年份</span>
+            <a href="https://www.asxing.com" target="_blank">Asxing</a>
+            |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
+            |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
+            <br>
+            
+            &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
+                class="white-color">479k</span>&nbsp;字
+            
+            
+            
+            
+            <span id="busuanzi_container_site_pv">
+                |&nbsp;<i class="far fa-eye"></i>&nbsp;总访问量:&nbsp;<span id="busuanzi_value_site_pv"
+                    class="white-color"></span>&nbsp;次
+            </span>
+            
+            
+            <span id="busuanzi_container_site_uv">
+                |&nbsp;<i class="fas fa-users"></i>&nbsp;总访问人数:&nbsp;<span id="busuanzi_value_site_uv"
+                    class="white-color"></span>&nbsp;人
+            </span>
+            
+            <br>
+            
+            <span id="sitetime">载入运行时间...</span>
+            <script>
+                function siteTime() {
+                    window.setTimeout("siteTime()", 1000);
+                    var seconds = 1000;
+                    var minutes = seconds * 60;
+                    var hours = minutes * 60;
+                    var days = hours * 24;
+                    var years = days * 365;
+                    var today = new Date();
+                    var startYear = "2019";
+                    var startMonth = "10";
+                    var startDate = "30";
+                    var startHour = "22";
+                    var startMinute = "30";
+                    var startSecond = "0";
+                    var todayYear = today.getFullYear();
+                    var todayMonth = today.getMonth() + 1;
+                    var todayDate = today.getDate();
+                    var todayHour = today.getHours();
+                    var todayMinute = today.getMinutes();
+                    var todaySecond = today.getSeconds();
+                    var t1 = Date.UTC(startYear, startMonth, startDate, startHour, startMinute, startSecond);
+                    var t2 = Date.UTC(todayYear, todayMonth, todayDate, todayHour, todayMinute, todaySecond);
+                    var diff = t2 - t1;
+                    var diffYears = Math.floor(diff / years);
+                    var diffDays = Math.floor((diff / days) - diffYears * 365);
+                    var diffHours = Math.floor((diff - (diffYears * 365 + diffDays) * days) / hours);
+                    var diffMinutes = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours) /
+                        minutes);
+                    var diffSeconds = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours -
+                        diffMinutes * minutes) / seconds);
+                    if (startYear == todayYear) {
+                        document.getElementById("year").innerHTML = todayYear;
+                        document.getElementById("sitetime").innerHTML = "本站已安全运行 " + diffDays + " 天 " + diffHours +
+                            " 小时 " + diffMinutes + " 分钟 " + diffSeconds + " 秒";
+                    } else {
+                        document.getElementById("year").innerHTML = startYear + " - " + todayYear;
+                        document.getElementById("sitetime").innerHTML = "本站已安全运行 " + diffYears + " 年 " + diffDays +
+                            " 天 " + diffHours + " 小时 " + diffMinutes + " 分钟 " + diffSeconds + " 秒";
+                    }
+                }
+                setInterval(siteTime, 1000);
+            </script>
+            
+            <br>
+            
+        </div>
+        <div class="col s12 m4 l4 social-link ">
+    <a href="https://github.com/asxing" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+        <i class="fab fa-github"></i>
+    </a>
+
+
+
+    <a href="mailto:asxingking@gmail.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fas fa-envelope-open"></i>
+    </a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <a href="/atom.xml" class="tooltipped" target="_blank" data-tooltip="RSS 订阅" data-position="top" data-delay="50">
+        <i class="fas fa-rss"></i>
+    </a>
+
+</div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+
+    <!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fas fa-search"></i>&nbsp;&nbsp;搜索</span>
+            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script src="/js/search.js"></script>
+<script type="text/javascript">
+$(function () {
+    searchFunc("/" + "search.xml", 'searchInput', 'searchResult');
+});
+</script>
+    <!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+</div>
+
+
+    <script src="/libs/materialize/materialize.min.js"></script>
+    <script src="/libs/masonry/masonry.pkgd.min.js"></script>
+    <script src="/libs/aos/aos.js"></script>
+    <script src="/libs/scrollprogress/scrollProgress.min.js"></script>
+    <script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+    <script src="/js/matery.js"></script>
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+    <!-- Baidu Analytics -->
+
+    <!-- Baidu Push -->
+
+    
+    <script src="/libs/others/clicklove.js" async="async"></script>
+    
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <script type="text/javascript" src="/libs/background/ribbon-dynamic.js" async="async"></script>
+    
+    
+    
+
+</body>
+
+</html>

@@ -1,0 +1,1421 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="keywords" content="高性能MySQL-数据复制问题和解决方案（八）, 编程 读书 生活">
+    <meta name="description" content="
+10.5　复制和容量规划
+写操作通常是复制的瓶颈，并且很难使用复制来扩展写操作。当计划为系统增加复制容量时，需要确保进行了正确的计算，否则很容易犯一些复制相关的错误。
+这远远不是线性扩展，查询数量增加4倍，却需要增加17倍的服务器。这说明">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>高性能MySQL-数据复制问题和解决方案（八） | Asxing-阿行</title>
+    <link rel="icon" type="image/png" href="/favicon.png">
+
+    <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
+    <link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
+    <link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/matery.css">
+    <link rel="stylesheet" type="text/css" href="/css/my.css">
+    
+    <script src="/libs/jquery/jquery.min.js"></script>
+    
+<meta name="generator" content="Hexo 4.2.1"><link rel="alternate" href="/atom.xml" title="Asxing-阿行" type="application/atom+xml">
+<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+
+
+<body>
+    <header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper head-container">
+            <div class="brand-logo">
+                <a href="/" class="waves-effect waves-light">
+                    
+                    <img src="/medias/logo.png" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">Asxing-阿行</span>
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
+<ul class="right nav-menu">
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/" class="waves-effect waves-light">
+      
+      <i class="fas fa-home" style="zoom: 0.6;"></i>
+      
+      <span>首页</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/tags" class="waves-effect waves-light">
+      
+      <i class="fas fa-tags" style="zoom: 0.6;"></i>
+      
+      <span>标签</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/categories" class="waves-effect waves-light">
+      
+      <i class="fas fa-bookmark" style="zoom: 0.6;"></i>
+      
+      <span>分类</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/archives" class="waves-effect waves-light">
+      
+      <i class="fas fa-archive" style="zoom: 0.6;"></i>
+      
+      <span>归档</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/about" class="waves-effect waves-light">
+      
+      <i class="fas fa-user-circle" style="zoom: 0.6;"></i>
+      
+      <span>关于</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/contact" class="waves-effect waves-light">
+      
+      <i class="fas fa-comments" style="zoom: 0.6;"></i>
+      
+      <span>留言板</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/friends" class="waves-effect waves-light">
+      
+      <i class="fas fa-address-book" style="zoom: 0.6;"></i>
+      
+      <span>友情链接</span>
+    </a>
+    
+  </li>
+  
+  <li>
+    <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+      <i id="searchIcon" class="fas fa-search" title="搜索" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+</ul>
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="/medias/logo.png" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">Asxing-阿行</div>
+        <div class="logo-desc">
+            
+            Never really desperate, only the lost of the soul.
+            
+        </div>
+    </div>
+
+    
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li class="m-nav-item">
+	  
+		<a href="/" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-home"></i>
+			
+			首页
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/tags" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-tags"></i>
+			
+			标签
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/categories" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-bookmark"></i>
+			
+			分类
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/archives" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-archive"></i>
+			
+			归档
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/about" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-user-circle"></i>
+			
+			关于
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/contact" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-comments"></i>
+			
+			Contact
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/friends" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-address-book"></i>
+			
+			友情链接
+		</a>
+          
+        </li>
+        
+        
+        <li><div class="divider"></div></li>
+        <li>
+            <a href="https://github.com/asxing" class="waves-effect waves-light" target="_blank">
+                <i class="fab fa-github-square fa-fw"></i>Fork Me
+            </a>
+        </li>
+        
+    </ul>
+</div>
+
+        </div>
+
+        
+            <style>
+    .nav-transparent .github-corner {
+        display: none !important;
+    }
+
+    .github-corner {
+        position: absolute;
+        z-index: 10;
+        top: 0;
+        right: 0;
+        border: 0;
+        transform: scale(1.1);
+    }
+
+    .github-corner svg {
+        color: #0f9d58;
+        fill: #fff;
+        height: 64px;
+        width: 64px;
+    }
+
+    .github-corner:hover .octo-arm {
+        animation: a 0.56s ease-in-out;
+    }
+
+    .github-corner .octo-arm {
+        animation: none;
+    }
+
+    @keyframes a {
+        0%,
+        to {
+            transform: rotate(0);
+        }
+        20%,
+        60% {
+            transform: rotate(-25deg);
+        }
+        40%,
+        80% {
+            transform: rotate(10deg);
+        }
+    }
+</style>
+
+<a href="https://github.com/asxing" class="github-corner tooltipped hide-on-med-and-down" target="_blank"
+   data-tooltip="Fork Me" data-position="left" data-delay="50">
+    <svg viewBox="0 0 250 250" aria-hidden="true">
+        <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
+        <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2"
+              fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path>
+        <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z"
+              fill="currentColor" class="octo-body"></path>
+    </svg>
+</a>
+        
+    </nav>
+
+</header>
+
+    
+<script src="/libs/cryptojs/crypto-js.min.js"></script>
+<script>
+    (function() {
+        let pwd = '';
+        if (pwd && pwd.length > 0) {
+            if (pwd !== CryptoJS.SHA256(prompt('请输入访问本文章的密码')).toString(CryptoJS.enc.Hex)) {
+                alert('密码错误，将返回主页！');
+                location.href = '/';
+            }
+        }
+    })();
+</script>
+
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('https://www.holddie.com/img/20200329163836.png')">
+    <div class="container" style="right: 0px;left: 0px;">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <div class="description center-align post-title">
+                        高性能MySQL-数据复制问题和解决方案（八）
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<main class="post-container content">
+
+    
+    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
+<style>
+    #articleContent h1::before,
+    #articleContent h2::before,
+    #articleContent h3::before,
+    #articleContent h4::before,
+    #articleContent h5::before,
+    #articleContent h6::before {
+        display: block;
+        content: " ";
+        height: 100px;
+        margin-top: -100px;
+        visibility: hidden;
+    }
+
+    #articleContent :focus {
+        outline: none;
+    }
+
+    .toc-fixed {
+        position: fixed;
+        top: 64px;
+    }
+
+    .toc-widget {
+        padding-left: 20px;
+    }
+
+    .toc-widget .toc-title {
+        margin: 35px 0 15px 0;
+        padding-left: 17px;
+        font-size: 1.5rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    .toc-widget ol {
+        padding: 0;
+        list-style: none;
+    }
+
+    #toc-content ol {
+        padding-left: 10px;
+    }
+
+    #toc-content ol li {
+        padding-left: 10px;
+    }
+
+    #toc-content .toc-link:hover {
+        color: #42b983;
+        font-weight: 700;
+        text-decoration: underline;
+    }
+
+    #toc-content .toc-link::before {
+        background-color: transparent;
+        max-height: 25px;
+    }
+
+    #toc-content .is-active-link {
+        color: #42b983;
+    }
+
+    #toc-content .is-active-link::before {
+        background-color: #42b983;
+    }
+
+    #floating-toc-btn {
+        position: fixed;
+        right: 15px;
+        bottom: 76px;
+        padding-top: 15px;
+        margin-bottom: 0;
+        z-index: 998;
+    }
+
+    #floating-toc-btn .btn-floating {
+        width: 48px;
+        height: 48px;
+    }
+
+    #floating-toc-btn .btn-floating i {
+        line-height: 48px;
+        font-size: 1.4rem;
+    }
+</style>
+<div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                            <a href="/tags/MySQL/">
+                                <span class="chip bg-color">MySQL</span>
+                            </a>
+                        
+                            <a href="/tags/%E8%AF%BB%E4%B9%A6/">
+                                <span class="chip bg-color">读书</span>
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fas fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/categories/MySQL/" class="post-category">
+                                MySQL
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
+                    2020-03-29
+                </div>
+                
+
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
+                    8.7k
+                </div>
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
+                    30 分
+                </div>
+                
+				
+                
+            </div>
+            
+        </div>
+        <hr class="clearfix">
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <p><img src="https://www.holddie.com/img/20200329163836.png" alt=""></p>
+<h3 id="10-5-复制和容量规划"><a href="#10-5-复制和容量规划" class="headerlink" title="10.5　复制和容量规划"></a>10.5　复制和容量规划</h3><ul>
+<li>写操作通常是复制的瓶颈，并且很难使用复制来扩展写操作。当计划为系统增加复制容量时，需要确保进行了正确的计算，否则很容易犯一些复制相关的错误。</li>
+<li>这远远不是线性扩展，查询数量增加4倍，却需要增加17倍的服务器。这说明当为单台主库增加备库时，将很快达到投入远高于回报的地步。这仅仅是基于上面的假设，还忽略了一些事情，例如，单线程的基于语句的复制常常导致备库容量小于主库。真实的复制配置比我们的理论计算还要更差。</li>
+</ul>
+<h4 id="10-5-1-为什么复制无法扩展写操作"><a href="#10-5-1-为什么复制无法扩展写操作" class="headerlink" title="10.5.1　为什么复制无法扩展写操作"></a>10.5.1　为什么复制无法扩展写操作</h4><ul>
+<li>复制只能扩展读操作，无法扩展写操作。</li>
+<li>你可能想知道到底有没有办法使用复制来增加写入能力。答案是否定的，根本不行。对数据进行分区是唯一可以扩展写入的方法</li>
+</ul>
+<h4 id="10-5-2-备库什么时候开始延迟"><a href="#10-5-2-备库什么时候开始延迟" class="headerlink" title="10.5.2　备库什么时候开始延迟"></a>10.5.2　备库什么时候开始延迟</h4><ul>
+<li>一个关于备库比较普遍的问题是如何预测备库会在何时跟不上主库。很难去描述备库使用的复制容量为5%与95%的区别，但是至少能够在接近饱和前预警并估计复制容量。</li>
+<li>首先应该观察复制延迟的尖刺。如果有复制延迟的曲线图，需要注意到图上的一些短暂的延迟骤升，这时候可能负载加大，备库短时间内无法跟上主库。当负载接近耗尽备库的容量时，会发现曲线上的凸起会更高更宽。前面曲线的上升角度不变，但随后当备库在产生延迟后开始追赶主库时，将会产生一个平缓的斜坡。这些突起的出现和增长是一个警告信息，意味着已经接近容量限制。</li>
+</ul>
+<h4 id="10-5-3-规划冗余容量"><a href="#10-5-3-规划冗余容量" class="headerlink" title="10.5.3　规划冗余容量"></a>10.5.3　规划冗余容量</h4><ul>
+<li>在构建一个大型应用时，有意让服务器不被充分使用，这应该是一种聪明并且划算的方式，尤其在使用复制的时候。有多余容量的服务器可以更好地处理负载尖峰，也有更多能力处理慢速查询和维护工作（如OPTIMIZE TABLE操作），并且能够更好地跟上复制。</li>
+</ul>
+<h3 id="10-6-复制管理和维护"><a href="#10-6-复制管理和维护" class="headerlink" title="10.6　复制管理和维护"></a>10.6　复制管理和维护</h3><h4 id="10-6-1-监控复制"><a href="#10-6-1-监控复制" class="headerlink" title="10.6.1　监控复制"></a>10.6.1　监控复制</h4><ul>
+<li>复制增加了MySQL监控的复杂性。尽管复制发生在主库和备库上，但大多数工作是在备库上完成的，这也正是最常出问题的地方。是否所有的备库都在工作？最慢的备库延迟是多大？MySQL本身提供了大量可以回答上述问题的信息，但要实现自动化监控过程以及使复制更健壮还是需要用户做更多的工作。</li>
+<li>可以通过SHOW BINLOG EVENTS来查看复制事件</li>
+</ul>
+<h4 id="10-6-2-测量备库延迟"><a href="#10-6-2-测量备库延迟" class="headerlink" title="10.6.2　测量备库延迟"></a>10.6.2　测量备库延迟</h4><ul>
+<li>一个比较普遍的问题是如何监控备库落后主库的延迟有多大。虽然SHOW SLAVE STATUS输出的Seconds_behind_master列理论上显示了备库的延时，但由于各种各样的原因，并不总是准确的</li>
+<li>解决这些问题的办法是忽略Seconds_behind_master的值，并使用一些可以直接观察和衡量的方式来监控备库延迟。最好的解决办法是使用heartbeat record，这是一个在主库上会每秒更新一次的时间戳。为了计算延时，可以直接用备库当前的时间戳减去心跳记录的值。</li>
+<li>另外一个额外的好处是我们还可以通过时间戳知道备库当前的复制状况。包含在Percona Toolkit里的pt-heartbeat脚本是“复制心跳”最流行的一种实现。</li>
+</ul>
+<h4 id="10-6-3-确定主备是否一致"><a href="#10-6-3-确定主备是否一致" class="headerlink" title="10.6.3　确定主备是否一致"></a>10.6.3　确定主备是否一致</h4><ul>
+<li>通常情况下可以在主库上运行该工具，参数如下：<code>$ pt-table-checksum --replicate=test.checksum &lt;master_host&gt;</code></li>
+<li>通常情况下可以在主库上运行该工具，参数如下：<code>$ pt-table-checksum --replicate=test.checksum</code></li>
+<li>该命令将检查所有的表，并将结果插入到test.checksum表中。当查询在备库执行完后，就可以简单地比较主备之间的不同了。pt-table-checksum能够发现服务器所有的备库，在每台备库上运行查询，并自动地输出结果。在写作本书时，pt-table-checksum是唯一能够有效地比较主备一致性的工具。</li>
+</ul>
+<h4 id="10-6-4-从主库重新同步备库"><a href="#10-6-4-从主库重新同步备库" class="headerlink" title="10.6.4　从主库重新同步备库"></a>10.6.4　从主库重新同步备库</h4><ul>
+<li>最简单的办法是使用mysqldump转储受影响的数据并重新导入。</li>
+<li>在整个过程中，如果数据没有发生变化，这种方法会很好。你可以在主库上简单地锁住表然后进行转储，再等待备库赶上主库，然后将数据导入到备库中。（需要等待备库赶上主库，这样就不至于为其他表引入新的不一致，例如那些可能通过和失去同步的表做join后进行数据更新的表）。</li>
+<li>pt-table-sync是Percona Toolkit中的另外一个工具，可以解决该问题。该工具能够高效地查找并解决表之间的不同。它同样通过复制工作，在主库上执行查询，在备库上重新同步，这样就没有竞争条件。它是结合pt-table-checksum生成的checksum表来工作的，所以只能操作那些已知不同步的表的数据块。</li>
+</ul>
+<h4 id="10-6-5-改变主库"><a href="#10-6-5-改变主库" class="headerlink" title="10.6.5　改变主库"></a>10.6.5　改变主库</h4><ul>
+<li>如果这是计划内的操作，会比较容易（至少比紧急情况下要容易）。只需在备库简单地使用CHANGE MASTER TO命令，并指定合适的值。</li>
+<li>整个过程中最难的是获取新主库上合适的二进制日志位置，这样备库才可以从和老主库相同的逻辑位置开始复制。</li>
+<li>计划内的提升</li>
+<li>把备库提升为主库理论上是很简单的。简单来说，有以下步骤：<ul>
+<li>停止向老的主库写入。</li>
+<li>让备库追赶上主库（可选的，会简化下面的步骤）。</li>
+<li>将一台备库配置为新的主库。</li>
+<li>将备库和写操作指向新的主库，然后开启主库的写入。</li>
+</ul>
+</li>
+<li>更深入一点，下面是大多数配置需要的步骤：<ul>
+<li>停止当前主库上的所有写操作。如果可以，最好能将所有的客户端程序关闭（除了复制连接）。</li>
+<li>通过FLUSH TABLES WITH READ LOCK在主库上停止所有活跃的写入，这一步是可选的。也可以在主库上设置read_only选项。</li>
+<li>选择一个备库作为新的主库，并确保它已经完全跟上主库（例如，让它执行完所有从主库获得的中继日志）。</li>
+<li>确保新主库和旧主库的数据是一致的。可选。</li>
+<li>在新主库上执行STOP SLAVE。</li>
+<li>在新主库上执行CHANGE MASTER TO MASTER_HOST=’’，然后再执行RESET SLAVE，使其断开与老主库的连接，并丢弃master.info里记录的信息</li>
+<li>执行SHOW MASTER STATUS记录新主库的二进制日志坐标。</li>
+<li>确保其他备库已经追赶上。</li>
+<li>关闭旧主库。</li>
+<li>在MySQL 5.1及以上版本中，如果需要，激活新主库上事件。</li>
+<li>将客户端连接到新主库。</li>
+<li>在每台备库上执行CHANGE MASTER TO语句，使用之前通过SHOW MASTER STATUS获得的二进制日志坐标，来指向新的主库。</li>
+</ul>
+</li>
+<li>计划外的提升<ul>
+<li>当主库崩溃时，需要提升一台备库来代替它，这个过程可能就不太容易。如果只有一台备库，可以直接使用这台备库。但如果有超过一台的备库，就需要做一些额外的工作。</li>
+</ul>
+</li>
+<li>需要确保在计算中使用Master_Log_File和Read_Master_Log_Pos的值。以下是对主备拓扑结构中的备库进行提升的过程：<ul>
+<li>确定哪台备库的数据最新。检查每台备库上SHOW SLAVE STATUS命令的输出，选择其中Master_Log_File/read_Master_Log_Pos的值最新的那个。</li>
+<li>让所有备库执行完所有其从崩溃前的旧主库那获得的中继日志。如果在未完成前修改备库的主库，它会抛弃剩下的日志事件，从而无法获知该备库在什么地方停止。</li>
+</ul>
+</li>
+<li>执行前一小节的5～7步。</li>
+<li>比较每台备库和新主库上的<code>Master_Log_File/Read_Master_Log_Pos</code>的值。</li>
+<li>执行前一小节的10～12步。</li>
+<li>确定期望的日志位置<ul>
+<li>如果有备库和新主库的位置不相同，则需要找到该备库最后一条执行的事件在新主库的二进制日志中相应的位置，然后再执行CHANGE MASTER TO。可以通过mysqlbinlog工具来找到备库执行的最后一条查询，然后在主库上找到同样的查询，进行简单的计算即可得到。</li>
+<li>为了便于描述，假设每个日志事件有一个自增的数字ID，最新的备库，也就是新主库，在旧主库崩溃时获得了编号为100的事件，假设有另外两台备库：replica2和replica3。replica2已经获取了99号事件，replica3获取了98号事件。如果把两台备库都指向新主库的同一个二进制日志位置，它们将从101号事件开始复制，从而导致数据不同步。但只要新主库的二进制日志已经通过log_slave_updates打开，就可以在新主库的二进制日志中找到99号和100号日志，从而将备库恢复到一致的状态。</li>
+<li>如果需要从老主库上恢复丢失的事件，建议在提升新主库之后且在允许客户端连接之前做这件事情。这样就无须在每台备库上都执行丢失的事件，只需使用复制来完成。但如果崩溃的老主库完全不可用，就不得不等待，稍后再做这项工作。</li>
+</ul>
+</li>
+</ul>
+<h4 id="10-6-6-在一个主-主配置中交换角色"><a href="#10-6-6-在一个主-主配置中交换角色" class="headerlink" title="10.6.6　在一个主-主配置中交换角色"></a>10.6.6　在一个主-主配置中交换角色</h4><ul>
+<li>当在主-主配置下切换角色时，必须确保任何时候只有一个服务器可以写入。如果两台服务器交叉写入，可能会导致写入冲突。</li>
+<li>通过以下步骤切换服务器角色，可以避免更新冲突的危险：<ul>
+<li>停止主动服务器上的所有写入。</li>
+<li>在主动服务器上执行SET GLOBAL read_only=1，同时在配置文件里也设置一下read_only，防止重启后失效。但记住这不会阻止拥有超级权限的用户更改数据。如果想阻止所有人更改数据，可以执行FLUSH TABLES WITH READ LOCK。如果没有这么做，你必须kill所有的客户端连接以保证没有长时间运行的语句或者未提交的事务。</li>
+<li>在主动服务器上执行SHOW MASTER STATUS并记录二进制日志坐标。</li>
+<li>使用主动服务器上的二进制日志坐标在被动服务器上执行SELECT MASTER_POS_WAIT()。该语句将阻塞住，直到复制跟上主动服务器。</li>
+<li>在被动服务器上执行SET GLOBAL read_only=0，这样就变换成主动服务器。</li>
+<li>修改应用的配置，使其写入到新的主动服务器中。</li>
+</ul>
+</li>
+</ul>
+<h3 id="10-7-复制的问题和解决方案"><a href="#10-7-复制的问题和解决方案" class="headerlink" title="10.7　复制的问题和解决方案"></a>10.7　复制的问题和解决方案</h3><h4 id="10-7-1-数据损坏或丢失的错误"><a href="#10-7-1-数据损坏或丢失的错误" class="headerlink" title="10.7.1　数据损坏或丢失的错误"></a>10.7.1　数据损坏或丢失的错误</h4><ul>
+<li>由于各种各样的原因，MySQL的复制并不能很好地从服务器崩溃、掉电、磁盘损坏、内存或网络错误中恢复。遇到这些问题时几乎可以肯定都需要从某个点开始重启复制。</li>
+<li>大部分由于非正常关机后导致的复制问题都是由于没有把数据及时地刷到磁盘。</li>
+<li>主库意外关闭<ul>
+<li>如果没有设置主库的sync_binlog选项，就可能在崩溃前没有将最后的几个二进制日志事件刷新到磁盘中。备库I/O线程因此也可一直处于读不到尚未写入磁盘的事件的状态中。</li>
+<li>当主库重新启动时，备库将重连到主库并再次尝试去读该事件，但主库会告诉备库没有这个二进制日志偏移量。二进制日志转储线程通常很快，因此这种情况并不经常发生。</li>
+<li>解决这个问题的方法是指定备库从下一个二进制日志的开头读日志。但是一些日志事件将永久地丢失，建议使用Percona Toolkit中的pt-table-checksum工具来检查主备一致性，以便于修复。可以通过在主库开启sync_binlog来避免事件丢失。</li>
+<li>即使开启了sync_binlog，MyISAM表的数据仍然可能在崩溃的时候损坏，对于InnoDB事务，如果innodb_flush_log_at_trx_commit没有设为1，也可能丢失数据（但数据不会损坏）。</li>
+</ul>
+</li>
+<li>备库意外关闭<ul>
+<li>当备库在一次非计划中的关闭后重启时，会去读master.info文件以找到上次停止复制的位置。不幸的是，该文件并没有同步写到磁盘，文件中存储的信息可能是错误的。备库可能会尝试重新执行一些二进制日志事件，这可能会导致唯一索引错误。除非能确定备库在哪里停止（通常不太可能），否则唯一的办法就是忽略那些错误。Percona Toolkit中的pt-slave-restart工具可以帮助完成这一点。</li>
+<li>如果使用的都是InnoDB表，可以在重启后观察MySQL错误日志。InnoDB在恢复过程中会打印出它的恢复点的二进制日志坐标。可以使用这个值来决定备库指向主库的偏移量。</li>
+<li>Percona Server提供了一个新的特性，可以在恢复的过程中自动将这些信息提取出来，并更新master.info文件，从根本上使得复制能够协调好备库上的事务。</li>
+</ul>
+</li>
+<li>主库上的二进制日志损坏<ul>
+<li>如果主库上的二进制日志损坏，除了忽略损坏的位置外你别无选择。</li>
+<li>可以在主库上执行FLUSH LOGS命令，这样主库会开始一个新的日志文件，然后将备库指向该文件的开始位置。也可以试着去发现损坏区域的结束位置。</li>
+<li>某些情况下可以通过SET GLOBAL SQL_SLAVE_SKIP_COUNTER = 1来忽略一个损坏的事件。</li>
+<li>如果有多个损坏的事件，就需要重复该步骤，直到跳过所有损坏的事件。但如果有太多的损坏事件，这么做可能就没有意义了。损坏的事件头会阻止服务器找到下一个事件。这种情况下，可能不得不手动地去找到下一个完好的事件。</li>
+</ul>
+</li>
+<li>备库上的中继日志损坏<ul>
+<li>如果主库上的日志是完好的，就可以通过CHANGE MASTER TO命令丢弃并重新获取损坏的事件。</li>
+<li>只需要将备库指向它当前正在复制的位置（Relay_Master_Log_File/Exec_Master_Log_Pos）。这会导致备库丢弃所有在磁盘上的中继日志。就这一点而言， MySQL 5.5做了一些改进，它能够在崩溃后自动重新获取中继日志。</li>
+</ul>
+</li>
+<li>二进制日志与InnoDB事务日志不同步<ul>
+<li>当主库崩溃时，InnoDB可能将一个事务标记为已提交，此时该事务可能还没有记录到二进制日志中。除非是某个备库的中继日志已经保存，否则没有任何办法恢复丢失的事务。</li>
+<li>在MySQL 5.0版本可以设置sync_binlog选项来防止该问题，对于更早的MySQL 4.1可以设置sync_binlog和safe_binlog选项。</li>
+</ul>
+</li>
+<li>当一个二进制日志损坏时，能恢复多少数据取决于损坏的类型，有几种比较常见的类型：<ul>
+<li>数据改变，但事件仍是有效的SQL 不幸的是，MySQL甚至无法察觉这种损坏。因此最好还是经常检查备库的数据是否正确。在MySQL未来的版本中可能会被修复。</li>
+<li>数据改变并且事件是无效的SQL 这种情况可以通过mysqlbinlog提取出事件并看到一些错乱的数据，例如：UPDATE tbl SET col????????????????? 可以通过增加偏移量的方式来尝试找到下一个事件，这样就可以只忽略这个损坏的事件。</li>
+<li>数据遗漏并且/或者事件的长度是错误的这种情况下，mysqlbinlog可能会发生错误退出或者直接崩溃，因为它无法读取事件，并且找不到下一个事件的开始位置。</li>
+<li>某些事件已经损坏或被覆盖，或者偏移量已经改变并且下一个事件的起始偏移量也是错误的同样的，这种情况下mysqlbinlog也起不了多少作用。</li>
+<li>当损坏非常严重，通过mysqlbinlog已经无法获取日志事件时，就不得不进行一些十六进制的编辑或者通过一些烦琐的技术来找到日志事件的边界。这通常并不困难，因为有一些可辨识的标记会分割事件。</li>
+</ul>
+</li>
+<li>一个找到日志偏移量的比较简单的方法是比较一下string命令输出的偏移量：<code>$ strings -n 2 -t d mysql-bin.000113</code></li>
+<li>首先使用mysqlbinlog找到样例日志的日志事件偏移量：<code>$ mysqlbinlog mysql-bin.000113 | egrep &#39;^# at &#39;</code></li>
+</ul>
+<h4 id="10-7-2-使用非事务型表"><a href="#10-7-2-使用非事务型表" class="headerlink" title="10.7.2　使用非事务型表"></a>10.7.2　使用非事务型表</h4><ul>
+<li>如果一切正常，基于语句的复制通常能够很好地处理非事务型表。但是当对非事务型表的更新发生错误时，例如查询在完成前被kill，就可能导致主库和备库的数据不一致。</li>
+<li>如果使用的是MyISAM表，在关闭MySQL之前需要确保已经运行了STOP SLAVE，否则服务器在关闭时会kill所有正在运行的查询（包括没有完成的更新）。事务型存储引擎则没有这个问题。如果使用的是事务型表，失败的更新会在主库上回滚并且不会记录到二进制日志中。</li>
+</ul>
+<h4 id="10-7-3-混合事务型和非事务型表"><a href="#10-7-3-混合事务型和非事务型表" class="headerlink" title="10.7.3　混合事务型和非事务型表"></a>10.7.3　混合事务型和非事务型表</h4><ul>
+<li>如果备库发生死锁而主库没有也可能会导致问题。事务型表的更新会被回滚，而非事务型表则无法回滚，此时备库和主库的数据是不一致的。</li>
+<li>防止该问题的唯一办法是避免混合使用事务型和非事务型表。如果遇到这个问题，唯一的解决办法是忽略错误，并重新同步相关的表。</li>
+<li>基于行的复制不会受这个问题的影响。因为它记录的是数据的更改，而不是SQL语句。如果一条语句改变了一个MyISAM表和一个InnoDB表的某些行，然后主库上发生了一次死锁，InnoDB表的更新会被回滚，而MyISAM表的更新仍会被记录到日志中并在备库重放。</li>
+</ul>
+<h4 id="10-7-4-不确定语句"><a href="#10-7-4-不确定语句" class="headerlink" title="10.7.4　不确定语句"></a>10.7.4　不确定语句</h4><ul>
+<li>当使用基于语句的复制模式时，如果通过不确定的方式更改数据可能会导致主备不一致。例如，一条带LIMIT的UPDATE语句更改的数据取决于查找行的顺序，除非能保证主库和备库上的顺序相同。</li>
+<li>所以一些人禁止对那些会更新数据的语句使用LIMIT。另外一种不确定的行为是在一个拥有多个唯一索引的表上使用REPLACE或者INSERT IGNORE语句——MySQL在主库和备库上可能会选择不同的索引。</li>
+<li>另外还要注意那些涉及INFORMATION_SCHEMA表的语句。它们很容易在主库和备库上产生不一致，其结果也会不同。最后，需要注意许多系统变量，例如@@server_id和@@hostname，在MySQL 5.1之前无法正确地复制。</li>
+<li>基于行的复制则没有上述限制。</li>
+</ul>
+<h4 id="10-7-5-主库和备库使用不同的存储引擎"><a href="#10-7-5-主库和备库使用不同的存储引擎" class="headerlink" title="10.7.5　主库和备库使用不同的存储引擎"></a>10.7.5　主库和备库使用不同的存储引擎</h4><ul>
+<li>在备库上使用不同的存储引擎，有时候可以带来好处。但是在一些场景下，当使用基于语句的复制方式时，如果备库使用了不同的存储引擎，则可能造成一条查询在主库和备库上的执行结果不同，例如不确定语句（如前一小节提到的）在主备库使用不同的存储引擎时更容易导致问题。</li>
+<li>如果发现主库和备库的某些表已经不同步，除了检查更新这些表的查询外，还需要检查两台服务器上使用的存储引擎是否相同。</li>
+</ul>
+<h4 id="10-7-6-备库发生数据改变"><a href="#10-7-6-备库发生数据改变" class="headerlink" title="10.7.6　备库发生数据改变"></a>10.7.6　备库发生数据改变</h4><ul>
+<li>假设有如下语句：mysql&gt; INSERT INTO table1 SELECT * FROM table2; 如果备库上table2的数据和主库上不同，该语句会导致table1的数据也会不一致。</li>
+<li>数据不一致可能会在表之间传播。不仅仅是INSERT……SELECT查询，所有类型的查询都可能发生。</li>
+<li>有两种可能的结果：备库上发生重复索引键冲突错误或者根本不提示任何错误。如果能报告错误还好，起码能够提示你主备数据已经不一致。无法察觉的不一致可能会悄无声息地导致各种严重的问题。</li>
+<li>唯一的解决办法就是重新从主库同步数据。</li>
+</ul>
+<h4 id="10-7-7-不唯一的服务器ID"><a href="#10-7-7-不唯一的服务器ID" class="headerlink" title="10.7.7　不唯一的服务器ID"></a>10.7.7　不唯一的服务器ID</h4><ul>
+<li>在主库上，会发现两台备库中只有一台连接到主库（通常情况下所有的备库都会建立连接以等待随时进行复制）。在备库的错误日志中，则会发现反复的重连和连接断开信息，但不会提及被错误配置的服务器ID。</li>
+<li>MySQL可能会缓慢地进行正确的复制，也可能无法进行正确复制，这取决于MySQL的版本，给定的备库可能会丢失二进制日志事件，或者重复执行事件，导致重复键错误（或者不可见的数据损坏）。也可能因为备库的互相竞争造成主库的负载升高。如果备库竞争非常激烈，会导致错误日志在很短的时间内急剧增大。</li>
+<li>唯一的解决办法是小心设置备库的服务器ID。一个比较好的办法是创建一个主库到备库的服务器ID映射表，这样就可以跟踪到备库的ID信息(19)。如果备库全在一个子网络内，可以将每台机器IP的后八位作为唯一ID。</li>
+</ul>
+<h4 id="10-7-8-未定义的服务器ID"><a href="#10-7-8-未定义的服务器ID" class="headerlink" title="10.7.8　未定义的服务器ID"></a>10.7.8　未定义的服务器ID</h4><ul>
+<li>因为刚刚执行CHANGE MASTER TO设置了备库，并且通过SHOW MASTER STATUS也确认了。执行SELECT @@server_id也可以获得一个值，但这只是默认值，必须为备库显式地设置服务器ID。</li>
+</ul>
+<h4 id="10-7-9-对未复制数据的依赖性"><a href="#10-7-9-对未复制数据的依赖性" class="headerlink" title="10.7.9　对未复制数据的依赖性"></a>10.7.9　对未复制数据的依赖性</h4><ul>
+<li>如果在主库上有备库不存在的数据库或表，复制会很容易意外中断，反之亦然。假设主库上有一个备库不存在的数据库，命名为scratch。如果在主库上发生对该数据库中表的更新，备库会在尝试重放这些更新时中断。同样的，如果在主库上创建一个备库上已存在的表，复制也可能中断。</li>
+<li>当提升备库为主库时，或者决定如何配置备库时，需要注意这一点。任何导致主备不同的行为都会产生潜在的问题。</li>
+</ul>
+<h4 id="10-7-10-丢失的临时表"><a href="#10-7-10-丢失的临时表" class="headerlink" title="10.7.10　丢失的临时表"></a>10.7.10　丢失的临时表</h4><ul>
+<li><p>临时表在某些时候比较有用，但不幸的是，它与基于语句的复制方式是不相容的。如果备库崩溃或者正常关闭，任何复制线程拥有的临时表都会丢失。重启备库后，所有依赖于该临时表的语句都会失败。</p>
+</li>
+<li><p>临时表主要有两个比较有用的特性：只对创建临时表的连接可见。所以不会和其他拥有相同名字临时表的连接起冲突。</p>
+<p>随着连接关闭而消失，所以无须显式地移除它们。</p>
+</li>
+<li><p>可以保留一个专用的数据库，在其中创建持久表，把它们作为伪临时表，以模拟这些特性。</p>
+</li>
+<li><p>使用实体表而非临时表还有别的好处。例如，能够帮助你更容易调试应用程序，因为可以通过别的连接来查看应用正在维护的数据。如果使用的是临时表，可能就没这么容易做到。</p>
+</li>
+<li><p>但是实体表可能会比临时表多一些开销，例如创建会更慢，因为为这些表分配的.frm文件需要刷新到磁盘。可以通过禁止sync_frm选项来加速，但这可能会导致潜在的风险。</p>
+</li>
+<li><p>如果确实需要使用临时表，也应该在关闭备库前确保Slave_open_temp_tables状态变量值为0。如果不是0，在重启备库后就可能会出现问题。合适的流程是执行STOP SLAVE，检查变量，然后再关闭备库。如果在停止复制前检查变量，可能会发生竞争条件的风险。</p>
+</li>
+</ul>
+<h4 id="10-7-11-不复制所有的更新"><a href="#10-7-11-不复制所有的更新" class="headerlink" title="10.7.11　不复制所有的更新"></a>10.7.11　不复制所有的更新</h4><ul>
+<li>如果错误地使用SET SQL_LOG_BIN=0或者没有理解过滤规则，备库可能会丢失主库上已经发生的更新。有时候希望利用此特性来做归档，但常常会导致意外并出现不好的结果。</li>
+</ul>
+<h4 id="10-7-12-InnoDB加锁读引起的锁争用"><a href="#10-7-12-InnoDB加锁读引起的锁争用" class="headerlink" title="10.7.12　InnoDB加锁读引起的锁争用"></a>10.7.12　InnoDB加锁读引起的锁争用</h4><ul>
+<li>正常情况下，InnoDB的读操作是非阻塞的，但在某些情况下需要加锁。特别是在使用基于语句的复制方式时，执行INSERT…SELECT操作会锁定源表上的所有行。MySQL需要加锁以确保该语句的执行结果在主库和备库上是一致的。实际上，加锁导致主库上的语句串行化，以确保和备库上执行的方式相符。</li>
+<li>一种缓解的办法就是避免让事务开启太久以减少阻塞。可以在主库上尽快地提交事务以释放锁。</li>
+<li>在大多数情况下将innodb_locks_unsafe_for_binlog的值设置为0。基于行的复制由于记录了数据的变化而非语句，因此不会存在这个问题。</li>
+</ul>
+<h4 id="10-7-13-在主-主复制结构中写入两台主库"><a href="#10-7-13-在主-主复制结构中写入两台主库" class="headerlink" title="10.7.13　在主-主复制结构中写入两台主库"></a>10.7.13　在主-主复制结构中写入两台主库</h4><ul>
+<li>试图向两台主库写入并不是一个好主意。如果同时还希望安全地写入两台主库，会碰到很多问题，有些问题可以解决，有些则很难。一个专业人员可能需要经历大量的教训才能明白其中的不同。</li>
+<li>但是这并不能解决所有由于同时写入两台主库所带来的问题；自增问题只是其中的一小部分。</li>
+</ul>
+<h4 id="10-7-14-过大的复制延迟"><a href="#10-7-14-过大的复制延迟" class="headerlink" title="10.7.14　过大的复制延迟"></a>10.7.14　过大的复制延迟</h4><ul>
+<li>复制一般有两种产生延迟的方式：突然产生延迟然后再跟上，或者稳定的延迟增大。前一种通常是由于一条运行很长时间的查询导致的，而后者即使在没有长时间运行的查询时也会出现。</li>
+<li>除了购买更快的磁盘和CPU（固态硬盘能够提供极大的帮助，详细参阅第9章），备库没有太多的调优空间。大部分选项都是禁止某些额外的工作以减少备库的负载。</li>
+<li>一个简单的办法是配置InnoDB，使其不要那么频繁地刷新磁盘，这样事务会提交得更快些。可以通过设置innodb_flush_log_at_trx_commit的值为2来实现。还可以在备库上禁止二进制日志记录，把innodb_locks_unsafe_for_binlog设置为1，并把MyISAM的delay_key_write设置为ALL。但是这些设置以牺牲安全换取速度。如果需要将备库提升为主库，记得把这些选项设置回安全的值。</li>
+<li>不要重复写操作中代价较高的部分</li>
+<li>在复制之外并行写入</li>
+<li>为复制线程预取缓存</li>
+</ul>
+<h4 id="10-7-15-来自主库的过大的包"><a href="#10-7-15-来自主库的过大的包" class="headerlink" title="10.7.15　来自主库的过大的包"></a>10.7.15　来自主库的过大的包</h4><ul>
+<li>另一个难以追踪的问题是主库的max_allowed_packet值和备库的不匹配。在这种情况下，主库可能会记录一个备库认为过大的包。当备库获取到该二进制日志事件时，可能会碰到各种各样的问题，包括无限报错和重试，或者中继日志损坏。</li>
+</ul>
+<h4 id="10-7-16-受限制的复制带宽"><a href="#10-7-16-受限制的复制带宽" class="headerlink" title="10.7.16　受限制的复制带宽"></a>10.7.16　受限制的复制带宽</h4><ul>
+<li>如果使用受限的带宽进行复制，可以开启备库上的slave_compressed_protocol选项（在MySQL 4.0及新版本中可用）。当备库连接主库时，会请求一个被压缩的连接——和MySQL客户端使用的压缩连接一样。使用的压缩引擎是zlib，我们的测试表明它能将文本类型的数据压缩到大约其原始大小的三分之一。其代价是需要额外的CPU时间，包括在主库上压缩数据和在备库上解压数据。</li>
+<li>如果主库和其备库间的连接是慢速连接，可能需要将分发主库和备库分布在同一地点。这样就只有一台服务器通过慢速连接和主库相连，可以减少链路上的带宽负载以及主库的CPU负载。</li>
+</ul>
+<h4 id="10-7-17-磁盘空间不足"><a href="#10-7-17-磁盘空间不足" class="headerlink" title="10.7.17　磁盘空间不足"></a>10.7.17　磁盘空间不足</h4><ul>
+<li>复制有可能因为二进制日志、中继日志或临时文件将磁盘撑满。特别是在主库上执行了LOAD DATA INFILE查询并在备库开启了log_slave_updates选项。延迟越严重，接收到但尚未执行的中继日志会占用越多的磁盘空间。可以通过监控磁盘并设置relay_log_space选项来避免这个问题。</li>
+</ul>
+<h4 id="10-7-18-复制的局限性"><a href="#10-7-18-复制的局限性" class="headerlink" title="10.7.18　复制的局限性"></a>10.7.18　复制的局限性</h4><ul>
+<li>MySQL复制可能失败或者不同步，不管有没有报错，这是因为其内部的限制导致的。大量的SQL函数和编程实践不能被可靠地复制（本章我们已经讨论了许多这样的例子）。很难确保应用代码里不会出现这样或那样的问题，特别是应用或者团队非常庞大的时候。</li>
+<li>MySQL复制非常复杂。应用程序越复杂，你就需要越小心。但是如果学会了如何使用，复制会工作得很好。</li>
+</ul>
+<h3 id="10-8-复制有多快"><a href="#10-8-复制有多快" class="headerlink" title="10.8　复制有多快"></a>10.8　复制有多快</h3><ul>
+<li>因为备库越快接收到日志事件越好。如果备库已经接收到了事件，它就能在主库崩溃时提供一个拷贝。</li>
+<li>结果显示大多数小查询在主库上的执行时间和备库上的执行时间间隔大多数小于0.3毫秒。</li>
+<li>MySQL二进制日志转储线程并没有通过轮询的方式从主库请求事件，而是由主库来通知备库新的事件，因为前者低效且缓慢。从主库读取一个二进制日志事件是一个阻塞型网络调用，当主库记录事件后，马上就开始发送。因此可以说，只要复制线程被唤醒并且能够通过网络传输数据，事件就会很快到达备库。</li>
+</ul>
+<h3 id="10-9-MySQL复制的高级特性"><a href="#10-9-MySQL复制的高级特性" class="headerlink" title="10.9　MySQL复制的高级特性"></a>10.9　MySQL复制的高级特性</h3><ul>
+<li>半同步复制在提交过程中增加了一个延迟：当提交事务时，在客户端接收到查询结束反馈前必须保证二进制日志已经传输到至少一台备库上。主库将事务提交到磁盘上之后会增加一些延迟。同样的，这也增加了客户端的延迟，因此其执行大量事务的速度不会比将这些事务传递给备库的速度更快。</li>
+<li>关于半同步，有一些普遍的误解，下面是它不会去做的：<ul>
+<li>在备库提示其已经收到事件前，会阻塞主库上的事务提交。事实上在主库上已经完成事务提交，只有通知客户端被延迟了。</li>
+<li>直到备库执行完事务后，才不会阻塞客户端。备库在接收到事务后发送反馈而非完成事务后发送。</li>
+<li>半同步不总是能够工作。如果备库一直没有回应已收到事件，会超时并转化为正常的异步复制模式。</li>
+</ul>
+</li>
+</ul>
+<h3 id="10-10-其他复制技术"><a href="#10-10-其他复制技术" class="headerlink" title="10.10　其他复制技术"></a>10.10　其他复制技术</h3><ul>
+<li>Tungsten是一个用Java编写的开源的中间件复制产品。它的功能和Oracle GoldenGate类似，并且看起来在未来发布的版本中将逐步增加许多复杂的特性。</li>
+<li>Tungsten Replicator不仅仅是嵌入或管理MySQL复制，而是直接替代它。它通过读取主库的二进制日志来获得数据更新，那里正是内建MySQL复制工作结束的地方，然后由Tungsten Replicator接管。它读取二进制日志，并抽取出事务，然后在备库执行它们。</li>
+<li>Tungsten Replicator是第一个提供MySQL并行复制支持的。虽然我们还没有看到其被应用到生产环境中，但它声称能够提供最多三倍的复制速度改善，具体取决于负载特性。</li>
+</ul>
+<h3 id="10-11-总结"><a href="#10-11-总结" class="headerlink" title="10.11　总结"></a>10.11　总结</h3><ul>
+<li>MySQL复制是其内建功能中的“瑞士军刀”，显著增加了MySQL的功能和可用性。事实上这也是MySQL这么快就如此流行的关键原因之一。</li>
+<li>谈到保持主库和备库相同，这里有一个简短但很重要的列表告诉你在使用复制的时候需要做什么：<ul>
+<li>使用Percona Toolkit中的pt-table-checksum以确定备库是主库的真实拷贝。</li>
+<li>监控复制以确定其正在运行并且没有落后于主库。</li>
+<li>理解复制的异步本质，并且设计你的应用以避免或容忍从备库读取脏的数据。</li>
+<li>在一个复制拓扑中不要写入超过一个服务器，把备库配置为只读，并降低权限以阻止对数据的改变。</li>
+<li>打开本章所讨论的那些明智并且安全的设置。</li>
+</ul>
+</li>
+</ul>
+
+            </div>
+            <hr/>
+
+            
+
+    <div class="reprint" id="reprint-statement">
+        
+            <div class="reprint__author">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-user">
+                        文章作者:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="https://www.asxing.com" rel="external nofollow noreferrer">HoldDie</a>
+                </span>
+            </div>
+            <div class="reprint__type">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-link">
+                        文章链接:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="https://www.asxing.com/2020/03/29/gao-xing-neng-mysql-shu-ju-fu-zhi-wen-ti-he-jie-jue-fang-an-ba/">https://www.asxing.com/2020/03/29/gao-xing-neng-mysql-shu-ju-fu-zhi-wen-ti-he-jie-jue-fang-an-ba/</a>
+                </span>
+            </div>
+            <div class="reprint__notice">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-copyright">
+                        版权声明:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    本博客所有文章除特別声明外，均采用
+                    <a href="https://creativecommons.org/licenses/by/4.0/deed.zh" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>
+                    许可协议。转载请注明来源
+                    <a href="https://www.asxing.com" target="_blank">HoldDie</a>
+                    !
+                </span>
+            </div>
+        
+    </div>
+
+    <script async defer>
+      document.addEventListener("copy", function (e) {
+        let toastHTML = '<span>复制成功，请遵循本文的转载规则</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">查看</a>';
+        M.toast({html: toastHTML})
+      });
+
+      function navToReprintStatement() {
+        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      }
+    </script>
+
+
+
+            <div class="tag_share" style="display: block;">
+                <div class="post-meta__tag-list" style="display: inline-block;">
+                    
+                        <div class="article-tag">
+                            
+                                <a href="/tags/MySQL/">
+                                    <span class="chip bg-color">MySQL</span>
+                                </a>
+                            
+                                <a href="/tags/%E8%AF%BB%E4%B9%A6/">
+                                    <span class="chip bg-color">读书</span>
+                                </a>
+                            
+                        </div>
+                    
+                </div>
+                <div class="post_share" style="zoom: 80%; width: fit-content; display: inline-block; float: right; margin: -0.15rem 0;">
+                    <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+
+<div id="article-share">
+    
+    
+    <div class="social-share" data-sites="twitter,facebook,google,qq,qzone,wechat,weibo,douban,linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
+    <script src="/libs/share/js/social-share.min.js"></script>
+    
+
+    
+
+</div>
+
+                </div>
+            </div>
+            
+                <style>
+    #reward {
+        margin: 40px 0;
+        text-align: center;
+    }
+
+    #reward .reward-link {
+        font-size: 1.4rem;
+        line-height: 38px;
+    }
+
+    #reward .btn-floating:hover {
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2), 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    #rewardModal {
+        width: 320px;
+        height: 350px;
+    }
+
+    #rewardModal .reward-title {
+        margin: 15px auto;
+        padding-bottom: 5px;
+    }
+
+    #rewardModal .modal-content {
+        padding: 10px;
+    }
+
+    #rewardModal .close {
+        position: absolute;
+        right: 15px;
+        top: 15px;
+        color: rgba(0, 0, 0, 0.5);
+        font-size: 1.3rem;
+        line-height: 20px;
+        cursor: pointer;
+    }
+
+    #rewardModal .close:hover {
+        color: #ef5350;
+        transform: scale(1.3);
+        -moz-transform:scale(1.3);
+        -webkit-transform:scale(1.3);
+        -o-transform:scale(1.3);
+    }
+
+    #rewardModal .reward-tabs {
+        margin: 0 auto;
+        width: 210px;
+    }
+
+    .reward-tabs .tabs {
+        height: 38px;
+        margin: 10px auto;
+        padding-left: 0;
+    }
+
+    .reward-content ul {
+        padding-left: 0 !important;
+    }
+
+    .reward-tabs .tabs .tab {
+        height: 38px;
+        line-height: 38px;
+    }
+
+    .reward-tabs .tab a {
+        color: #fff;
+        background-color: #ccc;
+    }
+
+    .reward-tabs .tab a:hover {
+        background-color: #ccc;
+        color: #fff;
+    }
+
+    .reward-tabs .wechat-tab .active {
+        color: #fff !important;
+        background-color: #22AB38 !important;
+    }
+
+    .reward-tabs .alipay-tab .active {
+        color: #fff !important;
+        background-color: #019FE8 !important;
+    }
+
+    .reward-tabs .reward-img {
+        width: 210px;
+        height: 210px;
+    }
+</style>
+
+<div id="reward">
+    <a href="#rewardModal" class="reward-link modal-trigger btn-floating btn-medium waves-effect waves-light red">赏</a>
+
+    <!-- Modal Structure -->
+    <div id="rewardModal" class="modal">
+        <div class="modal-content">
+            <a class="close modal-close"><i class="fas fa-times"></i></a>
+            <h4 class="reward-title">你的赏识是我前进的动力</h4>
+            <div class="reward-content">
+                <div class="reward-tabs">
+                    <ul class="tabs row">
+                        <li class="tab col s6 alipay-tab waves-effect waves-light"><a href="#alipay">支付宝</a></li>
+                        <li class="tab col s6 wechat-tab waves-effect waves-light"><a href="#wechat">微 信</a></li>
+                    </ul>
+                    <div id="alipay">
+                        <img src="/medias/reward/alipay.jpg" class="reward-img" alt="支付宝打赏二维码">
+                    </div>
+                    <div id="wechat">
+                        <img src="/medias/reward/wechat.png" class="reward-img" alt="微信打赏二维码">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $('.tabs').tabs();
+    });
+</script>
+            
+        </div>
+    </div>
+
+    
+        <link rel="stylesheet" href="/libs/gitalk/gitalk.css">
+<link rel="stylesheet" href="/css/my-gitalk.css">
+
+<div class="card gitalk-card" data-aos="fade-up">
+    <div class="comment_headling" style="font-size: 20px; font-weight: 700; position: relative; left: 20px; top: 15px; padding-bottom: 5px;">
+        <i class="fas fa-comments fa-fw" aria-hidden="true"></i>
+        <span>评论</span>
+    </div>
+    <div id="gitalk-container" class="card-content"></div>
+</div>
+
+<script src="/libs/gitalk/gitalk.min.js"></script>
+<script>
+    let gitalk = new Gitalk({
+        clientID: 'c4e18e113d94091c8828',
+        clientSecret: '891f04d80de6a77fd6eb60d1cbe792e916cde3ff',
+        repo: 'asxing.github.io',
+        owner: 'Asxing',
+        admin: "asxing",
+        id: '2020-03-29T16-30-01',
+        distractionFreeMode: false  // Facebook-like distraction free mode
+    });
+
+    gitalk.render('gitalk-container');
+</script>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+            <div class="card">
+                <a href="/2020/04/06/gao-xing-neng-mysql-ke-kuo-zhan-mysql-jiu/">
+                    <div class="card-image">
+                        
+                        <img src="https://www.holddie.com/img/20200406172914.png" class="responsive-img" alt="高性能MySQL-可扩展MySQL（九）">
+                        
+                        <span class="card-title">高性能MySQL-可扩展MySQL（九）</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            学会了如何迎接死亡，你就学会了如何生活。
+                        
+                    </div>
+                    <div class="publish-info">
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2020-04-06
+                        </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/MySQL/" class="post-category">
+                                    MySQL
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/MySQL/">
+                        <span class="chip bg-color">MySQL</span>
+                    </a>
+                    
+                    <a href="/tags/%E5%8F%AF%E6%89%A9%E5%B1%95%E6%80%A7/">
+                        <span class="chip bg-color">可扩展性</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2020/03/22/gao-xing-neng-mysql-shu-ju-fu-zhi-li-lun-qi/">
+                    <div class="card-image">
+                        
+                        <img src="https://www.holddie.com/img/20200322225345.png" class="responsive-img" alt="高性能MySQL-数据复制理论（七）">
+                        
+                        <span class="card-title">高性能MySQL-数据复制理论（七）</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            复制功能不仅有利于构建高性能的应用，同时也是高可用性、可扩展性、灾难恢复、备份以及数据仓库等工作的基础。
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-03-22
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/MySQL/" class="post-category">
+                                    MySQL
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/MySQL/">
+                        <span class="chip bg-color">MySQL</span>
+                    </a>
+                    
+                    <a href="/tags/%E6%95%B0%E6%8D%AE%E5%A4%8D%E5%88%B6/">
+                        <span class="chip bg-color">数据复制</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+
+</div>
+
+
+
+<!-- 代码块功能依赖 -->
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+
+<!-- 代码语言 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+
+    
+<!-- 代码块复制 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+
+
+<!-- 代码块收缩 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script>
+
+
+<!-- 代码块折行 -->
+
+<style type="text/css">
+code[class*="language-"], pre[class*="language-"] { white-space: pre !important; }
+</style>
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget">
+            <div class="toc-title"><i class="far fa-list-alt"></i>&nbsp;&nbsp;目录</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fas fa-list-ul"></i>
+    </a>
+</div>
+
+
+<script src="/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            // headingsOffset: -205,
+            headingSelector: 'h2, h3, h4'
+        });
+
+        // modify the toc link href to support Chinese.
+        let i = 0;
+        let tocHeading = 'toc-heading-';
+        $('#toc-content a').each(function () {
+            $(this).attr('href', '#' + tocHeading + (++i));
+        });
+
+        // modify the heading title id to support Chinese.
+        i = 0;
+        $('#articleContent').children('h2, h3, h4').each(function () {
+            $(this).attr('id', tocHeading + (++i));
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).hide();
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).show();
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+        });
+        
+    });
+</script>
+
+    
+
+</main>
+
+
+<script src="https://cdn.bootcss.com/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script>
+    MathJax.Hub.Config({
+        tex2jax: {inlineMath: [['$', '$'], ['\(', '\)']]}
+    });
+</script>
+
+
+    <footer class="page-footer bg-color">
+    <div class="container row center-align">
+        <div class="col s12 m8 l8 copy-right">
+            Copyright&nbsp;&copy;
+            <span id="year">年份</span>
+            <a href="https://www.asxing.com" target="_blank">Asxing</a>
+            |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
+            |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
+            <br>
+            
+            &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
+                class="white-color">479k</span>&nbsp;字
+            
+            
+            
+            
+            <span id="busuanzi_container_site_pv">
+                |&nbsp;<i class="far fa-eye"></i>&nbsp;总访问量:&nbsp;<span id="busuanzi_value_site_pv"
+                    class="white-color"></span>&nbsp;次
+            </span>
+            
+            
+            <span id="busuanzi_container_site_uv">
+                |&nbsp;<i class="fas fa-users"></i>&nbsp;总访问人数:&nbsp;<span id="busuanzi_value_site_uv"
+                    class="white-color"></span>&nbsp;人
+            </span>
+            
+            <br>
+            
+            <span id="sitetime">载入运行时间...</span>
+            <script>
+                function siteTime() {
+                    window.setTimeout("siteTime()", 1000);
+                    var seconds = 1000;
+                    var minutes = seconds * 60;
+                    var hours = minutes * 60;
+                    var days = hours * 24;
+                    var years = days * 365;
+                    var today = new Date();
+                    var startYear = "2019";
+                    var startMonth = "10";
+                    var startDate = "30";
+                    var startHour = "22";
+                    var startMinute = "30";
+                    var startSecond = "0";
+                    var todayYear = today.getFullYear();
+                    var todayMonth = today.getMonth() + 1;
+                    var todayDate = today.getDate();
+                    var todayHour = today.getHours();
+                    var todayMinute = today.getMinutes();
+                    var todaySecond = today.getSeconds();
+                    var t1 = Date.UTC(startYear, startMonth, startDate, startHour, startMinute, startSecond);
+                    var t2 = Date.UTC(todayYear, todayMonth, todayDate, todayHour, todayMinute, todaySecond);
+                    var diff = t2 - t1;
+                    var diffYears = Math.floor(diff / years);
+                    var diffDays = Math.floor((diff / days) - diffYears * 365);
+                    var diffHours = Math.floor((diff - (diffYears * 365 + diffDays) * days) / hours);
+                    var diffMinutes = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours) /
+                        minutes);
+                    var diffSeconds = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours -
+                        diffMinutes * minutes) / seconds);
+                    if (startYear == todayYear) {
+                        document.getElementById("year").innerHTML = todayYear;
+                        document.getElementById("sitetime").innerHTML = "本站已安全运行 " + diffDays + " 天 " + diffHours +
+                            " 小时 " + diffMinutes + " 分钟 " + diffSeconds + " 秒";
+                    } else {
+                        document.getElementById("year").innerHTML = startYear + " - " + todayYear;
+                        document.getElementById("sitetime").innerHTML = "本站已安全运行 " + diffYears + " 年 " + diffDays +
+                            " 天 " + diffHours + " 小时 " + diffMinutes + " 分钟 " + diffSeconds + " 秒";
+                    }
+                }
+                setInterval(siteTime, 1000);
+            </script>
+            
+            <br>
+            
+        </div>
+        <div class="col s12 m4 l4 social-link ">
+    <a href="https://github.com/asxing" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+        <i class="fab fa-github"></i>
+    </a>
+
+
+
+    <a href="mailto:asxingking@gmail.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fas fa-envelope-open"></i>
+    </a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <a href="/atom.xml" class="tooltipped" target="_blank" data-tooltip="RSS 订阅" data-position="top" data-delay="50">
+        <i class="fas fa-rss"></i>
+    </a>
+
+</div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+
+    <!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fas fa-search"></i>&nbsp;&nbsp;搜索</span>
+            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script src="/js/search.js"></script>
+<script type="text/javascript">
+$(function () {
+    searchFunc("/" + "search.xml", 'searchInput', 'searchResult');
+});
+</script>
+    <!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+</div>
+
+
+    <script src="/libs/materialize/materialize.min.js"></script>
+    <script src="/libs/masonry/masonry.pkgd.min.js"></script>
+    <script src="/libs/aos/aos.js"></script>
+    <script src="/libs/scrollprogress/scrollProgress.min.js"></script>
+    <script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+    <script src="/js/matery.js"></script>
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+    <!-- Baidu Analytics -->
+
+    <!-- Baidu Push -->
+
+    
+    <script src="/libs/others/clicklove.js" async="async"></script>
+    
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <script type="text/javascript" src="/libs/background/ribbon-dynamic.js" async="async"></script>
+    
+    
+    
+
+</body>
+
+</html>

@@ -1,0 +1,1433 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="keywords" content="k8s-笔记（一）, 编程 读书 生活">
+    <meta name="description" content="铭刻于黑暗中的语言，消逝在漫漫长夜里。黎明时，战火中，重生。                           ——孙彦雨
+微服务道路上必备技能K8S，目前市场局面已经稳定，故可以集中温习，刷一刷Ranking。
+k8s 组件Master">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>k8s-笔记（一） | Asxing-阿行</title>
+    <link rel="icon" type="image/png" href="/favicon.png">
+
+    <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
+    <link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
+    <link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/matery.css">
+    <link rel="stylesheet" type="text/css" href="/css/my.css">
+    
+    <script src="/libs/jquery/jquery.min.js"></script>
+    
+<meta name="generator" content="Hexo 4.2.1"><link rel="alternate" href="/atom.xml" title="Asxing-阿行" type="application/atom+xml">
+<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+
+
+<body>
+    <header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper head-container">
+            <div class="brand-logo">
+                <a href="/" class="waves-effect waves-light">
+                    
+                    <img src="/medias/logo.png" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">Asxing-阿行</span>
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
+<ul class="right nav-menu">
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/" class="waves-effect waves-light">
+      
+      <i class="fas fa-home" style="zoom: 0.6;"></i>
+      
+      <span>首页</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/tags" class="waves-effect waves-light">
+      
+      <i class="fas fa-tags" style="zoom: 0.6;"></i>
+      
+      <span>标签</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/categories" class="waves-effect waves-light">
+      
+      <i class="fas fa-bookmark" style="zoom: 0.6;"></i>
+      
+      <span>分类</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/archives" class="waves-effect waves-light">
+      
+      <i class="fas fa-archive" style="zoom: 0.6;"></i>
+      
+      <span>归档</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/about" class="waves-effect waves-light">
+      
+      <i class="fas fa-user-circle" style="zoom: 0.6;"></i>
+      
+      <span>关于</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/contact" class="waves-effect waves-light">
+      
+      <i class="fas fa-comments" style="zoom: 0.6;"></i>
+      
+      <span>留言板</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/friends" class="waves-effect waves-light">
+      
+      <i class="fas fa-address-book" style="zoom: 0.6;"></i>
+      
+      <span>友情链接</span>
+    </a>
+    
+  </li>
+  
+  <li>
+    <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+      <i id="searchIcon" class="fas fa-search" title="搜索" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+</ul>
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="/medias/logo.png" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">Asxing-阿行</div>
+        <div class="logo-desc">
+            
+            Never really desperate, only the lost of the soul.
+            
+        </div>
+    </div>
+
+    
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li class="m-nav-item">
+	  
+		<a href="/" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-home"></i>
+			
+			首页
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/tags" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-tags"></i>
+			
+			标签
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/categories" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-bookmark"></i>
+			
+			分类
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/archives" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-archive"></i>
+			
+			归档
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/about" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-user-circle"></i>
+			
+			关于
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/contact" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-comments"></i>
+			
+			Contact
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/friends" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-address-book"></i>
+			
+			友情链接
+		</a>
+          
+        </li>
+        
+        
+        <li><div class="divider"></div></li>
+        <li>
+            <a href="https://github.com/asxing" class="waves-effect waves-light" target="_blank">
+                <i class="fab fa-github-square fa-fw"></i>Fork Me
+            </a>
+        </li>
+        
+    </ul>
+</div>
+
+        </div>
+
+        
+            <style>
+    .nav-transparent .github-corner {
+        display: none !important;
+    }
+
+    .github-corner {
+        position: absolute;
+        z-index: 10;
+        top: 0;
+        right: 0;
+        border: 0;
+        transform: scale(1.1);
+    }
+
+    .github-corner svg {
+        color: #0f9d58;
+        fill: #fff;
+        height: 64px;
+        width: 64px;
+    }
+
+    .github-corner:hover .octo-arm {
+        animation: a 0.56s ease-in-out;
+    }
+
+    .github-corner .octo-arm {
+        animation: none;
+    }
+
+    @keyframes a {
+        0%,
+        to {
+            transform: rotate(0);
+        }
+        20%,
+        60% {
+            transform: rotate(-25deg);
+        }
+        40%,
+        80% {
+            transform: rotate(10deg);
+        }
+    }
+</style>
+
+<a href="https://github.com/asxing" class="github-corner tooltipped hide-on-med-and-down" target="_blank"
+   data-tooltip="Fork Me" data-position="left" data-delay="50">
+    <svg viewBox="0 0 250 250" aria-hidden="true">
+        <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
+        <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2"
+              fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path>
+        <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z"
+              fill="currentColor" class="octo-body"></path>
+    </svg>
+</a>
+        
+    </nav>
+
+</header>
+
+    
+<script src="/libs/cryptojs/crypto-js.min.js"></script>
+<script>
+    (function() {
+        let pwd = '';
+        if (pwd && pwd.length > 0) {
+            if (pwd !== CryptoJS.SHA256(prompt('请输入访问本文章的密码')).toString(CryptoJS.enc.Hex)) {
+                alert('密码错误，将返回主页！');
+                location.href = '/';
+            }
+        }
+    })();
+</script>
+
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('https://www.holddie.com/img/20200105155843.jpg')">
+    <div class="container" style="right: 0px;left: 0px;">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <div class="description center-align post-title">
+                        k8s-笔记（一）
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<main class="post-container content">
+
+    
+    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
+<style>
+    #articleContent h1::before,
+    #articleContent h2::before,
+    #articleContent h3::before,
+    #articleContent h4::before,
+    #articleContent h5::before,
+    #articleContent h6::before {
+        display: block;
+        content: " ";
+        height: 100px;
+        margin-top: -100px;
+        visibility: hidden;
+    }
+
+    #articleContent :focus {
+        outline: none;
+    }
+
+    .toc-fixed {
+        position: fixed;
+        top: 64px;
+    }
+
+    .toc-widget {
+        padding-left: 20px;
+    }
+
+    .toc-widget .toc-title {
+        margin: 35px 0 15px 0;
+        padding-left: 17px;
+        font-size: 1.5rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    .toc-widget ol {
+        padding: 0;
+        list-style: none;
+    }
+
+    #toc-content ol {
+        padding-left: 10px;
+    }
+
+    #toc-content ol li {
+        padding-left: 10px;
+    }
+
+    #toc-content .toc-link:hover {
+        color: #42b983;
+        font-weight: 700;
+        text-decoration: underline;
+    }
+
+    #toc-content .toc-link::before {
+        background-color: transparent;
+        max-height: 25px;
+    }
+
+    #toc-content .is-active-link {
+        color: #42b983;
+    }
+
+    #toc-content .is-active-link::before {
+        background-color: #42b983;
+    }
+
+    #floating-toc-btn {
+        position: fixed;
+        right: 15px;
+        bottom: 76px;
+        padding-top: 15px;
+        margin-bottom: 0;
+        z-index: 998;
+    }
+
+    #floating-toc-btn .btn-floating {
+        width: 48px;
+        height: 48px;
+    }
+
+    #floating-toc-btn .btn-floating i {
+        line-height: 48px;
+        font-size: 1.4rem;
+    }
+</style>
+<div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                            <a href="/tags/%E5%BE%AE%E6%9C%8D%E5%8A%A1/">
+                                <span class="chip bg-color">微服务</span>
+                            </a>
+                        
+                            <a href="/tags/k8s/">
+                                <span class="chip bg-color">k8s</span>
+                            </a>
+                        
+                            <a href="/tags/%E5%AE%B9%E5%99%A8/">
+                                <span class="chip bg-color">容器</span>
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fas fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/categories/k8s/" class="post-category">
+                                k8s
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
+                    2018-05-28
+                </div>
+                
+
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
+                    3.2k
+                </div>
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
+                    12 分
+                </div>
+                
+				
+                
+            </div>
+            
+        </div>
+        <hr class="clearfix">
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <p>铭刻于黑暗中的语言，消逝在漫漫长夜里。黎明时，战火中，重生。                           ——孙彦雨</p>
+<p>微服务道路上必备技能K8S，目前市场局面已经稳定，故可以集中温习，刷一刷Ranking。</p>
+<h2 id="k8s-组件"><a href="#k8s-组件" class="headerlink" title="k8s 组件"></a>k8s 组件</h2><h3 id="Master组件"><a href="#Master组件" class="headerlink" title="Master组件"></a>Master组件</h3><blockquote>
+<p>master组件提供集群的管理控制中心。</p>
+</blockquote>
+<h4 id="kube-apiserver"><a href="#kube-apiserver" class="headerlink" title="kube-apiserver"></a>kube-apiserver</h4><ul>
+<li>主要用于暴露API，任何的资源请求、调用都是通过kube-apiserver提供接口进行的。</li>
+</ul>
+<h4 id="ETCD"><a href="#ETCD" class="headerlink" title="ETCD"></a>ETCD</h4><ul>
+<li>提供默认的存储系统，保存所有集群数据，使用时需要为etcd数据提供备份计划</li>
+</ul>
+<h4 id="kube-controller-manager"><a href="#kube-controller-manager" class="headerlink" title="kube-controller-manager"></a>kube-controller-manager</h4><ul>
+<li>运行管理控制器，它是急群众处理常规任务的后台线程。</li>
+<li>逻辑上每个控制器是一个单独的进行，但是为了降低复杂性，他们都被编译成单个二进制文件，并在单个进程中运行。</li>
+<li>控制器包括<ul>
+<li>节点控制器</li>
+<li>副本控制器：负责维护系统中每个副本中的<code>pod</code></li>
+<li>端点控制器：填充Endpoints对象</li>
+<li>Service Account 和 Token 控制器：为新的Namespace创建默认账户访问API Token</li>
+</ul>
+</li>
+</ul>
+<h4 id="cloud-controller-manager"><a href="#cloud-controller-manager" class="headerlink" title="cloud-controller-manager"></a>cloud-controller-manager</h4><ul>
+<li>负责与底层云提供商的平台交互</li>
+<li>具体功能：<ul>
+<li>节点控制器</li>
+<li>路由控制器</li>
+<li>Service控制器</li>
+<li>卷控制器</li>
+</ul>
+</li>
+</ul>
+<h4 id="kube-scheduler"><a href="#kube-scheduler" class="headerlink" title="kube-scheduler"></a>kube-scheduler</h4><ul>
+<li>监视新创建没有分配到Node的Pod，为Pod选择一个Node</li>
+</ul>
+<h4 id="插件addons"><a href="#插件addons" class="headerlink" title="插件addons"></a>插件addons</h4><blockquote>
+<p>插件是实现集群pod和Services功能的，Pod由Deployment、ReplicationController等进行管理，NameSpace插件对象在kube-system Namespace中创建。</p>
+</blockquote>
+<h5 id="DNS"><a href="#DNS" class="headerlink" title="DNS"></a>DNS</h5><ul>
+<li>集群DNS是一个DNS服务器，能够为Kubernetes services 提供DNS记录。</li>
+<li>Kubernetes 启动的容器自动将这个DNS服务器包含在他们的DNS Searches中。</li>
+</ul>
+<h5 id="用户界面"><a href="#用户界面" class="headerlink" title="用户界面"></a>用户界面</h5><ul>
+<li>提供集群状态基础信息查看</li>
+</ul>
+<h5 id="容器资源监控"><a href="#容器资源监控" class="headerlink" title="容器资源监控"></a>容器资源监控</h5><ul>
+<li>提供一个UI浏览监控数据</li>
+</ul>
+<h5 id="Cluster-level-Loggin"><a href="#Cluster-level-Loggin" class="headerlink" title="Cluster-level Loggin"></a>Cluster-level Loggin</h5><ul>
+<li>负责容器日志，搜索和查看日志</li>
+</ul>
+<h3 id="节点组件"><a href="#节点组件" class="headerlink" title="节点组件"></a>节点组件</h3><blockquote>
+<p>节点组件运行在Node，提供Kubernetes运行环境，以及维护Pod</p>
+</blockquote>
+<h4 id="kubelet"><a href="#kubelet" class="headerlink" title="kubelet"></a>kubelet</h4><blockquote>
+<p>主要的节点代理，它会监视分配给节点的pod</p>
+</blockquote>
+<ul>
+<li>安装Pod所需的volume</li>
+<li>下载Pod的Secrets</li>
+<li>Pod中运行的docker容器</li>
+<li>定期执行容器健康检查</li>
+</ul>
+<h4 id="kube-proxy"><a href="#kube-proxy" class="headerlink" title="kube-proxy"></a>kube-proxy</h4><ul>
+<li>通过在主机上维护网络规则斌执行连接转发来实现kubernetes服务抽象</li>
+</ul>
+<h4 id="docker"><a href="#docker" class="headerlink" title="docker"></a>docker</h4><ul>
+<li>运行容器</li>
+</ul>
+<h4 id="RKT"><a href="#RKT" class="headerlink" title="RKT"></a>RKT</h4><ul>
+<li>rkt运行容器，作为docker工具的替代方案</li>
+</ul>
+<h4 id="supervisord"><a href="#supervisord" class="headerlink" title="supervisord"></a>supervisord</h4><ul>
+<li>一个轻量级的监控系统，用户保障kubelet和docker运行。</li>
+</ul>
+<h4 id="fluentd"><a href="#fluentd" class="headerlink" title="fluentd"></a>fluentd</h4><ul>
+<li>fluentd 一个守护进程，可提供 <code>cluster-level logging</code></li>
+</ul>
+<h2 id="k8s对象"><a href="#k8s对象" class="headerlink" title="k8s对象"></a>k8s对象</h2><ul>
+<li>k8s 对象是 k8s 系统中的持久实体，并使用这些实体表示集群的状态，容器化应用正在运行</li>
+<li>这些应用如何运行的策略，如重新策略，升级和容错</li>
+<li>kubernetes 对象一旦创建了对象，系统就会确保对象存在。</li>
+<li>要使用k8s对象，无论是增加还是删除，都需要使用k8sAPI</li>
+<li>每个k8s对象都包含两个嵌套对象字段，一个是描述对象Object所需的状态Space，一个是描述对象实际状态Status</li>
+<li>k8s deployment 来表示在集群上运行的应用的对象，创建Deployment时，可以设置Deployment Spec，来指定运行应用的三个副本。<ul>
+<li>k8s 系统将读取Deployment Spec，并启动你想要的三个应用实例，来更新状态以符合之前设置的Spec，如果在此期间有任何一个失败，k8s将自动响应Spec和当前状态之间差异来调整。</li>
+</ul>
+</li>
+<li>在使用k8sAPI创建对象的时候，需要JSON格式来描述节点信息，一般使用yml文件，因为kubectl会自动转换。</li>
+</ul>
+<h4 id="nginx-deployment-yaml"><a href="#nginx-deployment-yaml" class="headerlink" title="nginx-deployment.yaml"></a>nginx-deployment.yaml</h4><pre class=" language-yaml"><code class="language-yaml"><span class="token key atrule">apiVersion</span><span class="token punctuation">:</span> apps/v1beta1
+<span class="token key atrule">kind</span><span class="token punctuation">:</span> Deployment
+<span class="token key atrule">metadata</span><span class="token punctuation">:</span>
+  <span class="token key atrule">name</span><span class="token punctuation">:</span> nginx<span class="token punctuation">-</span>deployment
+<span class="token key atrule">spec</span><span class="token punctuation">:</span>
+  <span class="token key atrule">replicas</span><span class="token punctuation">:</span> <span class="token number">3</span>
+  <span class="token key atrule">template</span><span class="token punctuation">:</span>
+    <span class="token key atrule">metadata</span><span class="token punctuation">:</span>
+      <span class="token key atrule">labels</span><span class="token punctuation">:</span>
+        <span class="token key atrule">app</span><span class="token punctuation">:</span> nginx
+    <span class="token key atrule">spec</span><span class="token punctuation">:</span>
+      <span class="token key atrule">containers</span><span class="token punctuation">:</span>
+      <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> nginx
+        <span class="token key atrule">image</span><span class="token punctuation">:</span> nginx<span class="token punctuation">:</span>1.7.9
+        <span class="token key atrule">ports</span><span class="token punctuation">:</span>
+        <span class="token punctuation">-</span> <span class="token key atrule">containerPort</span><span class="token punctuation">:</span> <span class="token number">80</span></code></pre>
+<p>使用创建命令：</p>
+<pre class=" language-shell"><code class="language-shell">kubectl create -f docs/user-guide/nginx-deployment.yaml --record</code></pre>
+<p>必填字段：</p>
+<ul>
+<li>APIVersion：创建对象的k8sAPI版本</li>
+<li>kind：要创建什么的对象</li>
+<li>metadata：具有唯一标示对象的数据，包括name（字符串）、UID、NameSpace（可选项）</li>
+<li>space：对象 Spec 的精确格式</li>
+</ul>
+<h2 id="k8s-Names"><a href="#k8s-Names" class="headerlink" title="k8s Names"></a>k8s Names</h2><ul>
+<li>k8s rest API 中的所有对象都用Name和UID来明确地标识。</li>
+<li>对于非唯一用户提供的属性，Kubernetes 提供了 labels 和 annotations</li>
+</ul>
+<h4 id="Name"><a href="#Name" class="headerlink" title="Name"></a>Name</h4><ul>
+<li>Name 同一时间内只能拥有单个Name</li>
+<li>Name 标识资源的位置，最长到253个字符（包括<code>数字字符</code>、<code>-</code> 和 <code>.</code>）</li>
+</ul>
+<h4 id="UID"><a href="#UID" class="headerlink" title="UID"></a>UID</h4><ul>
+<li>UIDs 是 k8s 生成的，在k8s集群的整个生命周期中创建的每个对象都有不同的UID（即他们在空间和时间上是唯一的）</li>
+</ul>
+<h2 id="k8s-NameSpace"><a href="#k8s-NameSpace" class="headerlink" title="k8s NameSpace"></a>k8s NameSpace</h2><ul>
+<li>多个命名空间区分多个虚拟集群</li>
+<li>Namespace为名称提供了一个范围，资源的Names在NameSpace中具有统一性</li>
+<li>NameSpace是一种将集群资源划分为多个用途的方法</li>
+<li>命名空间名称满足正则表达式，最大长度为63</li>
+</ul>
+<p>常见命令：</p>
+<pre class=" language-shell"><code class="language-shell">kuebctl create namespace new-namespace
+
+cat my-namespace.yaml
+
+kubectl create -f ./my-namespace.yaml
+
+kubectl delete namespace new-namespace
+
+kubectl get namesepaces
+
+#临时设置request的Namespace，请使用--namespace
+kubectl --namespace=<insert-namespace-name-here> run nginx --image=nginx
+kubectl --namespace=<insert-namespace-name-here> get pods
+
+#使用kubectl命令创建的Namespace可以永久保存在context中
+kubectl config set-context $(kubectl config current-context) --namespace=<insert-namespace-name-here>
+kubectl config view | grep namespace
+</code></pre>
+<h2 id="k8s-labels-selectors"><a href="#k8s-labels-selectors" class="headerlink" title="k8s labels selectors"></a>k8s labels selectors</h2><ul>
+<li><p>labels 其实就是一对 key/value，被关联到对象上，标签的使用我们倾向于能够标识对象的特殊意义</p>
+</li>
+<li><p>labels 可以让用户将他们自己的有组织目的的结构以一种松耦合的方式应用到系统的对象上，且不需要客户端存放这些对应关系。</p>
+</li>
+<li><p>示例标签：</p>
+<ul>
+<li>“release” : “stable”， “release” : “canary”</li>
+<li>“environment” : “dev”，”environment” : “qa”，”environment” : “production”</li>
+<li>“tier” : “frontend”，”tier” : “backend”，”tier” : “cache”</li>
+<li>“partition” : “customerA”， “partition” : “customerB”</li>
+<li>“track” : “daily”， “track” : “weekly”</li>
+</ul>
+</li>
+<li><h4 id="Volume-类型"><a href="#Volume-类型" class="headerlink" title="Volume 类型"></a>Volume 类型</h4><p>Kubernetes支持Volume类型有：</p>
+<ul>
+<li>emptyDir：使用emptyDir，当Pod分配到<a href="http://docs.kubernetes.org.cn/304.html" target="_blank" rel="noopener">Node</a>上时，将会创建emptyDir，并且只要Node上的Pod一直运行，Volume就会一直存。当Pod（不管任何原因）从Node上被删除时，emptyDir也同时会删除，存储的数据也将永久删除。 </li>
+<li>hostPath：允许挂载Node上的文件系统到Pod里面去。如果Pod需要使用Node上的文件，可以使用hostPath。 </li>
+<li>gcePersistentDisk：可以挂载GCE上的永久磁盘到容器，需要Kubernetes运行在GCE的VM中。与emptyDir不同，Pod删除时，gcePersistentDisk被删除，但<a href="http://cloud.google.com/compute/docs/disks" target="_blank" rel="noopener">Persistent Disk</a> 的内容任然存在。这就意味着gcePersistentDisk能够允许我们提前对数据进行处理，而且这些数据可以在Pod之间“切换”。 <ul>
+<li><strong>提示：使用gcePersistentDisk，必须用gcloud或使用GCE API或UI 创建PD</strong> </li>
+<li><code>gcloud compute disks create --size=500GB --zone=us-central1-a my-data-disk</code></li>
+</ul>
+</li>
+<li>awsElasticBlockStore：awsElasticBlockStore可以挂载AWS上的EBS盘到容器，需要Kubernetes运行在AWS的EC2上。与emptyDir Pod被删除情况不同，Volume仅被卸载，内容将被保留。这就意味着awsElasticBlockStore能够允许我们提前对数据进行处理，而且这些数据可以在Pod之间“切换”。 <ul>
+<li>必须使用aws ec2 create-volumeAWS API 创建EBS Volume，然后才能使用。 </li>
+</ul>
+</li>
+<li>nfs：是Network File System的缩写，即网络文件系统。Kubernetes中通过简单地配置就可以挂载NFS到Pod中，而NFS中的数据是可以永久保存的，同时NFS支持同时写操作。Pod被删除时，Volume被卸载，内容被保留。这就意味着NFS能够允许我们提前对数据进行处理，而且这些数据可以在Pod之间相互传递。 </li>
+<li>iscsi：允许将现有的iscsi磁盘挂载到我们的pod中，和emptyDir不同的是，删除Pod时会被删除，但Volume只是被卸载，内容被保留，这就意味着iscsi能够允许我们提前对数据进行处理，而且这些数据可以在Pod之间“切换”。 </li>
+<li>fc (fibre channel)</li>
+<li>flocker：是一个开源的容器集群数据卷管理器。它提供各种存储后端支持的数据卷的管理和编排。 </li>
+<li>glusterfs：允许将<a href="http://www.gluster.org/" target="_blank" rel="noopener">Glusterfs</a>（一个开源网络文件系统）Volume安装到pod中。不同于emptyDir，Pod被删除时，Volume只是被卸载，内容被保留。味着glusterfs能够允许我们提前对数据进行处理，而且这些数据可以在Pod之间“切换”。 </li>
+<li>rbd：RBD允许Rados Block Device格式的磁盘挂载到Pod中，同样的，当pod被删除的时候，rbd也仅仅是被卸载，内容保留，rbd能够允许我们提前对数据进行处理，而且这些数据可以在Pod之间“切换”。 </li>
+<li>cephfs：cephfs Volume可以将已经存在的CephFS Volume挂载到pod中，与emptyDir特点不同，pod被删除的时，cephfs仅被被卸载，内容保留。cephfs能够允许我们提前对数据进行处理，而且这些数据可以在Pod之间“切换”。 </li>
+<li>gitRepo：gitRepo volume将git代码下拉到指定的容器路径中。 </li>
+<li>secret：secret volume用于将敏感信息（如密码）传递给pod。可以将secrets存储在Kubernetes API中，使用的时候以文件的形式挂载到pod中，而不用连接api。 secret volume由tmpfs（RAM支持的文件系统）支持。 </li>
+<li>persistentVolumeClaim：persistentVolumeClaim用来挂载持久化磁盘的。PersistentVolumes是用户在不知道特定云环境的细节的情况下，实现持久化存储（如GCE PersistentDisk或iSCSI卷）的一种方式。 </li>
+<li>downwardAPI：通过环境变量的方式告诉容器Pod的信息 </li>
+<li>projected：Projected volume将多个Volume源映射到同一个目录 </li>
+<li>azureFileVolume</li>
+<li>azureDisk</li>
+<li>vsphereVolume</li>
+<li>Quobyte</li>
+<li>PortworxVolume</li>
+<li>ScaleIO</li>
+<li>StorageOS</li>
+<li>local</li>
+</ul>
+</li>
+</ul>
+<h2 id="k8s-Annotation"><a href="#k8s-Annotation" class="headerlink" title="k8s Annotation"></a>k8s Annotation</h2><ul>
+<li>不用于标识和选择对象，</li>
+<li>Annotations中的元数据可以是small 或large，structured 或unstructured，并且可以包括标签不允许使用的字符。 </li>
+<li>可以记录的信息：<ul>
+<li>构建、发布的镜像信息，如时间戳，发行ID，git分支，PR编号，镜像hashes和注Registry地址。</li>
+<li>一些日志记录、监视、分析或audit repositories。</li>
+<li>一些工具信息：例如，名称、版本和构建信息。</li>
+<li>用户或工具/系统来源信息，例如来自其他生态系统组件对象的URL。</li>
+<li>负责人电话/座机，或一些信息目录。</li>
+</ul>
+</li>
+</ul>
+<h3 id="k8s-Pod"><a href="#k8s-Pod" class="headerlink" title="k8s Pod"></a>k8s Pod</h3><ul>
+<li>Pod 是 Kubernetes 创建和部署最小、最简单的基本单位，一个Pod代表集群上运行的一个进程。</li>
+<li>一个Pod封装一个应用容器，（也可以有多个容器）存储资源，一个独立的网络IP以及管理控制容器运行方式的策略选项。</li>
+<li>Pod代表部署的一个单元：k8s中单个应用的实例，他可能由单个容器或多个容器共享组成的资源。</li>
+<li>每个Pod都是运行应用的单个实例，如果需要水平扩展应用，则应该使用多个Pods，每个实例一个Pod。</li>
+<li>在Kubernetes中，这样通常称为Replication，Replication的Pod通常由Controller创建和管理。</li>
+<li>Pods提供两种共享资源：网络和存储<ul>
+<li>网络：同一个Pod内部之间，可以使用localhost相互通信，当Pod中的容器与Pod外部通信时，他们必须协调如何使用共享网络资源（如端口）。</li>
+<li>存储：指定一组共享存储<code>Volumes</code>，Pod中的所有容器都可以访问共享volumes，允许这些容器共享数据。volumes 还用于Pod中的数据持久化，以防止其中一个容器需要重启而丢失数据。</li>
+</ul>
+</li>
+</ul>
+<h3 id="k8s-Replication"><a href="#k8s-Replication" class="headerlink" title="k8s Replication"></a>k8s Replication</h3><ul>
+<li>ReplicaSet 能确保运行指定数量的pod</li>
+<li>Deployment 是一个更高层次的概念，他能管理ReplicaSets，并提供对pod的更新等功能</li>
+<li>因此，建议使用Deployment来管理ReplicaSets，除非字的定义跟新编排，这意味着你可能蝾螈也不需要操作ReplicaSet对象，而是使用Deployment替代管理。</li>
+</ul>
+<h3 id="k8s-Deployment"><a href="#k8s-Deployment" class="headerlink" title="k8s Deployment"></a>k8s Deployment</h3><ul>
+<li>Deployment 为Pod和Replica Set 提供声明式更新。</li>
+<li>Deployment Controller 会帮您将Pod和ReplicaSet的实际状态改变到您的目标状态。</li>
+<li>不应该手动管理 Deployment 创建的 ReplicaSet，否则越权。</li>
+</ul>
+<h3 id="k8s-ReplicationController"><a href="#k8s-ReplicationController" class="headerlink" title="k8s ReplicationController"></a>k8s ReplicationController</h3><ul>
+<li>使用Deployment配置ReplicaSet方法来控制副本数</li>
+<li>ReplicationController是确保用户定义的Pod副本数保持不变</li>
+<li>ReplicationController 会替换由于某些原因而被删除和终止Pod，即使应用只需要一个Pod，我们也建议使用ReplicatonController</li>
+<li>RC跨多个Node节点监视多个Pod</li>
+<li>在只删除ReplicationController时，可以不影响任何Pod</li>
+<li>Pod 是有生命周期的，他们可以被创建，也可以被销毁，然鹅一旦被销毁生命就永远结束。</li>
+<li>通过 ReplicationController能够动态地创建和销毁Pod，每个Pod都会获取它自己的IP地址，即使这些IP地址不总是稳定可依赖的。</li>
+</ul>
+<h3 id="k8s-Service"><a href="#k8s-Service" class="headerlink" title="k8s Service"></a>k8s Service</h3><ul>
+<li>一个Pod的逻辑分组，一种可以访问他们的策略–通常称为微服务，这一组Pod能够被Service访问到，通常是通过Label Selector 实现的。</li>
+<li>前端调用后端服务时（此时运行了三个副本）前端更笨不需要关注后端副本的状态，Service定义的抽象能够解耦这种关联。</li>
+<li>对 Kubernetes 集群中的应用，Kubernetes 提供了简单的 Endpoints API只要Service中的一组Pod发生变更，应用程序就会被更新。</li>
+<li>对非k8s集群中的应用，k8s提供了基于VIP的网桥的方式访问Service，再由Service重定向到Backend Pod</li>
+</ul>
+
+            </div>
+            <hr/>
+
+            
+
+    <div class="reprint" id="reprint-statement">
+        
+            <div class="reprint__author">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-user">
+                        文章作者:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="https://www.asxing.com" rel="external nofollow noreferrer">Asxing</a>
+                </span>
+            </div>
+            <div class="reprint__type">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-link">
+                        文章链接:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="https://www.asxing.com/2018/05/28/k8s-bi-ji-yi/">https://www.asxing.com/2018/05/28/k8s-bi-ji-yi/</a>
+                </span>
+            </div>
+            <div class="reprint__notice">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-copyright">
+                        版权声明:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    本博客所有文章除特別声明外，均采用
+                    <a href="https://creativecommons.org/licenses/by/4.0/deed.zh" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>
+                    许可协议。转载请注明来源
+                    <a href="https://www.asxing.com" target="_blank">Asxing</a>
+                    !
+                </span>
+            </div>
+        
+    </div>
+
+    <script async defer>
+      document.addEventListener("copy", function (e) {
+        let toastHTML = '<span>复制成功，请遵循本文的转载规则</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">查看</a>';
+        M.toast({html: toastHTML})
+      });
+
+      function navToReprintStatement() {
+        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      }
+    </script>
+
+
+
+            <div class="tag_share" style="display: block;">
+                <div class="post-meta__tag-list" style="display: inline-block;">
+                    
+                        <div class="article-tag">
+                            
+                                <a href="/tags/%E5%BE%AE%E6%9C%8D%E5%8A%A1/">
+                                    <span class="chip bg-color">微服务</span>
+                                </a>
+                            
+                                <a href="/tags/k8s/">
+                                    <span class="chip bg-color">k8s</span>
+                                </a>
+                            
+                                <a href="/tags/%E5%AE%B9%E5%99%A8/">
+                                    <span class="chip bg-color">容器</span>
+                                </a>
+                            
+                        </div>
+                    
+                </div>
+                <div class="post_share" style="zoom: 80%; width: fit-content; display: inline-block; float: right; margin: -0.15rem 0;">
+                    <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+
+<div id="article-share">
+    
+    
+    <div class="social-share" data-sites="twitter,facebook,google,qq,qzone,wechat,weibo,douban,linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
+    <script src="/libs/share/js/social-share.min.js"></script>
+    
+
+    
+
+</div>
+
+                </div>
+            </div>
+            
+                <style>
+    #reward {
+        margin: 40px 0;
+        text-align: center;
+    }
+
+    #reward .reward-link {
+        font-size: 1.4rem;
+        line-height: 38px;
+    }
+
+    #reward .btn-floating:hover {
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2), 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    #rewardModal {
+        width: 320px;
+        height: 350px;
+    }
+
+    #rewardModal .reward-title {
+        margin: 15px auto;
+        padding-bottom: 5px;
+    }
+
+    #rewardModal .modal-content {
+        padding: 10px;
+    }
+
+    #rewardModal .close {
+        position: absolute;
+        right: 15px;
+        top: 15px;
+        color: rgba(0, 0, 0, 0.5);
+        font-size: 1.3rem;
+        line-height: 20px;
+        cursor: pointer;
+    }
+
+    #rewardModal .close:hover {
+        color: #ef5350;
+        transform: scale(1.3);
+        -moz-transform:scale(1.3);
+        -webkit-transform:scale(1.3);
+        -o-transform:scale(1.3);
+    }
+
+    #rewardModal .reward-tabs {
+        margin: 0 auto;
+        width: 210px;
+    }
+
+    .reward-tabs .tabs {
+        height: 38px;
+        margin: 10px auto;
+        padding-left: 0;
+    }
+
+    .reward-content ul {
+        padding-left: 0 !important;
+    }
+
+    .reward-tabs .tabs .tab {
+        height: 38px;
+        line-height: 38px;
+    }
+
+    .reward-tabs .tab a {
+        color: #fff;
+        background-color: #ccc;
+    }
+
+    .reward-tabs .tab a:hover {
+        background-color: #ccc;
+        color: #fff;
+    }
+
+    .reward-tabs .wechat-tab .active {
+        color: #fff !important;
+        background-color: #22AB38 !important;
+    }
+
+    .reward-tabs .alipay-tab .active {
+        color: #fff !important;
+        background-color: #019FE8 !important;
+    }
+
+    .reward-tabs .reward-img {
+        width: 210px;
+        height: 210px;
+    }
+</style>
+
+<div id="reward">
+    <a href="#rewardModal" class="reward-link modal-trigger btn-floating btn-medium waves-effect waves-light red">赏</a>
+
+    <!-- Modal Structure -->
+    <div id="rewardModal" class="modal">
+        <div class="modal-content">
+            <a class="close modal-close"><i class="fas fa-times"></i></a>
+            <h4 class="reward-title">你的赏识是我前进的动力</h4>
+            <div class="reward-content">
+                <div class="reward-tabs">
+                    <ul class="tabs row">
+                        <li class="tab col s6 alipay-tab waves-effect waves-light"><a href="#alipay">支付宝</a></li>
+                        <li class="tab col s6 wechat-tab waves-effect waves-light"><a href="#wechat">微 信</a></li>
+                    </ul>
+                    <div id="alipay">
+                        <img src="/medias/reward/alipay.jpg" class="reward-img" alt="支付宝打赏二维码">
+                    </div>
+                    <div id="wechat">
+                        <img src="/medias/reward/wechat.png" class="reward-img" alt="微信打赏二维码">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $('.tabs').tabs();
+    });
+</script>
+            
+        </div>
+    </div>
+
+    
+        <link rel="stylesheet" href="/libs/gitalk/gitalk.css">
+<link rel="stylesheet" href="/css/my-gitalk.css">
+
+<div class="card gitalk-card" data-aos="fade-up">
+    <div class="comment_headling" style="font-size: 20px; font-weight: 700; position: relative; left: 20px; top: 15px; padding-bottom: 5px;">
+        <i class="fas fa-comments fa-fw" aria-hidden="true"></i>
+        <span>评论</span>
+    </div>
+    <div id="gitalk-container" class="card-content"></div>
+</div>
+
+<script src="/libs/gitalk/gitalk.min.js"></script>
+<script>
+    let gitalk = new Gitalk({
+        clientID: 'c4e18e113d94091c8828',
+        clientSecret: '891f04d80de6a77fd6eb60d1cbe792e916cde3ff',
+        repo: 'asxing.github.io',
+        owner: 'Asxing',
+        admin: "asxing",
+        id: '2018-05-28T16-26-14',
+        distractionFreeMode: false  // Facebook-like distraction free mode
+    });
+
+    gitalk.render('gitalk-container');
+</script>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+            <div class="card">
+                <a href="/2018/05/30/k8s-shi-jian-er/">
+                    <div class="card-image">
+                        
+                        <img src="https://www.holddie.com/img/20200105155920.jpg" class="responsive-img" alt="k8s-实践（二）">
+                        
+                        <span class="card-title">k8s-实践（二）</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            未来的变数太多，而我所能做的，就是走好这一步。                                                       ——残血-枫
+k8s完美解释：
+k8s将底层的计算资源连接在一起对外体现为一个高可用
+                        
+                    </div>
+                    <div class="publish-info">
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2018-05-30
+                        </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/k8s/" class="post-category">
+                                    k8s
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/%E5%BE%AE%E6%9C%8D%E5%8A%A1/">
+                        <span class="chip bg-color">微服务</span>
+                    </a>
+                    
+                    <a href="/tags/k8s/">
+                        <span class="chip bg-color">k8s</span>
+                    </a>
+                    
+                    <a href="/tags/minikube/">
+                        <span class="chip bg-color">minikube</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2018/05/26/apollo-pei-zhi-zou-yi-bo/">
+                    <div class="card-image">
+                        
+                        <img src="https://www.holddie.com/img/20200105155744.png" class="responsive-img" alt="Apollo-配置走一波">
+                        
+                        <span class="card-title">Apollo-配置走一波</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            手中有剑，便握剑前行；手中无剑，便忘剑前进。剑客本就是一柄出鞘利剑。——风间千月
+SpringCloud 体系中使用携程 Apollo 配置中心，完善生成环境。
+学习它当然是为了解决痛点：
+
+各个微服务的配置文件日益增多，各种功能开关，参数
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2018-05-26
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/Apollo%E9%85%8D%E7%BD%AE%E4%B8%AD%E5%BF%83/" class="post-category">
+                                    Apollo配置中心
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/SpringBoot/">
+                        <span class="chip bg-color">SpringBoot</span>
+                    </a>
+                    
+                    <a href="/tags/Apollo/">
+                        <span class="chip bg-color">Apollo</span>
+                    </a>
+                    
+                    <a href="/tags/%E9%85%8D%E7%BD%AE%E4%B8%AD%E5%BF%83/">
+                        <span class="chip bg-color">配置中心</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+
+</div>
+
+
+
+<!-- 代码块功能依赖 -->
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+
+<!-- 代码语言 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+
+    
+<!-- 代码块复制 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+
+
+<!-- 代码块收缩 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script>
+
+
+<!-- 代码块折行 -->
+
+<style type="text/css">
+code[class*="language-"], pre[class*="language-"] { white-space: pre !important; }
+</style>
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget">
+            <div class="toc-title"><i class="far fa-list-alt"></i>&nbsp;&nbsp;目录</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fas fa-list-ul"></i>
+    </a>
+</div>
+
+
+<script src="/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            // headingsOffset: -205,
+            headingSelector: 'h2, h3, h4'
+        });
+
+        // modify the toc link href to support Chinese.
+        let i = 0;
+        let tocHeading = 'toc-heading-';
+        $('#toc-content a').each(function () {
+            $(this).attr('href', '#' + tocHeading + (++i));
+        });
+
+        // modify the heading title id to support Chinese.
+        i = 0;
+        $('#articleContent').children('h2, h3, h4').each(function () {
+            $(this).attr('id', tocHeading + (++i));
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).hide();
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).show();
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+        });
+        
+    });
+</script>
+
+    
+
+</main>
+
+
+
+    <footer class="page-footer bg-color">
+    <div class="container row center-align">
+        <div class="col s12 m8 l8 copy-right">
+            Copyright&nbsp;&copy;
+            <span id="year">年份</span>
+            <a href="https://www.asxing.com" target="_blank">Asxing</a>
+            |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
+            |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
+            <br>
+            
+            &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
+                class="white-color">479k</span>&nbsp;字
+            
+            
+            
+            
+            <span id="busuanzi_container_site_pv">
+                |&nbsp;<i class="far fa-eye"></i>&nbsp;总访问量:&nbsp;<span id="busuanzi_value_site_pv"
+                    class="white-color"></span>&nbsp;次
+            </span>
+            
+            
+            <span id="busuanzi_container_site_uv">
+                |&nbsp;<i class="fas fa-users"></i>&nbsp;总访问人数:&nbsp;<span id="busuanzi_value_site_uv"
+                    class="white-color"></span>&nbsp;人
+            </span>
+            
+            <br>
+            
+            <span id="sitetime">载入运行时间...</span>
+            <script>
+                function siteTime() {
+                    window.setTimeout("siteTime()", 1000);
+                    var seconds = 1000;
+                    var minutes = seconds * 60;
+                    var hours = minutes * 60;
+                    var days = hours * 24;
+                    var years = days * 365;
+                    var today = new Date();
+                    var startYear = "2019";
+                    var startMonth = "10";
+                    var startDate = "30";
+                    var startHour = "22";
+                    var startMinute = "30";
+                    var startSecond = "0";
+                    var todayYear = today.getFullYear();
+                    var todayMonth = today.getMonth() + 1;
+                    var todayDate = today.getDate();
+                    var todayHour = today.getHours();
+                    var todayMinute = today.getMinutes();
+                    var todaySecond = today.getSeconds();
+                    var t1 = Date.UTC(startYear, startMonth, startDate, startHour, startMinute, startSecond);
+                    var t2 = Date.UTC(todayYear, todayMonth, todayDate, todayHour, todayMinute, todaySecond);
+                    var diff = t2 - t1;
+                    var diffYears = Math.floor(diff / years);
+                    var diffDays = Math.floor((diff / days) - diffYears * 365);
+                    var diffHours = Math.floor((diff - (diffYears * 365 + diffDays) * days) / hours);
+                    var diffMinutes = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours) /
+                        minutes);
+                    var diffSeconds = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours -
+                        diffMinutes * minutes) / seconds);
+                    if (startYear == todayYear) {
+                        document.getElementById("year").innerHTML = todayYear;
+                        document.getElementById("sitetime").innerHTML = "本站已安全运行 " + diffDays + " 天 " + diffHours +
+                            " 小时 " + diffMinutes + " 分钟 " + diffSeconds + " 秒";
+                    } else {
+                        document.getElementById("year").innerHTML = startYear + " - " + todayYear;
+                        document.getElementById("sitetime").innerHTML = "本站已安全运行 " + diffYears + " 年 " + diffDays +
+                            " 天 " + diffHours + " 小时 " + diffMinutes + " 分钟 " + diffSeconds + " 秒";
+                    }
+                }
+                setInterval(siteTime, 1000);
+            </script>
+            
+            <br>
+            
+        </div>
+        <div class="col s12 m4 l4 social-link ">
+    <a href="https://github.com/asxing" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+        <i class="fab fa-github"></i>
+    </a>
+
+
+
+    <a href="mailto:asxingking@gmail.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fas fa-envelope-open"></i>
+    </a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <a href="/atom.xml" class="tooltipped" target="_blank" data-tooltip="RSS 订阅" data-position="top" data-delay="50">
+        <i class="fas fa-rss"></i>
+    </a>
+
+</div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+
+    <!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fas fa-search"></i>&nbsp;&nbsp;搜索</span>
+            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script src="/js/search.js"></script>
+<script type="text/javascript">
+$(function () {
+    searchFunc("/" + "search.xml", 'searchInput', 'searchResult');
+});
+</script>
+    <!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+</div>
+
+
+    <script src="/libs/materialize/materialize.min.js"></script>
+    <script src="/libs/masonry/masonry.pkgd.min.js"></script>
+    <script src="/libs/aos/aos.js"></script>
+    <script src="/libs/scrollprogress/scrollProgress.min.js"></script>
+    <script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+    <script src="/js/matery.js"></script>
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+    <!-- Baidu Analytics -->
+
+    <!-- Baidu Push -->
+
+    
+    <script src="/libs/others/clicklove.js" async="async"></script>
+    
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <script type="text/javascript" src="/libs/background/ribbon-dynamic.js" async="async"></script>
+    
+    
+    
+
+</body>
+
+</html>

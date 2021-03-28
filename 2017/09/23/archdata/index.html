@@ -1,0 +1,1667 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="keywords" content="ArchData, 编程 读书 生活">
+    <meta name="description" content="ArchData 技术峰会 
+神经网络和函数式编程杨博：ThoughtWorks大数据团队首席咨询师
+什么是神经网络
+人工智能的底层模型是“神经网络”（neural network），许多复杂的应用（模式识别、自动控制）和高级模型（深度学习">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>ArchData | Asxing-阿行</title>
+    <link rel="icon" type="image/png" href="/favicon.png">
+
+    <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
+    <link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
+    <link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/matery.css">
+    <link rel="stylesheet" type="text/css" href="/css/my.css">
+    
+    <script src="/libs/jquery/jquery.min.js"></script>
+    
+<meta name="generator" content="Hexo 4.2.1"><link rel="alternate" href="/atom.xml" title="Asxing-阿行" type="application/atom+xml">
+<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+
+
+<body>
+    <header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper head-container">
+            <div class="brand-logo">
+                <a href="/" class="waves-effect waves-light">
+                    
+                    <img src="/medias/logo.png" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">Asxing-阿行</span>
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
+<ul class="right nav-menu">
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/" class="waves-effect waves-light">
+      
+      <i class="fas fa-home" style="zoom: 0.6;"></i>
+      
+      <span>首页</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/tags" class="waves-effect waves-light">
+      
+      <i class="fas fa-tags" style="zoom: 0.6;"></i>
+      
+      <span>标签</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/categories" class="waves-effect waves-light">
+      
+      <i class="fas fa-bookmark" style="zoom: 0.6;"></i>
+      
+      <span>分类</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/archives" class="waves-effect waves-light">
+      
+      <i class="fas fa-archive" style="zoom: 0.6;"></i>
+      
+      <span>归档</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/about" class="waves-effect waves-light">
+      
+      <i class="fas fa-user-circle" style="zoom: 0.6;"></i>
+      
+      <span>关于</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/contact" class="waves-effect waves-light">
+      
+      <i class="fas fa-comments" style="zoom: 0.6;"></i>
+      
+      <span>留言板</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/friends" class="waves-effect waves-light">
+      
+      <i class="fas fa-address-book" style="zoom: 0.6;"></i>
+      
+      <span>友情链接</span>
+    </a>
+    
+  </li>
+  
+  <li>
+    <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+      <i id="searchIcon" class="fas fa-search" title="搜索" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+</ul>
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="/medias/logo.png" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">Asxing-阿行</div>
+        <div class="logo-desc">
+            
+            Never really desperate, only the lost of the soul.
+            
+        </div>
+    </div>
+
+    
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li class="m-nav-item">
+	  
+		<a href="/" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-home"></i>
+			
+			首页
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/tags" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-tags"></i>
+			
+			标签
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/categories" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-bookmark"></i>
+			
+			分类
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/archives" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-archive"></i>
+			
+			归档
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/about" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-user-circle"></i>
+			
+			关于
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/contact" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-comments"></i>
+			
+			Contact
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/friends" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-address-book"></i>
+			
+			友情链接
+		</a>
+          
+        </li>
+        
+        
+        <li><div class="divider"></div></li>
+        <li>
+            <a href="https://github.com/asxing" class="waves-effect waves-light" target="_blank">
+                <i class="fab fa-github-square fa-fw"></i>Fork Me
+            </a>
+        </li>
+        
+    </ul>
+</div>
+
+        </div>
+
+        
+            <style>
+    .nav-transparent .github-corner {
+        display: none !important;
+    }
+
+    .github-corner {
+        position: absolute;
+        z-index: 10;
+        top: 0;
+        right: 0;
+        border: 0;
+        transform: scale(1.1);
+    }
+
+    .github-corner svg {
+        color: #0f9d58;
+        fill: #fff;
+        height: 64px;
+        width: 64px;
+    }
+
+    .github-corner:hover .octo-arm {
+        animation: a 0.56s ease-in-out;
+    }
+
+    .github-corner .octo-arm {
+        animation: none;
+    }
+
+    @keyframes a {
+        0%,
+        to {
+            transform: rotate(0);
+        }
+        20%,
+        60% {
+            transform: rotate(-25deg);
+        }
+        40%,
+        80% {
+            transform: rotate(10deg);
+        }
+    }
+</style>
+
+<a href="https://github.com/asxing" class="github-corner tooltipped hide-on-med-and-down" target="_blank"
+   data-tooltip="Fork Me" data-position="left" data-delay="50">
+    <svg viewBox="0 0 250 250" aria-hidden="true">
+        <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
+        <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2"
+              fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path>
+        <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z"
+              fill="currentColor" class="octo-body"></path>
+    </svg>
+</a>
+        
+    </nav>
+
+</header>
+
+    
+<script src="/libs/cryptojs/crypto-js.min.js"></script>
+<script>
+    (function() {
+        let pwd = '';
+        if (pwd && pwd.length > 0) {
+            if (pwd !== CryptoJS.SHA256(prompt('请输入访问本文章的密码')).toString(CryptoJS.enc.Hex)) {
+                alert('密码错误，将返回主页！');
+                location.href = '/';
+            }
+        }
+    })();
+</script>
+
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/8.jpg')">
+    <div class="container" style="right: 0px;left: 0px;">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <div class="description center-align post-title">
+                        ArchData
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<main class="post-container content">
+
+    
+    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
+<style>
+    #articleContent h1::before,
+    #articleContent h2::before,
+    #articleContent h3::before,
+    #articleContent h4::before,
+    #articleContent h5::before,
+    #articleContent h6::before {
+        display: block;
+        content: " ";
+        height: 100px;
+        margin-top: -100px;
+        visibility: hidden;
+    }
+
+    #articleContent :focus {
+        outline: none;
+    }
+
+    .toc-fixed {
+        position: fixed;
+        top: 64px;
+    }
+
+    .toc-widget {
+        padding-left: 20px;
+    }
+
+    .toc-widget .toc-title {
+        margin: 35px 0 15px 0;
+        padding-left: 17px;
+        font-size: 1.5rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    .toc-widget ol {
+        padding: 0;
+        list-style: none;
+    }
+
+    #toc-content ol {
+        padding-left: 10px;
+    }
+
+    #toc-content ol li {
+        padding-left: 10px;
+    }
+
+    #toc-content .toc-link:hover {
+        color: #42b983;
+        font-weight: 700;
+        text-decoration: underline;
+    }
+
+    #toc-content .toc-link::before {
+        background-color: transparent;
+        max-height: 25px;
+    }
+
+    #toc-content .is-active-link {
+        color: #42b983;
+    }
+
+    #toc-content .is-active-link::before {
+        background-color: #42b983;
+    }
+
+    #floating-toc-btn {
+        position: fixed;
+        right: 15px;
+        bottom: 76px;
+        padding-top: 15px;
+        margin-bottom: 0;
+        z-index: 998;
+    }
+
+    #floating-toc-btn .btn-floating {
+        width: 48px;
+        height: 48px;
+    }
+
+    #floating-toc-btn .btn-floating i {
+        line-height: 48px;
+        font-size: 1.4rem;
+    }
+</style>
+<div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                            <a href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F/">
+                                <span class="chip bg-color">分布式</span>
+                            </a>
+                        
+                            <a href="/tags/%E5%8C%BA%E5%9D%97%E9%93%BE/">
+                                <span class="chip bg-color">区块链</span>
+                            </a>
+                        
+                            <a href="/tags/AI/">
+                                <span class="chip bg-color">AI</span>
+                            </a>
+                        
+                            <a href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/">
+                                <span class="chip bg-color">大数据</span>
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fas fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/categories/Technical/" class="post-category">
+                                Technical
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
+                    2017-09-23
+                </div>
+                
+
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
+                    5.2k
+                </div>
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
+                    18 分
+                </div>
+                
+				
+                
+            </div>
+            
+        </div>
+        <hr class="clearfix">
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <p>ArchData 技术峰会 </p>
+<h1 id="神经网络和函数式编程"><a href="#神经网络和函数式编程" class="headerlink" title="神经网络和函数式编程"></a>神经网络和函数式编程</h1><p><strong>杨博：ThoughtWorks大数据团队首席咨询师</strong></p>
+<h3 id="什么是神经网络"><a href="#什么是神经网络" class="headerlink" title="什么是神经网络"></a>什么是神经网络</h3><ul>
+<li><p>人工智能的底层模型是“神经网络”（neural network），许多复杂的应用（模式识别、自动控制）和高级模型（深度学习）</p>
+</li>
+<li><p>核心词汇</p>
+<ul>
+<li><p>感知器：</p>
+<p>他决定考虑三个因素。</p>
+<blockquote>
+<ol>
+<li>天气：周末是否晴天？</li>
+<li>同伴：能否找到人一起去？</li>
+<li>价格：门票是否可承受？</li>
+</ol>
+</blockquote>
+<p>这就构成一个感知器。上面三个因素就是外部输入，最后的决定就是感知器的输出。如果三个因素都是 Yes（使用<code>1</code>表示），输出就是1（去参观）；如果都是 No（使用<code>0</code>表示），输出就是0（不去参观）。</p>
+</li>
+<li><p>权重：</p>
+<p>现实中，各种因素很少具有同等重要性：某些因素是决定性因素，另一些因素是次要因素。因此，可以给这些因素指定权重（weight），代表它们不同的重要性。</p>
+<blockquote>
+<ul>
+<li>天气：权重为8</li>
+<li>同伴：权重为4</li>
+<li>价格：权重为4</li>
+</ul>
+</blockquote>
+<p>上面的权重表示，天气是决定性因素，同伴和价格都是次要因素。</p>
+</li>
+<li><p>阈值：</p>
+<p>如果三个因素都为1，它们乘以权重的总和就是 8 + 4 + 4 = 16。如果天气和价格因素为1，同伴因素为0，总和就变为 8 + 0 + 4 = 12。</p>
+<p>这时，还需要指定一个阈值（threshold）。如果总和大于阈值，感知器输出1，否则输出0。假定阈值为8，那么 12 &gt; 8，小明决定去参观。阈值的高低代表了意愿的强烈，阈值越低就表示越想去，越高就越不想去。</p>
+</li>
+<li><p>决策模型</p>
+<p>单个的感知器构成了一个简单的决策模型，已经可以拿来用了。真实世界中，实际的决策模型则要复杂得多，是由多个感知器组成的多层网络。</p>
+<p><img src="https://www.holddie.com/img/20200105135740.png" alt=""></p>
+</li>
+<li><p>矢量化</p>
+<p>为了方便后面的讨论，需要对上面的模型进行一些数学处理。</p>
+<blockquote>
+<ul>
+<li>外部因素 <code>x1</code>、<code>x2</code>、<code>x3</code> 写成矢量 <code>&lt;x1, x2, x3&gt;</code>，简写为 <code>x</code></li>
+<li>权重 <code>w1</code>、<code>w2</code>、<code>w3</code> 也写成矢量 <code>(w1, w2, w3)</code>，简写为 <code>w</code></li>
+<li>定义运算 <code>w⋅x = ∑ wx</code>，即 <code>w</code> 和 <code>x</code> 的点运算，等于因素与权重的乘积之和</li>
+<li>定义 <code>b</code> 等于负的阈值 <code>b = -threshold</code></li>
+</ul>
+</blockquote>
+<p><img src="http://www.ruanyifeng.com/blogimg/asset/2017/bg2017071206.png" alt="img"> </p>
+</li>
+<li><p>神经网络的运作过程</p>
+<p>一个神经网络的搭建，需要满足三个条件：</p>
+<blockquote>
+<ul>
+<li>输入和输出</li>
+<li>权重（<code>w</code>）和阈值（<code>b</code>）</li>
+<li>多层感知器的结构</li>
+</ul>
+</blockquote>
+<p>神经网络的运作过程如下：</p>
+<blockquote>
+<ol>
+<li>确定输入和输出</li>
+<li>找到一种或多种算法，可以从输入得到输出</li>
+<li>找到一组已知答案的数据集，用来训练模型，估算<code>w</code>和<code>b</code></li>
+<li>一旦新的数据产生，输入模型，就可以得到结果，同时对<code>w</code>和<code>b</code>进行校正</li>
+</ol>
+</blockquote>
+</li>
+<li><p>神经网路的例子和连续输出性</p>
+<ul>
+<li>自动识别车牌号</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>参考：</p>
+<p>神经网络入门：<a href="http://www.ruanyifeng.com/blog/2017/07/neural-network.html" target="_blank" rel="noopener">http://www.ruanyifeng.com/blog/2017/07/neural-network.html</a></p>
+<p>一个Deep learning的开源学习网站：<a href="https://github.com/exacity/deeplearningbook-chinese" target="_blank" rel="noopener">https://github.com/exacity/deeplearningbook-chinese</a></p>
+<h3 id="函数式编程"><a href="#函数式编程" class="headerlink" title="函数式编程"></a>函数式编程</h3><ul>
+<li><p>定义：它属于<a href="http://en.wikipedia.org/wiki/Structured_programming" target="_blank" rel="noopener">“结构化编程”</a>的一种，主要思想是把运算过程尽量写成一系列嵌套的函数调用。</p>
+</li>
+<li><p>特点：</p>
+<ul>
+<li><p><strong>1. 函数是”第一等公民”</strong></p>
+<p>所谓<a href="http://en.wikipedia.org/wiki/First-class_function" target="_blank" rel="noopener">“第一等公民”</a>（first class），指的是函数与其他数据类型一样，处于平等地位，可以赋值给其他变量，也可以作为参数，传入另一个函数，或者作为别的函数的返回值。</p>
+</li>
+<li><p><strong>2. 只用”表达式”，不用”语句”</strong></p>
+<ul>
+<li>“表达式”（expression）是一个单纯的运算过程，总是有返回值；”语句”（statement）是执行某种操作，没有返回值。函数式编程要求，只使用表达式，不使用语句。也就是说，每一步都是单纯的运算，而且都有返回值。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<pre><code>+ 当然，实际应用中，不做I/O是不可能的。因此，编程过程中，函数式编程只要求把I/O限制到最小，不要有不必要的读写行为，保持计算过程的单纯性。</code></pre><ul>
+<li><p><strong>3. 没有”副作用”</strong></p>
+<ul>
+<li>所谓<a href="http://en.wikipedia.org/wiki/Side_effect_(computer_science)" target="_blank" rel="noopener">“副作用”</a>（side effect），指的是函数内部与外部互动（最典型的情况，就是修改全局变量的值），产生运算以外的其他结果。</li>
+<li>函数式编程强调没有”副作用”，意味着函数要保持独立，所有功能就是返回一个新的值，没有其他行为，尤其是不得修改外部变量的值。</li>
+</ul>
+</li>
+<li><p><strong>4. 不修改状态</strong></p>
+<ul>
+<li>函数式编程只是返回新的值，不修改系统变量。</li>
+<li>当使用了递归，函数式语言的运行速度比较慢</li>
+</ul>
+</li>
+<li><p><strong>5. 引用透明</strong></p>
+<ul>
+<li>引用透明（Referential transparency），指的是函数的运行不依赖于外部变量或”状态”，只依赖于输入的参数，任何时候只要参数相同，引用函数所得到的返回值总是相同的。</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li><p>Java 中的 Lambda 表达式一种有五种基本形式</p>
+<ul>
+<li><p><code>Runnable noArguments = () -&gt; System.out.println(&quot;Hello World&quot;);</code></p>
+<ul>
+<li>Lambda 表达式不包含参数,使用空括号 () 表示没有参数。该 Lambda 表达式 实现了 Runnable 接口,该接口也只有一个 run 方法,没有参数,且返回类型为 void</li>
+</ul>
+</li>
+<li><p><code>ActionListener oneArgument = event -&gt; System.out.println(&quot;button clicked&quot;);</code></p>
+<ul>
+<li>Lambda 表达式包含且只包含一个参数,可省略参数的括号</li>
+</ul>
+</li>
+<li><p><code>Runnable multiStatement = () -&gt; {    System.out.print(&quot;Hello&quot;);    System.out.println(&quot; World&quot;); };</code> </p>
+<ul>
+<li>Lambda 表达式的主体不仅可以是一个表达式,而且也可以是一段代码块,使用大括号 ({})将代码块括起来</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<pre><code>+ 该代码块和普通方法遵循的规则别无二致,可以用返 回或抛出异常来退出。只有一行代码的 Lambda 表达式也可使用大括号,用以明确 Lambda表达式从何处开始、到哪里结束</code></pre><ul>
+<li><p><code>BinaryOperator&lt;Long&gt; add = (x, y) -&gt; x + y;</code></p>
+<ul>
+<li>Lambda 表达式也可以表示包含多个参数的方法</li>
+<li>这行代码并不是将两个数字相加,而是创建了一个函数,用来计算 两个数字相加的结果</li>
+<li>变量 add 的类型是 BinaryOperator</li>
+</ul>
+</li>
+<li><p><code>BinaryOperator&lt;Long&gt; addExplicit = (Long x, Long y) -&gt; x + y;</code></p>
+</li>
+</ul>
+<ul>
+<li>Lambda 表达式都可以扩写为原始的“匿名类”形式。</li>
+</ul>
+<h2 id="区块链原理解剖"><a href="#区块链原理解剖" class="headerlink" title="区块链原理解剖"></a>区块链原理解剖</h2><p><strong>李艳鹏：云时代架构发起人</strong></p>
+<h3 id="基本概念包括："><a href="#基本概念包括：" class="headerlink" title="基本概念包括："></a>基本概念包括：</h3><ul>
+<li>交易（Transaction）：一次操作，导致账本状态的一次改变，如添加一条记录；</li>
+<li>区块（Block）：记录一段时间内发生的交易和状态结果，是对当前账本状态的一次共识；</li>
+<li>链（Chain）：由一个个区块按照发生顺序串联而成，是整个状态变化的日志记录。</li>
+</ul>
+<p>如果把区块链作为一个状态机，则每次交易就是试图改变一次状态，而每次共识生成的区块，就是参与者对于区块中所有交易内容导致状态改变的结果进行确认。</p>
+<h3 id="区块的结构："><a href="#区块的结构：" class="headerlink" title="区块的结构："></a>区块的结构：</h3><table>
+<thead>
+<tr>
+<th>大小</th>
+<th>字段</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>4 字节</td>
+<td>区块大小</td>
+<td>用字节表示该字段之后的区块大小</td>
+</tr>
+<tr>
+<td>80 字节</td>
+<td>区块头</td>
+<td>组成区块头的几个字段</td>
+</tr>
+<tr>
+<td>1-9 （可变整数）</td>
+<td>交易计数器</td>
+<td>交易的数量</td>
+</tr>
+<tr>
+<td>可变的</td>
+<td>交易</td>
+<td>记录在区块里的交易信息</td>
+</tr>
+</tbody></table>
+<h4 id="区块头结构"><a href="#区块头结构" class="headerlink" title="区块头结构"></a>区块头结构</h4><table>
+<thead>
+<tr>
+<th>大小</th>
+<th>字段</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>4 字节</td>
+<td>版本</td>
+<td>版本号，用于追踪软件、协议的更新</td>
+</tr>
+<tr>
+<td>32 字节</td>
+<td>父区块链哈希值</td>
+<td>引用区块链中父区块的哈希值</td>
+</tr>
+<tr>
+<td>32 字节</td>
+<td>Merkle 根</td>
+<td>该区块链中交易的 merkle 树根的哈希值</td>
+</tr>
+<tr>
+<td>4 字节</td>
+<td>时间戳</td>
+<td>该区块产生的近似时间（精确到秒的 Unix 时间戳）</td>
+</tr>
+<tr>
+<td>4 字节</td>
+<td>难度目标</td>
+<td>该区块工作量证明算法的难度目标</td>
+</tr>
+<tr>
+<td>4 字节</td>
+<td>Nonce</td>
+<td>用于工作量证明算法的计数器</td>
+</tr>
+</tbody></table>
+<h4 id="交易的输入结构"><a href="#交易的输入结构" class="headerlink" title="交易的输入结构"></a>交易的输入结构</h4><table>
+<thead>
+<tr>
+<th>长度</th>
+<th>字段</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>32 字节</td>
+<td>交易哈希</td>
+<td>指向包含有将要被花费 UTXO 的交易</td>
+</tr>
+<tr>
+<td>4 字节</td>
+<td>交易输出索引（Unspent Transaction Output）</td>
+<td>UTXO 在交易中的索引，O 从 0 开始计数</td>
+</tr>
+<tr>
+<td>1-9 字节</td>
+<td>解锁脚本长度</td>
+<td>解锁脚本的长度</td>
+</tr>
+<tr>
+<td>（VarInt）可变长度</td>
+<td>Unlocking Script</td>
+<td>一段脚本，用来解锁 UTXO 指定脚本中的条件</td>
+</tr>
+<tr>
+<td>4 bytes</td>
+<td>顺序号</td>
+<td>当前未启用的 TX 替换功能，设置为 0xFFFFFFFF</td>
+</tr>
+</tbody></table>
+<p>挖矿的输入结构</p>
+<table>
+<thead>
+<tr>
+<th>长度</th>
+<th>字段</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>32 字节</td>
+<td>交易哈希</td>
+<td>不引用任何一个交易，值全部为 0</td>
+</tr>
+<tr>
+<td>4 字节</td>
+<td>交易输出索引（Unspent Transaction Output）</td>
+<td>值全部为 1</td>
+</tr>
+<tr>
+<td>1-9 字节</td>
+<td>Coinbase</td>
+<td>coinbase 数据长度</td>
+</tr>
+<tr>
+<td>（VarInt）可变长度</td>
+<td>Unlocking Script</td>
+<td>在 V2 版本的区块中，除了需要以区块高度开始外，其他数据可以任意填写，用于 extra nonce 和挖矿标签</td>
+</tr>
+<tr>
+<td>4 bytes</td>
+<td>顺序号</td>
+<td>值全部为 1，设置为 0xFFFFFFFF</td>
+</tr>
+</tbody></table>
+<h4 id="交易方式："><a href="#交易方式：" class="headerlink" title="交易方式："></a>交易方式：</h4><p>私钥 —-&gt; 公钥 —-&gt; 地址 —-&gt; 比特币  </p>
+<h4 id="交易结构："><a href="#交易结构：" class="headerlink" title="交易结构："></a>交易结构：</h4><table>
+<thead>
+<tr>
+<th>大小</th>
+<th>字段</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>4 字节</td>
+<td>版本</td>
+<td>明确这笔交易参照的规则</td>
+</tr>
+<tr>
+<td>1-9 字节</td>
+<td>输入计数器</td>
+<td>被包含的输入的数量</td>
+</tr>
+<tr>
+<td>不定</td>
+<td>输入</td>
+<td>一个或多个交易输入</td>
+</tr>
+<tr>
+<td>1-9 字节</td>
+<td>输出计数器</td>
+<td>被包含的输入的数量</td>
+</tr>
+<tr>
+<td>不定</td>
+<td>输出</td>
+<td>一个或多个交易输出</td>
+</tr>
+<tr>
+<td>4 字节</td>
+<td>时钟时间</td>
+<td>一个 UNIX 时间戳或区块号</td>
+</tr>
+</tbody></table>
+<h4 id="交易输入："><a href="#交易输入：" class="headerlink" title="交易输入："></a>交易输入：</h4><table>
+<thead>
+<tr>
+<th>大小</th>
+<th>字段</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>32 字节</td>
+<td>交易</td>
+<td>指向交易包含的被花费的 UTXO 的哈希指针</td>
+</tr>
+<tr>
+<td>4 字节</td>
+<td>输出索引</td>
+<td>被花费的 UTXO 的索引引号，第一个是 0</td>
+</tr>
+<tr>
+<td>1-9 字节</td>
+<td>解锁脚本尺寸</td>
+<td>用字节表示后面的解锁脚本的长度</td>
+</tr>
+<tr>
+<td>变长</td>
+<td>解锁脚本</td>
+<td>一个达到 UTXO 锁定脚本中的条件的脚本</td>
+</tr>
+<tr>
+<td>4 字节</td>
+<td>序列号</td>
+<td>目前未被使用的交易替换功能，设成 0xFFFFFFFF</td>
+</tr>
+</tbody></table>
+<h4 id="交易输出："><a href="#交易输出：" class="headerlink" title="交易输出："></a>交易输出：</h4><table>
+<thead>
+<tr>
+<th>大小</th>
+<th>字段</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>8 字节</td>
+<td>总量</td>
+<td>表示比特币的值（10-8 比特币）</td>
+</tr>
+<tr>
+<td>1-9 字节</td>
+<td>锁定脚本尺寸</td>
+<td>用字节表示的后面的锁定脚本长度</td>
+</tr>
+<tr>
+<td>变长</td>
+<td>锁定脚本</td>
+<td>一个定义了支付输出所需要条件的版本</td>
+</tr>
+</tbody></table>
+<h4 id="解锁脚本和锁定脚本"><a href="#解锁脚本和锁定脚本" class="headerlink" title="解锁脚本和锁定脚本"></a>解锁脚本和锁定脚本</h4><pre class=" language-xml"><code class="language-xml"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>sig</span><span class="token punctuation">></span></span> <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>Pubk</span><span class="token punctuation">></span></span>   DUP HASHH160  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>PubkHash</span><span class="token punctuation">></span></span> EQUALVERIFY QHECKSIG</code></pre>
+<h3 id="基本算法"><a href="#基本算法" class="headerlink" title="基本算法"></a>基本算法</h3><p><strong>Paxos 是第一个被证明的共识算法，其原理基于 <a href="https://en.wikipedia.org/wiki/Two-phase_commit_protocol" target="_blank" rel="noopener">两阶段提交</a> 并进行扩展。</strong></p>
+<p>作为现在共识算法设计的鼻祖，以最初论文的难懂（算法本身并不复杂）出名。算法中将节点分为三种类型：</p>
+<ul>
+<li>proposer：提出一个提案，等待大家批准为结案。往往是客户端担任该角色；</li>
+<li>acceptor：负责对提案进行投票。往往是服务端担任该角色；</li>
+<li>learner：被告知结案结果，并与之统一，不参与投票过程。可能为客户端或服务端。</li>
+</ul>
+<p>并且，算法需要满足 safety 和 liveness 两方面的约束要求（实际上这两个基础属性是大部分分布式算法都该考虑的）：</p>
+<ul>
+<li>safety：保证决议结果是对的，无歧义的，不会出现错误情况。<ul>
+<li>决议（value）只有在被 proposers 提出的 proposal 才能被最终批准；</li>
+<li>在一次执行实例中，只批准（chosen）一个最终决议，意味着多数接受（accept）的结果能成为决议；</li>
+</ul>
+</li>
+<li>liveness：保证决议过程能在有限时间内完成。<ul>
+<li>决议总会产生，并且 learners 能获得被批准（chosen）的决议。</li>
+</ul>
+</li>
+</ul>
+<p>基本过程包括 proposer 提出提案，先争取大多数 acceptor 的支持，超过一半支持时，则发送结案结果给所有人进行确认。一个潜在的问题是 proposer 在此过程中出现故障，可以通过超时机制来解决。极为凑巧的情况下，每次新的一轮提案的 proposer 都恰好故障，系统则永远无法达成一致（概率很小）。</p>
+<p>Paxos 能保证在超过 <img src="https://latex.codecogs.com/gif.latex?1/2" alt="img"> 的正常节点存在时，系统能达成共识。</p>
+<p>读者可以试着自己设计一套能达成共识的方案，会发现在满足各种约束情况下，算法自然就会那样设计。</p>
+<p>核心算法是什么</p>
+<p>参考：</p>
+<p>区块链技术指南：<a href="https://yeasy.gitbooks.io/blockchain_guide/born/what.html" target="_blank" rel="noopener">https://yeasy.gitbooks.io/blockchain_guide/born/what.html</a></p>
+<h2 id="微服务下的APM全链路监控"><a href="#微服务下的APM全链路监控" class="headerlink" title="微服务下的APM全链路监控"></a>微服务下的APM全链路监控</h2><p><strong>王东：融数CTO</strong></p>
+<h3 id="APM是什么"><a href="#APM是什么" class="headerlink" title="APM是什么"></a>APM是什么</h3><ul>
+<li>Application Performance Management  </li>
+</ul>
+<h3 id="APM和监控系统（如，Hyperic-HQ，Zabbix）有什么区别？"><a href="#APM和监控系统（如，Hyperic-HQ，Zabbix）有什么区别？" class="headerlink" title="APM和监控系统（如，Hyperic HQ，Zabbix）有什么区别？"></a>APM和监控系统（如，Hyperic HQ，Zabbix）有什么区别？</h3><p><strong>应用程序性能指标</strong></p>
+<p>有两组性能指标，第一组定义了应用程序终端用户的性能体验，一个很好的例子是在高峰时刻的平均响应时间。请注意这里有两个组成部分，负载和响应时间。负载是应用程序处理的业务量，如每秒事务数、每秒请求数、每秒PV。响应时间是指在给定的负载下，应用程序响应用户操作的时间。如果没有一定负载，绝大部分应用程序都足够快，这就是为什么程序员不太可能在开发过程中捕捉到性能问题。</p>
+<p>第二组性能指标衡量了在一定负载下应用程序使用的计算资源，是否有足够的容量来支持给定的负载，在哪里可能有性能瓶颈。这些指标的测量为应用建立一个基于历史经验的性能基线。然后基线可以用来检测性能的变化。性能的变化可与外部事件相关联，并用于预测应用程序性能的未来变化。</p>
+<p>使用APM最常见的领域是WEB应用。除了测量用户的响应时间，应用程序的组件的响应时间也可以被监控，以协助我们查明延迟的具体原因。</p>
+<p><strong>当前难点</strong></p>
+<p>APM已经演变成跨越许多不同的计算平台上的管理应用程序性能的一个概念。它的实现有两个挑战：</p>
+<p>（1）很难通过仪表化应用程序来监视应用程序性能，尤其是应用程序的内部组件。</p>
+<p>（2）应用程序可以被虚拟化，这增加了测量的变化性。分布式，虚拟和基于云的应用程序给应用性能监控带来一个独特的挑战，因为大部分关键的系统组件都不再位于同一台主机上。每个功能现在可能被设计成运行于多个虚拟系统上的一个因特网服务，应用程序本身也很可能会从一个系统迁移到另一个系统，以满足服务水平目标或者应对临时停电。</p>
+<p>应用程序本身正变得越来越难以管理，因为他们走向高度分散，多层次，多元素的构造，在很多情况下依赖于应用程序开发框架，如.NET或Java。</p>
+<p>对于WEB性能管理，我们重点要关注的是</p>
+<p>终端用户体验监控 - （主动和被动） 、用户自定义事务处理剖析、应用程序组件监控、报告和应用数据分析</p>
+<p><strong>终端用户体验监控**</strong> - <strong>**（主动和被动）</strong></p>
+<p>测量用户请求数据然后返回响应给用户是捕获最终用户体验的一部分。这种测量的结果被称为实时应用监控（又名自上而下的监控），其中有两个组成部分，被动和主动。</p>
+<p>被动监控通常是无代理的，比如使用网络端口镜像实现监控。在这个解决方案需要考虑的一个关键功能是支持多协议的分析（如XML，SQL，PHP），因为大多数企业已经不仅仅只支持基于Web的应用程序。</p>
+<p>主动监控，包含预定义的人工探针和网络机器人，用以报告系统可用性和业务交易。主动监控是被动监控的一个很好的补充。两种手段配合，可以提供可视化的应用健康状况。</p>
+<p><strong>用户自定义事务处理剖析</strong></p>
+<p>专注于用户定义的事务或对于商业团体具有某种意义的URL页面定义。例如，对于一个给定应用程序，如果有200～300个唯一页面，可以把它们分组为8～12个更高层次的类别。这样可以实现有意义的服务等级协议（SLA)报告，从业务的角度提供应用性能的趋势信息：先从大类开始，逐渐完善它。</p>
+<p><strong>报告和应用数据分析</strong></p>
+<p>对于所有应用程序，提供一套共同的指标来收集和报告信息很重要，然后就可以对呈现应用程序的性能数据的视图标准化。来自其他工具集收集的原始数据可提高报告的灵活性。这样就可以回答各种各样的性能问题，尽管每个应用程序可能运行在不同的平台。</p>
+<p>注意过多的信息是难以查看的，这就是为什么报告保持简单很重要，否则它将不被使用。</p>
+<h2 id="深度学习与智能对话机器人"><a href="#深度学习与智能对话机器人" class="headerlink" title="深度学习与智能对话机器人"></a>深度学习与智能对话机器人</h2><p><strong>吴金龙 ：爱因互动技术合伙人</strong></p>
+<h3 id="几种主流技术思路"><a href="#几种主流技术思路" class="headerlink" title="几种主流技术思路"></a>几种主流技术思路</h3><p>当前聊天机器人的几种主流技术包括：基于人工模板、基于检索、基于机器翻译技术，以及基于深度学习的聊天机器人。</p>
+<p>基于人工模板的技术通过人工设定对话场景，并对每个场景编写针对性的对话模板，模板描述了用户可能的问题以及对应的答案。这个技术路线的好处是精准，缺点是需要大量人工工作，而且可扩展性差，需要一个场景一个场景去扩展。目前市场上各种类似于Siri的对话机器人中都大量使用了人工模板的技术，但其精准性是其他方法还无法比拟的。</p>
+<p>基于检索技术的聊天机器人则走的是类似搜索引擎的路线，事先存储好对话库并建立索引，根据用户问句，在对话库中进行模糊匹配找到最合适的应答内容。</p>
+<p>基于机器翻译技术的聊天机器人把聊天过程比拟成机器翻译过程，就是说将用户输入聊天信息Message，翻译成聊天机器人应答Response的过程类似于把英语翻译成汉语。基于这种假设，就完全可以将统计机器翻译领域相对成熟的技术直接应用到聊天机器人开发中来。</p>
+<p>基于深度学习的聊天机器人技术是本文后续内容主要介绍的技术路线，总体而言，绝大多数技术都是在Encoder-Decoder（或者称作Sequence to Sequence）深度学习技术框架下改进的。使用深度学习技术来开发聊天机器人相对传统方法来说，整体思路非常简单并可扩展。</p>
+<h2 id="智能运维中的AI问题"><a href="#智能运维中的AI问题" class="headerlink" title="智能运维中的AI问题"></a>智能运维中的AI问题</h2><p><strong>裴丹教授：清华大学计算机系长聘副教授</strong></p>
+<p>智能运维 DEV </p>
+<p>而数智慧平台则是另一种思路：让AI直接对系统进行全盘监控，并在出现故障时直接指出故障原因。这其中：</p>
+<p><strong>预警方面：</strong>在运行过程中，平台会通过实时监控系统各项运维指标，进行系统画像建模，并在第一时间获取到系统的异动，自动识别异动是正常还是故障情况导致，及时提醒运维人员关注，做到防患于未然。</p>
+<p><strong>故障排查方面：</strong>有些突发状况系统无法通过监控预警，当故障发生时，平台可以为运维人员直接定位故障原因，提高工程师的排查效率。</p>
+<p>郑华贵直言，之所以能实现这些功能，<strong>数智慧的核心正是他们经过长期的经验积累，对系统运维的理解以及经过长期训练的一套完整的算法模型，使其能够根据各数值的异动，最终计算出故障原因</strong>。在准确性上，郑华贵直言“暂时还没有误报”。</p>
+<p>据了解，由于系统运维监控需要极高的实时性，并且系统数据也较为敏感，所以数智慧采用本地部署方式，即直接部署到客户所需监控的系统环境中，包括公有云、私有云等。另外平台还提供API和操作界面，可直接集成到客户的监控系统。</p>
+
+            </div>
+            <hr/>
+
+            
+
+    <div class="reprint" id="reprint-statement">
+        
+            <div class="reprint__author">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-user">
+                        文章作者:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="https://www.asxing.com" rel="external nofollow noreferrer">HoldDie</a>
+                </span>
+            </div>
+            <div class="reprint__type">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-link">
+                        文章链接:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="https://www.asxing.com/2017/09/23/archdata/">https://www.asxing.com/2017/09/23/archdata/</a>
+                </span>
+            </div>
+            <div class="reprint__notice">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-copyright">
+                        版权声明:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    本博客所有文章除特別声明外，均采用
+                    <a href="https://creativecommons.org/licenses/by/4.0/deed.zh" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>
+                    许可协议。转载请注明来源
+                    <a href="https://www.asxing.com" target="_blank">HoldDie</a>
+                    !
+                </span>
+            </div>
+        
+    </div>
+
+    <script async defer>
+      document.addEventListener("copy", function (e) {
+        let toastHTML = '<span>复制成功，请遵循本文的转载规则</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">查看</a>';
+        M.toast({html: toastHTML})
+      });
+
+      function navToReprintStatement() {
+        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      }
+    </script>
+
+
+
+            <div class="tag_share" style="display: block;">
+                <div class="post-meta__tag-list" style="display: inline-block;">
+                    
+                        <div class="article-tag">
+                            
+                                <a href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F/">
+                                    <span class="chip bg-color">分布式</span>
+                                </a>
+                            
+                                <a href="/tags/%E5%8C%BA%E5%9D%97%E9%93%BE/">
+                                    <span class="chip bg-color">区块链</span>
+                                </a>
+                            
+                                <a href="/tags/AI/">
+                                    <span class="chip bg-color">AI</span>
+                                </a>
+                            
+                                <a href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/">
+                                    <span class="chip bg-color">大数据</span>
+                                </a>
+                            
+                        </div>
+                    
+                </div>
+                <div class="post_share" style="zoom: 80%; width: fit-content; display: inline-block; float: right; margin: -0.15rem 0;">
+                    <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+
+<div id="article-share">
+    
+    
+    <div class="social-share" data-sites="twitter,facebook,google,qq,qzone,wechat,weibo,douban,linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
+    <script src="/libs/share/js/social-share.min.js"></script>
+    
+
+    
+
+</div>
+
+                </div>
+            </div>
+            
+                <style>
+    #reward {
+        margin: 40px 0;
+        text-align: center;
+    }
+
+    #reward .reward-link {
+        font-size: 1.4rem;
+        line-height: 38px;
+    }
+
+    #reward .btn-floating:hover {
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2), 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    #rewardModal {
+        width: 320px;
+        height: 350px;
+    }
+
+    #rewardModal .reward-title {
+        margin: 15px auto;
+        padding-bottom: 5px;
+    }
+
+    #rewardModal .modal-content {
+        padding: 10px;
+    }
+
+    #rewardModal .close {
+        position: absolute;
+        right: 15px;
+        top: 15px;
+        color: rgba(0, 0, 0, 0.5);
+        font-size: 1.3rem;
+        line-height: 20px;
+        cursor: pointer;
+    }
+
+    #rewardModal .close:hover {
+        color: #ef5350;
+        transform: scale(1.3);
+        -moz-transform:scale(1.3);
+        -webkit-transform:scale(1.3);
+        -o-transform:scale(1.3);
+    }
+
+    #rewardModal .reward-tabs {
+        margin: 0 auto;
+        width: 210px;
+    }
+
+    .reward-tabs .tabs {
+        height: 38px;
+        margin: 10px auto;
+        padding-left: 0;
+    }
+
+    .reward-content ul {
+        padding-left: 0 !important;
+    }
+
+    .reward-tabs .tabs .tab {
+        height: 38px;
+        line-height: 38px;
+    }
+
+    .reward-tabs .tab a {
+        color: #fff;
+        background-color: #ccc;
+    }
+
+    .reward-tabs .tab a:hover {
+        background-color: #ccc;
+        color: #fff;
+    }
+
+    .reward-tabs .wechat-tab .active {
+        color: #fff !important;
+        background-color: #22AB38 !important;
+    }
+
+    .reward-tabs .alipay-tab .active {
+        color: #fff !important;
+        background-color: #019FE8 !important;
+    }
+
+    .reward-tabs .reward-img {
+        width: 210px;
+        height: 210px;
+    }
+</style>
+
+<div id="reward">
+    <a href="#rewardModal" class="reward-link modal-trigger btn-floating btn-medium waves-effect waves-light red">赏</a>
+
+    <!-- Modal Structure -->
+    <div id="rewardModal" class="modal">
+        <div class="modal-content">
+            <a class="close modal-close"><i class="fas fa-times"></i></a>
+            <h4 class="reward-title">你的赏识是我前进的动力</h4>
+            <div class="reward-content">
+                <div class="reward-tabs">
+                    <ul class="tabs row">
+                        <li class="tab col s6 alipay-tab waves-effect waves-light"><a href="#alipay">支付宝</a></li>
+                        <li class="tab col s6 wechat-tab waves-effect waves-light"><a href="#wechat">微 信</a></li>
+                    </ul>
+                    <div id="alipay">
+                        <img src="/medias/reward/alipay.jpg" class="reward-img" alt="支付宝打赏二维码">
+                    </div>
+                    <div id="wechat">
+                        <img src="/medias/reward/wechat.png" class="reward-img" alt="微信打赏二维码">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $('.tabs').tabs();
+    });
+</script>
+            
+        </div>
+    </div>
+
+    
+        <link rel="stylesheet" href="/libs/gitalk/gitalk.css">
+<link rel="stylesheet" href="/css/my-gitalk.css">
+
+<div class="card gitalk-card" data-aos="fade-up">
+    <div class="comment_headling" style="font-size: 20px; font-weight: 700; position: relative; left: 20px; top: 15px; padding-bottom: 5px;">
+        <i class="fas fa-comments fa-fw" aria-hidden="true"></i>
+        <span>评论</span>
+    </div>
+    <div id="gitalk-container" class="card-content"></div>
+</div>
+
+<script src="/libs/gitalk/gitalk.min.js"></script>
+<script>
+    let gitalk = new Gitalk({
+        clientID: 'c4e18e113d94091c8828',
+        clientSecret: '891f04d80de6a77fd6eb60d1cbe792e916cde3ff',
+        repo: 'asxing.github.io',
+        owner: 'Asxing',
+        admin: "asxing",
+        id: '2017-09-23T21-32-16',
+        distractionFreeMode: false  // Facebook-like distraction free mode
+    });
+
+    gitalk.render('gitalk-container');
+</script>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+            <div class="card">
+                <a href="/2017/09/26/centos7-jenkins-da-bao-bu-shu/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/1.jpg" class="responsive-img" alt="CentOS7-Jenkins-Git-Tomcat-集成部署">
+                        
+                        <span class="card-title">CentOS7-Jenkins-Git-Tomcat-集成部署</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            CentOS 上 Jenkins-Git-Tmocat 集成部署
+配置信息：
+CentOS：7.2
+
+
+Jenkins：2.79
+
+
+Java Version：1.8
+Maven：3.5
+Git：1.8
+
+安装 jenkins因使用 yum
+                        
+                    </div>
+                    <div class="publish-info">
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2017-09-26
+                        </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/Jenkins/" class="post-category">
+                                    Jenkins
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/Jenkins/">
+                        <span class="chip bg-color">Jenkins</span>
+                    </a>
+                    
+                    <a href="/tags/Tomcat/">
+                        <span class="chip bg-color">Tomcat</span>
+                    </a>
+                    
+                    <a href="/tags/Git/">
+                        <span class="chip bg-color">Git</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2017/09/21/nginx-keepalived-gao-ke-yong/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/13.jpg" class="responsive-img" alt="Nginx-KeepAlived-高可用">
+                        
+                        <span class="card-title">Nginx-KeepAlived-高可用</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            Nginx 和 KeepAlived 构建高可用的应用场景
+笔记速记
+Nginx 服务器服务支撑并发量，高可用 和 多个 Nginx 没有关系，只有一个节点对外服务
+
+配置多个 Nginx，当一个Nginx 挂了，切换到其他 Nginx
+
+
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2017-09-21
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/Nginx/" class="post-category">
+                                    Nginx
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/%E9%AB%98%E5%8F%AF%E7%94%A8/">
+                        <span class="chip bg-color">高可用</span>
+                    </a>
+                    
+                    <a href="/tags/%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/">
+                        <span class="chip bg-color">负载均衡</span>
+                    </a>
+                    
+                    <a href="/tags/%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86/">
+                        <span class="chip bg-color">反向代理</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+
+</div>
+
+
+
+<!-- 代码块功能依赖 -->
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+
+<!-- 代码语言 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+
+    
+<!-- 代码块复制 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+
+
+<!-- 代码块收缩 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script>
+
+
+<!-- 代码块折行 -->
+
+<style type="text/css">
+code[class*="language-"], pre[class*="language-"] { white-space: pre !important; }
+</style>
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget">
+            <div class="toc-title"><i class="far fa-list-alt"></i>&nbsp;&nbsp;目录</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fas fa-list-ul"></i>
+    </a>
+</div>
+
+
+<script src="/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            // headingsOffset: -205,
+            headingSelector: 'h2, h3, h4'
+        });
+
+        // modify the toc link href to support Chinese.
+        let i = 0;
+        let tocHeading = 'toc-heading-';
+        $('#toc-content a').each(function () {
+            $(this).attr('href', '#' + tocHeading + (++i));
+        });
+
+        // modify the heading title id to support Chinese.
+        i = 0;
+        $('#articleContent').children('h2, h3, h4').each(function () {
+            $(this).attr('id', tocHeading + (++i));
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).hide();
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).show();
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+        });
+        
+    });
+</script>
+
+    
+
+</main>
+
+
+<script src="https://cdn.bootcss.com/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script>
+    MathJax.Hub.Config({
+        tex2jax: {inlineMath: [['$', '$'], ['\(', '\)']]}
+    });
+</script>
+
+
+    <footer class="page-footer bg-color">
+    <div class="container row center-align">
+        <div class="col s12 m8 l8 copy-right">
+            Copyright&nbsp;&copy;
+            <span id="year">年份</span>
+            <a href="https://www.asxing.com" target="_blank">Asxing</a>
+            |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
+            |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
+            <br>
+            
+            &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
+                class="white-color">479k</span>&nbsp;字
+            
+            
+            
+            
+            <span id="busuanzi_container_site_pv">
+                |&nbsp;<i class="far fa-eye"></i>&nbsp;总访问量:&nbsp;<span id="busuanzi_value_site_pv"
+                    class="white-color"></span>&nbsp;次
+            </span>
+            
+            
+            <span id="busuanzi_container_site_uv">
+                |&nbsp;<i class="fas fa-users"></i>&nbsp;总访问人数:&nbsp;<span id="busuanzi_value_site_uv"
+                    class="white-color"></span>&nbsp;人
+            </span>
+            
+            <br>
+            
+            <span id="sitetime">载入运行时间...</span>
+            <script>
+                function siteTime() {
+                    window.setTimeout("siteTime()", 1000);
+                    var seconds = 1000;
+                    var minutes = seconds * 60;
+                    var hours = minutes * 60;
+                    var days = hours * 24;
+                    var years = days * 365;
+                    var today = new Date();
+                    var startYear = "2019";
+                    var startMonth = "10";
+                    var startDate = "30";
+                    var startHour = "22";
+                    var startMinute = "30";
+                    var startSecond = "0";
+                    var todayYear = today.getFullYear();
+                    var todayMonth = today.getMonth() + 1;
+                    var todayDate = today.getDate();
+                    var todayHour = today.getHours();
+                    var todayMinute = today.getMinutes();
+                    var todaySecond = today.getSeconds();
+                    var t1 = Date.UTC(startYear, startMonth, startDate, startHour, startMinute, startSecond);
+                    var t2 = Date.UTC(todayYear, todayMonth, todayDate, todayHour, todayMinute, todaySecond);
+                    var diff = t2 - t1;
+                    var diffYears = Math.floor(diff / years);
+                    var diffDays = Math.floor((diff / days) - diffYears * 365);
+                    var diffHours = Math.floor((diff - (diffYears * 365 + diffDays) * days) / hours);
+                    var diffMinutes = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours) /
+                        minutes);
+                    var diffSeconds = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours -
+                        diffMinutes * minutes) / seconds);
+                    if (startYear == todayYear) {
+                        document.getElementById("year").innerHTML = todayYear;
+                        document.getElementById("sitetime").innerHTML = "本站已安全运行 " + diffDays + " 天 " + diffHours +
+                            " 小时 " + diffMinutes + " 分钟 " + diffSeconds + " 秒";
+                    } else {
+                        document.getElementById("year").innerHTML = startYear + " - " + todayYear;
+                        document.getElementById("sitetime").innerHTML = "本站已安全运行 " + diffYears + " 年 " + diffDays +
+                            " 天 " + diffHours + " 小时 " + diffMinutes + " 分钟 " + diffSeconds + " 秒";
+                    }
+                }
+                setInterval(siteTime, 1000);
+            </script>
+            
+            <br>
+            
+        </div>
+        <div class="col s12 m4 l4 social-link ">
+    <a href="https://github.com/asxing" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+        <i class="fab fa-github"></i>
+    </a>
+
+
+
+    <a href="mailto:asxingking@gmail.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fas fa-envelope-open"></i>
+    </a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <a href="/atom.xml" class="tooltipped" target="_blank" data-tooltip="RSS 订阅" data-position="top" data-delay="50">
+        <i class="fas fa-rss"></i>
+    </a>
+
+</div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+
+    <!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fas fa-search"></i>&nbsp;&nbsp;搜索</span>
+            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script src="/js/search.js"></script>
+<script type="text/javascript">
+$(function () {
+    searchFunc("/" + "search.xml", 'searchInput', 'searchResult');
+});
+</script>
+    <!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+</div>
+
+
+    <script src="/libs/materialize/materialize.min.js"></script>
+    <script src="/libs/masonry/masonry.pkgd.min.js"></script>
+    <script src="/libs/aos/aos.js"></script>
+    <script src="/libs/scrollprogress/scrollProgress.min.js"></script>
+    <script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+    <script src="/js/matery.js"></script>
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+    <!-- Baidu Analytics -->
+
+    <!-- Baidu Push -->
+
+    
+    <script src="/libs/others/clicklove.js" async="async"></script>
+    
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <script type="text/javascript" src="/libs/background/ribbon-dynamic.js" async="async"></script>
+    
+    
+    
+
+</body>
+
+</html>

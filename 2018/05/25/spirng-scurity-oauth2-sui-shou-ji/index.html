@@ -1,0 +1,1737 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="keywords" content="Spirng-Scurity-Oauth2随手记, 编程 读书 生活">
+    <meta name="description" content="天下间，每个人都会有那么一段记忆，是他一生都不愿提及的伤！——莫问纷飞
+关注点：
+
+SpringSecurity 和 SpringSecurity-Oauth2两者之间是有区别的
+
+在使用SpringSecurity是注意文件中 @Enab">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>Spirng-Scurity-Oauth2随手记 | Asxing-阿行</title>
+    <link rel="icon" type="image/png" href="/favicon.png">
+
+    <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
+    <link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
+    <link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/matery.css">
+    <link rel="stylesheet" type="text/css" href="/css/my.css">
+    
+    <script src="/libs/jquery/jquery.min.js"></script>
+    
+<meta name="generator" content="Hexo 4.2.1"><link rel="alternate" href="/atom.xml" title="Asxing-阿行" type="application/atom+xml">
+<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+
+
+<body>
+    <header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper head-container">
+            <div class="brand-logo">
+                <a href="/" class="waves-effect waves-light">
+                    
+                    <img src="/medias/logo.png" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">Asxing-阿行</span>
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
+<ul class="right nav-menu">
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/" class="waves-effect waves-light">
+      
+      <i class="fas fa-home" style="zoom: 0.6;"></i>
+      
+      <span>首页</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/tags" class="waves-effect waves-light">
+      
+      <i class="fas fa-tags" style="zoom: 0.6;"></i>
+      
+      <span>标签</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/categories" class="waves-effect waves-light">
+      
+      <i class="fas fa-bookmark" style="zoom: 0.6;"></i>
+      
+      <span>分类</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/archives" class="waves-effect waves-light">
+      
+      <i class="fas fa-archive" style="zoom: 0.6;"></i>
+      
+      <span>归档</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/about" class="waves-effect waves-light">
+      
+      <i class="fas fa-user-circle" style="zoom: 0.6;"></i>
+      
+      <span>关于</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/contact" class="waves-effect waves-light">
+      
+      <i class="fas fa-comments" style="zoom: 0.6;"></i>
+      
+      <span>留言板</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/friends" class="waves-effect waves-light">
+      
+      <i class="fas fa-address-book" style="zoom: 0.6;"></i>
+      
+      <span>友情链接</span>
+    </a>
+    
+  </li>
+  
+  <li>
+    <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+      <i id="searchIcon" class="fas fa-search" title="搜索" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+</ul>
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="/medias/logo.png" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">Asxing-阿行</div>
+        <div class="logo-desc">
+            
+            Never really desperate, only the lost of the soul.
+            
+        </div>
+    </div>
+
+    
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li class="m-nav-item">
+	  
+		<a href="/" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-home"></i>
+			
+			首页
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/tags" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-tags"></i>
+			
+			标签
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/categories" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-bookmark"></i>
+			
+			分类
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/archives" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-archive"></i>
+			
+			归档
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/about" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-user-circle"></i>
+			
+			关于
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/contact" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-comments"></i>
+			
+			Contact
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/friends" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-address-book"></i>
+			
+			友情链接
+		</a>
+          
+        </li>
+        
+        
+        <li><div class="divider"></div></li>
+        <li>
+            <a href="https://github.com/asxing" class="waves-effect waves-light" target="_blank">
+                <i class="fab fa-github-square fa-fw"></i>Fork Me
+            </a>
+        </li>
+        
+    </ul>
+</div>
+
+        </div>
+
+        
+            <style>
+    .nav-transparent .github-corner {
+        display: none !important;
+    }
+
+    .github-corner {
+        position: absolute;
+        z-index: 10;
+        top: 0;
+        right: 0;
+        border: 0;
+        transform: scale(1.1);
+    }
+
+    .github-corner svg {
+        color: #0f9d58;
+        fill: #fff;
+        height: 64px;
+        width: 64px;
+    }
+
+    .github-corner:hover .octo-arm {
+        animation: a 0.56s ease-in-out;
+    }
+
+    .github-corner .octo-arm {
+        animation: none;
+    }
+
+    @keyframes a {
+        0%,
+        to {
+            transform: rotate(0);
+        }
+        20%,
+        60% {
+            transform: rotate(-25deg);
+        }
+        40%,
+        80% {
+            transform: rotate(10deg);
+        }
+    }
+</style>
+
+<a href="https://github.com/asxing" class="github-corner tooltipped hide-on-med-and-down" target="_blank"
+   data-tooltip="Fork Me" data-position="left" data-delay="50">
+    <svg viewBox="0 0 250 250" aria-hidden="true">
+        <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
+        <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2"
+              fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path>
+        <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z"
+              fill="currentColor" class="octo-body"></path>
+    </svg>
+</a>
+        
+    </nav>
+
+</header>
+
+    
+<script src="/libs/cryptojs/crypto-js.min.js"></script>
+<script>
+    (function() {
+        let pwd = '';
+        if (pwd && pwd.length > 0) {
+            if (pwd !== CryptoJS.SHA256(prompt('请输入访问本文章的密码')).toString(CryptoJS.enc.Hex)) {
+                alert('密码错误，将返回主页！');
+                location.href = '/';
+            }
+        }
+    })();
+</script>
+
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('https://www.holddie.com/img/20200105155552.jpg')">
+    <div class="container" style="right: 0px;left: 0px;">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <div class="description center-align post-title">
+                        Spirng-Scurity-Oauth2随手记
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<main class="post-container content">
+
+    
+    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
+<style>
+    #articleContent h1::before,
+    #articleContent h2::before,
+    #articleContent h3::before,
+    #articleContent h4::before,
+    #articleContent h5::before,
+    #articleContent h6::before {
+        display: block;
+        content: " ";
+        height: 100px;
+        margin-top: -100px;
+        visibility: hidden;
+    }
+
+    #articleContent :focus {
+        outline: none;
+    }
+
+    .toc-fixed {
+        position: fixed;
+        top: 64px;
+    }
+
+    .toc-widget {
+        padding-left: 20px;
+    }
+
+    .toc-widget .toc-title {
+        margin: 35px 0 15px 0;
+        padding-left: 17px;
+        font-size: 1.5rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    .toc-widget ol {
+        padding: 0;
+        list-style: none;
+    }
+
+    #toc-content ol {
+        padding-left: 10px;
+    }
+
+    #toc-content ol li {
+        padding-left: 10px;
+    }
+
+    #toc-content .toc-link:hover {
+        color: #42b983;
+        font-weight: 700;
+        text-decoration: underline;
+    }
+
+    #toc-content .toc-link::before {
+        background-color: transparent;
+        max-height: 25px;
+    }
+
+    #toc-content .is-active-link {
+        color: #42b983;
+    }
+
+    #toc-content .is-active-link::before {
+        background-color: #42b983;
+    }
+
+    #floating-toc-btn {
+        position: fixed;
+        right: 15px;
+        bottom: 76px;
+        padding-top: 15px;
+        margin-bottom: 0;
+        z-index: 998;
+    }
+
+    #floating-toc-btn .btn-floating {
+        width: 48px;
+        height: 48px;
+    }
+
+    #floating-toc-btn .btn-floating i {
+        line-height: 48px;
+        font-size: 1.4rem;
+    }
+</style>
+<div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                            <a href="/tags/Spring/">
+                                <span class="chip bg-color">Spring</span>
+                            </a>
+                        
+                            <a href="/tags/SpringBoot/">
+                                <span class="chip bg-color">SpringBoot</span>
+                            </a>
+                        
+                            <a href="/tags/SpringSecurity/">
+                                <span class="chip bg-color">SpringSecurity</span>
+                            </a>
+                        
+                            <a href="/tags/Oauth2/">
+                                <span class="chip bg-color">Oauth2</span>
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fas fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/categories/SpringSecurity/" class="post-category">
+                                SpringSecurity
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
+                    2018-05-25
+                </div>
+                
+
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
+                    6.2k
+                </div>
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
+                    24 分
+                </div>
+                
+				
+                
+            </div>
+            
+        </div>
+        <hr class="clearfix">
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <p>天下间，每个人都会有那么一段记忆，是他一生都不愿提及的伤！——莫问纷飞</p>
+<p>关注点：</p>
+<ul>
+<li><p>SpringSecurity 和 SpringSecurity-Oauth2两者之间是有区别的</p>
+</li>
+<li><p>在使用SpringSecurity是注意文件中 <code>@EnableWebSecurity</code>  注解和继承 <code>WebSecurityConfigurerAdapter</code> 类两者都需要</p>
+</li>
+<li><p>在配置文件中主要是重写 <code>configure</code> 方法</p>
+</li>
+</ul>
+<p><code>configure</code> 方法中参数 HttpSecurity 常用方法及说明</p>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>openidLogin()</code></td>
+<td>用于基于 OpenId 的验证</td>
+</tr>
+<tr>
+<td><code>headers()</code></td>
+<td>将安全标头添加到响应</td>
+</tr>
+<tr>
+<td><code>cors()</code></td>
+<td>配置跨域资源共享（ CORS ）</td>
+</tr>
+<tr>
+<td><code>sessionManagement()</code></td>
+<td>允许配置会话管理</td>
+</tr>
+<tr>
+<td><code>portMapper()</code></td>
+<td>允许配置一个<code>PortMapper</code>(<code>HttpSecurity#(getSharedObject(class))</code>)，其他提供<code>SecurityConfigurer</code>的对象使用 <code>PortMapper</code> 从 HTTP 重定向到 HTTPS 或者从 HTTPS 重定向到 HTTP。默认情况下，Spring Security使用一个<code>PortMapperImpl</code>映射 HTTP 端口8080到 HTTPS 端口8443，HTTP 端口80到 HTTPS 端口443</td>
+</tr>
+<tr>
+<td><code>jee()</code></td>
+<td>配置基于容器的预认证。 在这种情况下，认证由Servlet容器管理</td>
+</tr>
+<tr>
+<td><code>x509()</code></td>
+<td>配置基于x509的认证</td>
+</tr>
+<tr>
+<td><code>rememberMe</code></td>
+<td>允许配置“记住我”的验证</td>
+</tr>
+<tr>
+<td><code>authorizeRequests()</code></td>
+<td>允许基于使用<code>HttpServletRequest</code>限制访问</td>
+</tr>
+<tr>
+<td><code>requestCache()</code></td>
+<td>允许配置请求缓存</td>
+</tr>
+<tr>
+<td><code>exceptionHandling()</code></td>
+<td>允许配置错误处理</td>
+</tr>
+<tr>
+<td><code>securityContext()</code></td>
+<td>在<code>HttpServletRequests</code>之间的<code>SecurityContextHolder</code>上设置<code>SecurityContext</code>的管理。 当使用<code>WebSecurityConfigurerAdapter</code>时，这将自动应用</td>
+</tr>
+<tr>
+<td><code>servletApi()</code></td>
+<td>将<code>HttpServletRequest</code>方法与在其上找到的值集成到<code>SecurityContext</code>中。 当使用<code>WebSecurityConfigurerAdapter</code>时，这将自动应用</td>
+</tr>
+<tr>
+<td><code>csrf()</code></td>
+<td>添加 CSRF 支持，使用<code>WebSecurityConfigurerAdapter</code>时，默认启用</td>
+</tr>
+<tr>
+<td><code>logout()</code></td>
+<td>添加退出登录支持。当使用<code>WebSecurityConfigurerAdapter</code>时，这将自动应用。默认情况是，访问URL”/ logout”，使HTTP Session无效来清除用户，清除已配置的任何<code>#rememberMe()</code>身份验证，清除<code>SecurityContextHolder</code>，然后重定向到”/login?success”</td>
+</tr>
+<tr>
+<td><code>anonymous()</code></td>
+<td>允许配置匿名用户的表示方法。 当与<code>WebSecurityConfigurerAdapter</code>结合使用时，这将自动应用。 默认情况下，匿名用户将使用<code>org.springframework.security.authentication.AnonymousAuthenticationToken</code>表示，并包含角色 “ROLE_ANONYMOUS”</td>
+</tr>
+<tr>
+<td><code>formLogin()</code></td>
+<td>指定支持基于表单的身份验证。如果未指定<code>FormLoginConfigurer#loginPage(String)</code>，则将生成默认登录页面</td>
+</tr>
+<tr>
+<td><code>oauth2Login()</code></td>
+<td>根据外部OAuth 2.0或OpenID Connect 1.0提供程序配置身份验证</td>
+</tr>
+<tr>
+<td><code>requiresChannel()</code></td>
+<td>配置通道安全。为了使该配置有用，必须提供至少一个到所需信道的映射</td>
+</tr>
+<tr>
+<td><code>httpBasic()</code></td>
+<td>配置 Http Basic 验证</td>
+</tr>
+<tr>
+<td><code>addFilterAt()</code></td>
+<td>在指定的Filter类的位置添加过滤器</td>
+</tr>
+</tbody></table>
+<h3 id="SpringSecurity-校验流程"><a href="#SpringSecurity-校验流程" class="headerlink" title="SpringSecurity 校验流程"></a>SpringSecurity 校验流程</h3><p><img src="/img/2018/05/1240.png" alt="Spring Security 登录流程.jpg"></p>
+<p>这个请求流程很关键，主要核心走向，自己也可以尝试重写相关的方法，进行自定义验证流程。</p>
+<p>自己也画一下大致流程</p>
+<pre class=" language-flow"><code class="language-flow">st=>start: Start
+op1=>operation: AbstractAuthenticationProcessingFilter
+op2=>operation: UsernamePasswordAuthenticationFilter
+op3=>operation: ProviderManager
+op4=>operation: AbstractUserDetailAuthentionProvider
+op5=>operation: DaoAuthenticationProvider
+op6=>operation: UserDetailsService
+e=>end
+
+st->op1->op2->op3->op4->op5->op6->e</code></pre>
+<p><code>AuthenticationManager</code> 的实现类一般是<code>ProviderManager</code>。而<code>ProviderManager</code>内部维护了一个<code>List&lt;AuthenticationProvider&gt;</code>,真正的身份认证是由一系列<code>AuthenticationProvider</code>去完成。而<code>AuthenticationProvider</code>的常用实现类则是<code>DaoAuthenticationProvider</code>，<code>DaoAuthenticationProvider</code>内部又聚合了一个<code>UserDetailsService</code>接口，<code>UserDetailsService</code>才是获取用户详细信息的最终接口，而我们上一篇文章中在内存中配置用户，就是使用了<code>UserDetailsService</code>的一个实现类<code>InMemoryUserDetailsManage</code> 。</p>
+<h3 id="Spring-Security-默认的过滤器调用链"><a href="#Spring-Security-默认的过滤器调用链" class="headerlink" title="Spring Security 默认的过滤器调用链"></a>Spring Security 默认的过滤器调用链</h3><p><strong>Standard Filter Aliases and Ordering</strong></p>
+<table>
+<thead>
+<tr>
+<th>Alias</th>
+<th>Filter Class</th>
+<th>Namespace Element or Attribute</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>CHANNEL_FILTER</td>
+<td><code>ChannelProcessingFilter</code></td>
+<td><code>http/intercept-url@requires-channel</code></td>
+</tr>
+<tr>
+<td>SECURITY_CONTEXT_FILTER</td>
+<td><code>SecurityContextPersistenceFilter</code></td>
+<td><code>http</code></td>
+</tr>
+<tr>
+<td>CONCURRENT_SESSION_FILTER</td>
+<td><code>ConcurrentSessionFilter</code></td>
+<td><code>session-management/concurrency-control</code></td>
+</tr>
+<tr>
+<td>HEADERS_FILTER</td>
+<td><code>HeaderWriterFilter</code></td>
+<td><code>http/headers</code></td>
+</tr>
+<tr>
+<td>CSRF_FILTER</td>
+<td><code>CsrfFilter</code></td>
+<td><code>http/csrf</code></td>
+</tr>
+<tr>
+<td>LOGOUT_FILTER</td>
+<td><code>LogoutFilter</code></td>
+<td><code>http/logout</code></td>
+</tr>
+<tr>
+<td>X509_FILTER</td>
+<td><code>X509AuthenticationFilter</code></td>
+<td><code>http/x509</code></td>
+</tr>
+<tr>
+<td>PRE_AUTH_FILTER</td>
+<td><code>AbstractPreAuthenticatedProcessingFilter</code> Subclasses</td>
+<td>N/A</td>
+</tr>
+<tr>
+<td>CAS_FILTER</td>
+<td><code>CasAuthenticationFilter</code></td>
+<td>N/A</td>
+</tr>
+<tr>
+<td>FORM_LOGIN_FILTER</td>
+<td><code>UsernamePasswordAuthenticationFilter</code></td>
+<td><code>http/form-login</code></td>
+</tr>
+<tr>
+<td>BASIC_AUTH_FILTER</td>
+<td><code>BasicAuthenticationFilter</code></td>
+<td><code>http/http-basic</code></td>
+</tr>
+<tr>
+<td>SERVLET_API_SUPPORT_FILTER</td>
+<td><code>SecurityContextHolderAwareRequestFilter</code></td>
+<td><code>http/@servlet-api-provision</code></td>
+</tr>
+<tr>
+<td>JAAS_API_SUPPORT_FILTER</td>
+<td><code>JaasApiIntegrationFilter</code></td>
+<td><code>http/@jaas-api-provision</code></td>
+</tr>
+<tr>
+<td>REMEMBER_ME_FILTER</td>
+<td><code>RememberMeAuthenticationFilter</code></td>
+<td><code>http/remember-me</code></td>
+</tr>
+<tr>
+<td>ANONYMOUS_FILTER</td>
+<td><code>AnonymousAuthenticationFilter</code></td>
+<td><code>http/anonymous</code></td>
+</tr>
+<tr>
+<td>SESSION_MANAGEMENT_FILTER</td>
+<td><code>SessionManagementFilter</code></td>
+<td><code>session-management</code></td>
+</tr>
+<tr>
+<td>EXCEPTION_TRANSLATION_FILTER</td>
+<td><code>ExceptionTranslationFilter</code></td>
+<td><code>http</code></td>
+</tr>
+<tr>
+<td>FILTER_SECURITY_INTERCEPTOR</td>
+<td><code>FilterSecurityInterceptor</code></td>
+<td><code>http</code></td>
+</tr>
+<tr>
+<td>SWITCH_USER_FILTER</td>
+<td><code>SwitchUserFilter</code></td>
+<td>N/A</td>
+</tr>
+</tbody></table>
+<ul>
+<li>可以自定义 <code>Filter</code> 只需要继承 <code>GenericFilterbean</code> 即可以，重写 <code>dofilter</code> 方法。之后再配置中可以自己设置执行顺序。</li>
+</ul>
+<pre class=" language-java"><code class="language-java"><span class="token keyword">protected</span> <span class="token keyword">void</span> <span class="token function">configure</span><span class="token punctuation">(</span>HttpSecurity http<span class="token punctuation">)</span> <span class="token keyword">throws</span> Exception <span class="token punctuation">{</span>
+    http
+        <span class="token punctuation">.</span><span class="token function">authorizeRequests</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+        <span class="token punctuation">.</span><span class="token function">antMatchers</span><span class="token punctuation">(</span><span class="token string">"/"</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">permitAll</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+        <span class="token punctuation">.</span><span class="token function">antMatchers</span><span class="token punctuation">(</span><span class="token string">"/user/**"</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">hasRole</span><span class="token punctuation">(</span><span class="token string">"USER"</span><span class="token punctuation">)</span>
+        <span class="token punctuation">.</span><span class="token function">and</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+        <span class="token punctuation">.</span><span class="token function">formLogin</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">loginPage</span><span class="token punctuation">(</span><span class="token string">"/login"</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">defaultSuccessUrl</span><span class="token punctuation">(</span><span class="token string">"/user"</span><span class="token punctuation">)</span>
+        <span class="token punctuation">.</span><span class="token function">and</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+        <span class="token punctuation">.</span><span class="token function">logout</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">logoutUrl</span><span class="token punctuation">(</span><span class="token string">"/logout"</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">logoutSuccessUrl</span><span class="token punctuation">(</span><span class="token string">"/login"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token comment" spellcheck="true">// 在 UsernamePasswordAuthenticationFilter 前添加 BeforeLoginFilter</span>
+    http<span class="token punctuation">.</span><span class="token function">addFilterBefore</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">BeforeLoginFilter</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> UsernamePasswordAuthenticationFilter<span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token comment" spellcheck="true">// 在 CsrfFilter 后添加 AfterCsrfFilter</span>
+    http<span class="token punctuation">.</span><span class="token function">addFilterAfter</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">AfterCsrfFilter</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> CsrfFilter<span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
+<h3 id="第三方登录"><a href="#第三方登录" class="headerlink" title="第三方登录"></a>第三方登录</h3><p>针对Demo级别的用户密码，存储在内存中，声明就是使用 <code>AuthenticationManagerBuilder</code> 进行设置</p>
+<p>针对于 QQ 登录这中情况，就是该继承Filter继承Filter，该继承AuthenticationManager就实现关键方法</p>
+<pre class=" language-java"><code class="language-java"><span class="token comment" spellcheck="true">// 在 UsernamePasswordAuthenticationFilter 前添加 QQAuthenticationFilter</span>
+http<span class="token punctuation">.</span><span class="token function">addFilterAt</span><span class="token punctuation">(</span><span class="token function">qqAuthenticationFilter</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> UsernamePasswordAuthenticationFilter<span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment" spellcheck="true">/**
+ * 自定义 QQ登录 过滤器
+ */</span>
+<span class="token keyword">private</span> QQAuthenticationFilter <span class="token function">qqAuthenticationFilter</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+    QQAuthenticationFilter authenticationFilter <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">QQAuthenticationFilter</span><span class="token punctuation">(</span><span class="token string">"/login/qq"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    authenticationFilter<span class="token punctuation">.</span><span class="token function">setAuthenticationManager</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">QQAuthenticationManager</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">return</span> authenticationFilter<span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
+<h2 id="身份认证和访问控制"><a href="#身份认证和访问控制" class="headerlink" title="身份认证和访问控制"></a>身份认证和访问控制</h2><p>应用程序安全性可以归结为差不多两个独立的问题：身份验证（你是谁？）和授权（你可以做什么？）。有时候，人们会说“访问控制”而不是“授权”，“授权”会让人感到困惑，可以这样想：“授权”在其他地方已经被使用，为了避免歧义而用“访问控制”来描述。 Spring Security 有一个旨在将认证与授权分开的体系结构，并兼备多种策略和扩展点。</p>
+<h3 id="认证"><a href="#认证" class="headerlink" title="认证"></a>认证</h3><p>认证策略的核心接口是 <code>AuthenticationManager</code> ，它只有唯一的方法:</p>
+<pre class=" language-java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">interface</span> <span class="token class-name">AuthenticationManager</span> <span class="token punctuation">{</span>
+
+    Authentication <span class="token function">authenticate</span><span class="token punctuation">(</span>Authentication authentication<span class="token punctuation">)</span>
+        <span class="token keyword">throws</span> AuthenticationException<span class="token punctuation">;</span>
+
+<span class="token punctuation">}</span></code></pre>
+<p>一个 <code>AuthenticationManager</code> 认证管理者可能会在<code>authenticate()</code>方法中做下面三件事中的任意一个:</p>
+<ol>
+<li>如果认证成功，返回 <code>Authentication</code> (通常它的authenticated属性为true <code>authenticated=true</code>) .</li>
+<li>如果认证失败，抛出 <code>AuthenticationException</code> 异常.</li>
+<li>如果无法判断，返回 <code>null</code> .</li>
+</ol>
+<p><code>AuthenticationException</code> 是一个运行时异常。通常由应用程序以通用方式处理，具体取决于应用程序的风格或目的。 换句话说，用户代码通常不会捕获和处理。 例如，Web UI会呈现一个页面，表示认证失败，并且后端HTTP服务将发送401响应，可能包含 <code>WWW-Authenticate</code> 标头，具体取决于上下文。</p>
+<p><code>AuthenticationManager</code> 最常用的实现是 <code>ProviderManager</code>，它委托给一个<code>AuthenticationProvider</code> 实例链。 <code>AuthenticationProvider</code>有点像<code>AuthenticationManager</code>，但它有一个额外的方法来允许调用者询问它是否支持给定的认证类型</p>
+<pre class=" language-java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">interface</span> <span class="token class-name">AuthenticationProvider</span> <span class="token punctuation">{</span>
+
+    Authentication <span class="token function">authenticate</span><span class="token punctuation">(</span>Authentication authentication<span class="token punctuation">)</span>
+        <span class="token keyword">throws</span> AuthenticationException<span class="token punctuation">;</span>
+
+    <span class="token keyword">boolean</span> <span class="token function">supports</span><span class="token punctuation">(</span>Class<span class="token operator">&lt;</span><span class="token operator">?</span><span class="token operator">></span> authentication<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token punctuation">}</span></code></pre>
+<p><code>supports()</code> 方法中的<code>Class &lt;?&gt;</code>参数实际上是 <code>Class&lt;? extends Authentication&gt;</code>（它只会被问到是否支持将被传递到 <code>authenticate()</code> 方法的东西）。 一个 <code>ProviderManager</code> 可以通过委托给一个 <code>AuthenticationProviders</code> 链来支持同一个应用程序中的多个不同认证机制。 如果一个 ProviderManager 不能识别一个特定的 <code>Authentication</code> 类型，它将被跳过。</p>
+<p><code>ProviderManager</code> 可以有一个父类认证器，如果所有的提供者返回null，则将再交给父类去认证。 如果父类不可用，则会导致 <code>AuthenticationException</code>。</p>
+<p>有时应用程序具有受保护资源的逻辑组（例如所有与路径模式/ api / **相匹配的Web资源），并且每个组可以具有其自己的专用 <code>AuthenticationManager</code>。 通常，每个人都是一个 <code>ProviderManager</code>，他们共享一个父类。 父母是一种“全局”资源，充当所有提供者的失败回调。</p>
+<p><img src="/img/2018/05/authentication.png" alt="ProviderManagers with a common parent"></p>
+<p>图 1. <code>AuthenticationManager</code> 使用 <code>ProviderManager</code></p>
+<h3 id="自定义身份验证管理器"><a href="#自定义身份验证管理器" class="headerlink" title="自定义身份验证管理器"></a>自定义身份验证管理器</h3><p>Spring Security 提供了一些配置帮助类来快速获得应用程序中设置的通用身份验证管理器功能。 最常用的帮助类是 <code>AuthenticationManagerBuilder</code>，它非常适用于设置内存，JDBC或LDAP 中的用户详细信息，或添加自定义的<code>UserDetailsService</code>。 以下是配置全局（父类）<code>AuthenticationManager</code>的应用程序示例：</p>
+<pre class=" language-java"><code class="language-java"><span class="token annotation punctuation">@Configuration</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">ApplicationSecurity</span> <span class="token keyword">extends</span> <span class="token class-name">WebSecurityConfigurerAdapter</span> <span class="token punctuation">{</span>
+
+    <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span> <span class="token comment" spellcheck="true">// web stuff here</span>
+
+        <span class="token annotation punctuation">@Autowired</span>
+        <span class="token keyword">public</span> <span class="token function">initialize</span><span class="token punctuation">(</span>AuthenticationManagerBuilder builder<span class="token punctuation">,</span> DataSource dataSource<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        builder<span class="token punctuation">.</span><span class="token function">jdbcAuthentication</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">dataSource</span><span class="token punctuation">(</span>dataSource<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">withUser</span><span class="token punctuation">(</span><span class="token string">"dave"</span><span class="token punctuation">)</span>
+            <span class="token punctuation">.</span><span class="token function">password</span><span class="token punctuation">(</span><span class="token string">"secret"</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">roles</span><span class="token punctuation">(</span><span class="token string">"USER"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+<span class="token punctuation">}</span></code></pre>
+<p>这个例子涉及到一个 Web 应用程序，但是 <code>AuthenticationManagerBuilder</code> 的使用更广泛地适用（更多细节请参见下面关于Web应用程序安全性的实现）。 请注意，<code>AuthenticationManagerBuilder</code> 是 <code>@Autowired</code> 到 <code>@Bean</code> 中的一个方法 - 使用它构建全局（父类）<code>AuthenticationManager</code>。 相反，如果我们这样做：</p>
+<pre class=" language-java"><code class="language-java"><span class="token annotation punctuation">@Configuration</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">ApplicationSecurity</span> <span class="token keyword">extends</span> <span class="token class-name">WebSecurityConfigurerAdapter</span> <span class="token punctuation">{</span>
+
+    <span class="token annotation punctuation">@Autowired</span>
+    DataSource dataSource<span class="token punctuation">;</span>
+
+    <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span> <span class="token comment" spellcheck="true">// web stuff here</span>
+
+        <span class="token annotation punctuation">@Override</span>
+        <span class="token keyword">public</span> <span class="token function">configure</span><span class="token punctuation">(</span>AuthenticationManagerBuilder builder<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        builder<span class="token punctuation">.</span><span class="token function">jdbcAuthentication</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">dataSource</span><span class="token punctuation">(</span>dataSource<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">withUser</span><span class="token punctuation">(</span><span class="token string">"dave"</span><span class="token punctuation">)</span>
+            <span class="token punctuation">.</span><span class="token function">password</span><span class="token punctuation">(</span><span class="token string">"secret"</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">roles</span><span class="token punctuation">(</span><span class="token string">"USER"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+<span class="token punctuation">}</span></code></pre>
+<p>（在配置器中使用<code>@Override</code> 覆盖一个方法），那么 <code>AuthenticationManagerBuilder</code> 只用来构建一个“本地” <code>AuthenticationManager</code>，它是全局认证器的一个子实现。 在 Spring Boot 应用程序中，您可以 <code>@Autowired</code> 将全局认证器变成另一个bean，除非你自己明确暴露，否则不能使用本地变量。</p>
+<p>Spring Boot 提供了一个默认的全局 <code>AuthenticationManager</code>（只有一个用户），除非你提供自定义<code>AuthenticationManager</code>类型的bean。 默认是足够安全的，不必担心太多，除非你主动需要一个自定义的全局<code>AuthenticationManager</code>。 如果你做任何构建 <code>AuthenticationManager</code>的配置，你可以本地化配置你保护的资源，而不用担心影响全局缺省。</p>
+<h3 id="Authorization-or-Access-Control"><a href="#Authorization-or-Access-Control" class="headerlink" title="Authorization or Access Control"></a>Authorization or Access Control</h3><p>一旦认证成功，我们可以继续进行授权，这里的核心策略是 <code>AccessDecisionManager</code>。 框架提供了三个实现，并将所有三个委托连接到一个 <code>AccessDecisionVoter</code> 链，有点类似于 <code>ProviderManagerdelegates</code> 到<code>AuthenticationProviders</code>。</p>
+<p>一个 <code>AccessDecisionVoter</code> 考虑一个认证（代表一个委托人）和一个安全的对象，它被<code>ConfigAttributes</code>装饰：</p>
+<pre class=" language-java"><code class="language-java"><span class="token keyword">boolean</span> <span class="token function">supports</span><span class="token punctuation">(</span>ConfigAttribute attribute<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token keyword">boolean</span> <span class="token function">supports</span><span class="token punctuation">(</span>Class<span class="token operator">&lt;</span><span class="token operator">?</span><span class="token operator">></span> clazz<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token keyword">int</span> <span class="token function">vote</span><span class="token punctuation">(</span>Authentication authentication<span class="token punctuation">,</span> S object<span class="token punctuation">,</span>
+         Collection<span class="token operator">&lt;</span>ConfigAttribute<span class="token operator">></span> attributes<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<p>对象在 <code>AccessDecisionManager</code> 和 <code>AccessDecisionVoter</code> 的签名中是完全通用的 - 它表示用户可能想要访问的任何内容（Web资源或Java类中的方法是最常见的两种情况）。 <code>ConfigAttributes</code> 也是相当通用的，用一些元数据表示安全对象的装饰，这些元数据决定了访问它所需的权限级别。 <code>ConfigAttribute</code> 是一个接口，但它只有一个非常通用的方法，并返回一个 <code>String</code>，所以这些字符串以某种方式编码资源所有者，表达允许访问规则。典型的 <code>ConfigAttribute</code> 是一个用户角色的名字（比如 <code>ROLE_ADMIN</code> 或者 <code>ROLE_AUDIT</code> ），它们通常有特殊的格式（比如ROLE_前缀）或者表示需要计算的表达式。</p>
+<p>大多数人只是使用默认的 <code>AccessDecisionManager</code>，即<code>AffirmativeBased</code>（如果没有选举者拒绝，则授予访问）。任何自定义的配置都倾向于发生在选举者身上，要么增加新的自定义配置，要么改变现有的工作方式。</p>
+<p>使用Spring表达式语言（SpEL）表达式的 <code>ConfigAttributes</code> 是很常见的，例如 <code>isFullyAuthenticated()&amp;&amp; hasRole(&#39;FOO&#39;)</code>。这由 <code>AccessDecisionVoter</code> 支持，可以处理表达式并为它们创建一个上下文。要扩展可以处理的表达式的范围，需要自定义实现 <code>SecurityExpressionRoot</code>，有时还需要 <code>SecurityExpressionHandler</code>。</p>
+<h2 id="Web-安全"><a href="#Web-安全" class="headerlink" title="Web 安全"></a>Web 安全</h2><p>Web层中的Spring Security（用于UI和HTTP后端）基于Servlet过滤器，所以首先查看过滤器的作用是很有帮助的。 下图显示了单个HTTP请求的处理程序的典型分层结构。</p>
+<p><img src="/img/2018/05/filters.png" alt="Filter chain delegating to a Servlet">客户端向应用程序发送一个请求，容器根据请求URI的路径决定哪些过滤器和哪个servlet适用于它。最多一个servlet可以处理单个请求，但是过滤器形成一个链，所以它们是有序的，事实上，如果一个过滤器想要单独处理请求，过滤器可以否决链的其余部分。过滤器还可以修改在下游过滤器和servlet中使用的请求和/或响应。过滤器链的顺序是非常重要的，Spring Boot通过两种机制来管理它：一种是Filter类型的 <code>@Beans</code> 可以有 <code>@Order</code> 或实现<code>Ordered</code>，另一种是它们可以是 <code>FilterRegistrationBean</code> 本身的Order属性作为其API的一部分。一些现成的过滤器定义了自己的常量，以帮助表示它们喜欢相互之间的顺序（例如，来自 Spring Session 的<code>SessionRepositoryFilter</code> 具有默认顺序： <code>Integer.MIN_VALUE + 50</code>，这告诉我们它一般位于链的前端，但不排除在它之前存在其他过滤器）。</p>
+<p>Spring Security 作为一个单独的过滤器安装在链中，其配置类型为 <code>FilterChainProxy</code>，原因很快很快就会被揭示。在Spring Boot应用程序中，安全过滤器是ApplicationContext中的<code>@Bean</code>，并具有默认配置，以便将其应用于每个请求。它被安装在由 <code>SecurityProperties.DEFAULT_FILTER_ORDER</code> 定义的位置，而该位置又由<code>FilterRegistrationBean.REQUEST_WRAPPER_FILTER_MAX_ORDER</code>（Spring Boot应用程序在包装请求时修改其行为的期望过滤器的最大顺序）决定。除此之外还有更多的内容：从容器的角度来看，Spring Security是一个单一的过滤器，但里面还有额外的过滤器，每个过滤器都扮演着特殊的角色。这是一张图片：</p>
+<p><img src="/img/2018/05/security-filters.png" alt="Spring Security Filter"></p>
+<p>图 2. Spring Security 是一个单独的 <code>Filter</code> 但代理执行了一个内部的过滤器链</p>
+<p>事实上，在安全过滤器中甚至还有一层间接寻址：它通常作为<code>DelegatingFilterProxy</code>安装在容器中，而不必是Spring 的 Bean。代理委托给一个 <code>FilterChainProxy</code>，通常使用固定的名称：<code>springSecurityFilterChain</code>。 <code>FilterChainProxy</code> 包含所有安全逻辑，内部安排为过滤器的一个或多个链。所有的过滤器都有相同的API（他们都实现了Servlet规范中的Filter接口），他们都有机会否决链的其余部分。</p>
+<p>在同一个顶级<code>FilterChainProxy</code>中，可以有多个由 Spring Security 管理的过滤器链，并且容器都是未知的。 Spring Security筛选器包含一个筛选器链列表，并向与之匹配的第一个链派发一个请求。下图显示了匹配请求路径（<code>/foo/**</code> 在 <code>/**</code> 之前匹配）的转发情况。这是非常普遍的，但不是匹配请求的唯一方法。这个调度过程最重要的特点是只有一个链处理请求。</p>
+<p><img src="/img/2018/05/security-filters-dispatch.png" alt="Security Filter Dispatch"></p>
+<p>图 3. <code>Spring Security FilterChainProxy</code> 向第一个匹配的过滤器链转发请求.</p>
+<p>没有自定义安全配置的Spring Boot应用程序有 n 个过滤器链，通常n = 6。 第一个链只是为了忽略静态资源，如<code>/css/**</code>和<code>/images/**</code>，错误视图/错误（路径可以通过<code>SecurityProperties</code> 中的 <code>security.ignored</code> 属性由用户来控制）。 最后一个链匹配所有路径<code>/**</code>，并且更加强大，包含认证，授权，异常处理，会话处理，头文件写等逻辑。默认情况下，链中总共有11个过滤器，但通常情况下 用户不必关心使用哪个过滤器以及何时使用过滤器。</p>
+<blockquote>
+<p>Note</p>
+<p>Spring Security内部的所有过滤器对于容器是未知的，这一点非常重要，尤其是在Spring Boot应用程序中，默认情况下，Filter类型的所有<a href="https://github.com/Beans" target="_blank" rel="noopener">@Beans</a>都会自动注册到容器中。 因此，如果你想要将自定义过滤器添加到安全链，则需要将其设置为<a href="https://github.com/Bean" target="_blank" rel="noopener">@Bean</a>，或者将其包装在明确禁用容器注册的FilterRegistrationBean中。</p>
+</blockquote>
+<h3 id="创建和自定义过滤器链"><a href="#创建和自定义过滤器链" class="headerlink" title="创建和自定义过滤器链"></a>创建和自定义过滤器链</h3><p>Spring Boot 应用程序（具有<code>/ **</code>请求匹配程序的应用程序）中的默认失败回调过滤器链具有预定义的<code>SecurityProperties.BASIC_AUTH_ORDER</code> 顺序。 你可以通过设置<code>security.basic.enabled = false</code>将其完全关闭，或者可以将其用作备用，只需定义其他较低顺序的规则即可。 要做到这一点，只需添加一个类型为<code>WebSecurityConfigurerAdapter</code>（或<code>WebSecurityConfigurer</code>）的<code>@Bean</code>，然后用<code>@Order</code>装饰类。 例：</p>
+<pre class=" language-java"><code class="language-java"><span class="token annotation punctuation">@Configuration</span>
+<span class="token annotation punctuation">@Order</span><span class="token punctuation">(</span>SecurityProperties<span class="token punctuation">.</span>BASIC_AUTH_ORDER <span class="token operator">-</span> <span class="token number">10</span><span class="token punctuation">)</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">ApplicationConfigurerAdapter</span> <span class="token keyword">extends</span> <span class="token class-name">WebSecurityConfigurerAdapter</span> <span class="token punctuation">{</span>
+    <span class="token annotation punctuation">@Override</span>
+    <span class="token keyword">protected</span> <span class="token keyword">void</span> <span class="token function">configure</span><span class="token punctuation">(</span>HttpSecurity http<span class="token punctuation">)</span> <span class="token keyword">throws</span> Exception <span class="token punctuation">{</span>
+        http<span class="token punctuation">.</span><span class="token function">antMatcher</span><span class="token punctuation">(</span><span class="token string">"/foo/**"</span><span class="token punctuation">)</span>
+            <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<p>这个bean将使Spring Security添加一个新的过滤器链，并在回调之前对其进行排序。</p>
+<p>对于一组资源，许多应用程序具有完全不同的访问规则。 例如，托管UI和支持API的应用程序可能支持基于cookie的身份验证，重定向到UI的登录页面，以及基于令牌的身份验证，对未经身份验证的API部件请求进行401响应。 每一组资源都有自己的<code>WebSecurityConfigurerAdapter</code>，它具有唯一的顺序和自己的请求匹配器。 如果匹配规则重叠，则最早排序的过滤器链将获胜。</p>
+<h3 id="请求匹配分发和授权"><a href="#请求匹配分发和授权" class="headerlink" title="请求匹配分发和授权"></a>请求匹配分发和授权</h3><p>安全过滤器链（或等同于<code>WebSecurityConfigurerAdapter</code>）具有请求匹配器，用于决定是否将其应用于HTTP请求。 一旦决定采用特定的过滤器链，则不会应用其他过滤器。 但是在一个过滤链中，通过在HttpSecurity配置器中设置额外的匹配器，可以对授权进行更细粒度的控制。 例：</p>
+<p>A security filter chain (or equivalently a <code>WebSecurityConfigurerAdapter</code>) has a request matcher that is used for deciding whether to apply it to an HTTP request. Once the decision is made to apply a particular filter chain, no others are applied. But within a filter chain you can have more fine grained control of authorization by setting additional matchers in the <code>HttpSecurity</code> configurer. Example:</p>
+<pre class=" language-java"><code class="language-java"><span class="token annotation punctuation">@Configuration</span>
+<span class="token annotation punctuation">@Order</span><span class="token punctuation">(</span>SecurityProperties<span class="token punctuation">.</span>BASIC_AUTH_ORDER <span class="token operator">-</span> <span class="token number">10</span><span class="token punctuation">)</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">ApplicationConfigurerAdapter</span> <span class="token keyword">extends</span> <span class="token class-name">WebSecurityConfigurerAdapter</span> <span class="token punctuation">{</span>
+    <span class="token annotation punctuation">@Override</span>
+    <span class="token keyword">protected</span> <span class="token keyword">void</span> <span class="token function">configure</span><span class="token punctuation">(</span>HttpSecurity http<span class="token punctuation">)</span> <span class="token keyword">throws</span> Exception <span class="token punctuation">{</span>
+        http<span class="token punctuation">.</span><span class="token function">antMatcher</span><span class="token punctuation">(</span><span class="token string">"/foo/**"</span><span class="token punctuation">)</span>
+            <span class="token punctuation">.</span><span class="token function">authorizeRequests</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+            <span class="token punctuation">.</span><span class="token function">antMatchers</span><span class="token punctuation">(</span><span class="token string">"/foo/bar"</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">hasRole</span><span class="token punctuation">(</span><span class="token string">"BAR"</span><span class="token punctuation">)</span>
+            <span class="token punctuation">.</span><span class="token function">antMatchers</span><span class="token punctuation">(</span><span class="token string">"/foo/spam"</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">hasRole</span><span class="token punctuation">(</span><span class="token string">"SPAM"</span><span class="token punctuation">)</span>
+            <span class="token punctuation">.</span><span class="token function">anyRequest</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">isAuthenticated</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<p>配置 Spring Security 最容易犯的一个错误是忘记这些匹配器适用于不同的进程，一个是整个过滤器链的请求匹配器，另一个只是选择应用的访问规则。</p>
+<h3 id="将应用安全规则与Actuator-相结合"><a href="#将应用安全规则与Actuator-相结合" class="headerlink" title="将应用安全规则与Actuator 相结合"></a>将应用安全规则与Actuator 相结合</h3><p>如果你使用Spring Boot Actuator作为管理端点，你可能希望它们是安全的，默认情况下它们是。 事实上，只要将执行器添加到安全的应用程序中，您就会得到一个仅适用于执行器端点的附加过滤器链。 它是由一个请求匹配器定义的，它只匹配执行器端点，它的顺序是<code>ManagementServerProperties.BASIC_AUTH_ORDER</code>，比默认的<code>SecurityProperties</code>过滤器小5，所以在回调之前会被查询。</p>
+<p>如果您希望您的应用程序安全规则适用于执行器端点，则可以添加一个比执行器更早的过滤器链，以及包含所有执行器端点的请求匹配器。 如果您更喜欢执行器端点的默认安全设置，那么最简单的方法是在执行器之后添加自己的过滤器，但早于回调（例如<code>ManagementServerProperties.BASIC_AUTH_ORDER + 1</code>）。 例：</p>
+<pre class=" language-java"><code class="language-java"><span class="token annotation punctuation">@Configuration</span>
+<span class="token annotation punctuation">@Order</span><span class="token punctuation">(</span>ManagementServerProperties<span class="token punctuation">.</span>BASIC_AUTH_ORDER <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">)</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">ApplicationConfigurerAdapter</span> <span class="token keyword">extends</span> <span class="token class-name">WebSecurityConfigurerAdapter</span> <span class="token punctuation">{</span>
+    <span class="token annotation punctuation">@Override</span>
+    <span class="token keyword">protected</span> <span class="token keyword">void</span> <span class="token function">configure</span><span class="token punctuation">(</span>HttpSecurity http<span class="token punctuation">)</span> <span class="token keyword">throws</span> Exception <span class="token punctuation">{</span>
+        http<span class="token punctuation">.</span><span class="token function">antMatcher</span><span class="token punctuation">(</span><span class="token string">"/foo/**"</span><span class="token punctuation">)</span>
+            <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<blockquote>
+<p>Note</p>
+<p>Web层中的Spring Security目前与Servlet API绑定在一起，因此只有在servlet容器中运行应用程序（嵌入式或其他方式）时才是真正适用的。 但是，它并不是绑定到Spring MVC或Spring Web堆栈的其余部分，所以它可以用在任何servlet应用程序中，例如使用JAX-RS的应用程序。</p>
+</blockquote>
+<h2 id="方法安全"><a href="#方法安全" class="headerlink" title="方法安全"></a>方法安全</h2><p>除了支持保护Web应用程序，Spring Security还支持将访问规则应用于Java方法。 对于Spring Security来说，这只是一种不同类型的“受保护的资源”。 对于用户来说，这意味着使用相同格式的<code>ConfigAttribute</code>字符串（例如角色或表达式）来声明访问规则，但是在代码中具有不同的配置。 第一步是启用方法安全配置，例如在我们的应用程序的顶级配置中：</p>
+<pre class=" language-java"><code class="language-java"><span class="token annotation punctuation">@SpringBootApplication</span>
+<span class="token annotation punctuation">@EnableGlobalMethodSecurity</span><span class="token punctuation">(</span>securedEnabled <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">)</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">SampleSecureApplication</span> <span class="token punctuation">{</span>
+<span class="token punctuation">}</span></code></pre>
+<p>然后，我们可以直接修饰方法资源，例如:</p>
+<pre class=" language-java"><code class="language-java"><span class="token annotation punctuation">@Service</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">MyService</span> <span class="token punctuation">{</span>
+
+    <span class="token annotation punctuation">@Secured</span><span class="token punctuation">(</span><span class="token string">"ROLE_USER"</span><span class="token punctuation">)</span>
+    <span class="token keyword">public</span> String <span class="token function">secure</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token string">"Hello Security"</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+<span class="token punctuation">}</span></code></pre>
+<p>这个示例是一个安全方法的服务。 如果 Spring 创建了这种类型的 <code>@Bean</code>，那么它将被代理，调用者必须在方法被实际执行之前通过一个安全拦截器。 如果访问被拒绝，调用者将得到一个 <code>AccessDeniedException</code> 而不是实际的方法结果。</p>
+<p>还有其他的注解可以用于强制执行安全约束的方法，特别是<a href="https://github.com/PreAuthorize" target="_blank" rel="noopener">@PreAuthorize</a>和<a href="https://github.com/PostAuthorize" target="_blank" rel="noopener">@PostAuthorize</a>，它们允许你编写包含对方法参数和返回值分别引用的表达式。</p>
+<blockquote>
+<p>Tip</p>
+<p>将Web安全性和方法安全性结合起来并不罕见。 过滤器链提供用户体验功能，如身份验证和重定向到登录页面等，方法安全性提供更细粒度的保护。</p>
+</blockquote>
+<h2 id="与线程协同工作"><a href="#与线程协同工作" class="headerlink" title="与线程协同工作"></a>与线程协同工作</h2><p>Spring Security基本上是线程绑定的，因为它需要使当前的身份验证委托人可用于各种下游消费者。 基本构建块是SecurityContext，其中可能包含一个身份验证（并且当用户登录时它将是一个明确验证的身份验证）。 你总是可以通过SecurityContextHolder中的静态便利方法访问和操作SecurityContext，而后者只需操作一个TheadLocal，</p>
+<pre class=" language-java"><code class="language-java">SecurityContext context <span class="token operator">=</span> SecurityContextHolder<span class="token punctuation">.</span><span class="token function">getContext</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+Authentication authentication <span class="token operator">=</span> context<span class="token punctuation">.</span><span class="token function">getAuthentication</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">assert</span><span class="token punctuation">(</span>authentication<span class="token punctuation">.</span>isAuthenticated<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<p>用户应用程序代码执行此操作并<strong>不</strong>常见，但如果您需要编写自定义身份验证筛选器（尽管Spring Security中有基类可用于避免需要的地方 使用 <code>SecurityContextHolder</code>）。</p>
+<p>如果你需要访问Web端点中当前已通过身份验证的用户，则可以在 <code>@RequestMapping</code> 中使用方法参数。 例如。</p>
+<pre class=" language-java"><code class="language-java"><span class="token annotation punctuation">@RequestMapping</span><span class="token punctuation">(</span><span class="token string">"/foo"</span><span class="token punctuation">)</span>
+<span class="token keyword">public</span> String <span class="token function">foo</span><span class="token punctuation">(</span><span class="token annotation punctuation">@AuthenticationPrincipal</span> User user<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span> <span class="token comment" spellcheck="true">// do stuff with user</span>
+<span class="token punctuation">}</span></code></pre>
+<p>这个注解将当前Authentication从SecurityContext中抽出，并调用其上的 <code>getPrincipal()</code> 方法来产生方法参数。 认证中的委托人类型取决于用于验证认证的认证管理器，所以这对于获得对用户数据的类型安全引用是一个有用的小技巧。</p>
+<p>如果使用Spring Security，则HttpServletRequest中的<code>Principal</code>将是<code>Authentication</code>类型，因此也可以直接使用它：</p>
+<pre class=" language-java"><code class="language-java"><span class="token annotation punctuation">@RequestMapping</span><span class="token punctuation">(</span><span class="token string">"/foo"</span><span class="token punctuation">)</span>
+<span class="token keyword">public</span> String <span class="token function">foo</span><span class="token punctuation">(</span>Principal principal<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    Authentication authentication <span class="token operator">=</span> <span class="token punctuation">(</span>Authentication<span class="token punctuation">)</span> principal<span class="token punctuation">;</span>
+    User <span class="token operator">=</span> <span class="token punctuation">(</span>User<span class="token punctuation">)</span> authentication<span class="token punctuation">.</span><span class="token function">getPrincipal</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span> <span class="token comment" spellcheck="true">// do stuff with user</span>
+<span class="token punctuation">}</span></code></pre>
+<p>如果你需要编写在没有使用Spring Security的情况下工作的代码，那么这有时候会很有用（你需要在加载<code>Authentication</code>类时更加谨慎）。</p>
+<h3 id="异步安全配置"><a href="#异步安全配置" class="headerlink" title="异步安全配置"></a>异步安全配置</h3><p>由于 <code>SecurityContext</code> 是线程绑定的，因此如果要执行任何调用安全方法的后台处理，例如与<code>@Async</code>，你需要确保上下文传播。 这归结为将 <code>SecurityContext</code> 包装在后台执行的任务（Runnable，Callable，etc）中。 Spring Security 提供了一些帮助器，使之变得简单，比如Runnable和Callable的包装器。 要将 <code>SecurityContext</code> 传播到<code>@Async</code>方法，你需要提供一个 <code>AsyncConfigurer</code> 并确保 <code>Executor</code> 的类型正确：</p>
+<pre class=" language-java"><code class="language-java"><span class="token annotation punctuation">@Configuration</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">ApplicationConfiguration</span> <span class="token keyword">extends</span> <span class="token class-name">AsyncConfigurerSupport</span> <span class="token punctuation">{</span>
+
+    <span class="token annotation punctuation">@Override</span>
+    <span class="token keyword">public</span> Executor <span class="token function">getAsyncExecutor</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">DelegatingSecurityContextExecutorService</span><span class="token punctuation">(</span>Executors<span class="token punctuation">.</span><span class="token function">newFixedThreadPool</span><span class="token punctuation">(</span><span class="token number">5</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<h3 id="Spring-Security-Oauth2-关键点"><a href="#Spring-Security-Oauth2-关键点" class="headerlink" title="Spring-Security-Oauth2 关键点"></a>Spring-Security-Oauth2 关键点</h3><h4 id="对于EnableAuthorizationServer-理解"><a href="#对于EnableAuthorizationServer-理解" class="headerlink" title="对于EnableAuthorizationServer 理解"></a>对于EnableAuthorizationServer 理解</h4><p>在 Client 模式下是不存在<code>“用户”</code> 的概念，那么这里的身份认证是在什么时候认证的呢，Debug 发现 <code>UseretailsService</code> 的实现被适配成了 <code>ClientDetailsUserDetailsService</code> ，这个设计将client客户端的信息（client_id，client_secret）适配成用户的信息（username，password），这样我们的流程认证就不需要该</p>
+<p>关键点：</p>
+<p><strong>DefaultOAuth2AccessToken</strong>  <strong>OAuth2AccessToken</strong>  <strong>TokenGranter</strong> </p>
+<p>TokenGranter 的设计思路是使用 <code>CompositeTokenGranter</code> 管理一个 <code>List&lt;TokenGranter&gt;</code> 列表，每一种 <code>grantType</code> 对应一个具体的真正授权者，在<code>debug</code>过程中可以发现<code>CompositeTokenGranter</code> 内部就是再循环调用五种<code>TokenGranter</code>实现类的grant方法，而<code>granter</code>内部则是通过<code>grantType</code> 来区分是否是各自的授权类型。</p>
+<pre class=" language-java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">CompositeTokenGranter</span> <span class="token keyword">implements</span> <span class="token class-name">TokenGranter</span> <span class="token punctuation">{</span>
+
+    <span class="token keyword">private</span> <span class="token keyword">final</span> List<span class="token operator">&lt;</span>TokenGranter<span class="token operator">></span> tokenGranters<span class="token punctuation">;</span>
+
+    <span class="token keyword">public</span> <span class="token function">CompositeTokenGranter</span><span class="token punctuation">(</span>List<span class="token operator">&lt;</span>TokenGranter<span class="token operator">></span> tokenGranters<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>tokenGranters <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">ArrayList</span><span class="token operator">&lt;</span>TokenGranter<span class="token operator">></span><span class="token punctuation">(</span>tokenGranters<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">public</span> OAuth2AccessToken <span class="token function">grant</span><span class="token punctuation">(</span>String grantType<span class="token punctuation">,</span> TokenRequest tokenRequest<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span>TokenGranter granter <span class="token operator">:</span> tokenGranters<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            OAuth2AccessToken grant <span class="token operator">=</span> granter<span class="token punctuation">.</span><span class="token function">grant</span><span class="token punctuation">(</span>grantType<span class="token punctuation">,</span> tokenRequest<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>grant<span class="token operator">!=</span>null<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                <span class="token keyword">return</span> grant<span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">return</span> null<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<p>五种类型分别是：</p>
+<ul>
+<li>ResourceOwnerPasswordTokenGranter ==&gt; password密码模式</li>
+<li>AuthorizationCodeTokenGranter ==&gt; authorization_code授权码模式</li>
+<li>ClientCredentialsTokenGranter ==&gt; client_credentials客户端模式</li>
+<li>ImplicitTokenGranter ==&gt; implicit简化模式</li>
+<li>RefreshTokenGranter ==&gt;refresh_token 刷新token专用</li>
+</ul>
+<p>以客户端模式为例，思考如何产生token的，则需要继续研究5种授权者的抽象类：AbstractTokenGranter</p>
+<pre class=" language-java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">abstract</span> <span class="token keyword">class</span> <span class="token class-name">AbstractTokenGranter</span> <span class="token keyword">implements</span> <span class="token class-name">TokenGranter</span> <span class="token punctuation">{</span>
+    <span class="token keyword">protected</span> <span class="token keyword">final</span> Log logger <span class="token operator">=</span> LogFactory<span class="token punctuation">.</span><span class="token function">getLog</span><span class="token punctuation">(</span><span class="token function">getClass</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment" spellcheck="true">//与token相关的service，重点</span>
+    <span class="token keyword">private</span> <span class="token keyword">final</span> AuthorizationServerTokenServices tokenServices<span class="token punctuation">;</span>
+    <span class="token comment" spellcheck="true">//与clientDetails相关的service，重点</span>
+    <span class="token keyword">private</span> <span class="token keyword">final</span> ClientDetailsService clientDetailsService<span class="token punctuation">;</span>
+    <span class="token comment" spellcheck="true">//创建oauth2Request的工厂，重点</span>
+    <span class="token keyword">private</span> <span class="token keyword">final</span> OAuth2RequestFactory requestFactory<span class="token punctuation">;</span>
+
+    <span class="token keyword">private</span> <span class="token keyword">final</span> String grantType<span class="token punctuation">;</span>
+
+    <span class="token keyword">public</span> OAuth2AccessToken <span class="token function">grant</span><span class="token punctuation">(</span>String grantType<span class="token punctuation">,</span> TokenRequest tokenRequest<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+
+        <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
+        String clientId <span class="token operator">=</span> tokenRequest<span class="token punctuation">.</span><span class="token function">getClientId</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        ClientDetails client <span class="token operator">=</span> clientDetailsService<span class="token punctuation">.</span><span class="token function">loadClientByClientId</span><span class="token punctuation">(</span>clientId<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token function">validateGrantType</span><span class="token punctuation">(</span>grantType<span class="token punctuation">,</span> client<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        logger<span class="token punctuation">.</span><span class="token function">debug</span><span class="token punctuation">(</span><span class="token string">"Getting access token for: "</span> <span class="token operator">+</span> clientId<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        <span class="token keyword">return</span> <span class="token function">getAccessToken</span><span class="token punctuation">(</span>client<span class="token punctuation">,</span> tokenRequest<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">protected</span> OAuth2AccessToken <span class="token function">getAccessToken</span><span class="token punctuation">(</span>ClientDetails client<span class="token punctuation">,</span> TokenRequest tokenRequest<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> tokenServices<span class="token punctuation">.</span><span class="token function">createAccessToken</span><span class="token punctuation">(</span><span class="token function">getOAuth2Authentication</span><span class="token punctuation">(</span>client<span class="token punctuation">,</span> tokenRequest<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">protected</span> OAuth2Authentication <span class="token function">getOAuth2Authentication</span><span class="token punctuation">(</span>ClientDetails client<span class="token punctuation">,</span> TokenRequest tokenRequest<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        OAuth2Request storedOAuth2Request <span class="token operator">=</span> requestFactory<span class="token punctuation">.</span><span class="token function">createOAuth2Request</span><span class="token punctuation">(</span>client<span class="token punctuation">,</span> tokenRequest<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">OAuth2Authentication</span><span class="token punctuation">(</span>storedOAuth2Request<span class="token punctuation">,</span> null<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
+<span class="token punctuation">}</span></code></pre>
+<h4 id="AuthorizationServerTokenServices"><a href="#AuthorizationServerTokenServices" class="headerlink" title="AuthorizationServerTokenServices"></a>AuthorizationServerTokenServices</h4><p>AuthorizationServer端的token操作service，接口设计如下：</p>
+<pre class=" language-java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">interface</span> <span class="token class-name">AuthorizationServerTokenServices</span> <span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">//创建token</span>
+    OAuth2AccessToken <span class="token function">createAccessToken</span><span class="token punctuation">(</span>OAuth2Authentication authentication<span class="token punctuation">)</span> <span class="token keyword">throws</span> AuthenticationException<span class="token punctuation">;</span>
+    <span class="token comment" spellcheck="true">//刷新token</span>
+    OAuth2AccessToken <span class="token function">refreshAccessToken</span><span class="token punctuation">(</span>String refreshToken<span class="token punctuation">,</span> TokenRequest tokenRequest<span class="token punctuation">)</span>
+        <span class="token keyword">throws</span> AuthenticationException<span class="token punctuation">;</span>
+    <span class="token comment" spellcheck="true">//获取token</span>
+    OAuth2AccessToken <span class="token function">getAccessToken</span><span class="token punctuation">(</span>OAuth2Authentication authentication<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token punctuation">}</span></code></pre>
+<p>简单总结一下<code>AuthorizationServerTokenServices</code>的作用，他提供了<strong>创建token</strong>，<strong>刷新token</strong>，<strong>获取token</strong>的实现。在创建token时，他会调用tokenStore对产生的token和相关信息存储到对应的实现类中，可以是redis，数据库，内存，jwt。</p>
+<h4 id="EnableResourceServer-理解"><a href="#EnableResourceServer-理解" class="headerlink" title="EnableResourceServer 理解"></a>EnableResourceServer 理解</h4><p>这个注解的关键配置：</p>
+<ul>
+<li>创建 <code>OAuth2AuthenticationProcessingFilter</code> </li>
+<li>为 <code>OAuth2AuthenticationProcessingFilter</code> 提供固定的 <code>AuthenticationManager</code> 即 <code>OAuth2AuthenticationManager</code> ，并没有将 <code>OAuth2AuthenticationManager</code> 添加到Spring容器中，不然可能会影响<code>Spring Security</code> 的普通认证路程。</li>
+<li>设置了 <code>TokenExtractor</code> 的默认实现 <code>BearerTokenExtractor</code> </li>
+<li>相关的异常处理器，可以重写相关实现，达到自定义异常的目的。</li>
+</ul>
+<h4 id="核心过滤器-OAuth2AuthenticationProcessingFilter"><a href="#核心过滤器-OAuth2AuthenticationProcessingFilter" class="headerlink" title="核心过滤器 OAuth2AuthenticationProcessingFilter"></a>核心过滤器 OAuth2AuthenticationProcessingFilter</h4><ul>
+<li>从请求中取出身份信息，access_token</li>
+<li>认证身份</li>
+<li>将身份信息绑定到<code>SecurityContextHolder</code>中</li>
+</ul>
+<h4 id="TokenExtractor：主要技术读取-access-token"><a href="#TokenExtractor：主要技术读取-access-token" class="headerlink" title="TokenExtractor：主要技术读取 access_token"></a>TokenExtractor：主要技术读取 access_token</h4><p>常用采用的方式：</p>
+<ul>
+<li>在Header中携带</li>
+</ul>
+<pre class=" language-http"><code class="language-http"><span class="token header-name keyword">http:</span>//localhost:8080/order/1
+Header：
+Authentication：Bearer f732723d-af7f-41bb-bd06-2636ab2be135</code></pre>
+<ul>
+<li>拼接在URL中</li>
+</ul>
+<pre class=" language-http"><code class="language-http"><span class="token header-name keyword">http:</span>//localhost:8080/order/1?access_token=f732723d-af7f-41bb-bd06-2636ab2be135</code></pre>
+<ul>
+<li>在form表单中携带</li>
+</ul>
+<pre class=" language-http"><code class="language-http"><span class="token header-name keyword">http:</span>//localhost:8080/order/1
+form param：
+access_token=f732723d-af7f-41bb-bd06-2636ab2be135</code></pre>
+<p>在阅读代码的时候，熟悉设计模式，在框架的设计中也是遵循设计模式的规范，如以 Adapter结尾，便是运用了适配器模式，以Factory结尾，便是使用了适配器模式，以Template结尾，便是运用模板方法，以Builder结尾，便是运用了建造者模式</p>
+<p>参考链接：</p>
+<p><a href="http://www.spring4all.com/article/428" target="_blank" rel="noopener">http://www.spring4all.com/article/428</a></p>
+
+            </div>
+            <hr/>
+
+            
+
+    <div class="reprint" id="reprint-statement">
+        
+            <div class="reprint__author">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-user">
+                        文章作者:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="https://www.asxing.com" rel="external nofollow noreferrer">Asxing</a>
+                </span>
+            </div>
+            <div class="reprint__type">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-link">
+                        文章链接:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="https://www.asxing.com/2018/05/25/spirng-scurity-oauth2-sui-shou-ji/">https://www.asxing.com/2018/05/25/spirng-scurity-oauth2-sui-shou-ji/</a>
+                </span>
+            </div>
+            <div class="reprint__notice">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-copyright">
+                        版权声明:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    本博客所有文章除特別声明外，均采用
+                    <a href="https://creativecommons.org/licenses/by/4.0/deed.zh" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>
+                    许可协议。转载请注明来源
+                    <a href="https://www.asxing.com" target="_blank">Asxing</a>
+                    !
+                </span>
+            </div>
+        
+    </div>
+
+    <script async defer>
+      document.addEventListener("copy", function (e) {
+        let toastHTML = '<span>复制成功，请遵循本文的转载规则</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">查看</a>';
+        M.toast({html: toastHTML})
+      });
+
+      function navToReprintStatement() {
+        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      }
+    </script>
+
+
+
+            <div class="tag_share" style="display: block;">
+                <div class="post-meta__tag-list" style="display: inline-block;">
+                    
+                        <div class="article-tag">
+                            
+                                <a href="/tags/Spring/">
+                                    <span class="chip bg-color">Spring</span>
+                                </a>
+                            
+                                <a href="/tags/SpringBoot/">
+                                    <span class="chip bg-color">SpringBoot</span>
+                                </a>
+                            
+                                <a href="/tags/SpringSecurity/">
+                                    <span class="chip bg-color">SpringSecurity</span>
+                                </a>
+                            
+                                <a href="/tags/Oauth2/">
+                                    <span class="chip bg-color">Oauth2</span>
+                                </a>
+                            
+                        </div>
+                    
+                </div>
+                <div class="post_share" style="zoom: 80%; width: fit-content; display: inline-block; float: right; margin: -0.15rem 0;">
+                    <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+
+<div id="article-share">
+    
+    
+    <div class="social-share" data-sites="twitter,facebook,google,qq,qzone,wechat,weibo,douban,linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
+    <script src="/libs/share/js/social-share.min.js"></script>
+    
+
+    
+
+</div>
+
+                </div>
+            </div>
+            
+                <style>
+    #reward {
+        margin: 40px 0;
+        text-align: center;
+    }
+
+    #reward .reward-link {
+        font-size: 1.4rem;
+        line-height: 38px;
+    }
+
+    #reward .btn-floating:hover {
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2), 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    #rewardModal {
+        width: 320px;
+        height: 350px;
+    }
+
+    #rewardModal .reward-title {
+        margin: 15px auto;
+        padding-bottom: 5px;
+    }
+
+    #rewardModal .modal-content {
+        padding: 10px;
+    }
+
+    #rewardModal .close {
+        position: absolute;
+        right: 15px;
+        top: 15px;
+        color: rgba(0, 0, 0, 0.5);
+        font-size: 1.3rem;
+        line-height: 20px;
+        cursor: pointer;
+    }
+
+    #rewardModal .close:hover {
+        color: #ef5350;
+        transform: scale(1.3);
+        -moz-transform:scale(1.3);
+        -webkit-transform:scale(1.3);
+        -o-transform:scale(1.3);
+    }
+
+    #rewardModal .reward-tabs {
+        margin: 0 auto;
+        width: 210px;
+    }
+
+    .reward-tabs .tabs {
+        height: 38px;
+        margin: 10px auto;
+        padding-left: 0;
+    }
+
+    .reward-content ul {
+        padding-left: 0 !important;
+    }
+
+    .reward-tabs .tabs .tab {
+        height: 38px;
+        line-height: 38px;
+    }
+
+    .reward-tabs .tab a {
+        color: #fff;
+        background-color: #ccc;
+    }
+
+    .reward-tabs .tab a:hover {
+        background-color: #ccc;
+        color: #fff;
+    }
+
+    .reward-tabs .wechat-tab .active {
+        color: #fff !important;
+        background-color: #22AB38 !important;
+    }
+
+    .reward-tabs .alipay-tab .active {
+        color: #fff !important;
+        background-color: #019FE8 !important;
+    }
+
+    .reward-tabs .reward-img {
+        width: 210px;
+        height: 210px;
+    }
+</style>
+
+<div id="reward">
+    <a href="#rewardModal" class="reward-link modal-trigger btn-floating btn-medium waves-effect waves-light red">赏</a>
+
+    <!-- Modal Structure -->
+    <div id="rewardModal" class="modal">
+        <div class="modal-content">
+            <a class="close modal-close"><i class="fas fa-times"></i></a>
+            <h4 class="reward-title">你的赏识是我前进的动力</h4>
+            <div class="reward-content">
+                <div class="reward-tabs">
+                    <ul class="tabs row">
+                        <li class="tab col s6 alipay-tab waves-effect waves-light"><a href="#alipay">支付宝</a></li>
+                        <li class="tab col s6 wechat-tab waves-effect waves-light"><a href="#wechat">微 信</a></li>
+                    </ul>
+                    <div id="alipay">
+                        <img src="/medias/reward/alipay.jpg" class="reward-img" alt="支付宝打赏二维码">
+                    </div>
+                    <div id="wechat">
+                        <img src="/medias/reward/wechat.png" class="reward-img" alt="微信打赏二维码">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $('.tabs').tabs();
+    });
+</script>
+            
+        </div>
+    </div>
+
+    
+        <link rel="stylesheet" href="/libs/gitalk/gitalk.css">
+<link rel="stylesheet" href="/css/my-gitalk.css">
+
+<div class="card gitalk-card" data-aos="fade-up">
+    <div class="comment_headling" style="font-size: 20px; font-weight: 700; position: relative; left: 20px; top: 15px; padding-bottom: 5px;">
+        <i class="fas fa-comments fa-fw" aria-hidden="true"></i>
+        <span>评论</span>
+    </div>
+    <div id="gitalk-container" class="card-content"></div>
+</div>
+
+<script src="/libs/gitalk/gitalk.min.js"></script>
+<script>
+    let gitalk = new Gitalk({
+        clientID: 'c4e18e113d94091c8828',
+        clientSecret: '891f04d80de6a77fd6eb60d1cbe792e916cde3ff',
+        repo: 'asxing.github.io',
+        owner: 'Asxing',
+        admin: "asxing",
+        id: '2018-05-25T15-32-29',
+        distractionFreeMode: false  // Facebook-like distraction free mode
+    });
+
+    gitalk.render('gitalk-container');
+</script>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+            <div class="card">
+                <a href="/2018/05/26/apollo-pei-zhi-zou-yi-bo/">
+                    <div class="card-image">
+                        
+                        <img src="https://www.holddie.com/img/20200105155744.png" class="responsive-img" alt="Apollo-配置走一波">
+                        
+                        <span class="card-title">Apollo-配置走一波</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            手中有剑，便握剑前行；手中无剑，便忘剑前进。剑客本就是一柄出鞘利剑。——风间千月
+SpringCloud 体系中使用携程 Apollo 配置中心，完善生成环境。
+学习它当然是为了解决痛点：
+
+各个微服务的配置文件日益增多，各种功能开关，参数
+                        
+                    </div>
+                    <div class="publish-info">
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2018-05-26
+                        </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/Apollo%E9%85%8D%E7%BD%AE%E4%B8%AD%E5%BF%83/" class="post-category">
+                                    Apollo配置中心
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/SpringBoot/">
+                        <span class="chip bg-color">SpringBoot</span>
+                    </a>
+                    
+                    <a href="/tags/Apollo/">
+                        <span class="chip bg-color">Apollo</span>
+                    </a>
+                    
+                    <a href="/tags/%E9%85%8D%E7%BD%AE%E4%B8%AD%E5%BF%83/">
+                        <span class="chip bg-color">配置中心</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2018/05/21/wei-fu-wu-jia-gou-zhong-nei-bu-fu-wu-zhi-jian-diao-yong-sui-xiang/">
+                    <div class="card-image">
+                        
+                        <img src="https://www.holddie.com/img/20200105155302.jpg" class="responsive-img" alt="微服务架构中内部服务之间调用随想">
+                        
+                        <span class="card-title">微服务架构中内部服务之间调用随想</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            命运如同一只不停旋转的陀螺，可以扭转它的，只有它自己！——莫问纷飞
+对于内部服务需要考虑的问题：
+
+区分暴露的接口和需要合法身份登录后才能访问的接口
+暴露接口直接放行，转发到具体服务，如登录，刷新Token等
+需要合法身份登录之后才能访问的
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2018-05-21
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/" class="post-category">
+                                    微服务
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/%E5%BE%AE%E6%9C%8D%E5%8A%A1/">
+                        <span class="chip bg-color">微服务</span>
+                    </a>
+                    
+                    <a href="/tags/SpringBoot/">
+                        <span class="chip bg-color">SpringBoot</span>
+                    </a>
+                    
+                    <a href="/tags/SpringCloud/">
+                        <span class="chip bg-color">SpringCloud</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+
+</div>
+
+
+
+<!-- 代码块功能依赖 -->
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+
+<!-- 代码语言 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+
+    
+<!-- 代码块复制 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+
+
+<!-- 代码块收缩 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script>
+
+
+<!-- 代码块折行 -->
+
+<style type="text/css">
+code[class*="language-"], pre[class*="language-"] { white-space: pre !important; }
+</style>
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget">
+            <div class="toc-title"><i class="far fa-list-alt"></i>&nbsp;&nbsp;目录</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fas fa-list-ul"></i>
+    </a>
+</div>
+
+
+<script src="/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            // headingsOffset: -205,
+            headingSelector: 'h2, h3, h4'
+        });
+
+        // modify the toc link href to support Chinese.
+        let i = 0;
+        let tocHeading = 'toc-heading-';
+        $('#toc-content a').each(function () {
+            $(this).attr('href', '#' + tocHeading + (++i));
+        });
+
+        // modify the heading title id to support Chinese.
+        i = 0;
+        $('#articleContent').children('h2, h3, h4').each(function () {
+            $(this).attr('id', tocHeading + (++i));
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).hide();
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).show();
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+        });
+        
+    });
+</script>
+
+    
+
+</main>
+
+
+
+    <footer class="page-footer bg-color">
+    <div class="container row center-align">
+        <div class="col s12 m8 l8 copy-right">
+            Copyright&nbsp;&copy;
+            <span id="year">年份</span>
+            <a href="https://www.asxing.com" target="_blank">Asxing</a>
+            |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
+            |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
+            <br>
+            
+            &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
+                class="white-color">479k</span>&nbsp;字
+            
+            
+            
+            
+            <span id="busuanzi_container_site_pv">
+                |&nbsp;<i class="far fa-eye"></i>&nbsp;总访问量:&nbsp;<span id="busuanzi_value_site_pv"
+                    class="white-color"></span>&nbsp;次
+            </span>
+            
+            
+            <span id="busuanzi_container_site_uv">
+                |&nbsp;<i class="fas fa-users"></i>&nbsp;总访问人数:&nbsp;<span id="busuanzi_value_site_uv"
+                    class="white-color"></span>&nbsp;人
+            </span>
+            
+            <br>
+            
+            <span id="sitetime">载入运行时间...</span>
+            <script>
+                function siteTime() {
+                    window.setTimeout("siteTime()", 1000);
+                    var seconds = 1000;
+                    var minutes = seconds * 60;
+                    var hours = minutes * 60;
+                    var days = hours * 24;
+                    var years = days * 365;
+                    var today = new Date();
+                    var startYear = "2019";
+                    var startMonth = "10";
+                    var startDate = "30";
+                    var startHour = "22";
+                    var startMinute = "30";
+                    var startSecond = "0";
+                    var todayYear = today.getFullYear();
+                    var todayMonth = today.getMonth() + 1;
+                    var todayDate = today.getDate();
+                    var todayHour = today.getHours();
+                    var todayMinute = today.getMinutes();
+                    var todaySecond = today.getSeconds();
+                    var t1 = Date.UTC(startYear, startMonth, startDate, startHour, startMinute, startSecond);
+                    var t2 = Date.UTC(todayYear, todayMonth, todayDate, todayHour, todayMinute, todaySecond);
+                    var diff = t2 - t1;
+                    var diffYears = Math.floor(diff / years);
+                    var diffDays = Math.floor((diff / days) - diffYears * 365);
+                    var diffHours = Math.floor((diff - (diffYears * 365 + diffDays) * days) / hours);
+                    var diffMinutes = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours) /
+                        minutes);
+                    var diffSeconds = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours -
+                        diffMinutes * minutes) / seconds);
+                    if (startYear == todayYear) {
+                        document.getElementById("year").innerHTML = todayYear;
+                        document.getElementById("sitetime").innerHTML = "本站已安全运行 " + diffDays + " 天 " + diffHours +
+                            " 小时 " + diffMinutes + " 分钟 " + diffSeconds + " 秒";
+                    } else {
+                        document.getElementById("year").innerHTML = startYear + " - " + todayYear;
+                        document.getElementById("sitetime").innerHTML = "本站已安全运行 " + diffYears + " 年 " + diffDays +
+                            " 天 " + diffHours + " 小时 " + diffMinutes + " 分钟 " + diffSeconds + " 秒";
+                    }
+                }
+                setInterval(siteTime, 1000);
+            </script>
+            
+            <br>
+            
+        </div>
+        <div class="col s12 m4 l4 social-link ">
+    <a href="https://github.com/asxing" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+        <i class="fab fa-github"></i>
+    </a>
+
+
+
+    <a href="mailto:asxingking@gmail.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fas fa-envelope-open"></i>
+    </a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <a href="/atom.xml" class="tooltipped" target="_blank" data-tooltip="RSS 订阅" data-position="top" data-delay="50">
+        <i class="fas fa-rss"></i>
+    </a>
+
+</div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+
+    <!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fas fa-search"></i>&nbsp;&nbsp;搜索</span>
+            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script src="/js/search.js"></script>
+<script type="text/javascript">
+$(function () {
+    searchFunc("/" + "search.xml", 'searchInput', 'searchResult');
+});
+</script>
+    <!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+</div>
+
+
+    <script src="/libs/materialize/materialize.min.js"></script>
+    <script src="/libs/masonry/masonry.pkgd.min.js"></script>
+    <script src="/libs/aos/aos.js"></script>
+    <script src="/libs/scrollprogress/scrollProgress.min.js"></script>
+    <script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+    <script src="/js/matery.js"></script>
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+    <!-- Baidu Analytics -->
+
+    <!-- Baidu Push -->
+
+    
+    <script src="/libs/others/clicklove.js" async="async"></script>
+    
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <script type="text/javascript" src="/libs/background/ribbon-dynamic.js" async="async"></script>
+    
+    
+    
+
+</body>
+
+</html>
